@@ -1,0 +1,26 @@
+{
+  "name": "cs546-group-1-project",
+  "version": "1.0.0",
+  "description": "A web application for boba tea stores as a final project for CS 546 at Stevens",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EvanChan321/CS546-Group-1-Project.git"
+  },
+  "author": "Matthew Angelakos, Chris Arias, Elliot Niemann, Evan Cheng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EvanChan321/CS546-Group-1-Project/issues"
+  },
+  "homepage": "https://github.com/EvanChan321/CS546-Group-1-Project#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.2",
+    "mongodb": "^6.5.0"
+  }
+}
