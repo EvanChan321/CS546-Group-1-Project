@@ -1,5 +1,4 @@
-import { users } from "../config/mongoCollections.js";
-import { shops } from "../config/mongoCollections.js";
+import { users, shops } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as valid from "../valid.js";
 

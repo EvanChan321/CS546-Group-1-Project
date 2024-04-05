@@ -1,14 +1,14 @@
-import { users } from "../config/mongoCollections.js";
-import { shops } from "../config/mongoCollections.js";
-import userData from './users.js';
+import { users, shops } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as valid from "../valid.js";
+import userData from './users.js';
 
 const getAllReviewsFromUser = async (userId) => {
     userId = valid.idCheck(userId)
-    const user = await userData.get(productId);
+    const user = await userData.getUser(userId);
     return user.reviews
 }
+
 const getReview = async (reviewId) => {
     reviewId = valid.idCheck(reviewId)
     const userCollection = await users();
@@ -27,5 +27,7 @@ const getReview = async (reviewId) => {
 }
 
 const exportedMethods = {
+  getAllReviewsFromUser,
+  getReview
 }
 export default exportedMethods;
