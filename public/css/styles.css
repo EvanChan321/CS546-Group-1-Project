@@ -17,6 +17,14 @@ body {
     font-family:  Arial, sans-serif;;
 }
 
+p.review-body {
+    color: gray;
+}
+
+p.comment-body {
+    color: blue;
+}
+
 input[type="text"] {
     width: 80%;
     background-color: #ffffff;
@@ -33,7 +41,7 @@ button {
     border: 2px solid #ffffff;
     border-radius: 13px;
     cursor: pointer;
-    font-size: large;
+    font-size: 1rem;
 }
 
 button[type="submit"] {
@@ -62,6 +70,7 @@ button.signup:hover {
 }
 
 img.search-button {
-    width: 30px; /* Adjust width as needed */
-    height: 30px; /* Adjust height as needed */
+    margin-left: 0px;
+    width: 30px; 
+    height: 30px;
 }

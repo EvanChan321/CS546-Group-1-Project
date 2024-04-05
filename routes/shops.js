@@ -11,4 +11,21 @@ router.route('/').get(async (req, res) => {
     res.sendStatus(500);
   }
 });
+
+router.route('/shops').get(async (req, res) => {
+  try{
+    res.render('shopSearchResult');
+  }catch(e){
+    console.log(e);
+  }
+})
+
+router.route('/account').get(async (req, res) => {
+  try{
+    res.render('account');
+  }catch(e){
+    console.log(e);
+  }
+})
+
 export default router;
