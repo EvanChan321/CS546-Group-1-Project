@@ -20,7 +20,7 @@ const getFlag = async (flagId) => {
     }
     const flag = foundShop.flags.find(flag => flag._id.equals(new ObjectId(flagId)));
     if (!flag) {
-      throw 'cannot find item';
+      throw 'cannot find flag';
     }
     //foundReview._id = foundReview._id.toString();
     return flag

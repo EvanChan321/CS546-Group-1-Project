@@ -13,7 +13,7 @@ const getAllReviewsFromUser = async (userId) => {
 const getAllReviewsForShop = async (shopId) => {
   shopId = valid.idCheck(shopId)
   shopData(shopId)
-  const users = userData.getAllUsers();
+  const users = await userData.getAllUsers();
   let reviews = []
   users.forEach(user => {
     user.reviews.forEach(review => {

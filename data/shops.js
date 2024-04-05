@@ -22,8 +22,36 @@ const getShop = async (id) => {
     return findShop
 }
 
+const createShop = async (ownerId, name, address, website, phoneNumber) => {
+    if(ownerId !== null){
+        ownerId = valid.idCheck(ownerId)
+    }
+    name = valid.stringValidate(name)
+    address = valid.stringValidate(address)
+    website = valid.urlCheck(website)
+    phoneNumber = valid.phoneNumberCheck(phoneNumber)
+    const newShop = {
+        name: name,
+        address: address,
+        website: website,
+        phoneNumber: phoneNumber,
+        flags: [],
+        items: [],
+        ratings: [],
+        averageRating: "No Ratings"
+    }
+    const shopCollection = await shops();
+    const insertInfo = await shopCollection.insertOne(newShop);
+    if (!insertInfo.acknowledged || !insertInfo.insertedId)
+      throw 'Could not add product';
+    const newId = insertInfo.insertedId.toString();
+    const shop = await this.getShop(newId);
+    return shop;
+}
+
 const exportedMethods = {
     getAllShops,
-    getShop
+    getShop,
+    createShop
 }
 export default exportedMethods;

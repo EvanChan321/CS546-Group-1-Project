@@ -1,4 +1,6 @@
 import { ObjectId } from "mongodb";
+import validator from 'validator';
+import { phone } from "phone";
 
 export function numCheck (num) {
     if (typeof(num) !== 'number'){
@@ -49,11 +51,39 @@ export function notArrayCheck (val) {
     }
 };
 
+export function stringValidate (val){
+    stringCheck(val)
+    val = val.trim
+    atLeast(val, 1)
+    return val
+}
+
 export function idCheck (val) {
     stringCheck(val)
     atLeast(val.trim(), 1)
-    if (!ObjectId.isValid(id)) {
-        throw `Error as ${id} invalid object ID`;
+    if (!ObjectId.isValid(val)) {
+        throw `Error as ${val} invalid object ID`;
+    }
+    return val.trim()
+}
+
+export function emailCheck (val) {
+    if(!validator.isEmail(val.trim())){
+        throw "not valid email"
+    }
+    return val.trim()
+}
+
+export function urlCheck (val) {
+    if(!validator.isURL(val.trim())){
+        throw "not valid url"
+    }
+    return val.trim()
+}
+
+export function phoneNumberCheck (val){
+    if (!phone(val.trim()).isValid) {
+        throw `not a valid phone number`;
     }
     return val.trim()
 }
