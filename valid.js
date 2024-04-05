@@ -87,3 +87,14 @@ export function phoneNumberCheck (val){
     }
     return val.trim()
 }
+
+export function passwordCheck (val){
+    val = stringValidate(val)
+    if (/\s/.test(val)) {
+        throw "password cannot have spaces"
+    }
+    if(!validator.isStrongPassword(val)){
+        throw "is not a strong password"
+    }
+    return val
+}

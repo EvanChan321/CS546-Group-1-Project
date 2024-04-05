@@ -37,7 +37,7 @@ const createShop = async (ownerId, name, address, website, phoneNumber) => {
         phoneNumber: phoneNumber,
         flags: [],
         items: [],
-        ratings: [],
+        reviews: [],
         averageRating: "No Ratings"
     }
     const shopCollection = await shops();
