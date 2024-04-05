@@ -1,5 +1,5 @@
-*.pdf
+**/*.pdf
 .DS_Store
 node_modules
 package-lock.json
-set up config
+config/settings.js
