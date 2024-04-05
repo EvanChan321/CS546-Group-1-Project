@@ -1,10 +1,24 @@
-<main>
-    <h1>{{title}}</h1>
-    <p>Welcome to the movie finder website. Type the title of a movie into the search bar to search up to 20 movies that match the title. Enter the id of a movie to see details of the movie.</p>
-    <form action="/searchmovies" method="POST">
-        <label for="movie">Search a movie:</label>
-        <input type="text" name="movie" id="movie" placeholder= "Enter a movie title">
-        <button type="submit">Search</button>
-        <button type="reset">Clear</button>
-    </form>
-</main>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    <link rel="icon" type="image/x-icon" href="/public/img/favicon.png">
+    <link rel="stylesheet" href= "/public/css/styles.css">
+</head>
+
+<section class="account">
+    <button type="submit" class="signup"onclick="ADDROUTE">Sign Up</button>
+    <button type="submit" class="login" onclick="ADDROUTE">Login</button>
+</section>
+
+<body>
+    {{{body}}}
+</body>
+
+<footer> 
+
+</footer>
+
+</html>

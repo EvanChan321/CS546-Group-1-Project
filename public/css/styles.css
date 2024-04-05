@@ -1,0 +1,67 @@
+* {
+    box-sizing: border-box;
+}
+  
+html,
+body {
+    font-size: 14pt;
+}
+  
+h1 {
+    font-size: 2.5rem;
+    text-align: center;
+}
+
+body {
+    background: #ffffff;
+    font-family:  Arial, sans-serif;;
+}
+
+input[type="text"] {
+    width: 80%;
+    background-color: #ffffff;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: 2px solid #000000;
+    border-radius: 18px;
+    cursor: pointer;
+}
+
+button {
+    padding: 5px 10px;
+    background-color: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 13px;
+    cursor: pointer;
+    font-size: large;
+}
+
+button[type="submit"] {
+    padding: 5px 10px;
+    border: 2px solid #000000;
+    cursor: pointer;
+}
+
+button.login {
+    background-color: transparent;
+    float: right;
+}
+
+button.login:hover {
+    background-color: rgba(255, 228, 196, 0.707);
+}
+
+button.signup {
+    background-color: rgb(210, 0, 0);
+    float: right;
+    margin-left: 3px;
+}
+
+button.signup:hover {
+    background-color: red;
+}
+
+img.search-button {
+    width: 30px; /* Adjust width as needed */
+    height: 30px; /* Adjust height as needed */
+}

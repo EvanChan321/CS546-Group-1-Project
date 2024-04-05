@@ -1,8 +1,8 @@
 //Here you will import route files and export them as used in previous labs
-import storeRoutes from './stores.js';
+import shopRoutes from './shops.js';
 
 const constructorMethod = (app) => {
-  app.use('/', storeRoutes);
+  app.use('/', shopRoutes);
 
   app.use('*', (req, res) => {
     return res.status(404).json({error: '404: Not Found'});
