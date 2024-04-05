@@ -9,6 +9,19 @@ const getAllReviewsFromUser = async (userId) => {
     return user.reviews
 }
 
+const getAllReviewsForShop = async (shopId) => {
+  shopId = valid.idCheck(shopId)
+  const users = userData.getAllUsers();
+  let reviews = []
+  users.forEach(user => {
+    user.reviews.forEach(review => {
+      if (review.shopId === shopId) {
+        reviews = reviews.concat(review);
+      }
+  })});
+  return reviews;
+}
+
 const getReview = async (reviewId) => {
     reviewId = valid.idCheck(reviewId)
     const userCollection = await users();
@@ -28,6 +41,7 @@ const getReview = async (reviewId) => {
 
 const exportedMethods = {
   getAllReviewsFromUser,
+  getAllReviewsForShop,
   getReview
 }
 export default exportedMethods;
