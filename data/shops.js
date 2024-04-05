@@ -17,7 +17,7 @@ const getShop = async (id) => {
     id = valid.idCheck(id)
     const shopCollection = await shops();
     const findShop = await shopCollection.findOne({_id: new ObjectId(id)})
-    if (findShop === null) throw 'No user with that id'
+    if (findShop === null) throw 'No shop with that id'
     //findUser._id = findUser._id.toString();
     return findShop
 }

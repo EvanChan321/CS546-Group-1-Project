@@ -2,6 +2,7 @@ import { users, shops } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as valid from "../valid.js";
 import userData from './users.js';
+import shopData from './shops.js';
 
 const getAllReviewsFromUser = async (userId) => {
     userId = valid.idCheck(userId)
@@ -11,6 +12,7 @@ const getAllReviewsFromUser = async (userId) => {
 
 const getAllReviewsForShop = async (shopId) => {
   shopId = valid.idCheck(shopId)
+  shopData(shopId)
   const users = userData.getAllUsers();
   let reviews = []
   users.forEach(user => {
