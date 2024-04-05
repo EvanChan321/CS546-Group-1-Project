@@ -13,7 +13,16 @@ const getAllShops = async () => {
     return allShops;
 }
 
+const getShop = async (id) => {
+    id = idCheck(id)
+    const findShop = await shopCollection.findOne({_id: new ObjectId(id)})
+    if (findShop === null) throw 'No user with that id'
+    //findUser._id = findUser._id.toString();
+    return findShop
+}
+
 const exportedMethods = {
-    getAllShops
+    getAllShops,
+    getShop
 }
 export default exportedMethods;
