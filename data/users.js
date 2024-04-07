@@ -37,6 +37,7 @@ const createUser = async (name, password, email, zipcode, accountType) => {
         email: email,
         bio: "",
         zipcode: zipcode,
+        accountType: accountType,
         reviews: [],
         comments: []
     }
@@ -74,6 +75,10 @@ const updateUser = async (userId, updateObject) => {
     if('zipcode' in updateObject){
         updateObject.bio = valid.stringValidate(updateObject.bio)
         user.bio = updateObject.bio
+    }
+    if('accountType' in updateObject){
+        updateObject.accountType = valid.stringValidate(updateObject.accountType)
+        user.accountType = updateObject.accountType
     }
     const updatedInfo = await userCollection.findOneAndUpdate(
       {_id: new ObjectId(userId)},
