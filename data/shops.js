@@ -50,7 +50,7 @@ const createShop = async (ownerId, name, address, website, phoneNumber) => {
 }
 
 const updateShop = async (shopId, updateObject) => {
-    const shop = getUser(shopId)
+    const shop = await getUser(shopId)
     const shopCollection = await shops()
     if('ownerId' in updateObject){
         updateObject.ownerId = valid.idCheck(updateObject.ownerId)
@@ -80,7 +80,7 @@ const updateShop = async (shopId, updateObject) => {
     if (!updatedInfo) {
       throw 'could not update product successfully';
     }
-    return shop
+    return updatedInfo
 }
 
 const exportedMethods = {

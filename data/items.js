@@ -61,6 +61,51 @@ const createItem = async (shopId, name, description, price, tags, allergens) => 
   return item;
 }
 
+const updateItem = async (itemId, updateObject) => {
+  const item = await getItem(itemId)
+  if('name' in updateObject){
+    updateObject.name = valid.stringValidate(updateObject.name)
+    item.name = updateObject.name
+  }
+  if('description' in updateObject){
+    updateObject.description = valid.stringValidate(updateObject.description)
+    item.description = updateObject.description
+  }
+  if('price' in updateObject){
+    updateObject.flagReason = valid.stringValidate(updateObject.name)
+    description = valid.stringValidate(description)
+    valid.numCheck(price)
+    if(price < 1 || price > 5){
+      throw 'invalid rating'
+    }
+    if(!Number.isInteger(price)){
+      maxDecimal(price, 2)
+    }
+    item.description = updateObject.description
+  }
+  if('tags' in updateObject){
+    tags = valid.arrayOfStrings(tags)
+    item.tags = updateObject.tags
+  }
+  if('allergens' in updateObject){
+    allergens = valid.arrayOfStrings(allergens)
+    item.allergens = updateObject.allergens
+  }
+  const currentDate = new Date();
+  const currentDateString = currentDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+  updateObject.flagDate = currentDateString
+  const shopCollection = await shops();
+  const updatedInfo = await shopCollection.findOneAndUpdate(
+    { 'items._id': new ObjectId(reviewId) },
+    { $set: { 'flags.$': update } },
+    {returnDocument: 'after'}
+  );
+  if (!updatedInfo) {
+    throw 'could not update product successfully';
+  }
+  return updatedInfo
+}
+
 const exportedMethods = {
     getAllItemsFromShop,
     getItem,

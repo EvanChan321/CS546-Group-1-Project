@@ -80,7 +80,9 @@ const createReview = async (userId, objId, rating, review) => {
   }
   return newReview;
 }
+const updateReview = async (userId, objId, rating, review) => {
 
+}
 const exportedMethods = {
   getAllReviewsFromUser,
   getAllReviewsForShop,

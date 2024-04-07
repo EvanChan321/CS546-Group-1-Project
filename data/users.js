@@ -50,7 +50,7 @@ const createUser = async (name, password, email, zipcode, accountType) => {
 }
 
 const updateUser = async (userId, updateObject) => {
-    const user = getUser(userId)
+    const user = await getUser(userId)
     const userCollection = await users()
     if('name' in updateObject){
         updateObject.name = valid.stringValidate(updateObject.name)
@@ -88,7 +88,7 @@ const updateUser = async (userId, updateObject) => {
     if (!updatedInfo) {
       throw 'could not update product successfully';
     }
-    return user
+    return updatedInfo
 }
 
 const exportedMethods = {
