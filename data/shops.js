@@ -49,9 +49,44 @@ const createShop = async (ownerId, name, address, website, phoneNumber) => {
     return shop;
 }
 
+const updateShop = async (shopId, updateObject) => {
+    const shop = getUser(shopId)
+    const shopCollection = await shops()
+    if('ownerId' in updateObject){
+        updateObject.ownerId = valid.idCheck(updateObject.ownerId)
+        shop.ownerId = updateObject.ownerId
+    }
+    if('name' in updateObject){
+        updateObject.name = valid.stringValidate(updateObject.name)
+        shop.name = updateObject.name
+    }
+    if('website' in updateObject){
+        updateObject.website = valid.urlCheck(updateObject.website)
+        shop.website = updateObject.website
+    }
+    if('address' in updateObject){
+        updateObject.address = valid.stringValidate(updateObject.address)
+        shop.address = updateObject.address
+    }
+    if('phoneNumber' in updateObject){
+        updateObject.phoneNumber = valid.phoneNumberCheck(updateObject.phoneNumber)
+        shop.phoneNumber = updateObject.phoneNumber   
+    }
+    const updatedInfo = await shopCollection.findOneAndUpdate(
+      {_id: new ObjectId(userId)},
+      {$set: shop},
+      {returnDocument: 'after'}
+    )
+    if (!updatedInfo) {
+      throw 'could not update product successfully';
+    }
+    return shop
+}
+
 const exportedMethods = {
     getAllShops,
     getShop,
+    updateShop,
     createShop
 }
 export default exportedMethods;
