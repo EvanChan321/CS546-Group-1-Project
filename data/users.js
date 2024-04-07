@@ -48,9 +48,48 @@ const createUser = async (name, password, email, zipcode, accountType) => {
     return user;
 }
 
+const updateUser = async (userId, updateObject) => {
+    const user = getUser(userId)
+    const userCollection = await users()
+    if('name' in updateObject){
+        updateObject.name = valid.stringValidate(updateObject.name)
+        user.bio = updateObject.bio
+    }
+    if('password' in updateObject){
+        updateObject.password = valid.stringValidate(updateObject.password)
+        user.password = updateObject.password
+    }
+    if('email' in updateObject){
+        updateObject.email = valid.emailCheck(updateObject.email)
+        const duplicateEmail = await userCollection.findOne({ email: email });
+        if (duplicateEmail) {
+            throw `an account with ${email} already exists`;
+        }
+        user.email = updateObject.email
+    }
+    if('bio' in updateObject){
+        updateObject.bio = valid.stringValidate(updateObject.bio)
+        user.bio = updateObject.bio
+    }
+    if('zipcode' in updateObject){
+        updateObject.bio = valid.stringValidate(updateObject.bio)
+        user.bio = updateObject.bio
+    }
+    const updatedInfo = await userCollection.findOneAndUpdate(
+      {_id: new ObjectId(userId)},
+      {$set: user},
+      {returnDocument: 'after'}
+    )
+    if (!updatedInfo) {
+      throw 'could not update product successfully';
+    }
+    return user
+}
+
 const exportedMethods = {
     getAllUsers,
     getUser,
-    createUser
+    createUser,
+    updateUser
 }
 export default exportedMethods;

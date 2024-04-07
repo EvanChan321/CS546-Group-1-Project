@@ -53,6 +53,7 @@ const createFlag = async (shopId, userId, flagReason) => {
 
 const exportedMethods = {
     getAllFlagsFromShop,
-    getFlag
+    getFlag,
+    createFlag
   }
   export default exportedMethods;
