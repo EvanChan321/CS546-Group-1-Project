@@ -41,6 +41,7 @@ const getComment = async (commentId) => {
 
 const createComment = async (userId, reviewId, comment) => {
   const userComment = await userData.getUser(userId)
+  const reviewComment = await reviewData.getReview(reviewId)
   comment = valid.stringValidate(comment)
   const currentDate = new Date();
   const currentDateString = currentDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
@@ -52,13 +53,15 @@ const createComment = async (userId, reviewId, comment) => {
     comment: comment,
     reviewDate: currentDateString
   }
-  await reviewData.updateReview(reviewId)
+  reviewComment.push(newComment)
+  await reviewData.updateReview(reviewId, reviewComment)
   return newComment;
 }
 
 const exportedMethods = {
     getAllCommentsFromUser,
     getAllCommentsFromReview,
+    createComment,
     getComment
 }
 export default exportedMethods;

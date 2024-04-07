@@ -98,3 +98,17 @@ export function passwordCheck (val){
     }
     return val
 }
+
+export function arrayOfStrings (val){
+    arrayCheck(val)
+    for(let i = 0; i < val.length; i++){
+        val[i] = stringValidate(val[i])
+    }
+    return val
+}
+
+export function maxDecimal (val, num) {
+    if(!(String(val).split(".")[1]?.length <= num)){
+        throw 'Too many decimal places'
+    }
+}
