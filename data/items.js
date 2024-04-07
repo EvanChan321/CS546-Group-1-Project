@@ -39,7 +39,9 @@ const createItem = async (shopId, name, description, price, tags, allergens) => 
   }
   tags = valid.arrayOfStrings(tags)
   allergens = valid.arrayOfStrings(allergens)
+  let x = new ObjectId();
   const item = {
+    _id: x,
     name: name,
     description: description,
     price: price,

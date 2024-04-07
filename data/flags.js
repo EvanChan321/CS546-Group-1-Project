@@ -26,6 +26,31 @@ const getFlag = async (flagId) => {
     return flag
 }
 
+const createFlag = async (shopId, userId, flagReason) => {
+  const shop = shopData.getShop(shopId)
+  flagReason = valid.stringValidate(flagReason)
+  const currentDate = new Date();
+  const currentDateString = currentDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+  let x = new ObjectId();
+  const flag = {
+    _id: x,
+    userId: userId,
+    flagReason: flagReason,
+    flagDate: currentDateString
+  }
+  shop.flags.push(flag)
+  const shopCollection = await shops();
+  const shopUpdatedInfo = await shopCollection.findOneAndUpdate(
+    {_id: new ObjectId(shopId)},
+    {$set: shop},
+    {returnDocument: 'after'}
+  )
+  if (!shopUpdatedInfo) {
+    throw 'could not update product successfully';
+  }
+  return item;
+}
+
 const exportedMethods = {
     getAllFlagsFromShop,
     getFlag
