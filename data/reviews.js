@@ -35,8 +35,8 @@ const getReview = async (reviewId) => {
 const createReview = async (userId, objId, rating, review) => {
   userId = valid.idCheck(userId)
   const userReview = await userData.getUser(userId)
+  objId = valid.idCheck(objId)
   const shopForReview = await shopData.getShop(objId)
-  objId = valid.idCheck(userId)
   valid.numCheck(rating)
   valid.intCheck(rating)
   review = valid.stringValidate(review)
@@ -48,7 +48,8 @@ const createReview = async (userId, objId, rating, review) => {
     objId: objId,
     rating: rating,
     review: review,
-    reviewDate: currentDateString
+    reviewDate: currentDateString,
+    comments: []
   }
   userReview.reviews.push(newReview)
   shopForReview.reviews.push(x)
@@ -84,6 +85,7 @@ const exportedMethods = {
   getAllReviewsFromUser,
   getAllReviewsForShop,
   createReview,
+  updateReview,
   getReview
 }
 export default exportedMethods;
