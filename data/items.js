@@ -103,6 +103,21 @@ const updateItem = async (itemId, updateObject) => {
   return updatedInfo
 }
 
+const deleteItem = async (itemId) => {
+  itemId = valid.idCheck(itemId)
+  const item = await this.getFlag(itemId)
+  const shopCollection = await shops();
+  const updatedInfo = await shopCollection.findOneAndUpdate(
+    { 'items._id': new ObjectId(itemId) },
+    { $pull: { items: { _id: new ObjectId(itemId) } } },
+    { returnDocument: 'after' }
+  );
+  if(!updatedInfo){
+    throw 'could not delete'
+  }
+  return updatedInfo
+}
+
 const exportedMethods = {
     getAllItemsFromShop,
     getItem,

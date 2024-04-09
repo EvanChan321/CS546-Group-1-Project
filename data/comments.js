@@ -79,7 +79,7 @@ const updateComment = async (commentId, updateObject) => {
 
 const removeComment = async (commentId) => {
   commentId = valid.idCheck(commentId)
-  const comment = await this.getReview(commentId)
+  const comment = await this.getComment(commentId)
   const userCollection = await users();
   const updatedInfo = await userCollection.findOneAndUpdate(
     { 'reviews.comments._id': new ObjectId(commentId) },
