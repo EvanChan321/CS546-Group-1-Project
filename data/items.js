@@ -122,6 +122,7 @@ const exportedMethods = {
     getAllItemsFromShop,
     getItem,
     createItem,
-    updateItem
+    updateItem,
+    deleteItem
 }
 export default exportedMethods;

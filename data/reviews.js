@@ -118,11 +118,46 @@ const updateReview = async (reviewId, updateObject) => {
   }
   return updatedUser
 }
+
+const removeReview = async (reviewId) => {
+  reviewId = valid.idCheck(reviewId)
+  const review = await this.getReview(reviewId)
+  const userCollection = await users();
+  const updatedUser = await userCollection.findOneAndUpdate(
+    { 'reviews._id': new ObjectId(reviewId) },
+    { $pull: { reviews: { _id: new ObjectId(reviewId) } } },
+    { returnDocument: 'after' }
+  );
+  if(!updatedUser){
+    throw 'could not delete'
+  }
+  review.objId = valid.idCheck(review.objId)
+  const shopCollection = await shops()
+  const shop = shopData.getShop(review.objId)
+  const index = shop.reviews.indexOf(reviewId);
+  if (index !== -1) {
+    shop.reviews.splice(index, 1);
+  }
+  let len = shop.reviews.length
+  if(len !== 0){
+    shop.averageRating = ((shop.averageRating*(len+1))-review.rating)/len
+  }
+  else{
+    shop.averageRating = 0
+  }
+  const updatedShop = await shopCollection.findOneAndUpdate(
+    {_id: new ObjectId(review.objId)},
+    {$set: shop},
+    {returnDocument: 'after'}
+  )
+  return updatedUser
+}
 const exportedMethods = {
   getAllReviewsFromUser,
   getAllReviewsForShop,
   createReview,
   updateReview,
-  getReview
+  getReview,
+  removeReview
 }
 export default exportedMethods;
