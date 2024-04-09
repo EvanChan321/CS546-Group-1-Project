@@ -91,10 +91,29 @@ const updateUser = async (userId, updateObject) => {
     return updatedInfo
 }
 
+const removeUser = async (userId) => {
+    userId = valid.idCheck(userId)
+    const user = await this.getUser(userId)
+    const userCollection = await users();
+    user.reviews.forEach(function(review) {
+        reviewData.removeReview(review);
+    });
+    const deletedUser = await userCollection.findOneAndUpdate(
+      { _id: new ObjectId(userId) },
+      { $pull: { reviews: { _id: new ObjectId(reviewId) } } },
+      { returnDocument: 'after' }
+    );
+    if(!deletedUser){
+      throw 'could not delete'
+    }
+    return deletedUser
+}
+
 const exportedMethods = {
     getAllUsers,
     getUser,
     createUser,
-    updateUser
+    updateUser,
+    removeUser
 }
 export default exportedMethods;

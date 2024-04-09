@@ -152,6 +152,7 @@ const removeReview = async (reviewId) => {
   )
   return updatedUser
 }
+
 const exportedMethods = {
   getAllReviewsFromUser,
   getAllReviewsForShop,
