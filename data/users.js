@@ -15,7 +15,6 @@ const getUser = async (id) => {
     const userCollection = await users();
     const findUser = await userCollection.findOne({_id: new ObjectId(id)})
     if (findUser === null) throw 'No user with that id'
-    //findUser._id = findUser._id.toString();
     return findUser
 }
 
@@ -28,9 +27,12 @@ const createUser = async (name, password, email, zipcode, accountType) => {
         throw `an account with ${email} already exists`;
     }
     password = valid.passwordCheck(password)
-    valid.numCheck(zipcode)
-    valid.intCheck(zipcode)//look into verifying real zipcodes
+    zipcode = valid.stringValidate(zipcode)
+    valid.zipcodeCheck(zipcode)
     accountType = valid.stringValidate(accountType)
+    if (accountType !== "Admin" && accountType !== "Business" && accountType !== "Default") {
+        throw 'invalid account type'
+    }
     const newUser = {
         name: name,
         password: password,
@@ -45,7 +47,7 @@ const createUser = async (name, password, email, zipcode, accountType) => {
     if (!insertInfo.acknowledged || !insertInfo.insertedId)
       throw 'Could not add product';
     const newId = insertInfo.insertedId.toString();
-    const user = await this.getUser(newId);
+    const user = await getUser(newId);
     return user;
 }
 
@@ -73,8 +75,9 @@ const updateUser = async (userId, updateObject) => {
         user.bio = updateObject.bio
     }
     if('zipcode' in updateObject){
-        updateObject.bio = valid.stringValidate(updateObject.bio)
-        user.bio = updateObject.bio
+        updateObject.zipcode = valid.stringValidate(updateObject.zipcode)
+        valid.zipcodeCheck(updateObject.zipcode)
+        user.zipcode = updateObject.zipcode
     }
     if('accountType' in updateObject){
         updateObject.accountType = valid.stringValidate(updateObject.accountType)

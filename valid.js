@@ -53,7 +53,7 @@ export function notArrayCheck (val) {
 
 export function stringValidate (val){
     stringCheck(val)
-    val = val.trim
+    val = val.trim()
     atLeast(val, 1)
     return val
 }
@@ -112,3 +112,10 @@ export function maxDecimal (val, num) {
         throw 'Too many decimal places'
     }
 }
+
+export function zipcodeCheck(val) {
+    const zipRegex = /^\d{5}(?:[-\s]\d{4})?$/;
+    if(!zipRegex.test(val)){
+        throw 'invalid zip'
+    }
+  }
