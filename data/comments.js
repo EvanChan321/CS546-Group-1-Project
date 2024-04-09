@@ -77,11 +77,27 @@ const updateComment = async (commentId, updateObject) => {
   throw "no actual update"
 }
 
+const removeComment = async (commentId) => {
+  commentId = valid.idCheck(commentId)
+  const comment = await this.getReview(commentId)
+  const userCollection = await users();
+  const updatedInfo = await userCollection.findOneAndUpdate(
+    { 'reviews.comments._id': new ObjectId(commentId) },
+    { $pull: { 'reviews.comments': { _id: new ObjectId(commentId) } } },
+    { returnDocument: 'after' }
+  );
+  if(!updatedInfo){
+    throw 'could not delete'
+  }
+  return updatedInfo
+}
+
 const exportedMethods = {
     getAllCommentsFromUser,
     getAllCommentsFromReview,
     createComment,
     getComment,
-    updateComment
+    updateComment,
+    removeComment
 }
 export default exportedMethods;
