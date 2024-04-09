@@ -58,7 +58,7 @@ const createComment = async (userId, reviewId, comment) => {
   return newComment;
 }
 
-const updateComment = async (userId, commentId, updateObject) => {
+const updateComment = async (commentId, updateObject) => {
   const comment = await commentData.getComment(commentId)
   if('comment' in updateObject){
     updateObject.comment = valid.stringValidate(updateObject.comment)
@@ -66,10 +66,10 @@ const updateComment = async (userId, commentId, updateObject) => {
     const currentDate = new Date();
     const currentDateString = currentDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
     comment.currentDateString = currentDateString
-    const shopCollection = await shops();
-    const updatedInfo = await shopCollection.findOneAndUpdate(
+    const userCollection = await userCollection();
+    const updatedInfo = await userCollection.findOneAndUpdate(
       { 'reviews.comments._id': new ObjectId(commentId) },
-      { $set: { 'flags.$': comment } },
+      { $set: { 'reviews.comments.$': comment } },
       {returnDocument: 'after'}
     );
     return updatedInfo

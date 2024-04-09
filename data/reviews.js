@@ -80,8 +80,43 @@ const createReview = async (userId, objId, rating, review) => {
   }
   return newReview;
 }
-const updateReview = async (userId, objId, rating, review) => {
-
+const updateReview = async (reviewId, updateObject) => {
+  const review = await getReview(reviewId)
+  const obj = await getShop(review.objId)
+  if('review' in updateObject){
+    updateObject.review = valid.stringValidate(updateObject.review)
+    review.review = updateObject.review
+  }
+  if('rating' in updateObject){
+    valid.numCheck(updateObject.rating)
+    valid.intCheck(updateObject.rating)
+    if (review.rating !== updateObject.rating){
+      obj.averageRating = (((obj.averageRating*obj.reviews.length)-review.rating)+updateObject.rating)/obj.reviews.length
+      review.rating = updateObject.rating
+    }
+  }
+  const currentDate = new Date();
+  const currentDateString = currentDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+  review.reviewDate = currentDateString
+  const userCollection = await users();
+  const updatedUser = await userCollection.findOneAndUpdate(
+    { 'reviews._id': new ObjectId(reviewId) },
+    { $set: { 'reviews.$': update } },
+    {returnDocument: 'after'}
+  );
+  if (!updatedUser) {
+    throw 'could not update product successfully';
+  }
+  const shopCollection = await shops();
+  const updatedShop = await shopCollection.findOneAndUpdate(
+    {_id: new ObjectId(obj._id)},
+    {$set: obj},
+    {returnDocument: 'after'}
+  );
+  if (!updatedShop) {
+    throw 'could not update product successfully';
+  }
+  return updatedUser
 }
 const exportedMethods = {
   getAllReviewsFromUser,

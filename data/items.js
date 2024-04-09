@@ -91,9 +91,6 @@ const updateItem = async (itemId, updateObject) => {
     allergens = valid.arrayOfStrings(allergens)
     item.allergens = updateObject.allergens
   }
-  const currentDate = new Date();
-  const currentDateString = currentDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
-  updateObject.flagDate = currentDateString
   const shopCollection = await shops();
   const updatedInfo = await shopCollection.findOneAndUpdate(
     { 'items._id': new ObjectId(reviewId) },
