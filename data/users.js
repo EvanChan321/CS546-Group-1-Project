@@ -41,7 +41,8 @@ const createUser = async (name, password, email, zipcode, accountType) => {
         zipcode: zipcode,
         accountType: accountType,
         reviews: [],
-        comments: []
+        comments: [],
+        shopList: []
     }
     const insertInfo = await userCollection.insertOne(newUser);
     if (!insertInfo.acknowledged || !insertInfo.insertedId)

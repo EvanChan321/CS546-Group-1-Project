@@ -22,8 +22,8 @@ const getShop = async (id) => {
     return findShop
 }
 
-const createShop = async (ownerId, name, address, website, phoneNumber) => {
-    if(ownerId !== null){
+const createShop = async (name, address, website, phoneNumber, ownerId) => {
+    if(ownerId){
         ownerId = valid.idCheck(ownerId)
     }
     name = valid.stringValidate(name)
@@ -45,15 +45,25 @@ const createShop = async (ownerId, name, address, website, phoneNumber) => {
     if (!insertInfo.acknowledged || !insertInfo.insertedId)
       throw 'Could not add product';
     const newId = insertInfo.insertedId.toString();
-    const shop = await this.getShop(newId);
+    const shop = await getShop(newId);
     return shop;
 }
 
 const updateShop = async (shopId, updateObject) => {
+    shopId = valid.stringValidate(shopId)
     const shop = await getUser(shopId)
     const shopCollection = await shops()
     if('ownerId' in updateObject){
         updateObject.ownerId = valid.idCheck(updateObject.ownerId)
+        let user = userData.getUser(updateObject.ownerId)
+        user.shopList.push(shopId)
+        let user2 = userData.getUser(shop.ownerId)
+        const index = user2.shopList.indexOf(shopId);
+        if (index !== -1) {
+          shop.shopList.splice(index, 1);
+        }
+        await userData.updateUser(user._id, user)
+        await userData.updateUser(user2._id, user2)
         shop.ownerId = updateObject.ownerId
     }
     if('name' in updateObject){
