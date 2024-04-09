@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import * as valid from "../valid.js";
 import userData from './users.js';
 import reviewData from './reviews.js'
+import { commentData } from "./index.js";
 
 const getAllCommentsFromUser = async (userId) => {
     userId = valid.idCheck(userId)
@@ -48,9 +49,8 @@ const createComment = async (userId, reviewId, comment) => {
   let x = new ObjectId();
   const newComment = {
     _id: x,
-    userId: userId,
-    username: userComment.name,
-    comment: comment,
+    userId: userComment._id,
+    comment: reviewComment,
     reviewDate: currentDateString
   }
   reviewComment.push(newComment)
@@ -58,10 +58,30 @@ const createComment = async (userId, reviewId, comment) => {
   return newComment;
 }
 
+const updateComment = async (userId, commentId, updateObject) => {
+  const comment = await commentData.getComment(commentId)
+  if('comment' in updateObject){
+    updateObject.comment = valid.stringValidate(updateObject.comment)
+    comment.comment = updateObject.comment
+    const currentDate = new Date();
+    const currentDateString = currentDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
+    comment.currentDateString = currentDateString
+    const shopCollection = await shops();
+    const updatedInfo = await shopCollection.findOneAndUpdate(
+      { 'reviews.comments._id': new ObjectId(commentId) },
+      { $set: { 'flags.$': comment } },
+      {returnDocument: 'after'}
+    );
+    return updatedInfo
+  }
+  throw "no actual update"
+}
+
 const exportedMethods = {
     getAllCommentsFromUser,
     getAllCommentsFromReview,
     createComment,
-    getComment
+    getComment,
+    updateComment
 }
 export default exportedMethods;

@@ -109,6 +109,7 @@ const updateItem = async (itemId, updateObject) => {
 const exportedMethods = {
     getAllItemsFromShop,
     getItem,
-    createItem
+    createItem,
+    updateItem
 }
 export default exportedMethods;
