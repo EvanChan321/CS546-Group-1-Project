@@ -54,6 +54,8 @@ const createComment = async (userId, reviewId, comment) => {
     reviewDate: currentDateString
   }
   reviewComment.push(newComment)
+  userComment.comments.push(x)
+  await userData.updateUser(userId, userComment)
   await reviewData.updateReview(reviewId, reviewComment)
   return newComment;
 }

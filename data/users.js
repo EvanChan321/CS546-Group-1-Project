@@ -98,15 +98,16 @@ const removeUser = async (userId) => {
     user.reviews.forEach(function(review) {
         reviewData.removeReview(review);
     });
-    const deletedUser = await userCollection.findOneAndUpdate(
-      { _id: new ObjectId(userId) },
-      { $pull: { reviews: { _id: new ObjectId(reviewId) } } },
-      { returnDocument: 'after' }
-    );
-    if(!deletedUser){
+    user.comments.forEach(function(comment) {
+        commentData.removeComment(comment);
+    });
+    const deletionInfo = await userCollection.findOneAndDelete({
+        _id: new ObjectId(userId)
+    });
+    if(!deletionInfo){
       throw 'could not delete'
     }
-    return deletedUser
+    return deletionInfo
 }
 
 const exportedMethods = {

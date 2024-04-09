@@ -83,10 +83,27 @@ const updateShop = async (shopId, updateObject) => {
     return updatedInfo
 }
 
+const removeShop = async (shopId) => {
+    shopId = valid.idCheck(shopId)
+    const shop = await this.getUser(shopId)
+    const shopCollection = await shops();
+    const deletionInfo = await shopCollection.findOneAndDelete({
+        _id: new ObjectId(shopId)
+    });
+    if(!deletionInfo){
+        throw 'could not delete'
+      }
+    shop.reviews.forEach(function(review) {
+        reviewData.removeReview(review);
+    });
+    return deletionInfo
+}
+
 const exportedMethods = {
     getAllShops,
     getShop,
     updateShop,
-    createShop
+    createShop,
+    removeShop
 }
 export default exportedMethods;
