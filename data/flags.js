@@ -75,10 +75,26 @@ const updateFlag = async (flagId, updateObject) => {
   return updatedInfo
 }
 
+const deleteFlag = async (flagId) => {
+  flagId = valid.idCheck(flagId)
+  const flag = await this.getFlag(flagId)
+  const shopCollection = await shops();
+  const updatedInfo = await shopCollection.findOneAndUpdate(
+    { 'flags._id': new ObjectId(flagId) },
+    { $pull: { flags: { _id: new ObjectId(flagId) } } },
+    { returnDocument: 'after' }
+  );
+  if(!updatedInfo){
+    throw 'could not delete'
+  }
+  return updatedInfo
+}
+
 const exportedMethods = {
     getAllFlagsFromShop,
     getFlag,
     updateFlag,
-    createFlag
+    createFlag,
+    deleteFlag
   }
   export default exportedMethods;
