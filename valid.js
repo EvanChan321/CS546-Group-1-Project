@@ -1,7 +1,7 @@
 import { ObjectId } from "mongodb";
 import validator from 'validator';
 import { phone } from "phone";
-
+import bcryptjs from 'bcryptjs';
 export function numCheck (num) {
     if (typeof(num) !== 'number'){
         throw (`${num} is not a number`);
@@ -118,4 +118,8 @@ export function zipcodeCheck(val) {
     if(!zipRegex.test(val)){
         throw 'invalid zip'
     }
-  }
+}
+
+export function verifyPassword(password, hash) {
+    return bcryptjs.compare(password, hash);
+}

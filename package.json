@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/EvanChan321/CS546-Group-1-Project#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
     "mongodb": "^6.5.0",

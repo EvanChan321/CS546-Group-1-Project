@@ -1,12 +1,13 @@
 import { users, shops } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as valid from "../valid.js";
+import validator from 'validator';
 
 const getAllUsers = async () => {
     const userCollection = await users();
     const allUsers = await userCollection.find().toArray();
     if(allUsers.length === 0){
-        throw "Shops Collection is Empty";
+        throw "Users Collection is Empty";
     }
     return allUsers;
 }
@@ -121,11 +122,38 @@ const removeUser = async (userId) => {
     return deletionInfo
 }
 
+const loginUser = async (emailOrUsername, password) => {
+    const userCollection = await users();
+    emailOrUsername = emailOrUsername.stringValidate(emailOrUsername)
+    if(validator.isEmail(emailOrUsername)) {
+        const user = await userCollection.findOne({ email: emailOrUsername });
+        if (!user) {
+            throw `Incorrect email or password`;
+        }
+        if (!valid.verifyPassword(password, user.password)) {
+            throw `Incorrect email or password`;
+        }
+        return user;
+    } else {
+        const user = await userCollection.findOne({ username: emailOrUsername });
+        if (!user) {
+            throw `Incorrect email or password`;
+        }
+        if (!valid.verifyPassword(password, user.password)) {
+            throw `Incorrect email or password`;
+        }
+    }
+    return user;
+};
+
+
 const exportedMethods = {
     getAllUsers,
     getUser,
     createUser,
     updateUser,
-    removeUser
+    removeUser,
+    loginUser,
+    loginUser
 }
 export default exportedMethods;
