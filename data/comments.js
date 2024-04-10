@@ -3,16 +3,15 @@ import { ObjectId } from "mongodb";
 import * as valid from "../valid.js";
 import userData from './users.js';
 import reviewData from './reviews.js'
-import { commentData } from "./index.js";
 
 const getAllCommentsFromUser = async (userId) => {
     userId = valid.idCheck(userId)
     const user = await userData.getUser(userId);
-    let comments = [];
-    user.reviews.forEach(review => {
-        if (review.comments) {
-            comments = comments.concat(review.comments);
-        }
+    let comments = []
+    let currComm
+    user.comments.forEach( async commentId => {
+      currComm = await getComment(commentId)
+      comments.concat(currComm)
     });
     return comments;
 }
@@ -50,13 +49,13 @@ const createComment = async (userId, reviewId, comment) => {
   const newComment = {
     _id: x,
     userId: userComment._id,
-    comment: reviewComment,
+    comment: comment,
     reviewDate: currentDateString
   }
-  reviewComment.push(newComment)
+  reviewComment.comments.push(newComment)
   userComment.comments.push(x)
-  await userData.updateUser(userId, userComment)
-  await reviewData.updateReview(reviewId, reviewComment)
+  await userData.updateUser(userComment._id.toString(), userComment)
+  await reviewData.updateReview(reviewComment._id.toString(), reviewComment)
   return newComment;
 }
 

@@ -64,16 +64,20 @@ const updateUser = async (userId, updateObject) => {
         user.password = updateObject.password
     }
     if('email' in updateObject){
-        updateObject.email = valid.emailCheck(updateObject.email)
-        const duplicateEmail = await userCollection.findOne({ email: email });
-        if (duplicateEmail) {
-            throw `an account with ${email} already exists`;
+        if(updateObject.email !== user.email){
+            updateObject.email = valid.emailCheck(updateObject.email)
+            const duplicateEmail = await userCollection.findOne({ email: email });
+            if (duplicateEmail) {
+                throw `an account with ${email} already exists`;
+            }
+            user.email = updateObject.email
         }
-        user.email = updateObject.email
     }
     if('bio' in updateObject){
-        updateObject.bio = valid.stringValidate(updateObject.bio)
-        user.bio = updateObject.bio
+        if(user.bio !== updateObject.bio){
+            updateObject.bio = valid.stringValidate(updateObject.bio)
+            user.bio = updateObject.bio
+        }
     }
     if('zipcode' in updateObject){
         updateObject.zipcode = valid.stringValidate(updateObject.zipcode)
@@ -84,13 +88,16 @@ const updateUser = async (userId, updateObject) => {
         updateObject.accountType = valid.stringValidate(updateObject.accountType)
         user.accountType = updateObject.accountType
     }
+    if('comments' in updateObject){
+        user.comments = updateObject.comments
+    }
     const updatedInfo = await userCollection.findOneAndUpdate(
       {_id: new ObjectId(userId)},
       {$set: user},
       {returnDocument: 'after'}
     )
     if (!updatedInfo) {
-      throw 'could not update product successfully';
+      throw 'could not update user successfully';
     }
     return updatedInfo
 }

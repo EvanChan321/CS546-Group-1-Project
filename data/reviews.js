@@ -45,7 +45,7 @@ const createReview = async (userId, objId, rating, review) => {
   let x = new ObjectId();
   const newReview = {
     _id: x,
-    objId: objId,
+    objId: new ObjectId(objId),
     rating: rating,
     review: review,
     reviewDate: currentDateString,
@@ -80,9 +80,10 @@ const createReview = async (userId, objId, rating, review) => {
   }
   return newReview;
 }
+
 const updateReview = async (reviewId, updateObject) => {
   const review = await getReview(reviewId)
-  const obj = await getShop(review.objId)
+  const obj = await shopData.getShop(review.objId.toString())
   if('review' in updateObject){
     updateObject.review = valid.stringValidate(updateObject.review)
     review.review = updateObject.review
@@ -95,13 +96,16 @@ const updateReview = async (reviewId, updateObject) => {
       review.rating = updateObject.rating
     }
   }
+  if('comments' in updateObject){
+    review.comments = updateObject.comments
+  }
   const currentDate = new Date();
   const currentDateString = currentDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
   review.reviewDate = currentDateString
   const userCollection = await users();
   const updatedUser = await userCollection.findOneAndUpdate(
     { 'reviews._id': new ObjectId(reviewId) },
-    { $set: { 'reviews.$': update } },
+    { $set: { 'reviews.$': review } },
     {returnDocument: 'after'}
   );
   if (!updatedUser) {
