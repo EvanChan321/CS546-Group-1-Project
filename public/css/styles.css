@@ -75,3 +75,7 @@ img.search-button {
     width: 30px; 
     height: 30px;
 }
+
+form.signup {
+    text-align: center;
+}
