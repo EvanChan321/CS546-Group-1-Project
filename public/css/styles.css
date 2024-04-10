@@ -56,11 +56,11 @@ button.login {
 }
 
 button.login:hover {
-    background-color: rgba(255, 228, 196, 0.707);
+    background-color: #ffe4c4b4;
 }
 
 button.signup {
-    background-color: rgb(210, 0, 0);
+    background-color: #d20000;
     float: right;
     margin-left: 3px;
 }
