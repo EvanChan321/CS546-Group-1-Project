@@ -38,7 +38,8 @@ const createShop = async (name, address, website, phoneNumber, ownerId) => {
         flags: [],
         items: [],
         reviews: [],
-        averageRating: "No Ratings"
+        averageRating: "No Ratings",
+        numOfLikes: 0
     }
     const shopCollection = await shops();
     const insertInfo = await shopCollection.insertOne(newShop);

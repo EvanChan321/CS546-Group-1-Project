@@ -7,7 +7,7 @@ const router = Router();
 router.route('/').get(async (req, res) => {
   //code here for GET will render the home handlebars file
   try{
-    res.render('home', {title: "Boba Panda"});
+    res.render('home', {title: "Tapioca"});
   }catch(e){
     res.sendStatus(500);
   }

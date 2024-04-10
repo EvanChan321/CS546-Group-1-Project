@@ -43,7 +43,8 @@ const createUser = async (name, password, email, zipcode, accountType) => {
         accountType: accountType,
         reviews: [],
         comments: [],
-        shopList: []
+        shopList: [],
+        bookmarks: []
     }
     const insertInfo = await userCollection.insertOne(newUser);
     if (!insertInfo.acknowledged || !insertInfo.insertedId)
@@ -51,6 +52,65 @@ const createUser = async (name, password, email, zipcode, accountType) => {
     const newId = insertInfo.insertedId.toString();
     const user = await getUser(newId);
     return user;
+}
+
+const likeShop = async (userId, shopId) => {
+    userId = valid.idCheck(userId)
+    shopId = valid.idCheck(shopId)
+    const user = await getUser(userId)
+    const shop = await shopData.getShop(shopId)
+    user.bookmarks.push(new ObjectId(shopId))
+    shop.numOfLikes += 1
+    const userCollection = await users();
+    const updatedUser = await userCollection.findOneAndUpdate(
+        {_id: new ObjectId(user._id)},
+        {$set: user},
+        {returnDocument: 'after'}
+    );
+    if (!updatedUser) {
+      throw 'could not update product successfully';
+    }
+    const shopCollection = await shops();
+    const updatedShop = await shopCollection.findOneAndUpdate(
+        {_id: new ObjectId(shop._id)},
+        {$set: shop},
+        {returnDocument: 'after'}
+    );
+    if (!updatedShop) {
+      throw 'could not update product successfully';
+    }
+    return updatedUser
+}
+
+const unlikeShop = async (userId, shopId) => {
+    userId = valid.idCheck(userId)
+    shopId = valid.idCheck(shopId)
+    const user = await getUser(userId)
+    const shop = await shopData.getShop(shopId)
+    const index = user.bookmarks.indexOf(new ObjectId(shopId));
+    if (index !== -1) {
+        user.bookmarks.splice(index, 1);
+    }
+    shop.numOfLikes -= 1
+    const userCollection = await users();
+    const updatedUser = await userCollection.findOneAndUpdate(
+        {_id: new ObjectId(user._id)},
+        {$set: user},
+        {returnDocument: 'after'}
+    );
+    if (!updatedUser) {
+      throw 'could not update product successfully';
+    }
+    const shopCollection = await shops();
+    const updatedShop = await shopCollection.findOneAndUpdate(
+        {_id: new ObjectId(shop._id)},
+        {$set: shop},
+        {returnDocument: 'after'}
+    );
+    if (!updatedShop) {
+      throw 'could not update product successfully';
+    }
+    return updatedUser
 }
 
 const updateUser = async (userId, updateObject) => {
@@ -154,6 +214,7 @@ const exportedMethods = {
     updateUser,
     removeUser,
     loginUser,
-    loginUser
+    likeShop,
+    unlikeShop
 }
 export default exportedMethods;
