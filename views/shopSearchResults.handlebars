@@ -1,3 +1,22 @@
-<main>
-    <p>List of shops here: </p>
-</main>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shop Search Results</title>
+</head>
+<body>
+    <main>
+        <h1>List of nearby shops: </h1>
+        <ol>
+            {{#each stores}}
+                <li>
+                    <h2><a href="/shop/{{this.id}}">{{this.name}}</a></h2>
+                    <ul>
+                        <li><p>Address: {{this.address}}</p></li>
+                        <li><p>Average Rating: {{this.averageRating}}</p></li>
+                    </ul>
+                </li>
+            {{/each}}
+        </ol>
+    </main>
+</body>
+</html>
