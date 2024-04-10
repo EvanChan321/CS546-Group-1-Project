@@ -122,8 +122,7 @@ export function zipcodeCheck(val) {
 
 export function verifyPassword(password, hash) {
     return bcryptjs.compare(password, hash);
-}
-
+  
 export function sortByLev(stores, search) {
     levValues = {};
     function getLevDistance(storeName) {
@@ -145,7 +144,7 @@ export function sortByLev(stores, search) {
     return stores;
 }
 
-function calculateLevenshtein(store,search,x,y) {
+export function calculateLevenshtein(store,search,x,y) {
     store = store.toLowerCase();
     search = search.toLowerCase();
     if (x === 0) {return y;}
