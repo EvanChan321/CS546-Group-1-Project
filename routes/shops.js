@@ -1,6 +1,5 @@
 import {Router} from 'express';
-import {getAllShops, getShop} from '../data/shops.js'
-import {getItem} from '../data/items.js'
+import {shopData,itemData,reviewData} from '../data/index.js'
 const router = Router();
 
 
@@ -16,7 +15,7 @@ router.route('/').get(async (req, res) => {
 
 router.route('/shops').get(async (req, res) => {
   try{
-    const shops = await getAllShops();
+    const shops = await shopData.getAllShops();
     res.render('shopSearchResults', {shops: shops});
   }catch(e){
     console.log(e);
@@ -29,12 +28,12 @@ router.route('/shop/:id').get(async (req, res) => {
     return res.status(400).render('error', {error: 'Must input search id'});
   } 
   try {
-    const searchResult = await getShop(search);
+    const searchResult = await shopData.getShop(search);
     if (!searchResult.Title){
       return res.status(404).render('error',{error: `No shop with ID ${search} found`});
     }
-    const storeItems = searchResult.items.map((item) => getItem(item));
-    const storeReviews = searchResult.reviews.map((review) => getReview(review));
+    const storeItems = searchResult.items.map((item) => itemData.getItem(item));
+    const storeReviews = searchResult.reviews.map((review) => reviewData.getReview(review));
     res.render('shopPage', {shop:searchResult, items:storeItems, reviews:storeReviews});
   } catch(e){
     res.status(500).render('error',{error: e});
