@@ -49,7 +49,8 @@ const createReview = async (userId, objId, rating, review) => {
     rating: rating,
     review: review,
     reviewDate: currentDateString,
-    comments: []
+    comments: [],
+    edited: false
   }
   userReview.reviews.push(newReview)
   shopForReview.reviews.push(x)
@@ -102,6 +103,9 @@ const updateReview = async (reviewId, updateObject) => {
   const currentDate = new Date();
   const currentDateString = currentDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
   review.reviewDate = currentDateString
+  if('edited' in updateObject){
+    review.edited = updateObject.edited
+  }
   const userCollection = await users();
   const updatedUser = await userCollection.findOneAndUpdate(
     { 'reviews._id': new ObjectId(reviewId) },
