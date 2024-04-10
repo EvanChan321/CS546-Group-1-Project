@@ -52,6 +52,30 @@ router.route('/shop/:id').get(async (req, res) => {
   }
 });
 
+router.route('/shop/:shopid/:itemid').get(async (req, res) => {
+  const shopSearch = req.params.shopid;
+  const itemSearch = req.params.itemid;
+  if(!shopSearch || (shopSearch.trim().length === 0)){
+    return res.status(400).render('error', {error: 'Must input shop search id'});
+  }
+  if(!itemSearch || (itemSearch.trim().length === 0)){
+    return res.status(400).render('error', {error: 'Must input item search id'});
+  }
+  try {
+    const shopResult = await shopData.getShop(shopSearch);
+    if (!shopResult.Title){
+      return res.status(404).render('error',{error: `No shop with ID ${shopSearch} found`});
+    }
+    const itemResult = await itemData.itemShop(itemSearch);
+    if (!itemResult.Title){
+      return res.status(404).render('error',{error: `No shop with ID ${itemSearch} found`});
+    }
+    res.render('itemPage', {shop:shopResult, items:itemResult});
+  } catch(e){
+    res.status(500).render('error',{error: e});
+  }
+});
+
 router.route('/account').get(async (req, res) => {
   try{
     res.render('account');
