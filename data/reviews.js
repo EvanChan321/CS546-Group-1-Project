@@ -32,9 +32,10 @@ const getReview = async (reviewId) => {
     return review
 }
 
-const createReview = async (userId, objId, rating, review) => {
+const createReview = async (userId, title, objId, rating, review) => {
   userId = valid.idCheck(userId)
   const userReview = await userData.getUser(userId)
+  title = valid.stringValidate(title)
   objId = valid.idCheck(objId)
   const shopForReview = await shopData.getShop(objId)
   valid.numCheck(rating)
@@ -45,6 +46,7 @@ const createReview = async (userId, objId, rating, review) => {
   let x = new ObjectId();
   const newReview = {
     _id: x,
+    title: title,
     objId: new ObjectId(objId),
     rating: rating,
     review: review,
@@ -85,6 +87,10 @@ const createReview = async (userId, objId, rating, review) => {
 const updateReview = async (reviewId, updateObject) => {
   const review = await getReview(reviewId)
   const obj = await shopData.getShop(review.objId.toString())
+  if('title' in updateObject){
+    updateObject.title = valid.stringValidate(updateObject.title)
+    review.title = updateObject.title
+  }
   if('review' in updateObject){
     updateObject.review = valid.stringValidate(updateObject.review)
     review.review = updateObject.review
