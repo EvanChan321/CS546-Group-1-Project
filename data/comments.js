@@ -16,9 +16,9 @@ const getAllCommentsFromUser = async (userId) => {
 }
 
 const getAllCommentsFromReview = async (reviewId) => {
-    userId = valid.idCheck(reviewId)
-    const review = await reviewData.getReview(reviewId);
-    return review.comments
+  reviewId = valid.idCheck(reviewId)
+  const review = await reviewData.getReview(reviewId);
+  return review.comments
 }
 
 const getComment = async (commentId) => {
@@ -60,7 +60,8 @@ const createComment = async (userId, reviewId, comment) => {
     _id: x,
     userId: userComment._id,
     comment: comment,
-    reviewDate: currentDateString
+    reviewDate: currentDateString,
+    edited: false
   }
   reviewComment.comments.push(newComment)
   userComment.comments.push(x)
@@ -77,6 +78,7 @@ const updateComment = async (commentId, updateObject) => {
     const currentDate = new Date();
     const currentDateString = currentDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' });
     comment.currentDateString = currentDateString
+    comment.edited = true
     const userCollection = await userCollection();
     const updatedInfo = await userCollection.findOneAndUpdate(
       { 'reviews.comments._id': new ObjectId(commentId) },
