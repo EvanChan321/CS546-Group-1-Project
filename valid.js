@@ -122,4 +122,43 @@ export function zipcodeCheck(val) {
 
 export function verifyPassword(password, hash) {
     return bcryptjs.compare(password, hash);
+<<<<<<< Updated upstream
+=======
+}
+
+export function sortLev(stores, search) {
+    levValues = {};
+    function getLevDistance(storeName) {
+        if (!levValues[storeName]) {
+          levValues[storeName] = calculateLevenshtein(storeName, search, storeName.length, search.length);
+        }
+        return levValues[storeName];
+      }
+      for (let i = 1; i < stores.length; i++) {
+        let current = stores[i];
+        let currentLev = getLevDistance(current.name);
+        let j = i - 1;
+        while (j >= 0 && (getLevDistance(stores[j].name) > currentLev || (getLevDistance(stores[j].name) === currentLev && stores[j].likes < current.likes))) {
+          stores[j + 1] = stores[j];
+          j--;
+        }
+        stores[j + 1] = current;
+      }
+    return stores;
+}
+
+export function calculateLevenshtein(store,search,x,y) {
+    store = store.toLowerCase();
+    search = search.toLowerCase();
+    if (x === 0) {return y;}
+    if (y === 0) {return x;}
+    if (store[x-1] === search [y-1]){
+        return calculateLevenshtein(store,search,x-1,y-1);
+    }
+    return 1 + Math.min(
+        calculateLevenshtein(store,search,x,y-1),
+        calculateLevenshtein(store,search,x-1,y),
+        calculateLevenshtein(store,search,x-1,y-1),
+    )
+>>>>>>> Stashed changes
 }
