@@ -5,7 +5,7 @@
 html,
 body {
     font-size: 14pt;
-}
+    
   
 h1 {
     font-size: 2.5rem;
@@ -14,7 +14,11 @@ h1 {
 
 body {
     background: #ffffff;
-    font-family:  Arial, sans-serif;;
+    font-family:  Arial, sans-serif;
+    background-image: url(https://i.imgur.com/ob6dxf7.png);
+    background-attachment: fixed;
+    background-repeat: repeat;
+}
 }
 
 p.review-body {
