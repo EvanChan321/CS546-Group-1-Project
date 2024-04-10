@@ -14,7 +14,8 @@ h1 {
 
 body {
     background: #ffffff;
-    font-family:  Arial, sans-serif;;
+    background-color: #fbf8f3;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 p.review-body {
@@ -25,9 +26,9 @@ p.comment-body {
     color: blue;
 }
 
-input[type="text"] {
+input.search-bar {
     width: 80%;
-    background-color: #ffffff;
+    background-color: transparent;
     padding: 14px 20px;
     margin: 8px 0;
     border: 2px solid #000000;
@@ -47,7 +48,9 @@ button {
 button[type="submit"] {
     padding: 5px 10px;
     border: 2px solid #000000;
+    background-color: transparent;
     cursor: pointer;
+    vertical-align: middle;
 }
 
 button.login {
@@ -56,21 +59,20 @@ button.login {
 }
 
 button.login:hover {
-    background-color: #ffe4c4b4;
+    background-color: #E0AC9D;
 }
 
 button.signup {
-    background-color: #d20000;
+    background-color: #ef9480;
     float: right;
     margin-left: 3px;
 }
 
 button.signup:hover {
-    background-color: red;
+    background-color: #e76a4e;
 }
 
 img.search-button {
-    margin-left: 0px;
     width: 30px; 
     height: 30px;
 }
