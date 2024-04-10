@@ -122,8 +122,9 @@ export function zipcodeCheck(val) {
 
 export function verifyPassword(password, hash) {
     return bcryptjs.compare(password, hash);
-  
-export function sortByLev(stores, search) {
+}
+
+export function sortLev(stores, search) {
     levValues = {};
     function getLevDistance(storeName) {
         if (!levValues[storeName]) {
