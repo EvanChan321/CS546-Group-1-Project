@@ -1,4 +1,4 @@
-# Boba the Hut: Boba Store Searcher
+# Boba Fettch: Boba Store Searcher
 
 ## CS 546 Project- Group 1
 
