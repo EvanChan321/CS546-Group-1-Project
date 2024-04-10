@@ -13,10 +13,6 @@ h1 {
 }
 
 body {
-    background: transparent;
-    background-image: url(https://i.imgur.com/ob6dxf7.png);
-    background-attachment: fixed;
-    background-repeat: repeat;
     background-color: #fbf8f3;
     font-family: Helvetica, Arial, sans-serif;
 }
