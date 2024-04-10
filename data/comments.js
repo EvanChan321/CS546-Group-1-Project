@@ -5,14 +5,13 @@ import userData from './users.js';
 import reviewData from './reviews.js'
 
 const getAllCommentsFromUser = async (userId) => {
-    userId = valid.idCheck(userId)
+    console.log(userId)
     const user = await userData.getUser(userId);
     let comments = []
-    let currComm
-    user.comments.forEach( async commentId => {
-      currComm = await getComment(commentId)
-      comments.concat(currComm)
-    });
+    await Promise.all(user.comments.map(async (commentId) => {
+      const currComm = await getComment(commentId.toString());
+      comments = comments.concat(currComm);
+    }));
     return comments;
 }
 
@@ -29,14 +28,25 @@ const getComment = async (commentId) => {
       { 'reviews.comments._id': new ObjectId(commentId) }
     );
     if(!foundUser){
-      throw 'cant find user'
+      throw 'User not found';
     }
-    const comment = foundUser.reviews.comments.find(comment => comment._id.equals(new ObjectId(commentId)));
-    if (!comment) {
-      throw 'cannot find review';
+    if (!foundUser.reviews) {
+      throw 'User has no reviews';
     }
-    //foundReview._id = foundReview._id.toString();
-    return comment
+    console.log(foundUser)
+    let foundComment = null
+    for (let i = 0; i < foundUser.reviews.length; i++) {
+      const review = foundUser.reviews[i]
+      const comment = review.comments.find(comment => comment._id.toString() === commentId)
+      if (comment) {
+        foundComment = comment
+        break
+      }
+    }
+    if (foundComment === null) {
+      throw 'Comment not found';
+    }
+    return foundComment;
 }
 
 const createComment = async (userId, reviewId, comment) => {

@@ -151,4 +151,12 @@ catch(e){
     console.log(e);
 }
 
+try{
+    console.log(await commentData.getAllCommentsFromUser(user._id.toString()))
+}
+catch(e){
+    console.log("Error listings shops");
+    console.log(e);
+}
+
 await closeConnection();
