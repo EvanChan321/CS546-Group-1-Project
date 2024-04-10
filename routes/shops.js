@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import {shopData,itemData,reviewData} from '../data/index.js'
+import {sortLev} from '../valid.js'
 const router = Router();
 
 
@@ -17,6 +18,17 @@ router.route('/shops').get(async (req, res) => {
   try{
     const shops = await shopData.getAllShops();
     res.render('shopSearchResults', {shops: shops});
+  }catch(e){
+    console.log(e);
+  }
+})
+
+router.route('/shops/:search').get(async (req, res) => {
+  try{
+    const shops = await shopData.getAllShops();
+    const search = req.params.search;
+    const sortShops = sortLev(shops,search);
+    res.render('shopSearchResults', {shops: sortShops});
   }catch(e){
     console.log(e);
   }
