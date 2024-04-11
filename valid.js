@@ -120,8 +120,9 @@ export function zipcodeCheck(val) {
     }
 }
 
-export function verifyPassword(password, hash) {
-    return bcryptjs.compare(password, hash);
+export async function verifyPassword(password, hash) {
+    const right = await bcryptjs.compare(password, hash);
+    return right
 }
 
 export function sortLev(stores, search) {
