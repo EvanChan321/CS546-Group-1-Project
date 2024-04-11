@@ -1,20 +1,20 @@
 <main>
-    <h1>{{title}}</h1>
-    <body>
-        <form method="POST" action="/signup" class="signup">
-            <label for="usernameInput">
-                Username
-                <br>
-                <input type="text" name="usernameInput" id="usernameInput">
-            </label>
-            <br>
-            <label>
-                Password
-                <br>
-                <input type="text" name="passwordInput" id="passwordInput">
-            </label>
-            <br>
-            <input type="submit" value="Create account!">
+    <section style="text-align: center;">
+        <form action="/user/signup" method="POST" style="display: inline-block; text-align: left;">
+            <label for="signup"><h2>Sign up to Boba Panda</h2></label>
+            {{#if error}}
+                <p class="error">{{error}}</p>
+            {{/if}}
+            <label for="username">Username:</label><br>
+            <input type="text" name="username" id="username" value="{{username}}"><br>
+            <label for="password">Password:</label><br>
+            <input type="text" name="password" id="password" value="{{password}}"><br>
+            <label for="email">Email:</label><br>
+            <input type="text" name="email" id="email" value="{{email}}"><br>
+            <label for="zipcode">Zipcode:</label><br>
+            <input type="text" name="zipcode" id="zipcode" value="{{zipcode}}"><br>
+            <button type="submit">Signup</button>
         </form>
-    </body>
+    </section>
 </main>
+

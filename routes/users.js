@@ -16,7 +16,7 @@ router
     let userEmail
     let userZipcode
     try{
-      userName = valid.stringValidate(req.body.name)
+      userName = valid.stringValidate(req.body.username)
       userPassword = valid.passwordCheck(req.body.password)
       userEmail = valid.emailCheck(req.body.email)
       userZipcode = valid.stringValidate(req.body.zipcode)
@@ -29,7 +29,7 @@ router
         username: userName,
         password: userPassword,
         email: userEmail,
-        zipcodeCheck: userZipcode,
+        zipcode: userZipcode,
       });
     }
     try {
@@ -46,6 +46,10 @@ router
       return res.status(500).render("signup", {
               error: error.toString(),
               title: "Sign Up",
+              username: userName,
+              password: userPassword,
+              email: userEmail,
+              zipcode: userZipcode,
             });
     }
   })
