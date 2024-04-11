@@ -10,13 +10,13 @@ router
     try {
         commentId = valid.idCheck(req.params.commentId)
     } catch (e) {
-        return res.status(400).json({error: e});
+        return res.status(400).json({error: e})
     }
     try {
-        const comment = await commentData.getComment(commentId);
-        return res.status(200).json(comment);
+        const comment = await commentData.getComment(commentId)
+        return res.status(200).json(comment)
     } catch (e) {
-        return res.status(404).json({error: e});
+        return res.status(404).json({error: e})
     }
   });
 
