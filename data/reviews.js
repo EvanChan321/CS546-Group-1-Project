@@ -32,7 +32,7 @@ const getReview = async (reviewId) => {
     return review
 }
 
-const createReview = async (userId, title, objId, rating, review) => {
+const createReview = async (userId, objId, title, rating, review) => {
   userId = valid.idCheck(userId)
   const userReview = await userData.getUser(userId)
   title = valid.stringValidate(title)
@@ -46,8 +46,8 @@ const createReview = async (userId, title, objId, rating, review) => {
   let x = new ObjectId();
   const newReview = {
     _id: x,
-    title: title,
     objId: new ObjectId(objId),
+    title: title,
     rating: rating,
     review: review,
     reviewDate: currentDateString,

@@ -2,6 +2,7 @@ import { users, shops } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as valid from "../valid.js";
 import validator from 'validator';
+import bcryptjs from 'bcryptjs';
 
 const getAllUsers = async () => {
     const userCollection = await users();
@@ -28,6 +29,7 @@ const createUser = async (name, password, email, zipcode, accountType) => {
         throw `an account with ${email} already exists`;
     }
     password = valid.passwordCheck(password)
+    const hashedPassword = await bcryptjs.hash(password, 12);
     zipcode = valid.stringValidate(zipcode)
     valid.zipcodeCheck(zipcode)
     accountType = valid.stringValidate(accountType)
@@ -36,7 +38,7 @@ const createUser = async (name, password, email, zipcode, accountType) => {
     }
     const newUser = {
         name: name,
-        password: password,
+        password: hashedPassword,
         email: email,
         bio: "",
         zipcode: zipcode,
@@ -184,24 +186,23 @@ const removeUser = async (userId) => {
 
 const loginUser = async (emailOrUsername, password) => {
     const userCollection = await users();
-    emailOrUsername = emailOrUsername.stringValidate(emailOrUsername)
+    emailOrUsername = valid.stringValidate(emailOrUsername)
+    password = valid.stringValidate(password)
+    let user
     if(validator.isEmail(emailOrUsername)) {
-        const user = await userCollection.findOne({ email: emailOrUsername });
+        user = await userCollection.findOne({ email: emailOrUsername });
         if (!user) {
             throw `Incorrect email or password`;
         }
-        if (!valid.verifyPassword(password, user.password)) {
-            throw `Incorrect email or password`;
-        }
-        return user;
     } else {
-        const user = await userCollection.findOne({ username: emailOrUsername });
+        user = await userCollection.findOne({ name: emailOrUsername });
         if (!user) {
             throw `Incorrect email or password`;
         }
-        if (!valid.verifyPassword(password, user.password)) {
-            throw `Incorrect email or password`;
-        }
+    }
+    const isRightPassword = await valid.verifyPassword(password, user.password)
+    if (!isRightPassword) {
+        throw `Incorrect email or password`;
     }
     return user;
 };

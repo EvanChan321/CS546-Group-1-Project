@@ -1,9 +1,12 @@
 <main>
     <section>
-        <form class="login" action="IDK" method="POST">
+        <form action="/user/login" method="POST">
             <label for="login"><h2>Sign in to Boba Panda</h2></label>
-            <input type="text" name="username" id="username" placeholder="Username">
-            <input type="text" name="password" id="password" placeholder="Password">
+            {{#if error}}
+                <p class="error">{{error}}</p>
+            {{/if}}
+            <input type="text" name="emailOrUsername" id="emailOrUsername" placeholder="Username or Email" value="{{emailOrUsername}}">
+            <input type="password" name="password" id="password" placeholder="Password">
             <button type="submit">Login</button>
         </form>
     </section>

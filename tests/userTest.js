@@ -4,6 +4,7 @@ import userData from "../data/users.js";
 import shopData from "../data/shops.js"
 import reviewData from "../data/reviews.js"
 import commentData from "../data/comments.js"
+import * as valid from "../valid.js";
 
 const db = await dbConnection();
 await db.collection("users").drop();
@@ -25,11 +26,13 @@ let shop = {
 }
 
 let review = {
+    title: "peak",
     rating: 5,
     review: "this is good"
 }
 
 let review2 = {
+    title: "ass",
     rating: 1,
     review: "this is bad"
 }
@@ -73,6 +76,7 @@ try{
     review = await reviewData.createReview(
         user._id.toString(),
         shop._id.toString(),
+        review.title,
         review.rating,
         review.review
     )
@@ -88,6 +92,7 @@ try{
     review2 = await reviewData.createReview(
         user._id.toString(),
         shop._id.toString(),
+        review2.title,
         review2.rating,
         review2.review
     )
