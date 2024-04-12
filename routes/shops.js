@@ -23,6 +23,62 @@ router.route('/shops').get(async (req, res) => {
   }
 })
 
+router
+  .route('/shop/addShop')
+  .get(async (req, res) => {
+    res.render("addShop", {
+      title: "Add Shop"
+    });
+  })
+  .post(async (req, res) => {
+    let ownerId
+    let name
+    let address
+    let website
+    let phoneNumber
+    try{
+      name = valid.stringValidate(req.body.name)
+      address = valid.stringValidate(req.body.address)
+      website = valid.urlCheck(req.body.website)
+      phoneNumber = valid.phoneNumberCheck(req.body.phoneNumber)
+      if(req.body.ownerId){
+        ownerId = valid.idCheck(ownerId)
+      }
+    }
+    catch(e){
+      return res.status(400).render("addShop", {
+        error: e.toString(),
+        title: "Add Shop",
+        name: name,
+        address: address,
+        website: website,
+        phoneNumber: phoneNumber,
+        ownerId: ownerId
+      });
+    }
+    try {
+      const shop = await shopData.createShop(
+        userName,
+        userPassword,
+        userEmail,
+        userZipcode,
+        ownerId
+      )
+      //req.session.user = user;
+      return res.redirect(`/shop/${shop._id}`)
+    } catch (error) {
+      return res.status(500).render("addShop", {
+              error: error.toString(),
+              title: "Add Shop",
+              name: name,
+              address: address,
+              website: website,
+              phoneNumber: phoneNumber,
+              ownerId: ownerId
+            });
+    }
+  })
+
 router.route('/shops/:search').get(async (req, res) => {
   try{
     const shops = await shopData.getAllShops();
@@ -52,6 +108,72 @@ router.route('/shop/:id').get(async (req, res) => {
   }
 });
 
+router
+  .route('/shop/:shopId/itemForm')
+  .get(async (req, res) => {
+    res.render("itemForm", {
+      title: "Item Form"
+    });
+  })
+  .post(async (req, res) => {
+    let shopId
+    let name
+    let description
+    let price
+    let tags
+    let allergens
+    try{
+      shopId = valid.idCheck(req.body.shopId)
+      name = valid.stringValidate(req.body.name)
+      description = valid.stringValidate(req.body.description)
+      price = req.body.price
+      price = parseNum(price)
+      valid.numCheck(price)
+      if(price < 1 || price > 5){
+        throw 'invalid rating'
+      }
+      if(!Number.isInteger(price)){
+        maxDecimal(price, 0)
+      }
+      tags = req.body.tags.trim()
+      tags = valid.arrayOfStrings(tags.split(","))
+      allergens = req.body.allergens.trim()
+      allergens = valid.arrayOfStrings(allergens.split(","))
+    }
+    catch(e){
+      return res.status(400).render("itemForm", {
+        error: e.toString(),
+        title: "Item Form",
+        name: name,
+        description: description,
+        price: price,
+        tags: req.body.tags.trim(),
+        allergens: req.body.allergens.trim()
+      });
+    }
+    try {
+      const item = await itemData.createItem(
+        name,
+        description,
+        price,
+        tags,
+        allergens
+      )
+      //req.session.user = user;
+      return res.redirect(`/shop/${shopId}/${item._id}`)
+    } catch (error) {
+      return res.status(500).render("addShop", {
+              error: error.toString(),
+              title: "Add Shop",
+              name: name,
+              description: address,
+              price: website,
+              tags: phoneNumber,
+              allergens: ownerId
+            });
+    }
+  })
+
 router.route('/shop/:shopid/:itemid').get(async (req, res) => {
   const shopSearch = req.params.shopid;
   const itemSearch = req.params.itemid;
@@ -75,6 +197,77 @@ router.route('/shop/:shopid/:itemid').get(async (req, res) => {
     res.status(500).render('error',{error: e});
   }
 });
+
+router.route('/shop/:shopid/:itemid/edit')
+  .get(async (req, res) => {
+    res.render("itemEdit", {
+      title: "Item Edit"
+    });
+  })
+  .post(async (req, res) => {
+    let shopId
+    let name
+    let description
+    let price
+    let tags
+    let allergens
+    let updateItem
+    try{
+      shopId = valid.idCheck(req.body.shopId)
+      itemId = valid.idCheck(req.body.itemId)
+      name = valid.stringValidate(req.body.name)
+      description = valid.stringValidate(req.body.description)
+      price = req.body.price
+      price = parseNum(price)
+      valid.numCheck(price)
+      if(price < 1 || price > 5){
+        throw 'invalid rating'
+      }
+      if(!Number.isInteger(price)){
+        maxDecimal(price, 0)
+      }
+      tags = req.body.tags.trim()
+      tags = valid.arrayOfStrings(tags.split(","))
+      allergens = req.body.allergens.trim()
+      allergens = valid.arrayOfStrings(allergens.split(","))
+      updateItem = {
+        name,
+        description,
+        price,
+        tags,
+        allergens
+      }
+    }
+    catch(e){
+      return res.status(400).render("itemEdit", {
+        error: e.toString(),
+        title: "Item Edit",
+        name: name,
+        description: description,
+        price: price,
+        tags: req.body.tags.trim(),
+        allergens: req.body.allergens.trim()
+      });
+    }
+    try {
+      const item = await itemData.updateItem(
+        itemId,
+        updateItem
+      )
+      //req.session.user = user;
+      return res.redirect(`/shop/${shopId}/${item._id}`)
+    } catch (error) {
+      return res.status(500).render("itemEdit", {
+                error: error.toString(),
+                title: "Add Shop",
+                name: name,
+                description: address,
+                price: website,
+                tags: phoneNumber,
+                allergens: ownerId
+            });
+    }
+  })
 
 router.route('/account').get(async (req, res) => {
   try{
