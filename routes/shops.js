@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {shopData,itemData,reviewData} from '../data/index.js'
+import {shopData,itemData,reviewData, flagData} from '../data/index.js'
 import {sortLev} from '../valid.js'
 const router = Router();
 
@@ -174,29 +174,64 @@ router
     }
   })
 
-router.route('/shop/:shopid/:itemid').get(async (req, res) => {
-  const shopSearch = req.params.shopid;
-  const itemSearch = req.params.itemid;
-  if(!shopSearch || (shopSearch.trim().length === 0)){
-    return res.status(400).render('error', {error: 'Must input shop search id'});
-  }
-  if(!itemSearch || (itemSearch.trim().length === 0)){
-    return res.status(400).render('error', {error: 'Must input item search id'});
-  }
-  try {
-    const shopResult = await shopData.getShop(shopSearch);
-    if (!shopResult.Title){
-      return res.status(404).render('error',{error: `No shop with ID ${shopSearch} found`});
+router//need to add authentication with getting userId from cookies and making sure its the right user
+  .route('/shop/:shopId/flagForm')
+  .get(async (req, res) => {
+    res.render("flagForm", {
+      title: "Flag Form"
+    });
+  })
+  .post(async (req, res) => {
+    let shopId
+    let userId
+    let flagReason
+    try{
+      shopId = valid.idCheck(req.body.shopId)
+      flagReason = valid.stringValidate(req.body.flagReason)
     }
-    const itemResult = await itemData.itemShop(itemSearch);
-    if (!itemResult.Title){
-      return res.status(404).render('error',{error: `No shop with ID ${itemSearch} found`});
+    catch(e){
+      return res.status(400).render("flagForm", {
+        error: e.toString(),
+        title: "Flag Form",
+        flagReason: flagReason
+      });
     }
-    res.render('itemPage', {shop:shopResult, items:itemResult});
-  } catch(e){
-    res.status(500).render('error',{error: e});
-  }
-});
+    try {
+      const flag = await flagData.createFlag(
+        shopId,
+        userId,
+        flagReason
+      )
+      //req.session.user = user;
+      return res.redirect(`/shop/${shopId}/flag/${flag._id}`)
+    } catch (error) {
+      return res.status(500).render("flagForm", {
+              error: e.toString(),
+              title: "Flag Form",
+              flagReason: flagReason
+            });
+    }
+  })
+
+
+router
+  .route('/shop/:shopId/flag/:flagId')
+  .get(async (req, res) => {
+    let shopId
+    let flagId
+    try {
+      shopId = valid.idCheck(req.params.shopId)
+      flagId = valid.idCheck(req.params.flagId)
+    } catch (e) {
+      return res.status(400).json({error: e});
+    }
+    try {
+      const flag = await flagData.getFlag(flagId);
+      return res.status(200).json(flag);
+    } catch (e) {
+      return res.status(404).json({error: e});
+    }
+  });
 
 router.route('/shop/:shopid/:itemid/edit')
   .get(async (req, res) => {

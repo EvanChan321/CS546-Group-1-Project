@@ -260,7 +260,7 @@ router
         updateObject
       )
       //req.session.user = user;
-      return res.redirect(`/user/${user._id}`)
+      return res.redirect(`/`)
     } catch (error) {
       return res.status(500).render("userDelete", {
               error: error.toString(),
