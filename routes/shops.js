@@ -1,5 +1,5 @@
 import {Router} from 'express';
-import {shopData,itemData,reviewData, flagData} from '../data/index.js'
+import {shopData,itemData,reviewData, flagData, userData} from '../data/index.js'
 import {sortLev} from '../valid.js'
 const router = Router();
 
@@ -105,6 +105,34 @@ router.route('/shop/:id').get(async (req, res) => {
     res.render('shopPage', {shop:searchResult, items:storeItems, reviews:storeReviews});
   } catch(e){
     res.status(500).render('error',{error: e});
+  }
+})
+
+.post(async (req, res) => {
+  let userId //need from cookies
+  let shopId
+  try{
+    userId = valid.idCheck(userId) //cookie eventually
+    shopId = valid.idCheck(req.param.id)
+  }catch(e){
+    return res.status(400).render('shopPage', {
+      error: e.toString(), 
+    })    
+  }
+  try{
+    const user = userData.getUser(userId)
+    let updatedLike
+    if(user.bookmarks.includes(shopId)){
+      updatedLike = userData.likeShop(userId, shopId)
+    }
+    else{
+      updatedLike  = userData.unlikeShop(userId, shopId)
+    }
+    return res.render('shopPage', updatedLike)
+  }catch(e){
+    return res.status(500).render('shopPage', {
+      error: e.toString(), 
+    })  
   }
 });
 

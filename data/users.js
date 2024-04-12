@@ -85,7 +85,7 @@ const likeShop = async (userId, shopId) => {
     if (!updatedShop) {
       throw 'could not update product successfully';
     }
-    return updatedUser
+    return updatedShop
 }
 
 const unlikeShop = async (userId, shopId) => {
