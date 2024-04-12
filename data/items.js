@@ -35,7 +35,7 @@ const createItem = async (shopId, name, description, price, tags, allergens) => 
     throw 'invalid rating'
   }
   if(!Number.isInteger(price)){
-    maxDecimal(price, 2)
+    maxDecimal(price, 0)
   }
   tags = valid.arrayOfStrings(tags)
   allergens = valid.arrayOfStrings(allergens)
@@ -79,7 +79,7 @@ const updateItem = async (itemId, updateObject) => {
       throw 'invalid rating'
     }
     if(!Number.isInteger(price)){
-      maxDecimal(price, 2)
+      maxDecimal(price, 0)
     }
     item.description = updateObject.description
   }
