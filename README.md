@@ -25,5 +25,5 @@ The goal of this website is to create a Boba shop-specific review website. Inspi
 ## Authors
 Evan Cheng
 Matthew Angelakos
-Chris Arias
+Christopher Arias
 Elliot Oscar Niemann
