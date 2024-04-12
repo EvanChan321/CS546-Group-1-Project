@@ -24,6 +24,10 @@ const createUser = async (name, password, email, zipcode, accountType) => {
     name = valid.stringValidate(name)
     email = valid.emailCheck(email)
     const userCollection = await users();
+    const duplicateName = await userCollection.findOne({ name: name });
+    if (duplicateName) {
+        throw `an account with ${name} already exists`;
+    }
     const duplicateEmail = await userCollection.findOne({ email: email });
     if (duplicateEmail) {
         throw `an account with ${email} already exists`;
@@ -81,7 +85,7 @@ const likeShop = async (userId, shopId) => {
     if (!updatedShop) {
       throw 'could not update product successfully';
     }
-    return updatedUser
+    return updatedShop
 }
 
 const unlikeShop = async (userId, shopId) => {
@@ -120,7 +124,11 @@ const updateUser = async (userId, updateObject) => {
     const userCollection = await users()
     if('name' in updateObject){
         updateObject.name = valid.stringValidate(updateObject.name)
-        user.bio = updateObject.bio
+        const duplicateName = await userCollection.findOne({ name: updateObject.name });
+        if (duplicateName) {
+            throw `an account with ${name} already exists`;
+        }
+        user.name = updateObject.name
     }
     if('password' in updateObject){
         updateObject.oldPassword = valid.passwordCheck(updateObject.oldPassword)
@@ -135,7 +143,7 @@ const updateUser = async (userId, updateObject) => {
     if('email' in updateObject){
         if(updateObject.email !== user.email){
             updateObject.email = valid.emailCheck(updateObject.email)
-            const duplicateEmail = await userCollection.findOne({ email: email });
+            const duplicateEmail = await userCollection.findOne({ email: updateObject.email });
             if (duplicateEmail) {
                 throw `an account with ${email} already exists`;
             }
@@ -171,10 +179,15 @@ const updateUser = async (userId, updateObject) => {
     return updatedInfo
 }
 
-const removeUser = async (userId) => {
+const removeUser = async (userId, password) => {
     userId = valid.idCheck(userId)
+    password = valid.passwordCheck(password)
     const user = await this.getUser(userId)
     const userCollection = await users();
+    const isRightPassword = await valid.verifyPassword(password, user.password)
+    if(!isRightPassword){
+        throw "incorrect password"
+    }
     user.reviews.forEach(function(review) {
         reviewData.removeReview(review);
     });

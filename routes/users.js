@@ -232,5 +232,43 @@ router
             });
     }
   })
+
+router
+  .route('/:userId/delete')
+  .get(async (req, res) => {
+    res.render("userDelete", {
+      title: "User Delete"
+    });
+  })
+  .post(async (req, res) => {
+    let userPassword
+    let userId
+    try{
+      userId = valid.idCheck(req.params.userId)
+      userPassword = valid.passwordCheck(req.body.password)
+    }
+    catch(e){
+      return res.status(400).render("userDelete", {
+        error: e.toString(),
+        title: "User Delete",
+        password: userPassword
+      });
+    }
+    try {
+      const user = await userData.removeUser(
+        userId,
+        updateObject
+      )
+      //req.session.user = user;
+      return res.redirect(`/`)
+    } catch (error) {
+      return res.status(500).render("userDelete", {
+              error: error.toString(),
+              title: "User Delete",
+              password: userPassword
+            });
+    }
+  })
+
   //eventually need to add authentication
 export default router;
