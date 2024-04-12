@@ -172,5 +172,65 @@ router
     }
   });
 
+router
+  .route('/:userId/edit')
+  .get(async (req, res) => {
+    res.render("userEdit", {
+      title: "User Edit"
+    });
+  })
+  .post(async (req, res) => {
+    let userName
+    let userPassword
+    let userBio
+    let userZipcode
+    let updateObject
+    let userId
+    try{
+      userId = valid.idCheck(req.params.userId)
+      userName = valid.stringValidate(req.body.username)
+      userBio = valid.stringValidate(req.body.bio)
+      userPassword = valid.passwordCheck(req.body.password)
+      userOldPassword = valid.passwordCheck(req.body.oldPassword)
+      userZipcode = valid.stringValidate(req.body.zipcode)
+      valid.zipcodeCheck(userZipcode)
+      updateObject = {
+        name: userName,
+        password: userPassword,
+        oldPassword: userOldPassword,
+        bio: userBio,
+        zipcode: userZipcode
+      }
+    }
+    catch(e){
+      return res.status(400).render("userEdit", {
+        error: e.toString(),
+        title: "User Edit",
+        username: userName,
+        password: userPassword,
+        oldPassword: userOldPassword,
+        bio: userBio,
+        zipcode: userZipcode
+      });
+    }
+    try {
+      const user = await userData.updateUser(
+        userId,
+        updateObject
+      )
+      //req.session.user = user;
+      return res.redirect(`/user/${user._id}`)
+    } catch (error) {
+      return res.status(500).render("userEdit", {
+              error: error.toString(),
+              title: "User Edit",
+              username: userName,
+              password: userPassword,
+              oldPassword: userOldPassword,
+              bio: userBio,
+              zipcode: userZipcode
+            });
+    }
+  })
   //eventually need to add authentication
 export default router;

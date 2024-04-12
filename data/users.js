@@ -123,8 +123,14 @@ const updateUser = async (userId, updateObject) => {
         user.bio = updateObject.bio
     }
     if('password' in updateObject){
-        updateObject.password = valid.stringValidate(updateObject.password)
-        user.password = updateObject.password
+        updateObject.oldPassword = valid.passwordCheck(updateObject.oldPassword)
+        updateObject.password = valid.passwordCheck(updateObject.password)
+        const isRightPassword = await valid.verifyPassword(updateObject.oldPassword, user.password)
+        if(!isRightPassword){
+            throw "passwords don't match"
+        }
+        const hashedPassword = await bcryptjs.hash(updateObject.password, 12);
+        user.password = hashedPassword
     }
     if('email' in updateObject){
         if(updateObject.email !== user.email){
