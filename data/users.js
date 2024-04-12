@@ -24,6 +24,10 @@ const createUser = async (name, password, email, zipcode, accountType) => {
     name = valid.stringValidate(name)
     email = valid.emailCheck(email)
     const userCollection = await users();
+    const duplicateName = await userCollection.findOne({ name: name });
+    if (duplicateName) {
+        throw `an account with ${name} already exists`;
+    }
     const duplicateEmail = await userCollection.findOne({ email: email });
     if (duplicateEmail) {
         throw `an account with ${email} already exists`;
@@ -120,7 +124,11 @@ const updateUser = async (userId, updateObject) => {
     const userCollection = await users()
     if('name' in updateObject){
         updateObject.name = valid.stringValidate(updateObject.name)
-        user.bio = updateObject.bio
+        const duplicateName = await userCollection.findOne({ name: updateObject.name });
+        if (duplicateName) {
+            throw `an account with ${name} already exists`;
+        }
+        user.name = updateObject.name
     }
     if('password' in updateObject){
         updateObject.oldPassword = valid.passwordCheck(updateObject.oldPassword)
@@ -135,7 +143,7 @@ const updateUser = async (userId, updateObject) => {
     if('email' in updateObject){
         if(updateObject.email !== user.email){
             updateObject.email = valid.emailCheck(updateObject.email)
-            const duplicateEmail = await userCollection.findOne({ email: email });
+            const duplicateEmail = await userCollection.findOne({ email: updateObject.email });
             if (duplicateEmail) {
                 throw `an account with ${email} already exists`;
             }

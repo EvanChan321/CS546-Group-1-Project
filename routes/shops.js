@@ -79,7 +79,7 @@ router
     }
   })
 
-router.route('/shops/:search').get(async (req, res) => {
+router.route('/shops/search/:search').get(async (req, res) => {
   try{
     const shops = await shopData.getAllShops();
     const search = req.params.search;
@@ -233,6 +233,25 @@ router
     }
   });
 
+router
+  .route('/shop/:shopId/flag/:flagId/delete')
+  .get(async (req, res) => {
+    let shopId
+    let flagId
+    try {
+      shopId = valid.idCheck(req.params.shopId)
+      flagId = valid.idCheck(req.params.flagId)
+    } catch (e) {
+      return res.status(400).json({error: e});
+    }
+    try {
+      const flag = await flagData.deleteFlag(flagId);
+      return res.redirect(`/shop/${shopId}`)
+    } catch (e) {
+      return res.status(404).json({error: e});
+    }
+  });
+
 router.route('/shop/:shopid/:itemid/edit')
   .get(async (req, res) => {
     res.render("itemEdit", {
@@ -303,6 +322,25 @@ router.route('/shop/:shopid/:itemid/edit')
             });
     }
   })
+
+router
+  .route('/shop/:shopId/item/:itemId/delete')
+  .get(async (req, res) => {
+    let shopId
+    let itemId
+    try {
+      shopId = valid.idCheck(req.params.shopId)
+      itemId = valid.idCheck(req.params.itemId)
+    } catch (e) {
+      return res.status(400).json({error: e});
+    }
+    try {
+      const item = await itemData.item(itemId);
+      return res.redirect(`/shop/${shopId}`)
+    } catch (e) {
+      return res.status(404).json({error: e});
+    }
+  });
 
 router.route('/account').get(async (req, res) => {
   try{
