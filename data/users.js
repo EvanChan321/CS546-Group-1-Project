@@ -171,10 +171,15 @@ const updateUser = async (userId, updateObject) => {
     return updatedInfo
 }
 
-const removeUser = async (userId) => {
+const removeUser = async (userId, password) => {
     userId = valid.idCheck(userId)
+    password = valid.passwordCheck(password)
     const user = await this.getUser(userId)
     const userCollection = await users();
+    const isRightPassword = await valid.verifyPassword(password, user.password)
+    if(!isRightPassword){
+        throw "incorrect password"
+    }
     user.reviews.forEach(function(review) {
         reviewData.removeReview(review);
     });
