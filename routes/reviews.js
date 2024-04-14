@@ -19,8 +19,52 @@ router
         return res.status(404).json({error: e});
     }
   })
-  .post(async (req, res) => { 
-    //implement
+  .post(async (req, res) => {
+    let userId //need to verify it is the user
+    let title
+    let rating
+    let review
+    let edited
+    let reviewId
+    try{
+      reviewId = valid.idCheck(req.params.reviewId)
+      userId
+      title = valid.stringValidate(req.body.title)
+      rating = parseNum(req.body.rating)
+      intCheck(rating)
+      review = valid.stringValidate(req.body.review)
+      edited = true
+    }
+    catch(e){
+      return res.status(400).render("review", {
+        error: e.toString(),
+        titlePage: "Review",
+        title: title,
+        rating: flagReason,
+        review: review
+      });
+    }
+    try {
+      let updateObject = {
+        title: title,
+        rating: rating,
+        review: review,
+        edited: edited
+      }
+      const review = await reviewData.updateReview(
+        reviewId,
+        updateObject
+      )
+      return res.redirect(`/review/${review._id}`)
+    } catch (error) {
+      return res.status(500).render("review", {
+              error: e.toString(),
+              titlePage: "Review",
+              title: title,
+              rating: flagReason,
+              review: review
+            });
+    }
   })
   .delete(async (req, res) => {
     let reviewId
@@ -35,12 +79,11 @@ router
     }
     try {
       const user = await reviewData.removeReview(reviewId)
-      //req.session.user = user;
       return res.redirect(`/user/${user._id}`)
     } catch (error) {
       return res.status(500).render("review", {
               error: error.toString(),
-              title: "Rseview"
+              title: "Review"
             });
     }
   });
@@ -60,7 +103,35 @@ router
     } catch (e) {
         return res.status(404).json({error: e});
     }
-  });
+  })
+  .post(async (req, res) => { 
+    let reviewId
+    let userId
+    let comment
+    try{
+      reviewId = valid.idCheck(req.params.reviewId)
+      userId //implement 
+      comment = valid.stringValidate(req.body.comment)
+    }
+    catch(e){
+      return res.status(400).render("review", {
+        error: e.toString(),
+        title: "Review",
+        comment: comment
+      });
+    }
+    try{
+      const comment = await commentData.createComment(userId, reviewId, comment)
+      return res.redirect(`/${reviewId}/comments`)
+    }
+    catch(e){
+      return res.status(400).render("review", {
+        error: e.toString(),
+        title: "Review",
+        comment: comment
+      });
+    }
+  })
 
 
 export default router;
