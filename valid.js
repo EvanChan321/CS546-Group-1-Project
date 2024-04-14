@@ -2,6 +2,7 @@ import { ObjectId } from "mongodb";
 import validator from 'validator';
 import { phone } from "phone";
 import bcryptjs from 'bcryptjs';
+import { Geocoder } from "node-geocoder";
 export function numCheck (num) {
     if (typeof(num) !== 'number'){
         throw (`${num} is not a number`);
@@ -113,13 +114,6 @@ export function maxDecimal (val, num) {
     }
 }
 
-export function zipcodeCheck(val) {
-    const zipRegex = /^\d{5}(?:[-\s]\d{4})?$/;
-    if(!zipRegex.test(val)){
-        throw 'invalid zip'
-    }
-}
-
 export async function verifyPassword(password, hash) {
     const right = await bcryptjs.compare(password, hash);
     return right
@@ -159,4 +153,18 @@ export function calculateLevenshtein(store,search,x,y) {
         calculateLevenshtein(store,search,x-1,y),
         calculateLevenshtein(store,search,x-1,y-1),
     )
+}
+
+export async function getLatLong(address) {
+    address = stringValidate(address);
+    let apiKey = "need one"
+    let options = { provider: "google", apiKey: apiKey };
+    let geocoder = Geocoder(options);
+    let res = await geocoder.geocode(address);
+    if (!res || !res[0] || !res[0].latitude || !res[0].longitude) {
+        throw `Your address is invalid. Format as such
+        \n Example: 1234 Main St, City`;
+    } else {
+       return { lat: res[0].latitude, long: res[0].longitude };
+    }
 }

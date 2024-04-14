@@ -14,13 +14,12 @@ router
     let userName
     let userPassword
     let userEmail
-    let userZipcode
+    let userAddress
     try{
       userName = valid.stringValidate(req.body.username)
       userPassword = valid.passwordCheck(req.body.password)
       userEmail = valid.emailCheck(req.body.email)
-      userZipcode = valid.stringValidate(req.body.zipcode)
-      valid.zipcodeCheck(userZipcode)
+      userAddress = valid.stringValidate(req.body.address)
     }
     catch(e){
       return res.status(400).render("signup", {
@@ -29,7 +28,7 @@ router
         username: userName,
         password: userPassword,
         email: userEmail,
-        zipcode: userZipcode
+        address: userAddress
       });
     }
     try {
@@ -37,7 +36,7 @@ router
         userName,
         userPassword,
         userEmail,
-        userZipcode,
+        userAddress,
         "Default"
       )
       //req.session.user = user;
@@ -49,7 +48,7 @@ router
               username: userName,
               password: userPassword,
               email: userEmail,
-              zipcode: userZipcode
+              address: userAddress
             });
     }
   })
@@ -65,13 +64,12 @@ router
     let userName
     let userPassword
     let userEmail
-    let userZipcode
+    let userAddress
     try{
       userName = valid.stringValidate(req.body.username)
       userPassword = valid.passwordCheck(req.body.password)
       userEmail = valid.emailCheck(req.body.email)
-      userZipcode = valid.stringValidate(req.body.zipcode)
-      valid.zipcodeCheck(userZipcode)
+      userAddress = valid.stringValidate(req.body.address)
     }
     catch(e){
       return res.status(400).render("signup", {
@@ -80,7 +78,7 @@ router
         username: userName,
         password: userPassword,
         email: userEmail,
-        zipcode: userZipcode
+        address: userAddress
       });
     }
     try {
@@ -88,7 +86,7 @@ router
         userName,
         userPassword,
         userEmail,
-        userZipcode,
+        userAddress,
         "Business"
       )
       //req.session.user = user;
@@ -100,7 +98,7 @@ router
               username: userName,
               password: userPassword,
               email: userEmail,
-              zipcode: userZipcode
+              address: userAddress
             });
     }
   })
@@ -183,7 +181,7 @@ router
     let userName
     let userPassword
     let userBio
-    let userZipcode
+    let userAddress
     let updateObject
     let userId
     try{
@@ -192,14 +190,13 @@ router
       userBio = valid.stringValidate(req.body.bio)
       userPassword = valid.passwordCheck(req.body.password)
       userOldPassword = valid.passwordCheck(req.body.oldPassword)
-      userZipcode = valid.stringValidate(req.body.zipcode)
-      valid.zipcodeCheck(userZipcode)
+      userAddress = valid.stringValidate(req.body.address)
       updateObject = {
         name: userName,
         password: userPassword,
         oldPassword: userOldPassword,
         bio: userBio,
-        zipcode: userZipcode
+        address: userAddress
       }
     }
     catch(e){
@@ -210,7 +207,7 @@ router
         password: userPassword,
         oldPassword: userOldPassword,
         bio: userBio,
-        zipcode: userZipcode
+        address: userAddress
       });
     }
     try {
@@ -228,7 +225,7 @@ router
               password: userPassword,
               oldPassword: userOldPassword,
               bio: userBio,
-              zipcode: userZipcode
+              address: userAddress
             });
     }
   })
@@ -240,7 +237,7 @@ router
       title: "User Delete"
     });
   })
-  .post(async (req, res) => {
+  .delete(async (req, res) => {
     let userPassword
     let userId
     try{
@@ -255,10 +252,7 @@ router
       });
     }
     try {
-      const user = await userData.removeUser(
-        userId,
-        updateObject
-      )
+      const user = await userData.removeUser(userId)
       //req.session.user = user;
       return res.redirect(`/`)
     } catch (error) {

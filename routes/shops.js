@@ -1,6 +1,6 @@
 import {Router} from 'express';
 import {shopData,itemData,reviewData, flagData, userData} from '../data/index.js'
-import {sortLev} from '../valid.js'
+import {intCheck, sortLev} from '../valid.js'
 const router = Router();
 
 
@@ -107,7 +107,6 @@ router.route('/shop/:id').get(async (req, res) => {
     res.status(500).render('error',{error: e});
   }
 })
-
 .post(async (req, res) => {
   let userId //need from cookies
   let shopId
@@ -203,6 +202,56 @@ router
   })
 
 router//need to add authentication with getting userId from cookies and making sure its the right user
+  .route('/shop/:shopId/reviewForm')
+  .get(async (req, res) => {
+    res.render("reviewForm", {
+      title: "Review Form"
+    });
+  })
+  .post(async (req, res) => {
+    let shopId
+    let userId
+    let title
+    let rating
+    let review
+    try{
+      shopId = valid.idCheck(req.body.shopId)
+      title = valid.stringValidate(req.body.title)
+      rating = parseNum(req.body.rating)
+      intCheck(rating)
+      review = valid.stringValidate(req.body.review)
+    }
+    catch(e){
+      return res.status(400).render("reviewForm", {
+        error: e.toString(),
+        titlePage: "Review Form",
+        title: title,
+        rating: flagReason,
+        review: review
+      });
+    }
+    try {
+      const review = await reviewData.createReview(
+        userId,
+        shopId,
+        title,
+        rating,
+        review
+      )
+      //req.session.user = user;
+      return res.redirect(`/review/${review._id}`)
+    } catch (error) {
+      return res.status(500).render("reviewForm", {
+              error: e.toString(),
+              titlePage: "Review Form",
+              title: title,
+              rating: flagReason,
+              review: review
+            });
+    }
+  })
+
+router//need to add authentication with getting userId from cookies and making sure its the right user
   .route('/shop/:shopId/flagForm')
   .get(async (req, res) => {
     res.render("flagForm", {
@@ -241,7 +290,6 @@ router//need to add authentication with getting userId from cookies and making s
     }
   })
 
-
 router
   .route('/shop/:shopId/flag/:flagId')
   .get(async (req, res) => {
@@ -259,11 +307,8 @@ router
     } catch (e) {
       return res.status(404).json({error: e});
     }
-  });
-
-router
-  .route('/shop/:shopId/flag/:flagId/delete')
-  .get(async (req, res) => {
+  })
+  .delete(async (req, res) => {
     let shopId
     let flagId
     try {

@@ -24,6 +24,7 @@
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
     "mongodb": "^6.5.0",
+    "node-geocoder": "^4.3.0",
     "phone": "^3.1.42",
     "validator": "^13.11.0"
   }
