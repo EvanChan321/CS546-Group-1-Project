@@ -29,7 +29,7 @@ router
         return res.status(400).json({error: e});
     }
     try {
-        const comments = await commentData.getAllCommentsFromReview(reviewId);
+        const comments = await commentData.getAllCommentsFromReview(reviewId).map((comment) => commentData.getComment(comment));
         return res.status(200).render('commentsPage',{comments: comments});
     } catch (e) {
         return res.status(404).render('error',{error: e});
