@@ -14,9 +14,9 @@ router
     }
     try {
         const review = await reviewData.getReview(reviewId);
-        return res.status(200).json(review);
+        return res.status(200).render('reviewPage',{review: review});
     } catch (e) {
-        return res.status(404).json({error: e});
+        return res.status(404).render('error',{error: e});
     }
   });
 router
@@ -30,9 +30,9 @@ router
     }
     try {
         const comments = await commentData.getAllCommentsFromReview(reviewId);
-        return res.status(200).json(comments);
+        return res.status(200).render('commentsPage',{comments: comments});
     } catch (e) {
-        return res.status(404).json({error: e});
+        return res.status(404).render('error',{error: e});
     }
   });
 
