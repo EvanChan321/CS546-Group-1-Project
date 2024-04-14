@@ -1,14 +1,8 @@
-function collapse() {
-    let expandableTrigger = document.getElementsByClassName("expandable");
-    for (let i = 0; i < expandableTrigger.length; i++) {
-        expandableTrigger[i].addEventListener("click", function() {
-            this.classList.toggle("active");
-            let expandableSection = this.nextElementSibling;
-            if (expandableSection.style.maxHeight) {
-                expandableSection.style.maxHeight = null;
-            } else {
-                expandableSection.style.maxHeight = expandableSection.scrollHeight + "px";
-            }
-        });
+function toggleContent(contentId) {
+    const content = document.getElementById(contentId);
+    if (content.style.display === 'block') {
+        content.style.display = 'none';
+    } else {
+        content.style.display = 'block';
     }
 }
