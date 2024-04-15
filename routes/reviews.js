@@ -67,7 +67,7 @@ router
     }
   })
   .delete(async (req, res) => {
-    let reviewId
+    let reviewId //need to eventually verify if user that made it or an admin
     try{
       reviewId = valid.idCheck(req.params.reviewId)
     }
@@ -133,5 +133,39 @@ router
     }
   })
 
+router
+  .route('/:reviewId/comment/:commentId')
+  .get(async (req, res) => {
+    let reviewId
+    try {
+        reviewId = valid.idCheck(req.params.reviewId)
+        commentId = valid.idCheck(req.params.commentId)
+    } catch (e) {
+        return res.status(400).json({error: e});
+    }
+    try {
+        const comment = await commentData.getComment(commentId);
+        return res.status(200).json(comment);
+    } catch (e) {
+        return res.status(404).json({error: e});
+    }
+  })
+  .delete(async (req, res) => {
+    let reviewId //verify if admin
+    let commentId
+    try{
+      reviewId = valid.idCheck(req.params.reviewId)
+      commentId = valid.idCheck(req.params.commentId)
+    }
+    catch(e){
+      return res.status(400).json({error: e});
+    }
+    try {
+      const comment = await commentData.removeComment(commentId)
+      return res.redirect(`/${reviewId}/comments`)
+    } catch (error) {
+      return res.status(500).json({error: e});
+    }
+  });
 
 export default router;

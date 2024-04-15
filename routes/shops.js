@@ -133,7 +133,35 @@ router.route('/shop/:id').get(async (req, res) => {
       error: e.toString(), 
     })  
   }
-});
+})
+.delete(async (req, res) => {
+  let userPassword //verify if its an admin or the owner account 
+  let userId
+  let shopId
+  try{
+    userId //= valid.idCheck(req.params.userId)
+    userPassword //= valid.passwordCheck(req.body.password)
+    shopId = valid.idCheck(req.params.id)
+  }
+  catch(e){
+    return res.status(400).render("shopPage", {
+      error: e.toString(),
+      title: "Shop",
+      password: userPassword
+    });
+  }
+  try {
+    const info = await shopData.removeShop(shopId)
+    //req.session.user = user;
+    return res.redirect(`/shops`)
+  } catch (error) {
+    return res.status(500).render("shopPage", {
+            error: error.toString(),
+            title: "Shop",
+            password: userPassword
+          });
+  }
+})
 
 router
   .route('/shop/:shopId/itemForm')
@@ -309,7 +337,7 @@ router
     }
   })
   .delete(async (req, res) => {
-    let shopId
+    let shopId //verify if admin
     let flagId
     try {
       shopId = valid.idCheck(req.params.shopId)
@@ -325,7 +353,43 @@ router
     }
   });
 
-router.route('/shop/:shopid/:itemid/edit')
+router
+  .route('/shop/:shopId/item/:itemId')
+  .get(async (req, res) => {
+    let shopId
+    let itemId
+    try {
+      shopId = valid.idCheck(req.params.shopId)
+      itemId = valid.idCheck(req.params.itemId)
+    } catch (e) {
+      return res.status(400).json({error: e});
+    }
+    try {
+      const item = await itemData.getItem(itemId);
+      return res.status(200).json(item);
+    } catch (e) {
+      return res.status(404).json({error: e});
+    }
+  })
+  .delete(async (req, res) => {
+    let shopId //verify if admin
+    let itemId
+    let userId //implement: verify if admin or owner 
+    try {
+      shopId = valid.idCheck(req.params.shopId)
+      itemId = valid.idCheck(req.params.itemId)
+    } catch (e) {
+      return res.status(400).json({error: e});
+    }
+    try {
+      const item = await itemData.deleteItem(itemId);
+      return res.redirect(`/shop/${shopId}`)
+    } catch (e) {
+      return res.status(404).json({error: e});
+    }
+  });
+  
+router.route('/shop/:shopid/:itemId/edit')
   .get(async (req, res) => {
     res.render("itemEdit", {
       title: "Item Edit"
@@ -395,25 +459,6 @@ router.route('/shop/:shopid/:itemid/edit')
             });
     }
   })
-
-router
-  .route('/shop/:shopId/item/:itemId/delete')
-  .get(async (req, res) => {
-    let shopId
-    let itemId
-    try {
-      shopId = valid.idCheck(req.params.shopId)
-      itemId = valid.idCheck(req.params.itemId)
-    } catch (e) {
-      return res.status(400).json({error: e});
-    }
-    try {
-      const item = await itemData.item(itemId);
-      return res.redirect(`/shop/${shopId}`)
-    } catch (e) {
-      return res.status(404).json({error: e});
-    }
-  });
 
 router.route('/account').get(async (req, res) => {
   try{
