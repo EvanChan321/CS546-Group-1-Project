@@ -20,7 +20,7 @@ const getUser = async (id) => {
     return findUser
 }
 
-const createUser = async (name, password, email, zipcode, accountType) => {
+const createUser = async (name, password, email, address, accountType) => {
     name = valid.stringValidate(name)
     email = valid.emailCheck(email)
     const userCollection = await users();
@@ -34,8 +34,7 @@ const createUser = async (name, password, email, zipcode, accountType) => {
     }
     password = valid.passwordCheck(password)
     const hashedPassword = await bcryptjs.hash(password, 12);
-    zipcode = valid.stringValidate(zipcode)
-    valid.zipcodeCheck(zipcode)
+    address = valid.stringValidate(address)
     accountType = valid.stringValidate(accountType)
     if (accountType !== "Admin" && accountType !== "Business" && accountType !== "Default") {
         throw 'invalid account type'
@@ -45,7 +44,7 @@ const createUser = async (name, password, email, zipcode, accountType) => {
         password: hashedPassword,
         email: email,
         bio: "",
-        zipcode: zipcode,
+        address: address,
         accountType: accountType,
         reviews: [],
         comments: [],
@@ -156,10 +155,9 @@ const updateUser = async (userId, updateObject) => {
             user.bio = updateObject.bio
         }
     }
-    if('zipcode' in updateObject){
-        updateObject.zipcode = valid.stringValidate(updateObject.zipcode)
-        valid.zipcodeCheck(updateObject.zipcode)
-        user.zipcode = updateObject.zipcode
+    if('address' in updateObject){
+        updateObject.address = valid.stringValidate(updateObject.address)
+        user.address = updateObject.address
     }
     if('accountType' in updateObject){
         updateObject.accountType = valid.stringValidate(updateObject.accountType)
