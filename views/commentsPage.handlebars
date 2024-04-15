@@ -1,0 +1,15 @@
+<main>
+    <h1>Comments: </h1>
+    <ul>
+    {{#each comments}}
+        <li>
+            <p>{{this.comment}}</p>
+            <p>{{this.reviewDate}}</p>
+            {{#if this.edited}}
+            <p>Edited</p>
+            {{/if}}
+            <p><a href="/{{this.id}}">Comment Page</a></p>
+        </li>
+    {{/each}}
+    </ul>
+</main>
