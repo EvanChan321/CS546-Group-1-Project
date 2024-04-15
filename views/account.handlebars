@@ -1,5 +1,6 @@
 <main>
     <h2>Account name{{username}}</h2>
+    <script src="../clientside.js"></script>
     <section>
         <h3>Account Settings</h3>
         <dl>
@@ -26,8 +27,10 @@
                         <td><p>Rating: {{rating}}</p><br>
                             <p>Date: {{reviewDate}}<br>
                             <p class="review-body">{{review}}</p>
-                            <table class="comment-table">
-                            {{#each comments}} <!--we will need to make this collapseable https://www.w3schools.com/howto/howto_js_collapsible.asp-->
+                            <button onclick="toggleContent('toggledComments')">Show Comments</button>
+                            <div id="toggleComments" style="display: none;">
+                            <ul>
+                            {{#each comments}}
                                 <li>
                                     <p>Username: {{username}}</p> <br>
                                     <p>Date: {{commentDate}}</p> <br>
@@ -35,6 +38,7 @@
                                 </li>
                             {{/each}}
                             </ul>
+                            </div>
                         </td>
                     </tr>
                 {{/each}}

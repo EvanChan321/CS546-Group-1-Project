@@ -1,0 +1,13 @@
+<head>
+    <title>{{review.title}}</title>
+</head>
+<main>
+    <h1>{{review.title}}</h1>
+    <h2>{{review.rating}}</h2>
+    <p>{{review.review}}</p>
+    <p>Posted on: {{review.date}}</p>
+    {{#if review.edited}}
+    <p>Edited</p>
+    {{/if}}
+    <a href="/{{review.id}}/comments">See Comments</a>
+</main>

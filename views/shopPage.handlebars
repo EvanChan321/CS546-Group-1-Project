@@ -5,6 +5,7 @@
 </head>
 <body>
     <main>
+        <script src="../clientside.js"></script>
         <h1>{{shop.name}}</h1>
         <h2>Details:</h2>
         <ul>
@@ -14,20 +15,35 @@
             <li><p>Average Rating: {{shop.averageRating}}</p></li>
         </ul>
         <h2>Menu:</h2>
-        <ul>
+        <button onclick="toggleContent('toggledMenu')">Display Menu</button>
+        <div id="toggleMenu" style="display: none;">
+        <table>
+            <tr>
+                <th>Item</th>
+                </th>Price</th>
+                </th>Page Link</th>
+            </tr>
         {{#each items}}
-            <li><a href="/item/{{this.id}}">{{this.name}}, {{this.price}}</a></li>
+            <tr>
+                <td>{{this.name}}</td>
+                <td>{{this.price}}</td>
+                <td><a href="/item/{{this.id}}">Page</a></td>
+            </tr>
         {{/each}}
-        </ul>
+        </table>
+        </div>
         <h2>Reviews:</h2>
+        <button onclick="toggleContent('toggledReviews')">Display Menu</button>
+        <div id="toggleReviews" style="display: none;">
         <ul>
         {{#each reviews}}
             <li>
-                <a href="/review/{{this.id}}"><dt>this.review</dt></a>
+                <a href="/review/{{this.id}}"><dt>this.title</dt></a>
                 <dd>this.rating</dd>
             </li>
         {{/each}}
         </ul>
+        </div>
     </main>
 </body>
 </html>
