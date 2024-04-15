@@ -2,7 +2,8 @@ import { ObjectId } from "mongodb";
 import validator from 'validator';
 import { phone } from "phone";
 import bcryptjs from 'bcryptjs';
-import { Geocoder } from "node-geocoder";
+import geocoder from 'node-geocoder';
+const { Geocoder } = geocoder;
 export function numCheck (num) {
     if (typeof(num) !== 'number'){
         throw (`${num} is not a number`);
