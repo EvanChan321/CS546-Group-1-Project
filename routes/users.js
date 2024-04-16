@@ -7,7 +7,10 @@ router
   .route('/signup')
   .get(async (req, res) => {
     res.render("signup", {
-      title: "User Signup"
+      title: "User Signup",
+      postTo: "",
+      type: "business",
+      link: "/business"
     });
   })
   .post(async (req, res) => {
@@ -57,7 +60,10 @@ router
   .route('/signup/business')
   .get(async (req, res) => {
     res.render("signup", {
-      title: "Business Signup"
+      title: "Business Signup",
+      postTo: "/business",
+      type: "user",
+      link: ""
     });
   })
   .post(async (req, res) => {
@@ -263,6 +269,5 @@ router
             });
     }
   })
-
   //eventually need to add authentication
 export default router;

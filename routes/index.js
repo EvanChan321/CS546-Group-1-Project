@@ -10,7 +10,7 @@ const constructorMethod = (app) => {
   app.use("/review", reviewRoutes)
   app.use("/comment", commentRoutes)
   app.use('*', (req, res) => {
-    return res.status(404).json({error: '404: Not Found'})
+    return res.status(404).render('error', {error: '404: Not Found'})
   });
 };
 
