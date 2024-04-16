@@ -1,7 +1,7 @@
 <main>
     <section style="text-align: center;">
         <form action="/user/signup" method="POST" style="display: inline-block; text-align: left;">
-            <label for="signup"><h2>Sign up to Boba Panda</h2></label>
+            <label for="signup"><h2>Sign up to Boba Fettch</h2></label>
             {{#if error}}
                 <p class="error">{{error}}</p>
             {{/if}}
@@ -15,6 +15,7 @@
             <input type="text" name="zipcode" id="zipcode" value="{{zipcode}}"><br>
             <button type="submit">Signup</button>
         </form>
+        <p><a href="/user/signup/business">Sign up for a Business account</a></p>
     </section>
 </main>
 

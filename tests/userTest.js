@@ -164,4 +164,25 @@ catch(e){
     console.log(e);
 }
 
+shop = {
+    name: "kung fu tea",
+    address: "536 Washington St, Hoboken, NJ, 070",
+    website: "google.com",
+    phoneNumber: "8286817074",
+}
+
+try {
+    shop = await shopData.createShop(
+        shop.name,
+        shop.address,
+        shop.website,
+        shop.phoneNumber,
+    );
+    console.log("shop created");
+    console.log(shop);
+} catch (e) {
+    console.log("Error creating shop");
+    console.log(e);
+}
+
 await closeConnection();

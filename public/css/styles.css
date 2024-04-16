@@ -25,6 +25,10 @@ p.comment-body {
     color: blue;
 }
 
+footer{
+    text-align: center;
+}
+
 input.search-bar {
     width: 80%;
     background-color: transparent;
@@ -38,14 +42,13 @@ input.search-bar {
 button {
     padding: 5px 10px;
     background-color: #ffffff;
-    border: 2px solid #ffffff;
+    border: 2px solid #000000;
     border-radius: 13px;
     cursor: pointer;
     font-size: 1rem;
 }
 
 button[type="submit"] {
-    padding: 5px 10px;
     border: 2px solid #000000;
     background-color: transparent;
     cursor: pointer;
@@ -78,4 +81,13 @@ img.search-button {
 
 form.signup {
     text-align: center;
+}
+
+a.static-link, a.static-link:visited {
+    color: #0000EE; 
+    text-decoration: none;
+}
+
+.error {
+    color: red;
 }

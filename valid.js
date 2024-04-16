@@ -90,13 +90,20 @@ export function phoneNumberCheck (val){
     return val.trim()
 }
 
+let options = {
+    minLength: 8,
+    minUppercase: 1,
+    minNumber: 1,
+    minSymbols: 1
+};
+
 export function passwordCheck (val){
     val = stringValidate(val)
     if (/\s/.test(val)) {
         throw "password cannot have spaces"
     }
-    if(!validator.isStrongPassword(val)){
-        throw "is not a strong password"
+    if(!validator.isStrongPassword(val, options)){
+        throw "Password must be 8 characters long and contain: 1 Uppercase 1 Number 1 Symbol"
     }
     return val
 }

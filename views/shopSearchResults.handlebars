@@ -7,16 +7,23 @@
     <main>
         <h1>List of nearby shops: </h1>
         <ol>
-            {{#each stores}}
+            {{#each shops}}
                 <li>
-                    <h2><a href="/shop/{{this.id}}">{{this.name}}</a></h2>
+                    <h2><a href="/shop/{{this._id}}">{{this.name}}</a></h2>
                     <ul>
                         <li><p>Address: {{this.address}}</p></li>
                         <li><p>Average Rating: {{this.averageRating}}</p></li>
+                        <li>tel: <a href="tel:{{this.phoneNumber}}">{{this.phoneNumber}}</a></li>
                     </ul>
                 </li>
             {{/each}}
         </ol>
+
+        <footer>
+            <a href="#top" class="static-link">Back to Top</a> | 
+            <a href="/" class="static-link">Search for another Store</a>
+        </footer>
+
     </main>
 </body>
 </html>
