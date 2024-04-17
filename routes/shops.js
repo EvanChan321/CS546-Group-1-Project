@@ -92,17 +92,22 @@ router.route('/shops/search').post(async (req, res) => {
 })
 
 router.route('/shop/:id').get(async (req, res) => {
-  const search = req.params.id;
+  const search = req.params.id.trim();
   if(!search || (search.trim().length === 0)){
     return res.status(400).render('error', {error: 'Must input search id'});
   } 
   try {
     const searchResult = await shopData.getShop(search);
-    if (!searchResult.Title){
+    if (!searchResult.name){
       return res.status(404).render('error',{error: `No shop with ID ${search} found`});
     }
-    const storeItems = searchResult.items.map((item) => itemData.getItem(item));
-    const storeReviews = searchResult.reviews.map((review) => reviewData.getReview(review));
+    const storeItemsPromises = searchResult.items.map(async (item) => await itemData.getItem(item.toString()));
+    const storeReviewsPromises = searchResult.reviews.map(async (review) => await reviewData.getReview(review.toString()));
+    const storeItems = await Promise.all(storeItemsPromises);
+    const storeReviews = await Promise.all(storeReviewsPromises);
+    console.log(searchResult)
+    console.log(storeItems)
+    console.log(storeReviews)
     res.render('shopPage', {shop:searchResult, items:storeItems, reviews:storeReviews});
   } catch(e){
     res.status(500).render('error',{error: e});
