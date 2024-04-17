@@ -148,14 +148,11 @@ router
 
 router
   .route('/logout')
-  .get(async (req, res) => {
-    res.render("logout", {title: "User Logout"});
-  })
   .post(async (req, res) => {
     if(req.session.user){
       delete req.session.user;
     }
-    res.redirect('/login')
+    res.redirect('/user/login')
   }) 
 
 router
