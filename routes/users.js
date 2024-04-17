@@ -22,7 +22,7 @@ router
       userName = valid.stringValidate(req.body.username)
       userPassword = valid.passwordCheck(req.body.password)
       userEmail = valid.emailCheck(req.body.email)
-      userAddress = valid.stringValidate(req.body.address)
+      userAddress = valid.stringValidate(req.body.zipcode)
     }
     catch(e){
       return res.status(400).render("signup", {
@@ -75,7 +75,7 @@ router
       userName = valid.stringValidate(req.body.username)
       userPassword = valid.passwordCheck(req.body.password)
       userEmail = valid.emailCheck(req.body.email)
-      userAddress = valid.stringValidate(req.body.address)
+      userAddress = valid.stringValidate(req.body.zipcode)
     }
     catch(e){
       return res.status(400).render("signup", {
@@ -153,7 +153,7 @@ router
     }
     try {
         const user = await userData.getUser(userId);
-        return res.status(200).render('user', {user: user});
+        return res.status(200).render('user', {user: user, title: "Profile"});
     } catch (e) {
         return res.status(404).json({error: e});
     }

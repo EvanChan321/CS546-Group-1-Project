@@ -1,5 +1,5 @@
 <main>
-    <section style="text-align: center;">
+    <section class="login">
         <form action="/user/signup{{postTo}}" method="POST" style="display: inline-block; text-align: left;">
             <label for="signup"><h2>Sign up to Boba Fettch</h2></label>
             {{#if error}}
@@ -8,12 +8,12 @@
             <label for="username">Username:</label><br>
             <input type="text" name="username" id="username" value="{{username}}" required><br>
             <label for="password">Password:</label><br>
-            <input type="text" name="password" id="password" value="{{password}}" required><br>  <!-- add confirm password-->
+            <input type="password" name="password" id="password" value="{{password}}" required><br>  <!-- add confirm password-->
             <label for="email">Email:</label><br>
             <input type="text" name="email" id="email" value="{{email}}" required><br>
             <label for="zipcode">Zipcode:</label><br>
             <input type="text" name="zipcode" id="zipcode" value="{{zipcode}}" required><br>
-            <button type="submit">Signup</button>
+            <button type="submit" class="save">Signup</button>
         </form>
         <p><a href="/user/signup{{link}}">Sign up for a {{type}} account</a></p>
     </section>
