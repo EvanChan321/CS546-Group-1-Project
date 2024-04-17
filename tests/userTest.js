@@ -21,7 +21,7 @@ let user = {
 let shop = {
     name: "Chicken Factory",
     address: "529 Washington St, Hoboken, NJ, 070",
-    website: "google.com",
+    website: "https://www.google.com/",
     phoneNumber: "2018199192",
 }
 
@@ -167,7 +167,7 @@ catch(e){
 shop = {
     name: "kung fu tea",
     address: "536 Washington St, Hoboken, NJ, 070",
-    website: "google.com",
+    website: "https://www.google.com/",
     phoneNumber: "8286817074",
 }
 
