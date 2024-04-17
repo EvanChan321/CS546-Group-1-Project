@@ -97,13 +97,17 @@ let options = {
     minSymbols: 1
 };
 
-export function passwordCheck (val){
+export function passwordCheck (val,val2){
     val = stringValidate(val)
+    val2 = stringValidate(val2)
     if (/\s/.test(val)) {
         throw "password cannot have spaces"
     }
     if(!validator.isStrongPassword(val, options)){
         throw "Password must be 8 characters long and contain: 1 Uppercase 1 Number 1 Symbol"
+    }
+    if(!(val === val2)){
+        throw "Passwords must match"
     }
     return val
 }
@@ -128,7 +132,7 @@ export async function verifyPassword(password, hash) {
 }
 
 export function sortLev(stores, search) {
-    let levValues = {};
+    levValues = {};
     function getLevDistance(storeName) {
         if (!levValues[storeName]) {
           levValues[storeName] = calculateLevenshtein(storeName, search, storeName.length, search.length);
