@@ -1,0 +1,19 @@
+<body>
+{{#with user}}
+    <h1>{{name}}</h1>
+    <h3>Account Type: {{accountType}}</h3>
+    <form action="/user/{{_id}}" method="PATCH" class="user">
+        <label for="bio">Bio:</label>
+        <input type="text" id="bio" placeholder="{{bio}}">
+        <label for="email">Email:</label>
+        <input type="text" id="email" placeholder="{{email}}">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="{{pasword}}">
+        <label for="zip">Zipcode:</label>
+        <input type="text" id="zip" placeholder="{{address}}">
+        <button type="submit">Save Changes</button>
+    </form>
+    <h2>Reviews:</h2>
+    
+{{/with}}    
+</body>

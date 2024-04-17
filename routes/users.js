@@ -153,7 +153,7 @@ router
     }
     try {
         const user = await userData.getUser(userId);
-        return res.status(200).json(user);
+        return res.status(200).render('user', {user: user});
     } catch (e) {
         return res.status(404).json({error: e});
     }

@@ -6,13 +6,13 @@
                 <p class="error">{{error}}</p>
             {{/if}}
             <label for="username">Username:</label><br>
-            <input type="text" name="username" id="username" value="{{username}}"><br>
+            <input type="text" name="username" id="username" value="{{username}}" required><br>
             <label for="password">Password:</label><br>
-            <input type="text" name="password" id="password" value="{{password}}"><br>
+            <input type="text" name="password" id="password" value="{{password}}" required><br>  <!-- add confirm password-->
             <label for="email">Email:</label><br>
-            <input type="text" name="email" id="email" value="{{email}}"><br>
+            <input type="text" name="email" id="email" value="{{email}}" required><br>
             <label for="zipcode">Zipcode:</label><br>
-            <input type="text" name="zipcode" id="zipcode" value="{{zipcode}}"><br>
+            <input type="text" name="zipcode" id="zipcode" value="{{zipcode}}" required><br>
             <button type="submit">Signup</button>
         </form>
         <p><a href="/user/signup{{link}}">Sign up for a {{type}} account</a></p>

@@ -1,12 +1,12 @@
 <main>
     <section>
-        <form action="/user/login" method="POST">
+        <form action="/user/login" method="POST" class="'login">
             <label for="login"><h2>Sign in to Boba Fettch</h2></label>
             {{#if error}}
                 <p class="error">{{error}}</p>
             {{/if}}
-            <input type="text" name="emailOrUsername" id="emailOrUsername" placeholder="Username or Email" value="{{emailOrUsername}}">
-            <input type="password" name="password" id="password" placeholder="Password">
+            <input type="text" name="emailOrUsername" id="emailOrUsername" placeholder="Username or Email" value="{{emailOrUsername}}" autocomplete="on" required>
+            <input type="password" name="password" id="password" placeholder="Password" autocomplete="on" required>
             <button type="submit">Login</button>
         </form>
     </section>
