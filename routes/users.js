@@ -20,7 +20,7 @@ router
     let userAddress
     try{
       userName = valid.stringValidate(req.body.username)
-      userPassword = valid.passwordCheck(req.body.password)
+      userPassword = valid.passwordCheck(req.body.password, req.body.passwordConf)
       userEmail = valid.emailCheck(req.body.email)
       userAddress = valid.stringValidate(req.body.zipcode)
     }
@@ -153,8 +153,7 @@ router
     }
     try {
         const user = await userData.getUser(userId);
-        const reviews = await reviewData.getAllReviewsFromUser(userId);
-        return res.status(200).render('user', {user: user, title: "Profile", reviews: reviews});
+        return res.status(200).render('user', {user: user, title: "Profile"});
     } catch (e) {
         return res.status(404).json({error: e});
     }
