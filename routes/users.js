@@ -21,6 +21,9 @@ router
     try{
       userName = valid.stringValidate(req.body.username)
       userPassword = valid.passwordCheck(req.body.password)
+      if(req.body.password !== req.body.passwordConf){
+        throw "passwords dont match"
+      }
       userEmail = valid.emailCheck(req.body.email)
       userAddress = valid.stringValidate(req.body.zipcode)
     }
@@ -29,7 +32,6 @@ router
         error: e.toString(),
         title: "User Signup",
         username: userName,
-        password: userPassword,
         email: userEmail,
         address: userAddress
       });
@@ -49,7 +51,6 @@ router
               error: error.toString(),
               title: "User Signup",
               username: userName,
-              password: userPassword,
               email: userEmail,
               address: userAddress
             });
@@ -82,7 +83,6 @@ router
         error: e.toString(),
         title: "Business Signup",
         username: userName,
-        password: userPassword,
         email: userEmail,
         address: userAddress
       });
@@ -102,7 +102,6 @@ router
               error: error.toString(),
               title: "Business Signup",
               username: userName,
-              password: userPassword,
               email: userEmail,
               address: userAddress
             });

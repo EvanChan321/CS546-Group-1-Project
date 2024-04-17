@@ -97,17 +97,13 @@ let options = {
     minSymbols: 1
 };
 
-export function passwordCheck (val,val2){
+export function passwordCheck (val){
     val = stringValidate(val)
-    val2 = stringValidate(val2)
     if (/\s/.test(val)) {
         throw "password cannot have spaces"
     }
     if(!validator.isStrongPassword(val, options)){
         throw "Password must be 8 characters long and contain: 1 Uppercase 1 Number 1 Symbol"
-    }
-    if(!(val === val2)){
-        throw "Passwords must match"
     }
     return val
 }
