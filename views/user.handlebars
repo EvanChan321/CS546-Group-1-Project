@@ -18,6 +18,14 @@
         <button type="submit" class="save">Save Changes</button>
     </form>
     <h2>Reviews:</h2>
+    {{#each reviews}}
+        <div>
+            <h3>{{this.title}}</h3>
+            <span>{{this.reviewDate}}</span>
+            <p>Rating: {{this.rating}}</p>
+            <p>{{this.review}}</p>
+        </div>
+    {{/each}}
     
 {{/with}}    
 </body>

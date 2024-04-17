@@ -1,8 +1,12 @@
 <main>
     <h1>{{title}}</h1>
-    <form action="/shops" method="GET">
+    <form action="/shops/search/" method="POST">
         <label for="shops">Search Boba Stores:</label>
-        <input class= "search-bar" type="text" name="shops" id="shops" placeholder= "Kung Fu tea...">
+        <input class= "search-bar" type="text" name="shop" id="shop" placeholder= "Kung Fu tea...">
         <button type="submit"><img class= "search-button" alt="search-button" src="/public/img/search-icon.png"></button>
     </form>
+    <br>
+    <footer>
+        <a href="/shop/addShop" class="static-link">Add Shop</a>
+    </footer>
 </main>

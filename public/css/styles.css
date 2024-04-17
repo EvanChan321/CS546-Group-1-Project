@@ -91,6 +91,21 @@ button.signup:hover {
     background-color: #e76a4e;
 }
 
+button.home {
+    background-color: #ef9480;
+    float: left;
+    margin-right: 3px;
+}
+
+
+button.home:hover {
+    background-color: #d84f30;
+}
+
+button.addShop {
+    float: center;
+}
+
 img.search-button {
     width: 30px; 
     height: 30px;
@@ -123,4 +138,9 @@ img.error {
 
 section.login {
     text-align: center;
+}
+
+.reviewdate {
+    float: left;
+    
 }

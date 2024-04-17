@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import {shopData,itemData,reviewData, flagData, userData} from '../data/index.js'
 import {intCheck, sortLev} from '../valid.js'
+import * as valid from "../valid.js";
 const router = Router();
 
 
@@ -26,18 +27,16 @@ router.route('/shops').get(async (req, res) => {
 router
   .route('/shop/addShop')
   .get(async (req, res) => {
-    res.render("addShop", {
-      title: "Add Shop"
-    });
+    res.render('addShop', { title: "Add Shop" });
   })
   .post(async (req, res) => {
     let ownerId
-    let name
+    let shopName
     let address
     let website
     let phoneNumber
     try{
-      name = valid.stringValidate(req.body.name)
+      shopName = valid.stringValidate(req.body.shopName)
       address = valid.stringValidate(req.body.address)
       website = valid.urlCheck(req.body.website)
       phoneNumber = valid.phoneNumberCheck(req.body.phoneNumber)
@@ -49,7 +48,7 @@ router
       return res.status(400).render("addShop", {
         error: e.toString(),
         title: "Add Shop",
-        name: name,
+        name: shopName,
         address: address,
         website: website,
         phoneNumber: phoneNumber,
@@ -58,7 +57,7 @@ router
     }
     try {
       const shop = await shopData.createShop(
-        name,
+        shopName,
         address,
         website,
         phoneNumber,
@@ -70,7 +69,7 @@ router
       return res.status(500).render("addShop", {
               error: error.toString(),
               title: "Add Shop",
-              name: name,
+              name: shopName,
               address: address,
               website: website,
               phoneNumber: phoneNumber,
@@ -79,14 +78,15 @@ router
     }
   })
 
-router.route('/shops/search/:search').get(async (req, res) => {
+router.route('/shops/search').post(async (req, res) => {
   try{
     const shops = await shopData.getAllShops();
-    const search = req.params.search;
+    const search = req.body.shop;
+    console.log(search);
     const sortShops = sortLev(shops,search);
     res.render('shopSearchResults', {shops: sortShops});
   }catch(e){
-    console.log(e);
+    res.status(500).render('error', {error: e});
   }
 })
 
