@@ -42,7 +42,7 @@ export const userLogin = (routes) => {
             }
             else{
                 const urlSegments = req.originalUrl.split('/');
-                const id = urlSegments[urlSegments.length - 1];    
+                const id = urlSegments[2]; 
                 if(req.session.user.id !== id && req.session.user.accountType !== "Admin"){
                     return res.status(403).render("error", {
                         error: "Not Authorized"})
