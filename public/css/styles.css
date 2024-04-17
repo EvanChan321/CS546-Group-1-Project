@@ -10,6 +10,7 @@ body {
 h1 {
     font-size: 2.5rem;
     text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -39,6 +40,14 @@ input.search-bar {
     cursor: pointer;
 }
 
+input[type="text"] {
+    border-radius: 5px;
+}
+
+input[type="password"] {
+    border-radius: 5px;
+}
+
 button {
     padding: 5px 10px;
     background-color: #ffffff;
@@ -55,13 +64,21 @@ button[type="submit"] {
     vertical-align: middle;
 }
 
+button.save {
+    margin-top: 4px;
+}
+
+button.save:hover {
+    background-color: #e0ad9f;
+}
+
 button.login {
     background-color: transparent;
     float: right;
 }
 
 button.login:hover {
-    background-color: #E0AC9D;
+    background-color: #E0AD9F;
 }
 
 button.signup {
@@ -102,4 +119,8 @@ img.error {
     margin-left: auto;
     margin-right: auto;
     width: 20%;
+}
+
+section.login {
+    text-align: center;
 }
