@@ -107,7 +107,7 @@ router.route('/shop/:id').get(async (req, res) => {
     console.log(searchResult)
     console.log(storeItems)
     console.log(storeReviews)
-    res.render('shopPage')//, {shop:searchResult, items:storeItems, reviews:storeReviews});
+    res.render('shopPage', {shop:searchResult, items:storeItems, reviews:storeReviews});
   } catch(e){
     res.status(500).render('error',{error: e});
   }
