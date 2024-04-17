@@ -2,13 +2,11 @@
 import shopRoutes from './shops.js';
 import userRoutes from './users.js';
 import reviewRoutes from './reviews.js'
-import commentRoutes from './comments.js'
 
 const constructorMethod = (app) => {
   app.use('/', shopRoutes)
   app.use("/user", userRoutes)
   app.use("/review", reviewRoutes)
-  app.use("/comment", commentRoutes)
   app.use('*', (req, res) => {
     return res.status(404).render('error', {error: '404: Not Found'})
   });
