@@ -1,0 +1,31 @@
+<main>
+    <section>
+        <h1>Add your business!</h1>
+        <form action="/shop/addShop" method="POST" class="addShop">
+            {{#if error}}
+                <p class="error">{{error}}</p>
+            {{/if}}
+            <label for="shopName">
+                Name of business:
+                <br>
+                <input type="text" name="shopName" id="shopName" value="{{shopName}}" required><br>
+            </label>
+            <label for="address">
+                Address:
+                <br>
+                <input type="text" name="address" id="address" value="{{address}}" required><br>
+            </label>
+            <label for="website">
+                Business website:
+                <br>
+                <input type="text" name="website" id="website" value="{{website}}" required><br>
+            </label>
+            <label for="phoneNumber">
+                Business phone number:
+                <br>
+                <input type="text" name="phoneNumber" id="phoneNumber" value="{{phoneNumber}}" required><br>
+            </label>
+            <button type="submit" class="save">Submit</button>
+        </form>
+    </section>
+</main>
