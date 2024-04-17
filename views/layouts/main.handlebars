@@ -14,6 +14,14 @@
         <a href="/user/login"><button type="button" class="login">Login</button></a>
     </div>
 {{/unless}}
+{{#if loggedIn}}
+    <div class="account">
+        <a href="/user/{{loggedIn.id}}"><button type="button" class="signup">Profile</button></a>
+        <form action="/user/logout" method="POST">
+            <button type="submit" class="login">Logout</button>
+        </form>
+    </div>
+{{/if}}
 
 <div class="home">
     <a href="/"><button type="button" class="home">Home</button></a>
