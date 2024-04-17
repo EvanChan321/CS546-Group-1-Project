@@ -132,7 +132,7 @@ export async function verifyPassword(password, hash) {
 }
 
 export function sortLev(stores, search) {
-    levValues = {};
+    let levValues = {};
     function getLevDistance(storeName) {
         if (!levValues[storeName]) {
           levValues[storeName] = calculateLevenshtein(storeName, search, storeName.length, search.length);
