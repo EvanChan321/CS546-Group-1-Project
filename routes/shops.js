@@ -9,7 +9,10 @@ const router = Router();
 router.route('/').get(async (req, res) => {
   //code here for GET will render the home handlebars file
   try{
-    res.render('home', {title: "Boba Fettch"});
+    res.render('home', {
+      title: "Boba Fettch",
+      loggedIn: req.session.user,
+    });
   }catch(e){
     res.sendStatus(500);
   }
