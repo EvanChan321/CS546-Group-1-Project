@@ -5,7 +5,6 @@
 </head>
 <body>
     <main>
-        <script src="../clientside.js"></script>
         <h1>{{shop.name}}</h1>
         <h2>Details:</h2>
         <ul>
@@ -35,15 +34,13 @@
         <h2>Reviews:</h2>
         <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
         <div id="toggledReviews" style="display: none;">
-        <ul>
-        {{#each reviews}}
-            <li>
-                <a href="/review/{{this.id}}"><dt>this.title</dt></a>
-                <dd>this.rating</dd>
-            </li>
-        {{/each}}
-        </ul>
+            {{#each reviews}}
+        <div>
+            <h3>{{this.title}}</h3>
         </div>
+        {{/each}}
+        </div>  
+        <script src="../public/clientside.js"></script>
     </main>
 </body>
 </html>

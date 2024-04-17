@@ -5,4 +5,9 @@ function toggleContent(contentId) {
     } else {
         content.style.display = 'block';
     }
+    console.log("fafhiaskhfniuasoifjoasihj");
+}
+
+function myFunction() {
+    document.getElementById("demo").innerHTML = "YOU CLICKED ME!";
 }
