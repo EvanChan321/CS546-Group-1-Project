@@ -124,3 +124,8 @@ img.error {
 section.login {
     text-align: center;
 }
+
+.reviewdate {
+    float: left;
+    
+}

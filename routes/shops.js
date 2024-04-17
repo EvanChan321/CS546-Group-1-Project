@@ -79,14 +79,15 @@ router
     }
   })
 
-router.route('/shops/search/:search').get(async (req, res) => {
+router.route('/shops/search').post(async (req, res) => {
   try{
     const shops = await shopData.getAllShops();
-    const search = req.params.search;
+    const search = req.body.shop;
+    console.log(search);
     const sortShops = sortLev(shops,search);
     res.render('shopSearchResults', {shops: sortShops});
   }catch(e){
-    console.log(e);
+    res.status(500).render('error', {error: e});
   }
 })
 
