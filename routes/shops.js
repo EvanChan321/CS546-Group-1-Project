@@ -58,10 +58,10 @@ router
     }
     try {
       const shop = await shopData.createShop(
-        userName,
-        userPassword,
-        userEmail,
-        userZipcode,
+        name,
+        address,
+        website,
+        phoneNumber,
         ownerId
       )
       //req.session.user = user;
@@ -104,9 +104,6 @@ router.route('/shop/:id').get(async (req, res) => {
     const storeReviewsPromises = searchResult.reviews.map(async (review) => await reviewData.getReview(review.toString()));
     const storeItems = await Promise.all(storeItemsPromises);
     const storeReviews = await Promise.all(storeReviewsPromises);
-    console.log(searchResult)
-    console.log(storeItems)
-    console.log(storeReviews)
     res.render('shopPage', {shop:searchResult, items:storeItems, reviews:storeReviews});
   } catch(e){
     res.status(500).render('error',{error: e});

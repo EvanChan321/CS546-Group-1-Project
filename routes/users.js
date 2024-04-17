@@ -43,7 +43,7 @@ router
         "Default"
       )
       //req.session.user = user;
-      return res.redirect(`/user/${user._id}`)
+      return res.redirect(`/user/login`)
     } catch (error) {
       return res.status(500).render("signup", {
               error: error.toString(),
@@ -96,7 +96,7 @@ router
         "Business"
       )
       //req.session.user = user;
-      return res.redirect(`/user/${user._id}`)
+      return res.redirect(`/user/login`)
     } catch (error) {
       return res.status(500).render("signup", {
               error: error.toString(),
@@ -131,7 +131,12 @@ router
     }
     try{
       user = await userData.loginUser(userEmailOrUsername, userPassword)
-      //req.session.user = user;
+      req.session.user= {
+        id: user._id.toString(),
+        name: user.name, 
+        email: user.email, 
+        accountType: user.accountType
+      }
       return res.redirect(`/user/${user._id.toString()}`)
     }catch(e){
      return res.status(400).render("login", {
@@ -140,6 +145,18 @@ router
         emailOrUsername: userEmailOrUsername,
       });
     }
+  }) 
+
+router
+  .route('/logout')
+  .get(async (req, res) => {
+    res.render("logout", {title: "User Logout"});
+  })
+  .post(async (req, res) => {
+    if(req.session.user){
+      delete req.session.user;
+    }
+    res.redirect('/login')
   }) 
 
 router
