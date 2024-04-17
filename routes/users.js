@@ -170,7 +170,49 @@ router
     } catch (e) {
         return res.status(404).json({error: e});
     }
-  });
+  })
+  .post(async (req, res) => {
+    let userAddress
+    let updateObject = {}
+    let userId
+    let user
+    try{
+      userId = valid.idCheck(req.params.userId)
+      user = await userData.getUser(userId);
+      if(req.body.bio){
+        updateObject.bio = valid.stringValidate(req.body.bio)
+      }
+      if(req.body.password){
+        updateObject.password = valid.passwordCheck(req.body.password)
+        updateObject.oldPassword = valid.passwordCheck(req.body.oldPassword)
+      }
+      if(req.body.address){
+        userAddress = valid.stringValidate(req.body.address)
+      }
+    }
+    catch(e){
+      console.log(e)
+      return res.status(400).render("user", {
+        error: e.toString(),
+        title: "Profile",
+        user
+      });
+    }
+    try {
+      const user = await userData.updateUser(
+        userId,
+        updateObject
+      )
+      //req.session.user = user;
+      return res.redirect(`/user/${user._id}`)
+    } catch (error) {
+      return res.status(500).render("user", {
+              error: error.toString(),
+              title: "Profile",
+              user
+            });
+    }
+  })
 
 router
   .route('/:userId/reviews')
@@ -189,65 +231,6 @@ router
     }
   });
 
-router
-  .route('/:userId/edit')
-  .get(async (req, res) => {
-    res.render("userEdit", {
-      title: "User Edit"
-    });
-  })
-  .post(async (req, res) => {
-    let userName
-    let userPassword
-    let userBio
-    let userAddress
-    let updateObject
-    let userId
-    try{
-      userId = valid.idCheck(req.params.userId)
-      userName = valid.stringValidate(req.body.username)
-      userBio = valid.stringValidate(req.body.bio)
-      userPassword = valid.passwordCheck(req.body.password)
-      userOldPassword = valid.passwordCheck(req.body.oldPassword)
-      userAddress = valid.stringValidate(req.body.address)
-      updateObject = {
-        name: userName,
-        password: userPassword,
-        oldPassword: userOldPassword,
-        bio: userBio,
-        address: userAddress
-      }
-    }
-    catch(e){
-      return res.status(400).render("userEdit", {
-        error: e.toString(),
-        title: "User Edit",
-        username: userName,
-        password: userPassword,
-        oldPassword: userOldPassword,
-        bio: userBio,
-        address: userAddress
-      });
-    }
-    try {
-      const user = await userData.updateUser(
-        userId,
-        updateObject
-      )
-      //req.session.user = user;
-      return res.redirect(`/user/${user._id}`)
-    } catch (error) {
-      return res.status(500).render("userEdit", {
-              error: error.toString(),
-              title: "User Edit",
-              username: userName,
-              password: userPassword,
-              oldPassword: userOldPassword,
-              bio: userBio,
-              address: userAddress
-            });
-    }
-  })
 
 router
   .route('/:userId/delete')
