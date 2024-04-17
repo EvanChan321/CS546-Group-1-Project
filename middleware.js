@@ -40,6 +40,14 @@ export const userLogin = (routes) => {
             if (!req.session.user) {
                 return res.redirect('/user/login');
             }
+            else{
+                const urlSegments = req.originalUrl.split('/');
+                const id = urlSegments[urlSegments.length - 1];    
+                if(req.session.user.id !== id && req.session.user.accountType !== "Admin"){
+                    return res.status(403).render("error", {
+                        error: "Not Authorized"})
+                } 
+            }
         }
         next()
     }
