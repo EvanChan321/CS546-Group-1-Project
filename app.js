@@ -1,8 +1,11 @@
 //Here is where you'll set up your server as shown in lecture code
 import express from 'express';
 const app = express();
+import session from 'express-session';
 import configRoutes from './routes/index.js';
 import exphbs from 'express-handlebars';
+import { loginData, userLogin } from './middleware.js';
+
 
 const rewriteUnsupportedBrowserMethods = (req, res, next) => {
   // If the user posts to the server with a property called _method, rewrite the request's method
@@ -25,6 +28,17 @@ app.use(rewriteUnsupportedBrowserMethods);
 app.engine('handlebars', exphbs.engine({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 app.set('views', './views');
+
+app.use(session({
+  name: 'AuthenticationState',
+  secret: 'some secret string!',
+  resave: false,
+  saveUninitialized: false
+}))
+
+app.use('/user', loginData());
+app.use('/user', loginData());
+app.use('/user', userLogin());
 
 configRoutes(app);
 
