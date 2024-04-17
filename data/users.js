@@ -125,7 +125,7 @@ const updateUser = async (userId, updateObject) => {
         updateObject.name = valid.stringValidate(updateObject.name)
         const duplicateName = await userCollection.findOne({ name: updateObject.name });
         if (duplicateName) {
-            throw `an account with ${name} already exists`;
+            throw `an account with ${updateObject.name} already exists`;
         }
         user.name = updateObject.name
     }
