@@ -20,7 +20,7 @@ router
     let userAddress
     try{
       userName = valid.stringValidate(req.body.username)
-      userPassword = valid.passwordCheck(req.body.password)
+      userPassword = valid.passwordCheck(req.body.password, req.body.passwordConf)
       userEmail = valid.emailCheck(req.body.email)
       userAddress = valid.stringValidate(req.body.zipcode)
     }
