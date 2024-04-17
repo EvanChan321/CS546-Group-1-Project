@@ -153,7 +153,8 @@ router
     }
     try {
         const user = await userData.getUser(userId);
-        return res.status(200).render('user', {user: user, title: "Profile"});
+        const reviews = await reviewData.getAllReviewsFromUser(userId);
+        return res.status(200).render('user', {user: user, title: "Profile", reviews: reviews});
     } catch (e) {
         return res.status(404).json({error: e});
     }
