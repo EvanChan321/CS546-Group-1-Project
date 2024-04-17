@@ -2,21 +2,28 @@
 {{#with user}}
     <h1>Welcome, {{name}}</h1>
     <h3>Account Type: {{accountType}}</h3>
-    <form action="/user/{{_id}}" method="PATCH" class="user">
+    {{#if error}}
+         <p class="error">{{error}}</p>
+    {{/if}}
+    <form action="/user/{{_id}}" method="POST" class="user">
         <label for="bio">Bio:</label>
-        <input type="text" id="bio" placeholder="{{bio}}">
+        <input type="text" id="bio" name="bio" placeholder="{{bio}}">
         <br>
         <label for="email">Email:</label>
-        <input type="text" id="email" placeholder="{{email}}">
+        <input type="text" id="email" name="email" placeholder="{{email}}">
         <br>
         <label for="password">Password</label>
-        <input type="password" id="password" placeholder="{{pasword}}">
+        <input type="password" id="password" name="password" placeholder="{{password}}">
+        <br>
+        <label for="oldPassword">Old Password</label>
+        <input type="password" id="oldPassword" name="oldPassword" placeholder="{{password}}">
         <br>
         <label for="zip">Zipcode:</label>
-        <input type="text" id="zip" placeholder="{{address}}">
+        <input type="text" id="zip" name="zip" placeholder="{{address}}">
         <br>
         <button type="submit" class="save">Save Changes</button>
     </form>
+    
     <h2>Reviews:</h2>
     {{#each reviews}}
         <div>
