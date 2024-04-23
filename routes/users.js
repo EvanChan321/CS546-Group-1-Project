@@ -134,7 +134,8 @@ router
         id: user._id.toString(),
         name: user.name, 
         email: user.email, 
-        accountType: user.accountType
+        accountType: user.accountType,
+        bookmarks: user.bookmarks
       }
       return res.redirect(`/user/${user._id.toString()}`)
     }catch(e){

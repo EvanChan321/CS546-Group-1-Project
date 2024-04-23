@@ -107,7 +107,11 @@ router.route('/shop/:id').get(async (req, res) => {
     const storeReviewsPromises = searchResult.reviews.map(async (review) => await reviewData.getReview(review.toString()));
     const storeItems = await Promise.all(storeItemsPromises);
     const storeReviews = await Promise.all(storeReviewsPromises);
-    res.render('shopPage', {shop:searchResult, items:storeItems, reviews:storeReviews});
+    let inBookmarks = false
+    if(req.session.user){
+      inBookmarks = (req.session.user.bookmarks).includes(search)
+    }
+    res.render('shopPage', {shop:searchResult, items:storeItems, reviews:storeReviews, loggedIn: req.session.user, inBookmarks: inBookmarks});
   } catch(e){
     res.status(500).render('error',{error: e});
   }
@@ -116,23 +120,24 @@ router.route('/shop/:id').get(async (req, res) => {
   let userId //need from cookies
   let shopId
   try{
-    userId = valid.idCheck(userId) //cookie eventually
-    shopId = valid.idCheck(req.param.id)
+    userId = valid.idCheck(req.session.user.id) //cookie eventually
+    shopId = valid.idCheck(req.params.id)
   }catch(e){
     return res.status(400).render('shopPage', {
       error: e.toString(), 
     })    
   }
   try{
-    const user = userData.getUser(userId)
+    const user = await userData.getUser(userId)
     let updatedLike
-    if(user.bookmarks.includes(shopId)){
-      updatedLike = userData.likeShop(userId, shopId)
+    if(!user.bookmarks.includes(shopId)){
+      updatedLike = await userData.likeShop(userId, shopId)
     }
     else{
-      updatedLike  = userData.unlikeShop(userId, shopId)
+      updatedLike  = await userData.unlikeShop(userId, shopId)
     }
-    return res.render('shopPage', updatedLike)
+    req.session.user.bookmarks = updatedLike.bookmarks 
+    return res.redirect(`/shop/${shopId}`)
   }catch(e){
     return res.status(500).render('shopPage', {
       error: e.toString(), 

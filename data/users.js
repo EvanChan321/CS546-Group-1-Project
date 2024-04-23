@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import * as valid from "../valid.js";
 import validator from 'validator';
 import bcryptjs from 'bcryptjs';
+import { shopData } from "./index.js";
 
 const getAllUsers = async () => {
     const userCollection = await users();
@@ -64,7 +65,7 @@ const likeShop = async (userId, shopId) => {
     shopId = valid.idCheck(shopId)
     const user = await getUser(userId)
     const shop = await shopData.getShop(shopId)
-    user.bookmarks.push(new ObjectId(shopId))
+    user.bookmarks.push(shopId)
     shop.numOfLikes += 1
     const userCollection = await users();
     const updatedUser = await userCollection.findOneAndUpdate(
@@ -84,7 +85,7 @@ const likeShop = async (userId, shopId) => {
     if (!updatedShop) {
       throw 'could not update product successfully';
     }
-    return updatedShop
+    return updatedUser
 }
 
 const unlikeShop = async (userId, shopId) => {
@@ -92,7 +93,7 @@ const unlikeShop = async (userId, shopId) => {
     shopId = valid.idCheck(shopId)
     const user = await getUser(userId)
     const shop = await shopData.getShop(shopId)
-    const index = user.bookmarks.indexOf(new ObjectId(shopId));
+    const index = user.bookmarks.indexOf(shopId);
     if (index !== -1) {
         user.bookmarks.splice(index, 1);
     }
