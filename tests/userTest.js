@@ -170,6 +170,15 @@ catch(e){
     console.log(e);
 }*/
 
+/*try{
+    const data = await userData.removeUser(user._id.toString())
+    console.log(data)
+}
+catch(e){
+    console.log("Error listings shops");
+    console.log(e);
+}*/
+
 shop = {
     name: "kung fu tea",
     address: "536 Washington St, Hoboken, NJ, 070",

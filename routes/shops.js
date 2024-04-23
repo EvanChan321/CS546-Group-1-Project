@@ -159,7 +159,6 @@ router.route('/shop/:id/delete')
   }
   try {
     const info = await shopData.removeShop(shopId)
-    console.log(info)
     return res.redirect(`/shops`)
   } catch (error) {
     return res.status(500).render("shopPage", {

@@ -235,35 +235,28 @@ router
 
 router
   .route('/:userId/delete')
-  .get(async (req, res) => {
-    res.render("userDelete", {
-      title: "User Delete"
-    });
-  })
-  .delete(async (req, res) => {
-    let userPassword
+  .post(async (req, res) => {
+    //let userPassword
     let userId
     try{
       userId = valid.idCheck(req.params.userId)
-      userPassword = valid.passwordCheck(req.body.password)
+      //userPassword = valid.passwordCheck(req.body.password)
     }
     catch(e){
-      return res.status(400).render("userDelete", {
+      return res.status(400).render("user", {
         error: e.toString(),
-        title: "User Delete",
-        password: userPassword
+        title: "Profile"
       });
     }
     try {
       const user = await userData.removeUser(userId)
-      //req.session.user = user;
+      delete req.session.user;
       return res.redirect(`/`)
     } catch (error) {
-      return res.status(500).render("userDelete", {
-              error: error.toString(),
-              title: "User Delete",
-              password: userPassword
-            });
+      return res.status(500).render("user", {
+        error: e.toString(),
+        title: "Profile"
+      });
     }
   })
   //eventually need to add authentication
