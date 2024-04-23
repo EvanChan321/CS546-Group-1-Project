@@ -33,6 +33,10 @@
             <p>{{this.review}}</p>
         </div>
     {{/each}}
-    
+    <hr>
+    <form action="/user/{{user._id}}/delete" method="POST">
+        <button type="submit" class="delete">DELETE USER</button>
+    </form>
+
 {{/with}}    
 </body>
