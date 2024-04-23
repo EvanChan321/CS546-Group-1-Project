@@ -1,6 +1,6 @@
 <main>
     <section class="login">
-        <form action="/user/signup{{postTo}}" method="POST" class="logSign">
+        <form action="/user/signup{{postTo}}" name="signup-form" id="signup-form" method="POST" class="logSign">
             <label for="signup"><h2>Create an account for Boba Fettch</h2></label>
             {{#if error}}
                 <p class="error">{{error}}</p>
@@ -12,12 +12,13 @@
             <label for="password">Confirm Password:</label><br>
             <input type="password" name="passwordConf" id="passwordConf" value="{{passwordConf}}" required><br>
             <label for="email">Email:</label><br>
-            <input type="text" name="email" id="email" value="{{email}}" required><br>
+            <input type="email" name="email" id="email" value="{{email}}" required><br>
             <label for="zipcode">Zipcode:</label><br>
             <input type="text" name="zipcode" id="zipcode" value="{{zipcode}}" required><br>
-            <button type="submit" class="save">Signup</button>
+            <button type="submit" name="submitButton" id="submitButton" class="save">Signup!</button>
         </form>
         <p><a href="/user/signup{{link}}">Sign up for a {{type}} account</a></p>
+        <div id="error" class="CSerror" hidden>Error</div>
     </section>
 </main>
 
