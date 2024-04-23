@@ -143,32 +143,28 @@ router.route('/shop/:id').get(async (req, res) => {
       error: e.toString(), 
     })  
   }
-})
-.delete(async (req, res) => {
-  let userPassword //verify if its an admin or the owner account 
-  let userId
+});
+
+router.route('/shop/:id/delete')
+.post(async (req, res) => {
   let shopId
   try{
-    userId //= valid.idCheck(req.params.userId)
-    userPassword //= valid.passwordCheck(req.body.password)
     shopId = valid.idCheck(req.params.id)
   }
   catch(e){
     return res.status(400).render("shopPage", {
       error: e.toString(),
       title: "Shop",
-      password: userPassword
     });
   }
   try {
     const info = await shopData.removeShop(shopId)
-    //req.session.user = user;
+    console.log(info)
     return res.redirect(`/shops`)
   } catch (error) {
     return res.status(500).render("shopPage", {
             error: error.toString(),
             title: "Shop",
-            password: userPassword
           });
   }
 })

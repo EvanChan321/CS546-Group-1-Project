@@ -1,9 +1,6 @@
 import { dbConnection, closeConnection } from "../config/mongoConnection.js";
 
-import userData from "../data/users.js";
-import shopData from "../data/shops.js"
-import reviewData from "../data/reviews.js"
-import commentData from "../data/comments.js"
+import { commentData, reviewData, userData, shopData } from "../data/index.js";
 import * as valid from "../valid.js";
 
 const db = await dbConnection();
@@ -15,7 +12,7 @@ let user = {
     password: "Password1!",
     email: "mangelak@stevens.edu",
     zipcode: "07630",
-    accountType: "Default",
+    accountType: "Admin",
 }
 
 let shop = {
@@ -163,6 +160,15 @@ catch(e){
     console.log("Error listings shops");
     console.log(e);
 }
+
+/*try{
+    const data = await shopData.removeShop(shop._id.toString())
+    console.log(data)
+}
+catch(e){
+    console.log("Error listings shops");
+    console.log(e);
+}*/
 
 shop = {
     name: "kung fu tea",

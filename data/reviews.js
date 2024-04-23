@@ -135,7 +135,7 @@ const updateReview = async (reviewId, updateObject) => {
 
 const removeReview = async (reviewId) => {
   reviewId = valid.idCheck(reviewId)
-  const review = await this.getReview(reviewId)
+  const review = await getReview(reviewId)
   const userCollection = await users();
   const updatedUser = await userCollection.findOneAndUpdate(
     { 'reviews._id': new ObjectId(reviewId) },
@@ -145,10 +145,18 @@ const removeReview = async (reviewId) => {
   if(!updatedUser){
     throw 'could not delete'
   }
-  review.objId = valid.idCheck(review.objId)
+  review.objId = valid.idCheck(review.objId.toString())
   const shopCollection = await shops()
-  const shop = shopData.getShop(review.objId)
-  const index = shop.reviews.indexOf(reviewId);
+  const shop = await shopData.getShop(review.objId.toString())
+  function findIndexById(arr, id) {
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i].equals(id)) { 
+            return i;
+        }
+    }
+    return -1; 
+  }
+  const index = findIndexById(shop.reviews, new ObjectId(reviewId))
   if (index !== -1) {
     shop.reviews.splice(index, 1);
   }

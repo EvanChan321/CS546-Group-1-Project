@@ -133,7 +133,7 @@ router
       req.session.user= {
         id: user._id.toString(),
         name: user.name, 
-        email: user.email, 
+        email: user.email,
         accountType: user.accountType,
         bookmarks: user.bookmarks
       }

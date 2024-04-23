@@ -2,6 +2,7 @@ import { users } from "../config/mongoCollections.js";
 import { shops } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as valid from "../valid.js";
+import { reviewData, shopData } from "./index.js";
 
 
 const getAllShops = async () => {
@@ -26,6 +27,9 @@ const createShop = async (name, address, website, phoneNumber, ownerId) => {
     if(ownerId){
         ownerId = valid.idCheck(ownerId)
     }
+    else{
+        ownerId = ""
+    }
     name = valid.stringValidate(name)
     address = valid.stringValidate(address)
     website = valid.urlCheck(website)
@@ -39,7 +43,8 @@ const createShop = async (name, address, website, phoneNumber, ownerId) => {
         items: [],
         reviews: [],
         averageRating: "No Ratings",
-        numOfLikes: 0
+        numOfLikes: 0,
+        ownerId: ownerId
     }
     const shopCollection = await shops();
     const insertInfo = await shopCollection.insertOne(newShop);
@@ -96,7 +101,10 @@ const updateShop = async (shopId, updateObject) => {
 
 const removeShop = async (shopId) => {
     shopId = valid.idCheck(shopId)
-    const shop = await this.getUser(shopId)
+    const shop = await getShop(shopId)
+    const deletedReviews = shop.reviews.map(async (review) => await reviewData.removeReview(review.toString()));
+    const deleted = await Promise.all(deletedReviews);
+    console.log(deleted)
     const shopCollection = await shops();
     const deletionInfo = await shopCollection.findOneAndDelete({
         _id: new ObjectId(shopId)
@@ -104,9 +112,6 @@ const removeShop = async (shopId) => {
     if(!deletionInfo){
         throw 'could not delete'
       }
-    shop.reviews.forEach(function(review) {
-        reviewData.removeReview(review);
-    });
     return deletionInfo
 }
 
