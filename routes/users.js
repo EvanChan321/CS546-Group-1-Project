@@ -167,7 +167,7 @@ router
     }
     try {
         const user = await userData.getUser(userId);
-        return res.status(200).render('user', {user: user, title: "Profile"});
+        return res.status(200).render('user', {user: user, title: "Profile", loggedIn: req.session.user});
     } catch (e) {
         return res.status(404).json({error: e});
     }

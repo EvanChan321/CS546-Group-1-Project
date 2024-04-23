@@ -9,7 +9,7 @@
         <h2>Details:</h2>
         <ul>
             <li><p>Address: {{shop.address}}</p></li>
-            <li><p>Website: {{shop.website}}</p></li>
+            <li><p>Website:  {{shop.website}}</p></li>
             <li><p>Phone Number: {{shop.phoneNumber}}</p></li>
             <li><p>Average Rating: {{shop.averageRating}}</p></li>
         </ul>
@@ -44,13 +44,17 @@
         {{#if loggedIn}}
             {{#if inBookmarks}}
                 <form action="/shop/{{shop._id}}" method="POST">
-                    <button type="submit" class="book">Un-bookmark</button>
+                    <button type="submit" class="unbook">Un-bookmark</button>
                 </form>
             {{else}}
                 <form action="/shop/{{shop._id}}" method="POST">
                     <button type="submit" class="book">Bookmark</button>
                 </form>
             {{/if}}
+            <hr>
+            <form action="/shop/{{shop._id}}/delete" method="POST">
+                <button type="submit" class="delete">DELETE SHOP</button>
+            </form>
         {{/if}}
     </main>
 </body>

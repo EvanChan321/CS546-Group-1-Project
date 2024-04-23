@@ -90,7 +90,37 @@ button.login:hover {
 }
 
 button.book {
-    background-color: #aaffb1;   
+    background-color: #ffd131; 
+    transition: all 0.3s ease-in-out; 
+    margin-top: 10px; 
+}
+
+button.book:hover {
+    background-color: #f1a727;
+}
+
+button.unbook {
+    background-color: #f1a727;
+    transition: all 0.3s ease-in-out;
+    margin-top: 10px;
+}
+
+button.unbook:hover {
+    background-color: #ffd131;
+}
+
+button.delete {
+    background-color: #ff0000;
+    color: #ffffff;
+    margin-top: 10px;
+    display: block;
+    margin: auto;
+    transition: all 0.3s ease-in-out;
+}
+
+button.delete:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #000;
 }
 
 button.signup {
