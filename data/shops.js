@@ -104,7 +104,6 @@ const removeShop = async (shopId) => {
     const shop = await getShop(shopId)
     const deletedReviews = shop.reviews.map(async (review) => await reviewData.removeReview(review.toString()));
     const deleted = await Promise.all(deletedReviews);
-    console.log(deleted)
     const shopCollection = await shops();
     const deletionInfo = await shopCollection.findOneAndDelete({
         _id: new ObjectId(shopId)

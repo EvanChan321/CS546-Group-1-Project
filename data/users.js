@@ -3,7 +3,7 @@ import { ObjectId } from "mongodb";
 import * as valid from "../valid.js";
 import validator from 'validator';
 import bcryptjs from 'bcryptjs';
-import { shopData } from "./index.js";
+import { commentData, reviewData, shopData } from "./index.js";
 
 const getAllUsers = async () => {
     const userCollection = await users();
@@ -180,19 +180,17 @@ const updateUser = async (userId, updateObject) => {
 
 const removeUser = async (userId, password) => {
     userId = valid.idCheck(userId)
-    password = valid.passwordCheck(password)
-    const user = await this.getUser(userId)
-    const userCollection = await users();
-    const isRightPassword = await valid.verifyPassword(password, user.password)
+    //password = valid.passwordCheck(password)
+    const user = await getUser(userId)
+    /*const isRightPassword = await valid.verifyPassword(password, user.password)
     if(!isRightPassword){
         throw "incorrect password"
-    }
-    user.reviews.forEach(function(review) {
-        reviewData.removeReview(review);
-    });
-    user.comments.forEach(function(comment) {
-        commentData.removeComment(comment);
-    });
+    }*/
+    const deletedReviews = user.reviews.map(async (review) => await reviewData.removeReview(review._id.toString()));
+    const deleted = await Promise.all(deletedReviews);
+    const deletedComments = user.comments.map(async (comment) => await commentData.removeComment(comment._id.toString()));
+    const deleted2 = await Promise.all(deletedComments);
+    const userCollection = await users();
     const deletionInfo = await userCollection.findOneAndDelete({
         _id: new ObjectId(userId)
     });
