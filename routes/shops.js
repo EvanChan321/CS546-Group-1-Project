@@ -30,7 +30,7 @@ router.route('/shops').get(async (req, res) => {
 router
   .route('/shop/addShop')
   .get(async (req, res) => {
-    res.render('addShop', { title: "Add Shop" });
+    res.render('addShop', {title: "Add Shop", loggedIn: req.session.user});
   })
   .post(async (req, res) => {
     let ownerId
@@ -87,7 +87,7 @@ router.route('/shops/search').post(async (req, res) => {
     const search = req.body.shop;
     console.log(search);
     const sortShops = sortLev(shops,search);
-    res.render('shopSearchResults', {shops: sortShops});
+    res.render('shopSearchResults', {shops: sortShops, loggedIn: req.session.user});
   }catch(e){
     res.status(500).render('error', {error: e});
   }
