@@ -1,7 +1,7 @@
 <main>
     <section>
         <h1>Add your business!</h1>
-        <form action="/shop/addShop" method="POST" class="addShop">
+        <form action="/shop/addShop" method="POST" name="addShop-form" id="addShop-form" class="addShop">
             {{#if error}}
                 <p class="error">{{error}}</p>
             {{/if}}
@@ -18,14 +18,15 @@
             <label for="website">
                 Business website:
                 <br>
-                <input type="text" name="website" id="website" value="{{website}}" required><br>
+                <input type="url" name="website" id="website" value="{{website}}" required><br>
             </label>
             <label for="phoneNumber">
                 Business phone number:
                 <br>
-                <input type="text" name="phoneNumber" id="phoneNumber" value="{{phoneNumber}}" required><br>
+                <input type="tel" name="phoneNumber" id="phoneNumber" value="{{phoneNumber}}"  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="XXX-XXX-XXXX" required><br>
             </label>
-            <button type="submit" class="save">Submit</button>
+            <button type="submit" name="submitButton" id="submitButton" class="save">Submit</button>
         </form>
+        <div id="error" class="CSerror" hidden>Error</div>
     </section>
 </main>
