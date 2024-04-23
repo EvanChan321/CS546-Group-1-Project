@@ -44,6 +44,14 @@ input[type="text"] {
     border-radius: 5px;
 }
 
+.logSign input[type="text"] {
+    font-size: 14px;
+}
+
+.logSign input[type="password"] {
+    font-size:14px;
+}
+
 input[type="password"] {
     border-radius: 5px;
 }
@@ -79,6 +87,10 @@ button.login {
 
 button.login:hover {
     background-color: #E0AD9F;
+}
+
+button.book {
+    background-color: #aaffb1;   
 }
 
 button.signup {
