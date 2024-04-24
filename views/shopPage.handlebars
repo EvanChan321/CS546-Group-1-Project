@@ -15,13 +15,15 @@
                 <button type="submit" class="flag">Flag Shop</button>
             </form>
         {{/if}}
+        {{#with shop}}
         <h2>Details:</h2>
         <ul>
-            <li><p>Address: {{shop.address}}</p></li>
-            <li><p>Website:  {{shop.website}}</p></li>
-            <li><p>Phone Number: {{shop.phoneNumber}}</p></li>
-            <li><p>Average Rating: {{shop.averageRating}}</p></li>
+            <li><p>Address: {{address}}</p></li>
+            <li><p>Website:  <a ={{website}}>{{website}}</a></p></li>
+            <li><p>Phone Number: {{phoneNumber}}</p></li>
+            <li><p>Average Rating: {{averageRating}}</p></li>
         </ul>
+        {{/with}}
         <h2>Menu:</h2>
         <button onclick="toggleContent('toggledMenu')">Display Menu</button>
         <div id="toggledMenu" style="display: none;">

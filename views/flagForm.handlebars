@@ -1,0 +1,12 @@
+<main>
+    {{#with shop}}
+    <form action="shop/{{_id}}/flagForm" method="POST">
+        <label for="description">Flag Reason:
+            <textarea id="description" name="description"></textarea>
+        </label>
+    </form>
+    <footer>
+        <a href="/shop/{{shop.id}}">Back to shop</a>
+    </footer>
+    {{/with}}
+</main>
