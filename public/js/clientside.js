@@ -31,6 +31,22 @@ function stringCheck (val) {
     }
 }
 
+function numCheck (num) {
+    if (typeof(num) !== 'number'){
+        throw (`${num} is not a number`);
+    }
+    if(isNaN(num)){
+        throw (`${num} is not a number`);
+    }
+};
+
+function checkPrice(price){
+    price = parseFloat(price);
+    numCheck(price);
+    if(price != price.toFixed(2)) throw "price must be at most 2 decimal places"
+    return price;
+}
+
 function atLeast (val, checkVal) {
     if(val.length < checkVal){
         throw (`${val} has less than 2 elements`);
@@ -70,12 +86,10 @@ function confirmDiff(str1, str2){
     return;
 }
 
-
-
-
 let signupForm = document.getElementById('signup-form');
 let addShopForm = document.getElementById('addShop-form');
 let editUserForm = document.getElementById('edit-user-form');
+let itemForm = document.getElementById('itemForm');
 let errorDiv = document.getElementById('error');
 
 if(signupForm){
@@ -200,6 +214,46 @@ if(editUserForm){
             errorDiv.innerHTML = "<ul>" + errors.map(error => `<li>${error}</li>`).join('') + "</ul>";
         } else{
             editUserForm.submit();
+        }
+    });
+}
+
+if(itemForm){
+    console.log("fsdasjfnlkasdfnosafndfsalknlsdflksdflkdsfmlk");
+    itemForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        console.log("auofaoifsoauflakfioasoifanoihs");
+        let errors = [];
+        if(errorDiv) errorDiv.hidden = true;   
+        let itemName = document.getElementById('name').value;
+        let price = document.getElementById('price').value;
+        if(itemName){
+            try{
+                itemName = stringValidate(itemName);
+            } catch(e){
+                errors.push(e.toString());
+            }
+        }
+        if(price){
+            try{
+                price = checkPrice(price);
+            } catch(e){
+                errors.push(e.toString());
+            }
+        }
+        const tags = document.querySelectorAll('#tagList input[type="checkbox"] + label');
+        const tagArray = Array.from(tags).map(label => label.textContent);
+        console.log(tagArray);
+
+        const allergens = document.querySelectorAll('#allergenList input[type="checkbox"] + label');
+        const allergenArray = Array.from(allergens).map(label => label.textContent);
+        console.log(allergenArray);
+
+        if(errors.length > 0){
+            errorDiv.hidden = false;
+            errorDiv.innerHTML = "<ul>" + errors.map(error => `<li>${error}</li>`).join('') + "</ul>";
+        } else{
+            itemForm.submit();
         }
     });
 }

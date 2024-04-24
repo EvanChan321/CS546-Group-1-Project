@@ -1,7 +1,7 @@
 <main>
     {{#with shop}}
     <h2>Submit an item for {{name}}</h2>
-    <form id="itemForm" action="/shop/{{_id}}/itemForm"> 
+    <form id="itemForm" name="itemForm" action="/shop/{{_id}}/itemForm" method="POST"> 
         <div>
             <label for="name">
                 Item Name:
@@ -11,7 +11,7 @@
         <div>
             <label for="price">
             Price:
-            <input id="price" name="price" input="number" min="0">
+            <input id="price" name="price" input="number" step="0.01" min="0">
         </label>
         </div>
         <div>
@@ -130,9 +130,8 @@
                 </dt>
             </dl>
         </div>
-        <label for="submit">
-            <input id="submit" name="submit" type="submit">
-        </label>
+        <button type="submit" name="submitButton" id="submitButton" class="save">Submit</button>
     </form>
+    <div id="error" hidden>{{error}}</div>
     {{/with}}
 </main>

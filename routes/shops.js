@@ -249,8 +249,8 @@ router
         name: name,
         description: description,
         price: price,
-        tags: req.body.tags.trim(),
-        allergens: req.body.allergens.trim()
+        tags: req.body.tags,
+        allergens: req.body.allergens
       });
     }
     try {
