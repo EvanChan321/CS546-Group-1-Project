@@ -5,6 +5,7 @@
     {{#if error}}
          <p class="error">{{error}}</p>
     {{/if}}
+    <div id="userEdit" hidden>
     <form action="/user/{{_id}}" method="POST" class="user">
         <label for="bio">Bio:</label>
         <input type="text" id="bio" name="bio" placeholder="{{bio}}">
@@ -23,6 +24,15 @@
         <br>
         <button type="submit" class="save">Save Changes</button>
     </form>
+    </div>
+    <div id="userInfo">
+        <ul>
+            <li>Bio: {{bio}}</li>
+            <li>Email: {{email}}</li>
+            <li>Address: {{address}}</li>
+        </ul>
+    </div>
+    <button onclick="swapContent('userEdit','userInfo')">Edit Info</button>
     
     <h2>Reviews:</h2>
     {{#each reviews}}
