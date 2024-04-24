@@ -124,7 +124,7 @@ router.route('/shop/:id').get(async (req, res) => {
     if(req.session.user){
       inBookmarks = (req.session.user.bookmarks).includes(search)
     }
-    res.render('shopPage', {shop:searchResult, items:storeItems, reviews:storeReviews, loggedIn: req.session.user, inBookmarks: inBookmarks});
+    res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews, loggedIn: req.session.user, inBookmarks: inBookmarks});
   } catch(e){
     res.status(500).render('error',{error: e});
   }

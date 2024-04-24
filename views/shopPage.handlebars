@@ -1,11 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{shop.name}}</title>
-</head>
 <body>
     <main>
         <h1>{{shop.name}}</h1>
+        {{#if loggedIn}}
+            {{#if inBookmarks}}
+                <form action="/shop/{{shop._id}}" method="POST">
+                    <button type="submit" class="unbook">Un-bookmark</button>
+                </form>
+            {{else}}
+                <form action="/shop/{{shop._id}}" method="POST">
+                    <button type="submit" class="book">Bookmark</button>
+                </form>
+            {{/if}}
+            <form action="/shop/{{shop._id}}/flagForm" method="GET">
+                <button type="submit" class="flag">Flag Shop</button>
+            </form>
+        {{/if}}
         <h2>Details:</h2>
         <ul>
             <li><p>Address: {{shop.address}}</p></li>
@@ -34,7 +43,7 @@
         <h2>Reviews:</h2>
         <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
         <div id="toggledReviews" style="display: none;">
-            {{#each reviews}}
+        {{#each reviews}}
         <div>
             <h3>{{this.title}}</h3>
         </div>
@@ -42,20 +51,12 @@
         </div>  
         <script src="../public/clientside.js"></script>
         {{#if loggedIn}}
-            {{#if inBookmarks}}
-                <form action="/shop/{{shop._id}}" method="POST">
-                    <button type="submit" class="unbook">Un-bookmark</button>
-                </form>
-            {{else}}
-                <form action="/shop/{{shop._id}}" method="POST">
-                    <button type="submit" class="book">Bookmark</button>
-                </form>
-            {{/if}}
+            <footer>
             <hr>
             <form action="/shop/{{shop._id}}/delete" method="POST">
                 <button type="submit" class="delete">DELETE SHOP</button>
             </form>
+            </footer>
         {{/if}}
     </main>
 </body>
-</html>
