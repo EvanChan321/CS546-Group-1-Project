@@ -18,6 +18,19 @@ router.route('/').get(async (req, res) => {
   }
 });
 
+// router.get('/map', (req, res) => {
+//   res.sendFile('map2.html', { root: './' });
+// }); 
+router.route('/map').get(async (req, res) => {
+  try{
+    res.render('map', {
+      title: "Map"
+    });
+  }catch(e){
+    console.log(e);
+  }
+})
+
 router.route('/shops').get(async (req, res) => {
   try{
     const shops = await shopData.getAllShops();
@@ -234,7 +247,7 @@ router
     }
   })
 
-router//need to add authentication with getting userId from cookies and making sure its the right user
+router
   .route('/shop/:shopId/reviewForm')
   .get(async (req, res) => {
     res.render("reviewForm", {
@@ -248,6 +261,7 @@ router//need to add authentication with getting userId from cookies and making s
     let rating
     let review
     try{
+      userId = valid.idCheck(req.session.user.id)
       shopId = valid.idCheck(req.body.shopId)
       title = valid.stringValidate(req.body.title)
       rating = parseNum(req.body.rating)
@@ -284,7 +298,7 @@ router//need to add authentication with getting userId from cookies and making s
     }
   })
 
-router//need to add authentication with getting userId from cookies and making sure its the right user
+router
   .route('/shop/:shopId/flagForm')
   .get(async (req, res) => {
     res.render("flagForm", {
@@ -340,9 +354,12 @@ router
     } catch (e) {
       return res.status(404).json({error: e});
     }
-  })
-  .delete(async (req, res) => {
-    let shopId //verify if admin
+  });
+
+router
+  .route('/shop/:shopId/flag/:flagId/delete')
+  .post(async (req, res) => {
+    let shopId 
     let flagId
     try {
       shopId = valid.idCheck(req.params.shopId)
@@ -375,11 +392,13 @@ router
     } catch (e) {
       return res.status(404).json({error: e});
     }
-  })
-  .delete(async (req, res) => {
-    let shopId //verify if admin
+  });
+
+router
+  .route('/shop/:shopId/item/:itemId/delete')
+  .post(async (req, res) => {
+    let shopId 
     let itemId
-    let userId //implement: verify if admin or owner 
     try {
       shopId = valid.idCheck(req.params.shopId)
       itemId = valid.idCheck(req.params.itemId)
@@ -464,13 +483,5 @@ router.route('/shop/:shopid/:itemId/edit')
             });
     }
   })
-
-router.route('/account').get(async (req, res) => {
-  try{
-    res.render('account');
-  }catch(e){
-    console.log(e);
-  }
-})
 
 export default router;

@@ -8,7 +8,8 @@
     <link rel="icon" type="image/x-icon" href="/public/img/favicon.jpg">
     <link rel="stylesheet" href= "/public/css/styles.css">
 </head>
-{{#unless loggedIn}}
+<body>
+    {{#unless loggedIn}}
     <div class="account">
         <a href="/user/signup"><button type="button" class="signup">Sign Up</button></a>     
         <a href="/user/login"><button type="button" class="login">Login</button></a>
@@ -22,19 +23,12 @@
         </form>
     </div>
 {{/if}}
-
-<div class="home">
+    <div class="home">
     <a href="/"><button type="button" class="home">Home</button></a>
-</div>
-
-<body>
+    </div>
     <br>
     {{{body}}}
     <script src="../public/js/clientside.js"></script>
 </body>
-
-<footer> 
-
-</footer>
 
 </html>
