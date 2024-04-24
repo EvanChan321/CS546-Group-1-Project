@@ -74,7 +74,7 @@ input[type="password"] {
 
 button {
     padding: 5px 10px;
-    background-color: #ffffff;
+    background-color: transparent;
     border: 2px solid #000000;
     border-radius: 13px;
     cursor: pointer;
@@ -152,7 +152,7 @@ button.delete {
 
 button.delete:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 10px #000;
+    box-shadow: 0 0 10px #000000;
 }
 
 button.signup {
@@ -178,6 +178,15 @@ button.home:hover {
 
 button.addShop {
     float: center;
+}
+
+button.editInfo{
+    transition: all 0.3s ease-in-out;
+}
+
+button.editInfo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #000000;
 }
 
 img.search-button {
@@ -223,3 +232,25 @@ section.login {
     float: left;
     
 }
+
+#container {
+    width: 50%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #948887;
+    box-shadow: 0 2px 2px #000000;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.tel-link {
+    font-style: italic;
+}
+
+ol {
+    counter-reset: item;
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 20px;
+}
+
