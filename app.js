@@ -4,7 +4,7 @@ const app = express();
 import session from 'express-session';
 import configRoutes from './routes/index.js';
 import exphbs from 'express-handlebars';
-import { addShop, deleteShop, loginData, userLogin } from './middleware.js';
+import { addShop, deleteFlag, deleteShop, itemForm, loginData, reviewShop, userLogin } from './middleware.js';
 
 
 const rewriteUnsupportedBrowserMethods = (req, res, next) => {
@@ -40,6 +40,12 @@ app.use('/user', loginData());
 app.use('/user', userLogin());
 app.use('/shop/addShop', addShop())
 app.use('/shop/:id/delete', deleteShop())
+app.use('/shop/:shopId/item/:itemId/delete', deleteShop())
+app.use('/shop/:shopId/flag/:flagId/delete', deleteFlag())
+app.use('/shop/:shopId/reviewForm', reviewShop())
+app.use('/shop/:shopId/flagForm', reviewShop())
+app.use('/shop/:shopId/itemForm', itemForm())
+app.use('/shop/:shopId/item/:itemId/edit', itemForm())
 configRoutes(app);
 
 app.listen(3000, () => {

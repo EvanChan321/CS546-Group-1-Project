@@ -63,3 +63,56 @@ export const deleteShop = (routes) => {
         next()
     }
 }
+
+export const deleteFlag = (routes) => {
+    return async (req, res, next) => {
+        if(req.method === "POST"){
+            const urlSegments = req.originalUrl.split('/');
+            const id = urlSegments[2];
+            const shop = await shopData.getShop(id)
+            if (!req.session.user || req.session.user.accountType !== "Admin") {
+                return res.status(403).render("error", {
+                    error: "Not Authorized"})
+            }
+        }
+        next()
+    }
+}
+
+export const reviewShop = (routes) => {
+    return async (req, res, next) => {
+        if(req.method === "POST"){
+            const urlSegments = req.originalUrl.split('/');
+            const id = urlSegments[2];
+            const shop = await shopData.getShop(id)
+            if (!req.session.user || req.session.user.accountType !== "Default" || req.session.user.id === shop.ownerId) {
+                return res.status(403).render("error", {
+                    error: "Not Authorized"})
+            }
+        }
+        next()
+    }
+}
+
+export const itemForm = (routes) => {
+    return async (req, res, next) => {
+        if(req.method === "POST"){
+            const urlSegments = req.originalUrl.split('/');
+            const id = urlSegments[2];
+            const shop = await shopData.getShop(id)            
+            if(shop.ownerId !== ""){
+                if (!req.session.user || req.session.user.id !== shop.ownerId) {
+                    return res.status(403).render("error", {
+                        error: "Not Authorized"})
+                }
+            }
+            else{
+                if (!req.session.user || req.session.user.accountType === "Buisness") {
+                    return res.status(403).render("error", {
+                        error: "Not Authorized"})
+                }
+            }
+        }
+        next()
+    }
+}

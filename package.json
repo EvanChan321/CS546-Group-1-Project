@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/EvanChan321/CS546-Group-1-Project#readme",
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.16.6",
     "bcryptjs": "^2.4.3",
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
