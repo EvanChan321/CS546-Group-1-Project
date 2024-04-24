@@ -301,9 +301,7 @@ router
 router
   .route('/shop/:shopId/flagForm')
   .get(async (req, res) => {
-    res.render("flagForm", {
-      title: "Flag Form"
-    });
+    res.render("flagForm", {title: "Flag Form", id: req.params.shopId});
   })
   .post(async (req, res) => {
     let shopId
