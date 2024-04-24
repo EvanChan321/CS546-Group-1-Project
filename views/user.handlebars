@@ -2,6 +2,7 @@
 {{#with user}}
     <h1>Welcome, {{name}}</h1>
     <h3>Account Type: {{accountType}}</h3>
+    <button onclick="location.href='/shops/bookmarks'" type="button" class="bookmarks">Bookmarks</button>
     {{#if error}}
          <p class="error">{{error}}</p>
     {{/if}}
@@ -32,7 +33,7 @@
             <li>Address: {{address}}</li>
         </ul>
     </div>
-    <button onclick="swapContent('userEdit','userInfo')" class="editInfo">Edit Info</button>
+    <button onclick="swapContent('userEdit','userInfo')", class="editInfo", id="editButton">Edit Info</button>
     
     <h2>Reviews:</h2>
     {{#each reviews}}

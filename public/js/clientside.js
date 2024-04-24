@@ -10,12 +10,18 @@ function toggleContent(contentId) {
 function swapContent(contentId1,contentId2) {
     const content1 = document.getElementById(contentId1);
     const content2 = document.getElementById(contentId2);
+    const button = document.getElementById('editButton');
     if (content1.style.display === 'block') {
         content1.style.display = 'none';
         content2.style.display = 'block';
     } else {
         content1.style.display = 'block';
         content2.style.display = 'none';
+    }
+    if(button.innerHTML == "Edit Info"){
+        button.innerHTML = "View Info";
+    } else {
+        button.innerHTML = "Edit Info";
     }
 }
 
