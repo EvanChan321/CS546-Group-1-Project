@@ -1,11 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Shop Search Results</title>
-</head>
 <body>
     <main>
         <h1>List of nearby shops: </h1>
+        <form action="/shops/search/" method="POST">
+            <input class= "search-bar" type="text" name="shop" id="shop" value={{search}}>
+            <p>Minimum Rating</p>
+            <input type="range" value="0" min="0" max="5" name="minRating" id="minRating" oninput="this.nextElementSibling.value = this.value">
+            <output>0</output>
+            <p>Minimum Likes</p>
+            <input type="text" name="minLikes" id="minLikes" placeholder= "0" value="0">
+            <button type="submit">Filter</button>
+        </form>
         <ol>
             {{#each shops}}
                 <li>
@@ -27,4 +31,3 @@
 
     </main>
 </body>
-</html>
