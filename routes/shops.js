@@ -106,7 +106,19 @@ router.route('/shops/search').post(async (req, res) => {
         sortShops = sortShops.filter((shop) => ((shop.averageRating >= req.body.minRating) && (shop.averageRating != "No Ratings")));
       }
     }
-    res.render('shopSearchResults', {shops: sortShops, loggedIn: req.session.user, search: search});
+    res.render('shopSearchResults', {title:"Search Results", shops: sortShops, loggedIn: req.session.user, search: search});
+  }catch(e){
+    res.status(500).render('error', {error: e});
+  }
+})
+
+router.route('/shops/bookmarks').get(async (req,res) => {
+  try{
+    const shops = await shopData.getAllShops();
+    console.log(req.session.user.bookmarks);
+    console.log(shops[0]._id.toString());
+    const bmShops = shops.filter((shop) => (req.session.user.bookmarks).includes(shop._id.toString()));
+    res.render('bookmarks', {title:"Bookmarks", shops: bmShops, loggedIn: req.session.user});
   }catch(e){
     res.status(500).render('error', {error: e});
   }
