@@ -2,7 +2,12 @@
     <h1>{{title}}</h1>
     <form action="/shops/search/" method="POST">
         <label for="shops">Search Boba Stores:</label>
-        <input class= "search-bar" type="text" name="shop" id="shop" placeholder= "Kung Fu Tea...">
+        <input class= "search-bar" type="text" name="shop" id="shop" placeholder= "Kung Fu tea...">
+        <p>Minimum Rating</p>
+        <input type="range" value="0" min="0" max="5" name="minRating" id="minRating" oninput="this.nextElementSibling.value = this.value">
+        <output>0</output>
+        <p>Minimum Likes</p>
+        <input type="text" name="minLikes" id="minLikes" placeholder= "0" value="0">
         <button type="submit"><img class= "search-button" alt="search-button" src="/public/img/search-icon.png"></button>
     </form>
     <br>

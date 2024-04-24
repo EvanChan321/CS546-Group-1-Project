@@ -48,6 +48,16 @@
         {{#each reviews}}
         <div>
             <h3>{{this.title}}</h3>
+            <p>Rating: {{this.rating}}</p>
+            <div>{{this.review}}</div>
+            <p>{{this.reviewDate}}</p>
+            {{#each comments}}
+                <p>{{this.username}}</p>
+                <div>
+                    {{this.comment}}
+                </div>
+                <p>{{this.commentDate}}</p>
+            {{/each}}
         </div>
         {{/each}}
         </div>  
