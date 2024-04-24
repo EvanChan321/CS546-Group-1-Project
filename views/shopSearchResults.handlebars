@@ -2,13 +2,19 @@
     <main>
         <h1>List of nearby shops: </h1>
         <form action="/shops/search/" method="POST">
-            <input class= "search-bar" type="text" name="shop" id="shop" value={{search}}>
-            <p>Minimum Rating</p>
-            <input type="range" value="0" min="0" max="5" name="minRating" id="minRating" oninput="this.nextElementSibling.value = this.value">
-            <output>0</output>
-            <p>Minimum Likes</p>
-            <input type="text" name="minLikes" id="minLikes" placeholder= "0" value="0">
-            <button type="submit">Filter</button>
+            <div id="container">
+            <label for="shop">
+                Search Boba Stores:
+                <input class= "search-bar" type="text" name="shop" id="shop" value="{{search}}" placeholder="Kung Fu Tea...">
+            </label>
+                <p>Minimum Rating</p>
+                <input type="range" value="0" min="0" max="5" name="minRating" id="minRating" oninput="this.nextElementSibling.value = this.value">
+                <output>0</output>
+                <p>Minimum Likes</p>
+                <input type="text" name="minLikes" id="minLikes" placeholder= "0" value="0">
+                <br>
+                <br><button type="submit" class="editInfo">Filter</button>
+            </div>
         </form>
         <ol>
             {{#each shops}}
@@ -17,7 +23,7 @@
                     <ul>
                         <li><p>Address: {{this.address}}</p></li>
                         <li><p>Average Rating: {{this.averageRating}}</p></li>
-                        <li>tel: <a href="tel:{{this.phoneNumber}}">{{this.phoneNumber}}</a></li>
+                        <li class="tel-link">Phone: <a href="tel:{{this.phoneNumber}}">{{this.phoneNumber}}</a></li>
                     </ul>
                 </li>
             {{/each}}
