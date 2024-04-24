@@ -151,6 +151,7 @@ export function sortLev(stores, search) {
 export function calculateLevenshtein(store,search,x,y) {
     store = store.toLowerCase();
     search = search.toLowerCase();
+    if (store.includes(search)) return 0;
     if (x === 0) {return y;}
     if (y === 0) {return x;}
     if (store[x-1] === search [y-1]){
