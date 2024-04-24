@@ -6,25 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{title}}</title>
     <link rel="icon" type="image/x-icon" href="/public/img/favicon.jpg">
-    <link rel="stylesheet" href= "/public/css/styles.css">
+    <link rel="stylesheet" href="/public/css/styles.css">
 </head>
 <body>
     {{#unless loggedIn}}
     <div class="account">
-        <a href="/user/signup"><button type="button" class="signup">Sign Up</button></a>     
-        <a href="/user/login"><button type="button" class="login">Login</button></a>
+        <button onclick="location.href='/user/signup'" type="button" class="signup">Sign Up</button>
+        <button onclick="location.href='/user/login'" type="button" class="login">Login</button>
     </div>
-{{/unless}}
-{{#if loggedIn}}
+    {{/unless}}
+    {{#if loggedIn}}
     <div class="account">
-        <a href="/user/{{loggedIn.id}}"><button type="button" class="signup">Profile</button></a>
+        <button onclick="location.href='/user/{{loggedIn.id}}'" type="button" class="signup">Profile</button>
         <form action="/user/logout" method="POST">
             <button type="submit" class="login">Logout</button>
         </form>
     </div>
-{{/if}}
+    {{/if}}
     <div class="home">
-    <a href="/"><button type="button" class="home">Home</button></a>
+        <button onclick="location.href='/'" type="button" class="home">Home</button>
     </div>
     <br>
     {{{body}}}
