@@ -1,0 +1,23 @@
+<main>
+    {{#with shop}}
+    <h2>Submit an item for {{name}}</h2>
+    <form id="itemForm" action="/shop/{{_id}}/itemForm"> 
+        <label for="name">Item Name:
+            <input id="name" name="name" input="text">
+        </label>
+        <label for="price">
+            Price:
+            <input id="price" name="price" input="number" min="0">
+        </label>
+        <dl>
+            <dt>
+                <input id="[name]" name="[name]" type="checkbox">
+                <label for="[name]">[name]</label>
+            </dt>
+        </dt>
+        <label for="submit">
+            <input id="submit" name="submit" type="submit">
+        </label>
+    </form>
+    {{/with}}
+</main>

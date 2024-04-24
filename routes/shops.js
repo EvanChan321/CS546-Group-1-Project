@@ -202,9 +202,20 @@ router.route('/shop/:id/delete')
 router
   .route('/shop/:shopId/itemForm')
   .get(async (req, res) => {
-    res.render("itemForm", {
-      title: "Item Form"
-    });
+    try{
+      const searchResult = await shopData.getShop(req.params.shopId); 
+      if (!searchResult.name){
+        throw 'lebron james'
+      }
+      res.render("itemForm", {
+        title: "Item Form",
+        shop: searchResult,
+        loggedIn: req.session.user
+      });
+    }catch(e){
+      console.log(e);
+      res.status(500).render('error', {error: "Internal Server Error"});
+    }
   })
   .post(async (req, res) => {
     let shopId

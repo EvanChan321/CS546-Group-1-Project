@@ -25,12 +25,13 @@
         </ul>
         {{/with}}
         <h2>Menu:</h2>
+        <a href="/shop/{{shop._id}}/itemForm">Add an item</a>
         <button onclick="toggleContent('toggledMenu')">Display Menu</button>
         <div id="toggledMenu" style="display: none;">
         <table>
             <tr>
-                <th>Item</th>
-                </th>Price</th>
+                <th>Item    </th>
+                </th>Price    </th>
                 </th>Page Link</th>
             </tr>
         {{#each items}}
