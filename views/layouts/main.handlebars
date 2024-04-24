@@ -11,21 +11,24 @@
 <body>
     {{#unless loggedIn}}
     <div class="account">
-        <a href="/user/signup"><button type="button" class="signup">Sign Up</button></a>     
-        <a href="/user/login"><button type="button" class="login">Login</button></a>
+        <button onclick="location.href='/user/signup'" type="button" class="signup">Sign Up</button>     
+        <button onclick="location.href='/user/login'" type="button" class="login">Login</button>
     </div>
 {{/unless}}
 {{#if loggedIn}}
     <div class="account">
-        <a href="/user/{{loggedIn.id}}"><button type="button" class="signup">Profile</button></a>
+        <button onclick="location.href='/user/{{loggedIn.id}}'" type="button" class="signup">Profile</button>
         <form action="/user/logout" method="POST">
             <button type="submit" class="login">Logout</button>
         </form>
     </div>
 {{/if}}
-    <div class="home">
-    <a href="/"><button type="button" class="home">Home</button></a>
-    </div>
+
+<div class="home">
+    <button onclick="location.href='/'" type="button" class="home">Home</button>
+</div>
+
+<body>
     <br>
     {{{body}}}
     <script src="../public/js/clientside.js"></script>
