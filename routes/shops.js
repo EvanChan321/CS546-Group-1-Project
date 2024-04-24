@@ -261,8 +261,8 @@ router
         tags,
         allergens
       )
-      //req.session.user = user;
-      return res.redirect(`/shop/${shopId}/${item._id}`)
+      //return res.redirect(`/shop/${shopId}/${item._id}`)
+      return res.redirect(`/shop/${shopId}`)
     } catch (error) {
       return res.status(500).render("addShop", {
               error: error.toString(),

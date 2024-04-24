@@ -2,19 +2,134 @@
     {{#with shop}}
     <h2>Submit an item for {{name}}</h2>
     <form id="itemForm" action="/shop/{{_id}}/itemForm"> 
-        <label for="name">Item Name:
+        <div>
+            <label for="name">
+                Item Name:
             <input id="name" name="name" input="text">
         </label>
-        <label for="price">
+        </div>
+        <div>
+            <label for="price">
             Price:
             <input id="price" name="price" input="number" min="0">
         </label>
-        <dl>
-            <dt>
-                <input id="[name]" name="[name]" type="checkbox">
-                <label for="[name]">[name]</label>
-            </dt>
-        </dt>
+        </div>
+        <div>
+            <label for="tagList">Add tags</label>
+            <dl id="tagList">
+                <h4>Flavors</h4>
+                <dt>
+                    <input id="taro" name="taro" type="checkbox">
+                    <label for="taro">Taro</label>
+                </dt>
+                <dt>
+                    <input id="matcha" name="matcha" type="checkbox">
+                    <label for="matcha">Matcha</label>
+                </dt>
+                <dt>
+                    <input id="honeydew" name="honeydew" type="checkbox">
+                    <label for="honeydew">Honeydew</label>
+                </dt>
+                <dt>
+                    <input id="mango" name="mango" type="checkbox">
+                    <label for="mango">Mango</label>
+                </dt>
+                <dt>
+                    <input id="lychee" name="lychee" type="checkbox">
+                    <label for="lychee">Lychee</label>
+                </dt>
+                <dt>
+                    <input id="strawberry" name="strawberry" type="checkbox">
+                    <label for="strawberry">Strawberry</label>
+                </dt>
+                <h4>Toppings</h4>
+                <dt>
+                    <input id="tapioca" name="tapioca" type="checkbox">
+                    <label for="tapioca">Tapioca Pearls</label>
+                </dt>
+                <dt>
+                    <input id="jelly" name="jelly" type="checkbox">
+                    <label for="jelly">Jelly</label>
+                </dt>
+                <dt>
+                    <input id="milk_foam" name="milk_foam" type="checkbox">
+                    <label for="milk_foam">Milk Foam</label>
+                </dt>
+                <h4>Temperature</h4>
+                <dt>
+                    <input id="iced" name="iced" type="checkbox">
+                    <label for="iced">Iced</label>
+                </dt>
+                <dt>
+                    <input id="hot" name="hot" type="checkbox">
+                    <label for="hot">Hot</label>
+                </dt>
+                <h4>Type</h4>
+                <dt>
+                    <input id="milk" name="milk_tea" type="checkbox">
+                    <label for="milk_tea">Milk Tea</label>
+                </dt>
+                <dt>
+                    <input id="fruit_tea" name="fruit_tea" type="checkbox">
+                    <label for="fruit_tea">Fruit Tea</label>
+                </dt>
+                <dt>
+                    <input id="coffee" name="coffee" type="checkbox">
+                    <label for="coffee">Coffee</label>
+                </dt>
+                <dt>
+                    <input id="slush" name="slush" type="checkbox">
+                    <label for="slush">Slush</label>
+                </dt>
+                <dt>
+                    <input id="vegan" name="vegan" type="checkbox">
+                    <label for="vegan">Vegan</label>
+                </dt>
+            </dl>
+            <label for="allergenList" >Common Allergens</label>
+            <dl id="allergenList">
+                <dt>
+                    <input id="gluten" name="gluten" type="checkbox">
+                    <label for="gluten">Gluten</label>
+                </dt>
+                <dt>
+                    <input id="dairy" name="dairy" type="checkbox">
+                    <label for="dairy">Dairy</label>
+                </dt>
+                <dt>
+                    <input id="peanuts" name="peanuts" type="checkbox">
+                    <label for="peanuts">Peanuts</label>
+                </dt>
+                <dt>
+                    <input id="treenuts" name="treenuts" type="checkbox">
+                    <label for="treenuts">Tree Nuts</label>
+                </dt>
+                <dt>
+                    <input id="sesame" name="sesame" type="checkbox">
+                    <label for="sesame">Sesame</label>
+                </dt>
+                <dt>
+                    <input id="mustard" name="mustard" type="checkbox">
+                    <label for="mustard">Mustard</label>
+                </dt>
+                <dt>
+                    <input id="soy" name="soy" type="checkbox">
+                    <label for="soy">Soy</label>
+                </dt>
+                <dt>
+                    <input id="eggs" name="eggs" type="checkbox">
+                    <label for="eggs">Eggs</label>
+                </dt>
+                <dt>
+                    <input id="fish" name="fish" type="checkbox">
+                    <label for="fish">Fish</label>
+                </dt>
+                <dt>
+                    <input id="shellfish" name="shellfish" type="checkbox">
+                    <label for="shellfish">Shellfish</label>
+                </dt>
+            </dl>
+        </div>
         <label for="submit">
             <input id="submit" name="submit" type="submit">
         </label>
