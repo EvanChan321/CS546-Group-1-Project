@@ -99,8 +99,14 @@ router.route('/shops/search').post(async (req, res) => {
     const shops = await shopData.getAllShops();
     const search = req.body.shop;
     console.log(search);
-    const sortShops = sortLev(shops,search);
-    res.render('shopSearchResults', {shops: sortShops, loggedIn: req.session.user});
+    let sortShops = sortLev(shops,search);
+    if(req.body.minRating && req.body.minLikes){
+      sortShops = sortShops.filter((shop) => (shop.numOfLikes >= req.body.minLikes));
+      if(req.body.minRating > 0){
+        sortShops = sortShops.filter((shop) => ((shop.averageRating >= req.body.minRating) && (shop.averageRating != "No Ratings")));
+      }
+    }
+    res.render('shopSearchResults', {shops: sortShops, loggedIn: req.session.user, search: search});
   }catch(e){
     res.status(500).render('error', {error: e});
   }
