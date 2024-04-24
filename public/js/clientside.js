@@ -56,27 +56,26 @@ function passwordCheck (val){
     return val
 }
 
-function confirmCheck(str1, str2){
+function confirmSame(str1, str2){
     if(str1 !== str2){
         throw 'Passwords do not match';
     }
     return;
 }
 
-function zipCheck(str){
-    str = stringValidate(str);
-    if(str.length !== 5){
-        throw 'Zipcode must be 5 numbers';
+function confirmDiff(str1, str2){
+    if(str1 === str2){
+        throw 'New password cannot be the same as current password';
     }
-    if(isNaN(str)){
-        throw 'Zipcode should only consist of numbers'
-    }
-    return zipCheck;
+    return;
 }
+
+
 
 
 let signupForm = document.getElementById('signup-form');
 let addShopForm = document.getElementById('addShop-form');
+let editUserForm = document.getElementById('edit-user-form');
 let errorDiv = document.getElementById('error');
 
 if(signupForm){
@@ -100,7 +99,7 @@ if(signupForm){
             errors.push(e.toString());
         }
         try{
-            confirmCheck(password, passwordConf.trim());
+            confirmSame(password, passwordConf.trim());
         } catch(e){
             errors.push(e.toString());
         }
@@ -110,7 +109,7 @@ if(signupForm){
             errors.push(e.toString());
         }
         try{
-            zipcode = zipCheck(zipcode);
+            zipcode = stringValidate(zipcode);
         } catch(e){
             errors.push(e.toString());
         }
@@ -120,7 +119,7 @@ if(signupForm){
         } else{
             signupForm.submit();
         }
-    })
+    });
 }
 
 if(addShopForm){
@@ -158,5 +157,49 @@ if(addShopForm){
         } else{
             addShopForm.submit();
         }
-    })
+    });
+}
+
+if(editUserForm){
+    editUserForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        let errors = [];
+        if(errorDiv) errorDiv.hidden = true;   
+        let bio = document.getElementById('bio').value;
+        let newPassword = document.getElementById('password').value;
+        let oldPassword = document.getElementById('oldPassword').value;
+        let address = document.getElementById('zip').value;
+        if(bio){
+            try{
+                bio = stringValidate(bio);
+            } catch(e){
+                errors.push(e.toString());
+            }
+        }
+        if(newPassword){
+            try{
+                newPassword = passwordCheck(newPassword);
+            } catch(e){
+                errors.push(e.toString());
+            }
+            try{
+                confirmDiff(newPassword, oldPassword);
+            } catch(e){
+                errors.push(e.toString());
+            }
+        }
+        if(address){
+            try{
+                address = stringValidate(address);
+            } catch(e){
+                errors.push(e.toString());
+            }
+        }
+        if(errors.length > 0){
+            errorDiv.hidden = false;
+            errorDiv.innerHTML = "<ul>" + errors.map(error => `<li>${error}</li>`).join('') + "</ul>";
+        } else{
+            editUserForm.submit();
+        }
+    });
 }
