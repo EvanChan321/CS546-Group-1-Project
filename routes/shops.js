@@ -149,8 +149,26 @@ router.route('/shops/search').post(async (req, res) => {
     const shops = await shopData.getAllShops();
     const search = req.body.shop;
     console.log(search);
-    const sortShops = sortLev(shops,search);
-    res.render('shopSearchResults', {shops: sortShops, loggedIn: req.session.user});
+    let sortShops = sortLev(shops,search);
+    if(req.body.minRating && req.body.minLikes){
+      sortShops = sortShops.filter((shop) => (shop.numOfLikes >= req.body.minLikes));
+      if(req.body.minRating > 0){
+        sortShops = sortShops.filter((shop) => ((shop.averageRating >= req.body.minRating) && (shop.averageRating != "No Ratings")));
+      }
+    }
+    res.render('shopSearchResults', {title:"Search Results", shops: sortShops, loggedIn: req.session.user, search: search});
+  }catch(e){
+    res.status(500).render('error', {error: e});
+  }
+})
+
+router.route('/shops/bookmarks').get(async (req,res) => {
+  try{
+    const shops = await shopData.getAllShops();
+    console.log(req.session.user.bookmarks);
+    console.log(shops[0]._id.toString());
+    const bmShops = shops.filter((shop) => (req.session.user.bookmarks).includes(shop._id.toString()));
+    res.render('bookmarks', {title:"Bookmarks", shops: bmShops, loggedIn: req.session.user});
   }catch(e){
     res.status(500).render('error', {error: e});
   }
@@ -174,7 +192,7 @@ router.route('/shop/:id').get(async (req, res) => {
     if(req.session.user){
       inBookmarks = (req.session.user.bookmarks).includes(search)
     }
-    res.render('shopPage', {shop:searchResult, items:storeItems, reviews:storeReviews, loggedIn: req.session.user, inBookmarks: inBookmarks});
+    res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews, loggedIn: req.session.user, inBookmarks: inBookmarks});
   } catch(e){
     res.status(500).render('error',{error: e});
   }
@@ -234,9 +252,20 @@ router.route('/shop/:id/delete')
 router
   .route('/shop/:shopId/itemForm')
   .get(async (req, res) => {
-    res.render("itemForm", {
-      title: "Item Form"
-    });
+    try{
+      const searchResult = await shopData.getShop(req.params.shopId); 
+      if (!searchResult.name){
+        throw 'lebron james'
+      }
+      res.render("itemForm", {
+        title: "Item Form",
+        shop: searchResult,
+        loggedIn: req.session.user
+      });
+    }catch(e){
+      console.log(e);
+      res.status(500).render('error', {error: "Internal Server Error"});
+    }
   })
   .post(async (req, res) => {
     let shopId
@@ -270,8 +299,8 @@ router
         name: name,
         description: description,
         price: price,
-        tags: req.body.tags.trim(),
-        allergens: req.body.allergens.trim()
+        tags: req.body.tags,
+        allergens: req.body.allergens
       });
     }
     try {
@@ -282,8 +311,8 @@ router
         tags,
         allergens
       )
-      //req.session.user = user;
-      return res.redirect(`/shop/${shopId}/${item._id}`)
+      //return res.redirect(`/shop/${shopId}/${item._id}`)
+      return res.redirect(`/shop/${shopId}`)
     } catch (error) {
       return res.status(500).render("addShop", {
               error: error.toString(),
@@ -311,49 +340,36 @@ router
     let rating
     let review
     try{
-      userId = valid.idCheck(req.session.user.id)
-      shopId = valid.idCheck(req.body.shopId)
-      title = valid.stringValidate(req.body.title)
-      rating = parseNum(req.body.rating)
-      intCheck(rating)
-      review = valid.stringValidate(req.body.review)
+      userId = valid.idCheck(req.session.user.id);
+      shopId = valid.idCheck(req.params.shopId);
+      title = valid.stringValidate(req.body.title);
+      rating = parseInt(req.body.rating);
+      intCheck(rating);
+      review = valid.stringValidate(req.body.review);
     }
     catch(e){
-      return res.status(400).render("reviewForm", {
-        error: e.toString(),
-        titlePage: "Review Form",
-        title: title,
-        rating: flagReason,
-        review: review
-      });
+      console.log(e);
+      res.status(504).redirect(`/shop/${req.params.shopId}`);
     }
     try {
-      const review = await reviewData.createReview(
+      const rev = await reviewData.createReview(
         userId,
         shopId,
         title,
         rating,
         review
       )
-      //req.session.user = user;
-      return res.redirect(`/review/${review._id}`)
-    } catch (error) {
-      return res.status(500).render("reviewForm", {
-              error: e.toString(),
-              titlePage: "Review Form",
-              title: title,
-              rating: flagReason,
-              review: review
-            });
+      return res.redirect(`/review/${rev._id}`)
+    } catch(e) {
+      console.log(e);
+      res.status(500).render('error', {error: "Internal Server Error"})
     }
   })
 
 router
   .route('/shop/:shopId/flagForm')
   .get(async (req, res) => {
-    res.render("flagForm", {
-      title: "Flag Form"
-    });
+    res.render("flagForm", {title: "Flag Form", id: req.params.shopId});
   })
   .post(async (req, res) => {
     let shopId

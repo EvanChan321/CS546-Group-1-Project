@@ -2,27 +2,36 @@
 {{#with user}}
     <h1>Welcome, {{name}}</h1>
     <h3>Account Type: {{accountType}}</h3>
+    <button onclick="location.href='/shops/bookmarks'" type="button" class="bookmarks">Bookmarks</button>
     {{#if error}}
          <p class="error">{{error}}</p>
     {{/if}}
-    <form action="/user/{{_id}}" method="POST" class="user">
+    <div id="userEdit" hidden>
+    <form action="/user/{{_id}}" method="POST" name="edit-user-form" id="edit-user-form" class="user">
         <label for="bio">Bio:</label>
-        <input type="text" id="bio" name="bio" placeholder="{{bio}}">
+        <input type="text" id="bio" name="bio" value="{{bio}}">
         <br>
-        <label for="email">Email:</label>
-        <input type="text" id="email" name="email" placeholder="{{email}}">
-        <br>
-        <label for="password">Password</label>
+        <label for="password">New Password</label>
         <input type="password" id="password" name="password">
         <br>
         <label for="oldPassword">Old Password</label>
         <input type="password" id="oldPassword" name="oldPassword">
         <br>
         <label for="zip">Zipcode:</label>
-        <input type="text" id="zip" name="zip" placeholder="{{address}}">
+        <input type="text" id="zip" name="zip" value="{{address}}">
         <br>
         <button type="submit" class="save">Save Changes</button>
     </form>
+    </div>
+    <div id="error" class="CSerror" hidden>Error</div>
+    <div id="userInfo">
+        <ul>
+            <li>Bio: {{bio}}</li>
+            <li>Email: {{email}}</li>
+            <li>Address: {{address}}</li>
+        </ul>
+    </div>
+    <button onclick="swapContent('userEdit','userInfo')" class="editInfo" id="editButton">Edit Info</button>
     
     <h2>Reviews:</h2>
     {{#each reviews}}

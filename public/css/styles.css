@@ -44,7 +44,23 @@ input[type="text"] {
     border-radius: 5px;
 }
 
+input[type="email"] {
+    border-radius: 5px;
+}
+
+input[type="url"] {
+    border-radius: 5px;
+}
+
+input[type="tel"] {
+    border-radius: 5px;
+}
+
 .logSign input[type="text"] {
+    font-size: 14px;
+}
+
+.logSign input[type="email"] {
     font-size: 14px;
 }
 
@@ -58,7 +74,7 @@ input[type="password"] {
 
 button {
     padding: 5px 10px;
-    background-color: #ffffff;
+    background-color: transparent;
     border: 2px solid #000000;
     border-radius: 13px;
     cursor: pointer;
@@ -74,6 +90,7 @@ button[type="submit"] {
 
 button.save {
     margin-top: 4px;
+    transition: all 0.3s ease-in-out;
 }
 
 button.save:hover {
@@ -83,6 +100,7 @@ button.save:hover {
 button.login {
     background-color: transparent;
     float: right;
+    transition: all 0.3s ease-in-out;
 }
 
 button.login:hover {
@@ -90,23 +108,37 @@ button.login:hover {
 }
 
 button.book {
-    background-color: #ffd131; 
+    background-color: transparent; 
     transition: all 0.3s ease-in-out; 
-    margin-top: 10px; 
+    float: right;
 }
 
 button.book:hover {
-    background-color: #f1a727;
+    background-color: #2c0703;
+    color: #ffffff;
 }
 
 button.unbook {
-    background-color: #f1a727;
+    background-color: #2c0703;
+    color: #ffffff;
     transition: all 0.3s ease-in-out;
-    margin-top: 10px;
+    float: right;
 }
 
 button.unbook:hover {
-    background-color: #ffd131;
+    background-color: transparent;
+    color: #000000;
+}
+
+button.flag {
+    float: right;
+    margin-right: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+button.flag:hover {
+    background-color: #ff0000;
+    color: #ffffff;
 }
 
 button.delete {
@@ -120,7 +152,7 @@ button.delete {
 
 button.delete:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 10px #000;
+    box-shadow: 0 0 10px #000000;
 }
 
 button.signup {
@@ -148,6 +180,15 @@ button.addShop {
     float: center;
 }
 
+button.editInfo{
+    transition: all 0.3s ease-in-out;
+}
+
+button.editInfo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #000000;
+}
+
 img.search-button {
     width: 30px; 
     height: 30px;
@@ -171,6 +212,11 @@ a.static-link, a.static-link:visited {
     margin-top: 0%;
 }
 
+.CSerror {
+    color: red;
+    font-size: 16px;
+}
+
 img.error {
     display: block;
     margin-left: auto;
@@ -185,4 +231,32 @@ section.login {
 .reviewdate {
     float: left;
     
+}
+
+#container {
+    width: 50%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #948887;
+    box-shadow: 0 2px 2px #000000;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.tel-link {
+    font-style: italic;
+}
+
+ol {
+    counter-reset: item;
+    list-style-type: none;
+    padding-left: 0;
+    margin-top: 20px;
+}
+
+textarea {
+    resize: none;
+    width: 60%;
+    height: 6rem;
+    margin-top: 10px;
 }
