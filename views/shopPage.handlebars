@@ -87,13 +87,15 @@
         {{/each}}
         </div>  
         <script src="../public/clientside.js"></script>
-        {{#if loggedIn}}
-            <footer>
+        <footer>
+            <a href="javascript:history.back()" class="static-link">Go Back to Stores</a>
+            {{#if loggedIn}}
+            
             <hr>
             <form action="/shop/{{shop._id}}/delete" method="POST">
                 <button type="submit" class="delete">DELETE SHOP</button>
             </form>
-            </footer>
         {{/if}}
+        </footer>
     </main>
 </body>

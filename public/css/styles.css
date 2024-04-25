@@ -202,7 +202,6 @@ form.signup form.login{
 
 a.static-link, a.static-link:visited {
     color: #0000EE; 
-    text-decoration: none;
 }
 
 .error {
@@ -217,6 +216,11 @@ a.static-link, a.static-link:visited {
 .CSerror {
     color: red;
     font-size: 16px;
+}
+
+ul.error {
+    list-style-type: none;
+    font-size: 1em  ;
 }
 
 img.error {
