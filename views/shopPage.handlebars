@@ -16,12 +16,16 @@
             </form>
         {{/if}}
         {{#with shop}}
+        {{#if flagged}}
+            <h2>This Shop has been flagged {{flagcount}} times</h2>
+        {{/if}}
         <h2>Details:</h2>
         <ul>
             <li><p>Address: {{address}}</p></li>
             <li><p>Website:  <a href="{{website}}" target="_blank">{{website}}</a></p></li>
             <li><p>Phone Number: {{phoneNumber}}</p></li>
             <li><p>Average Rating: {{averageRating}}</p></li>
+            <li><p>Number of Likes: {{numOfLikes}}</p></li>
         </ul>
         {{/with}}
         <h2>Menu:</h2>
