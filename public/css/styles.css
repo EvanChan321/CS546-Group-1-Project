@@ -159,6 +159,7 @@ button.signup {
     background-color: #ef9480;
     float: right;
     margin-left: 3px;
+    transition: all 0.3s ease-in-out;
 }
 
 button.signup:hover {
@@ -169,6 +170,7 @@ button.home {
     background-color: #ef9480;
     float: left;
     margin-right: 3px;
+    transition: all 0.3s ease-in-out;
 }
 
 
@@ -239,6 +241,15 @@ section.login {
     padding: 20px;
     border: 2px solid #948887;
     box-shadow: 0 2px 2px #000000;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#newContainer {
+    width: 40%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #948887;
     border-radius: 10px;
     text-align: center;
 }

@@ -1,11 +1,12 @@
 <link rel="stylesheet" type="text/css" href="/public/css/map.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <div id="newContainer">
     <form action="/map" method="POST" class="map" id="Map">
         <label for="address">Address:</label>
         <input type="text" id="address" name="address">
-        <br>
         <button type="submit" class="save">Submit</button>
     </form>
+    </div>
     <input type="hidden" id="latitude" value="{{ lat }}">
     <input type="hidden" id="longitude" value="{{ long }}">
     <div id="map"></div>
