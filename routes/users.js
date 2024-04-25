@@ -134,6 +134,7 @@ router
         id: user._id.toString(),
         name: user.name, 
         email: user.email,
+        address: user.address,
         accountType: user.accountType,
         bookmarks: user.bookmarks
       }
