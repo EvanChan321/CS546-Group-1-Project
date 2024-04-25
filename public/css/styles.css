@@ -254,3 +254,9 @@ ol {
     margin-top: 20px;
 }
 
+textarea {
+    resize: none;
+    width: 60%;
+    height: 6rem;
+    margin-top: 10px;
+}

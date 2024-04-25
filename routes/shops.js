@@ -290,40 +290,29 @@ router
     let rating
     let review
     try{
-      userId = valid.idCheck(req.session.user.id)
-      shopId = valid.idCheck(req.body.shopId)
-      title = valid.stringValidate(req.body.title)
-      rating = parseNum(req.body.rating)
-      intCheck(rating)
-      review = valid.stringValidate(req.body.review)
+      userId = valid.idCheck(req.session.user.id);
+      shopId = valid.idCheck(req.params.shopId);
+      title = valid.stringValidate(req.body.title);
+      rating = parseInt(req.body.rating);
+      intCheck(rating);
+      review = valid.stringValidate(req.body.review);
     }
     catch(e){
-      return res.status(400).render("reviewForm", {
-        error: e.toString(),
-        titlePage: "Review Form",
-        title: title,
-        rating: flagReason,
-        review: review
-      });
+      console.log(e);
+      res.status(504).redirect(`/shop/${req.params.shopId}`);
     }
     try {
-      const review = await reviewData.createReview(
+      const rev = await reviewData.createReview(
         userId,
         shopId,
         title,
         rating,
         review
       )
-      //req.session.user = user;
-      return res.redirect(`/review/${review._id}`)
-    } catch (error) {
-      return res.status(500).render("reviewForm", {
-              error: e.toString(),
-              titlePage: "Review Form",
-              title: title,
-              rating: flagReason,
-              review: review
-            });
+      return res.redirect(`/review/${rev._id}`)
+    } catch(e) {
+      console.log(e);
+      res.status(500).render('error', {error: "Internal Server Error"})
     }
   })
 

@@ -3,15 +3,15 @@
         <h1>{{shop.name}}</h1>
         {{#if loggedIn}}
             {{#if inBookmarks}}
-                <form action="/shop/{{shop._id}}" method="POST">
+                <form action="/shop/{{shop._id}}" method="POST" id="bookmark">
                     <button type="submit" class="unbook">Un-bookmark</button>
                 </form>
             {{else}}
-                <form action="/shop/{{shop._id}}" method="POST">
+                <form action="/shop/{{shop._id}}" method="POST" id="bookmark">
                     <button type="submit" class="book">Bookmark</button>
                 </form>
             {{/if}}
-            <form action="/shop/{{shop._id}}/flagForm" method="GET">
+            <form action="/shop/{{shop._id}}/flagForm" method="GET" id="flag">
                 <button type="submit" class="flag">Flag Shop</button>
             </form>
         {{/if}}
@@ -25,7 +25,9 @@
         </ul>
         {{/with}}
         <h2>Menu:</h2>
-        <a href="/shop/{{shop._id}}/itemForm">Add an item</a>
+        {{#if loggedIn}}
+            <a href="/shop/{{shop._id}}/itemForm">Add an item</a><br>
+        {{/if}}
         <button onclick="toggleContent('toggledMenu')">Display Menu</button>
         <div id="toggledMenu" style="display: none;">
         <table>
@@ -44,6 +46,24 @@
         </table>
         </div>
         <h2>Reviews:</h2>
+        {{#if loggedIn}}
+        <form action="/shop/{{shop._id}}/reviewForm" method="POST" id="reviewForm">
+            <label for="title">
+                Review Title:
+                <input id="title" name="title" type="text"> 
+            </label>
+            <label for="rating">
+                Rating:
+                <input type="range" value="0" min="1" max="5" name="rating" id="rating" oninput="this.nextElementSibling.value = this.value">
+                <output>1</output>
+            </label> 
+            <br>
+            <label for="review">
+                <textarea id="review" name="review" placeholder="Write a Review..."></textarea>
+            </label>
+            <input id="submitButton" name="submitButton" type="submit">
+        </form>
+        {{/if}}
         <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
         <div id="toggledReviews" style="display: none;">
         {{#each reviews}}

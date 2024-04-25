@@ -41,7 +41,7 @@ function numCheck (num) {
 };
 
 function checkPrice(price){
-    price = parseFloat(price);
+    price = parseFloat(price.trim());
     numCheck(price);
     if(price != price.toFixed(2)) throw "price must be at most 2 decimal places"
     return price;
@@ -90,6 +90,7 @@ let signupForm = document.getElementById('signup-form');
 let addShopForm = document.getElementById('addShop-form');
 let editUserForm = document.getElementById('edit-user-form');
 let itemForm = document.getElementById('itemForm');
+let reviewForm = document.getElementById('reviewForm')
 let errorDiv = document.getElementById('error');
 
 if(signupForm){
@@ -218,42 +219,8 @@ if(editUserForm){
     });
 }
 
-if(itemForm){
-    console.log("fsdasjfnlkasdfnosafndfsalknlsdflksdflkdsfmlk");
-    itemForm.addEventListener('submit', (event) => {
+if(reviewForm){
+    editUserForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        console.log("auofaoifsoauflakfioasoifanoihs");
-        let errors = [];
-        if(errorDiv) errorDiv.hidden = true;   
-        let itemName = document.getElementById('name').value;
-        let price = document.getElementById('price').value;
-        if(itemName){
-            try{
-                itemName = stringValidate(itemName);
-            } catch(e){
-                errors.push(e.toString());
-            }
-        }
-        if(price){
-            try{
-                price = checkPrice(price);
-            } catch(e){
-                errors.push(e.toString());
-            }
-        }
-        const tags = document.querySelectorAll('#tagList input[type="checkbox"] + label');
-        const tagArray = Array.from(tags).map(label => label.textContent);
-        console.log(tagArray);
-
-        const allergens = document.querySelectorAll('#allergenList input[type="checkbox"] + label');
-        const allergenArray = Array.from(allergens).map(label => label.textContent);
-        console.log(allergenArray);
-
-        if(errors.length > 0){
-            errorDiv.hidden = false;
-            errorDiv.innerHTML = "<ul>" + errors.map(error => `<li>${error}</li>`).join('') + "</ul>";
-        } else{
-            itemForm.submit();
-        }
-    });
+    })
 }
