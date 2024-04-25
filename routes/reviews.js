@@ -15,7 +15,7 @@ router
     }
     try {
         const review = await reviewData.getReview(reviewId);
-        return res.status(200).render('reviewPage',{review: review});
+        return res.status(200).render('reviewPage', {title: `Review: ${review.title}`, loggedIn: req.session.user, review: review});
     } catch (e) {
         return res.status(404).render('error',{error: e});
     }

@@ -47,11 +47,13 @@
         </div>
         <h2>Reviews:</h2>
         {{#if loggedIn}}
+        <div id="container">
         <form action="/shop/{{shop._id}}/reviewForm" method="POST" id="reviewForm">
             <label for="title">
                 Review Title:
                 <input id="title" name="title" type="text"> 
             </label>
+            <br>
             <label for="rating">
                 Rating:
                 <input type="range" value="0" min="1" max="5" name="rating" id="rating" oninput="this.nextElementSibling.value = this.value">
@@ -61,8 +63,10 @@
             <label for="review">
                 <textarea id="review" name="review" placeholder="Write a Review..."></textarea>
             </label>
-            <input id="submitButton" name="submitButton" type="submit">
+            <br>
+            <button type="submit" id="submitButton" name="submitButton" class="save">Create Review</button>
         </form>
+        </div>
         {{/if}}
         <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
         <div id="toggledReviews" style="display: none;">
