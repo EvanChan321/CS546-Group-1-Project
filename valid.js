@@ -2,8 +2,9 @@ import { ObjectId } from "mongodb";
 import validator from 'validator';
 import { phone } from "phone";
 import bcryptjs from 'bcryptjs';
-import geocoder from 'node-geocoder';
-const { Geocoder } = geocoder;
+import NodeGeocoder from "node-geocoder";
+import { shopData } from "./data/index.js";
+
 export function numCheck (num) {
     if (typeof(num) !== 'number'){
         throw (`${num} is not a number`);
@@ -165,14 +166,37 @@ export function calculateLevenshtein(store,search,x,y) {
 
 export async function getLatLong(address) {
     address = stringValidate(address);
-    let apiKey = "need one"
-    let options = { provider: "google", apiKey: apiKey };
-    let geocoder = Geocoder(options);
+    let options = { provider: "google", apiKey: "AIzaSyD6pVaBxSAagHYO28XRIu6DgWsPzpuNpNY" };
+    let geocoder = NodeGeocoder(options);
     let res = await geocoder.geocode(address);
+    let returnObj;
     if (!res || !res[0] || !res[0].latitude || !res[0].longitude) {
-        throw `Your address is invalid. Format as such
+        throw `Your ${elmName} could not be found. Maybe try it in a different format?
         \n Example: 1234 Main St, City`;
     } else {
-       return { lat: res[0].latitude, long: res[0].longitude };
+        returnObj = { lat: res[0].latitude, lng: res[0].longitude };
     }
+
+    return returnObj;
+}
+
+export async function getPins(){
+    const shops = await shopData.getAllShops();
+    let pins = [];
+
+    for (const shop of shops) {
+        const cords = await getLatLong(shop.address);
+        const shopPage = "/shop/" + shop._id.toString();
+
+        const curr = {
+            position: cords,
+            title: shop.name,
+            url: shopPage,
+            color: shop.numOfLikes
+        };
+
+        pins.push(curr);
+    }
+
+    return pins;
 }

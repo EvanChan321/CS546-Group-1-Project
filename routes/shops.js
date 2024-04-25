@@ -3,8 +3,8 @@ import {shopData,itemData,reviewData, flagData, userData} from '../data/index.js
 import {intCheck, sortLev} from '../valid.js'
 import * as valid from "../valid.js";
 const router = Router();
-
-
+import dotenv from 'dotenv'
+dotenv.config();
 //basic stuff to render home file can change to to a different route in the future this is just for rendering the home page
 router.route('/').get(async (req, res) => {
   //code here for GET will render the home handlebars file
@@ -16,6 +16,56 @@ router.route('/').get(async (req, res) => {
   }catch(e){
     res.sendStatus(500);
   }
+});
+ 
+router.route('/map').get(async (req, res) => {
+  try {
+    const pins = await valid.getPins()
+    let cord 
+    if(req.session.user){
+      cord = await valid.getLatLong(req.session.user.address);
+    }
+    else{
+      cord = await valid.getLatLong("529 Washington Street, Hoboken");
+    }   
+    res.render('map', {
+      title: "Map",
+      lat: cord.lat,
+      long: cord.lng,
+      shops: JSON.stringify(pins),
+      keys: process.env.GOOGLE_MAPS_KEY
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(500).send("Internal Server Error");
+  }
+})
+.post(async (req, res) => {
+  let address
+  let pins
+  try{
+    address = valid.stringValidate(req.body.address)
+    address = await valid.getLatLong(address);   
+    pins = await valid.getPins()
+  }
+  catch(e){
+    return res.status(400).render("Map", {
+      error: e.toString(),
+      title: "Map",
+    });
+  }
+  try{
+    res.render('map', {
+        title: "Map",
+        lat: address.lat,
+        long: address.lng,
+        shops: JSON.stringify(pins),
+        keys: process.env.GOOGLE_MAPS_KEY
+      });
+    } catch (e) {
+        console.log(e);
+        res.status(500).send("Internal Server Error");
+    }
 });
 
 // router.get('/map', (req, res) => {
@@ -38,7 +88,7 @@ router.route('/shops').get(async (req, res) => {
   }catch(e){
     console.log(e);
   }
-})
+});
 
 router
   .route('/shop/addShop')
