@@ -1,6 +1,7 @@
 import {Router} from 'express';
 import {shopData,itemData,reviewData, flagData, userData} from '../data/index.js'
 import {intCheck, sortLev} from '../valid.js'
+import xss from "xss";
 import * as valid from "../valid.js";
 const router = Router();
 import dotenv from 'dotenv'
@@ -23,7 +24,7 @@ router.route('/map').get(async (req, res) => {
     const pins = await valid.getPins()
     let cord 
     if(req.session.user){
-      cord = await valid.getLatLong(req.session.user.address);
+      cord = await valid.getLatLong(xss(req.session.user.address));
     }
     else{
       cord = await valid.getLatLong("529 Washington Street, Hoboken");
@@ -44,7 +45,7 @@ router.route('/map').get(async (req, res) => {
   let address
   let pins
   try{
-    address = valid.stringValidate(req.body.address)
+    address = valid.stringValidate(xss(req.body.address))
     address = await valid.getLatLong(address);   
     pins = await valid.getPins()
   }
@@ -68,18 +69,6 @@ router.route('/map').get(async (req, res) => {
     }
 });
 
-// router.get('/map', (req, res) => {
-//   res.sendFile('map2.html', { root: './' });
-// }); 
-router.route('/map').get(async (req, res) => {
-  try{
-    res.render('map', {
-      title: "Map"
-    });
-  }catch(e){
-    console.log(e);
-  }
-})
 
 router.route('/shops').get(async (req, res) => {
   try{
@@ -102,12 +91,12 @@ router
     let website
     let phoneNumber
     try{
-      shopName = valid.stringValidate(req.body.shopName)
-      address = valid.stringValidate(req.body.address)
-      website = valid.urlCheck(req.body.website)
-      phoneNumber = valid.phoneNumberCheck(req.body.phoneNumber)
+      shopName = valid.stringValidate(xss(req.body.shopName))
+      address = valid.stringValidate(xss(req.body.address))
+      website = valid.urlCheck(xss(req.body.website))
+      phoneNumber = valid.phoneNumberCheck(xss(req.body.phoneNumber))
       if(req.body.ownerId){
-        ownerId = valid.idCheck(ownerId)
+        ownerId = valid.idCheck(xss(req.body.ownerId))
       }
     }
     catch(e){
@@ -129,7 +118,6 @@ router
         phoneNumber,
         ownerId
       )
-      //req.session.user = user;
       return res.redirect(`/shop/${shop._id}`)
     } catch (error) {
       return res.status(500).render("addShop", {
@@ -147,13 +135,15 @@ router
 router.route('/shops/search').post(async (req, res) => {
   try{
     const shops = await shopData.getAllShops();
-    const search = req.body.shop;
+    const search = xss(req.body.shop);
+    let minLikes = xss(req.body.minLikes)
+    let minRating = xss(req.body.minRating)
     console.log(search);
     let sortShops = sortLev(shops,search);
-    if(req.body.minRating && req.body.minLikes){
-      sortShops = sortShops.filter((shop) => (shop.numOfLikes >= req.body.minLikes));
+    if(minRating && minLikes){
+      sortShops = sortShops.filter((shop) => (shop.numOfLikes >= minLikes));
       if(req.body.minRating > 0){
-        sortShops = sortShops.filter((shop) => ((shop.averageRating >= req.body.minRating) && (shop.averageRating != "No Ratings")));
+        sortShops = sortShops.filter((shop) => ((shop.averageRating >= minRating) && (shop.averageRating != "No Ratings")));
       }
     }
     res.render('shopSearchResults', {title:"Search Results", shops: sortShops, loggedIn: req.session.user, search: search});
@@ -167,7 +157,7 @@ router.route('/shops/bookmarks').get(async (req,res) => {
     const shops = await shopData.getAllShops();
     console.log(req.session.user.bookmarks);
     console.log(shops[0]._id.toString());
-    const bmShops = shops.filter((shop) => (req.session.user.bookmarks).includes(shop._id.toString()));
+    const bmShops = shops.filter((shop) => (xss(req.session.user.bookmarks)).includes(shop._id.toString()));
     res.render('bookmarks', {title:"Bookmarks", shops: bmShops, loggedIn: req.session.user});
   }catch(e){
     res.status(500).render('error', {error: e});
@@ -175,7 +165,7 @@ router.route('/shops/bookmarks').get(async (req,res) => {
 })
 
 router.route('/shop/:id').get(async (req, res) => {
-  const search = req.params.id.trim();
+  const search = (xss(req.params.id)).trim();
   if(!search || (search.trim().length === 0)){
     return res.status(400).render('error', {error: 'Must input search id'});
   } 
@@ -190,7 +180,7 @@ router.route('/shop/:id').get(async (req, res) => {
     const storeReviews = await Promise.all(storeReviewsPromises);
     let inBookmarks = false
     if(req.session.user){
-      inBookmarks = (req.session.user.bookmarks).includes(search)
+      inBookmarks = (xss(req.session.user.bookmarks)).includes(search)
     }
     res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews, loggedIn: req.session.user, inBookmarks: inBookmarks});
   } catch(e){
@@ -198,11 +188,11 @@ router.route('/shop/:id').get(async (req, res) => {
   }
 })
 .post(async (req, res) => {
-  let userId //need from cookies
+  let userId 
   let shopId
   try{
-    userId = valid.idCheck(req.session.user.id) //cookie eventually
-    shopId = valid.idCheck(req.params.id)
+    userId = valid.idCheck(xss(req.session.user.id)) 
+    shopId = valid.idCheck(xss(req.params.id))
   }catch(e){
     return res.status(400).render('shopPage', {
       error: e.toString(), 
@@ -230,7 +220,7 @@ router.route('/shop/:id/delete')
 .post(async (req, res) => {
   let shopId
   try{
-    shopId = valid.idCheck(req.params.id)
+    shopId = valid.idCheck(xss(req.params.id))
   }
   catch(e){
     return res.status(400).render("shopPage", {
@@ -253,7 +243,7 @@ router
   .route('/shop/:shopId/itemForm')
   .get(async (req, res) => {
     try{
-      const searchResult = await shopData.getShop(req.params.shopId); 
+      const searchResult = await shopData.getShop(xss(req.params.shopId)); 
       if (!searchResult.name){
         throw 'lebron james'
       }
@@ -275,10 +265,10 @@ router
     let tags
     let allergens
     try{
-      shopId = valid.idCheck(req.body.shopId)
-      name = valid.stringValidate(req.body.name)
-      description = valid.stringValidate(req.body.description)
-      price = req.body.price
+      shopId = valid.idCheck(xss(req.params.shopId))
+      name = valid.stringValidate(xss(req.body.name))
+      description = valid.stringValidate(xss(req.body.description))
+      price = xss(req.body.price)
       price = parseNum(price)
       valid.numCheck(price)
       if(price < 1 || price > 5){
@@ -287,9 +277,9 @@ router
       if(!Number.isInteger(price)){
         maxDecimal(price, 0)
       }
-      tags = req.body.tags.trim()
+      tags = (xss(req.body.tags)).trim()
       tags = valid.arrayOfStrings(tags.split(","))
-      allergens = req.body.allergens.trim()
+      allergens = (xss(req.body.allergens)).trim()
       allergens = valid.arrayOfStrings(allergens.split(","))
     }
     catch(e){
@@ -311,7 +301,6 @@ router
         tags,
         allergens
       )
-      //return res.redirect(`/shop/${shopId}/${item._id}`)
       return res.redirect(`/shop/${shopId}`)
     } catch (error) {
       return res.status(500).render("addShop", {
@@ -340,16 +329,16 @@ router
     let rating
     let review
     try{
-      userId = valid.idCheck(req.session.user.id);
-      shopId = valid.idCheck(req.params.shopId);
-      title = valid.stringValidate(req.body.title);
-      rating = parseInt(req.body.rating);
+      userId = valid.idCheck(xss(req.session.user.id));
+      shopId = valid.idCheck(xss(req.params.shopId));
+      title = valid.stringValidate(xss(req.body.title));
+      rating = parseInt(xss(req.body.rating));
       intCheck(rating);
-      review = valid.stringValidate(req.body.review);
+      review = valid.stringValidate(xss(req.body.review));
     }
     catch(e){
       console.log(e);
-      res.status(504).redirect(`/shop/${req.params.shopId}`);
+      res.status(504).redirect(`/shop/${xss(req.params.shopId)}`);
     }
     try {
       const rev = await reviewData.createReview(
@@ -369,15 +358,15 @@ router
 router
   .route('/shop/:shopId/flagForm')
   .get(async (req, res) => {
-    res.render("flagForm", {title: "Flag Form", id: req.params.shopId});
+    res.render("flagForm", {title: "Flag Form", id: xss(req.params.shopId)});
   })
   .post(async (req, res) => {
     let shopId
     let userId
     let flagReason
     try{
-      shopId = valid.idCheck(req.body.shopId)
-      flagReason = valid.stringValidate(req.body.flagReason)
+      shopId = valid.idCheck(xss(req.params.shopId))
+      flagReason = valid.stringValidate(xss(req.body.flagReason))
     }
     catch(e){
       return res.status(400).render("flagForm", {
@@ -392,7 +381,6 @@ router
         userId,
         flagReason
       )
-      //req.session.user = user;
       return res.redirect(`/shop/${shopId}/flag/${flag._id}`)
     } catch (error) {
       return res.status(500).render("flagForm", {
@@ -409,8 +397,8 @@ router
     let shopId
     let flagId
     try {
-      shopId = valid.idCheck(req.params.shopId)
-      flagId = valid.idCheck(req.params.flagId)
+      shopId = valid.idCheck(xss(req.params.shopId))
+      flagId = valid.idCheck(xss(req.params.flagId))
     } catch (e) {
       return res.status(400).json({error: e});
     }
@@ -428,8 +416,8 @@ router
     let shopId 
     let flagId
     try {
-      shopId = valid.idCheck(req.params.shopId)
-      flagId = valid.idCheck(req.params.flagId)
+      shopId = valid.idCheck(xss(req.params.shopId))
+      flagId = valid.idCheck(xss(req.params.flagId))
     } catch (e) {
       return res.status(400).json({error: e});
     }
@@ -447,8 +435,8 @@ router
     let shopId
     let itemId
     try {
-      shopId = valid.idCheck(req.params.shopId)
-      itemId = valid.idCheck(req.params.itemId)
+      shopId = valid.idCheck(xss(req.params.shopId))
+      itemId = valid.idCheck(xss(req.params.itemId))
     } catch (e) {
       return res.status(400).json({error: e});
     }
@@ -466,8 +454,8 @@ router
     let shopId 
     let itemId
     try {
-      shopId = valid.idCheck(req.params.shopId)
-      itemId = valid.idCheck(req.params.itemId)
+      shopId = valid.idCheck(xss(req.params.shopId))
+      itemId = valid.idCheck(xss(req.params.itemId))
     } catch (e) {
       return res.status(400).json({error: e});
     }
@@ -494,11 +482,11 @@ router.route('/shop/:shopid/:itemId/edit')
     let allergens
     let updateItem
     try{
-      shopId = valid.idCheck(req.body.shopId)
-      itemId = valid.idCheck(req.body.itemId)
-      name = valid.stringValidate(req.body.name)
-      description = valid.stringValidate(req.body.description)
-      price = req.body.price
+      shopId = valid.idCheck(xss(req.params.shopId))
+      itemId = valid.idCheck(xss(req.params.itemId))
+      name = valid.stringValidate(xss(req.body.name))
+      description = valid.stringValidate(xss(req.body.description))
+      price = xss(req.body.price)
       price = parseNum(price)
       valid.numCheck(price)
       if(price < 1 || price > 5){
@@ -507,9 +495,9 @@ router.route('/shop/:shopid/:itemId/edit')
       if(!Number.isInteger(price)){
         maxDecimal(price, 0)
       }
-      tags = req.body.tags.trim()
+      tags = (xss(req.body.tags)).trim()
       tags = valid.arrayOfStrings(tags.split(","))
-      allergens = req.body.allergens.trim()
+      allergens = (xss(req.body.allergens)).trim()
       allergens = valid.arrayOfStrings(allergens.split(","))
       updateItem = {
         name,
@@ -526,8 +514,8 @@ router.route('/shop/:shopid/:itemId/edit')
         name: name,
         description: description,
         price: price,
-        tags: req.body.tags.trim(),
-        allergens: req.body.allergens.trim()
+        tags: tags,
+        allergens: allergens,
       });
     }
     try {

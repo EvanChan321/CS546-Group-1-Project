@@ -2,13 +2,14 @@ import { Router } from "express";
 const router = Router();
 import * as valid from "../valid.js";
 import { commentData, reviewData } from "../data/index.js";
+import xss from "xss";
 
 router
   .route('/:reviewId')
   .get(async (req, res) => {
     let reviewId
     try {
-        reviewId = valid.idCheck(req.params.reviewId)
+        reviewId = valid.idCheck(xss(req.params.reviewId))
     } catch (e) {
         return res.status(400).json({error: e});
     }
@@ -20,19 +21,19 @@ router
     }
   })
   .post(async (req, res) => {
-    let userId //need to verify it is the user
+    let userId 
     let title
     let rating
     let review
     let edited
     let reviewId
     try{
-      reviewId = valid.idCheck(req.params.reviewId)
-      userId
-      title = valid.stringValidate(req.body.title)
-      rating = parseNum(req.body.rating)
+      reviewId = valid.idCheck(xss(req.params.reviewId))
+      userId = valid.idCheck(xss(req.session.user.id))
+      title = valid.stringValidate(xss(req.body.title))
+      rating = parseNum(xss(req.body.rating))
       intCheck(rating)
-      review = valid.stringValidate(req.body.review)
+      review = valid.stringValidate(xss(req.body.review))
       edited = true
     }
     catch(e){
@@ -69,7 +70,7 @@ router
   .delete(async (req, res) => {
     let reviewId //need to eventually verify if user that made it or an admin
     try{
-      reviewId = valid.idCheck(req.params.reviewId)
+      reviewId = valid.idCheck(xss(req.params.reviewId))
     }
     catch(e){
       return res.status(400).render("review", {
@@ -92,7 +93,7 @@ router
   .get(async (req, res) => {
     let reviewId
     try {
-        reviewId = valid.idCheck(req.params.reviewId)
+        reviewId = valid.idCheck(xss(req.params.reviewId))
     } catch (e) {
         return res.status(400).json({error: e});
     }
@@ -108,9 +109,9 @@ router
     let userId
     let comment
     try{
-      reviewId = valid.idCheck(req.params.reviewId)
-      userId //implement 
-      comment = valid.stringValidate(req.body.comment)
+      reviewId = valid.idCheck(xss(req.params.reviewId))
+      userId = valid.idCheck(xss(req.session.user.id))
+      comment = valid.stringValidate(xss(req.body.comment))
     }
     catch(e){
       return res.status(400).render("review", {
@@ -137,8 +138,8 @@ router
   .get(async (req, res) => {
     let reviewId
     try {
-        reviewId = valid.idCheck(req.params.reviewId)
-        commentId = valid.idCheck(req.params.commentId)
+        reviewId = valid.idCheck(xss(req.params.reviewId))
+        commentId = valid.idCheck(xss(req.params.commentId))
     } catch (e) {
         return res.status(400).json({error: e});
     }
@@ -150,11 +151,11 @@ router
     }
   })
   .delete(async (req, res) => {
-    let reviewId //verify if admin
+    let reviewId 
     let commentId
     try{
-      reviewId = valid.idCheck(req.params.reviewId)
-      commentId = valid.idCheck(req.params.commentId)
+      reviewId = valid.idCheck(xss(req.params.reviewId))
+      commentId = valid.idCheck(xss(req.params.commentId))
     }
     catch(e){
       return res.status(400).json({error: e});
