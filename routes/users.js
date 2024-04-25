@@ -2,6 +2,7 @@ import { Router } from "express";
 const router = Router();
 import * as valid from "../valid.js";
 import { commentData, reviewData, userData } from "../data/index.js";
+import xss from "xss";
 
 router
   .route('/signup')
@@ -19,13 +20,13 @@ router
     let userEmail
     let userAddress
     try{
-      userName = valid.stringValidate(req.body.username)
-      userPassword = valid.passwordCheck(req.body.password)
-      if(req.body.password !== req.body.passwordConf){
+      userName = valid.stringValidate(xss(req.body.username))
+      userPassword = valid.passwordCheck(xss(req.body.password))
+      if(req.body.password !== xss(req.body.passwordConf)){
         throw "passwords dont match"
       }
-      userEmail = valid.emailCheck(req.body.email)
-      userAddress = valid.stringValidate(req.body.zipcode)
+      userEmail = valid.emailCheck(xss(req.body.email))
+      userAddress = valid.stringValidate(xss(req.body.zipcode))
     }
     catch(e){
       return res.status(400).render("signup", {
@@ -73,10 +74,10 @@ router
     let userEmail
     let userAddress
     try{
-      userName = valid.stringValidate(req.body.username)
-      userPassword = valid.passwordCheck(req.body.password)
-      userEmail = valid.emailCheck(req.body.email)
-      userAddress = valid.stringValidate(req.body.zipcode)
+      userName = valid.stringValidate(xss(req.body.username))
+      userPassword = valid.passwordCheck(xss(req.body.password))
+      userEmail = valid.emailCheck(xss(req.body.email))
+      userAddress = valid.stringValidate(xss(req.body.zipcode))
     }
     catch(e){
       return res.status(400).render("signup", {
@@ -119,8 +120,8 @@ router
     let userPassword
     let user
     try{
-      userEmailOrUsername = valid.stringValidate(req.body.emailOrUsername)
-      userPassword = valid.stringValidate(req.body.password)
+      userEmailOrUsername = valid.stringValidate(xss(req.body.emailOrUsername))
+      userPassword = valid.stringValidate(xss(req.body.password))
     }catch(e){
       return res.status(400).render("login", {
         error: e.toString(),
@@ -162,7 +163,7 @@ router
   .get(async (req, res) => {
     let userId
     try {
-        userId = valid.idCheck(req.params.userId)
+        userId = valid.idCheck(xss(req.params.userId))
     } catch (e) {
         return res.status(400).json({error: e});
     }
@@ -179,17 +180,17 @@ router
     let userId
     let user
     try{
-      userId = valid.idCheck(req.params.userId)
+      userId = valid.idCheck(xss(req.params.userId))
       user = await userData.getUser(userId);
-      if(req.body.bio){
+      if(xss(req.body.bio)){
         updateObject.bio = valid.stringValidate(req.body.bio)
       }
-      if(req.body.password){
+      if(xss(req.body.password)){
         updateObject.password = valid.passwordCheck(req.body.password)
-        updateObject.oldPassword = valid.passwordCheck(req.body.oldPassword)
+        updateObject.oldPassword = valid.passwordCheck(xss(req.body.oldPassword))
       }
-      if(req.body.address){
-        userAddress = valid.stringValidate(req.body.address)
+      if(xss(req.body.address)){
+        userAddress = valid.stringValidate(xss(req.body.address))
       }
     }
     catch(e){
@@ -205,7 +206,6 @@ router
         userId,
         updateObject
       )
-      //req.session.user = user;
       return res.redirect(`/user/${user._id}`)
     } catch (error) {
       return res.status(500).render("user", {
@@ -221,7 +221,7 @@ router
   .get(async (req, res) => {
     let userId
     try {
-        userId = valid.idCheck(req.params.userId)
+        userId = valid.idCheck(xss(req.params.userId))
     } catch (e) {
         return res.status(400).json({error: e});
     }
@@ -240,8 +240,8 @@ router
     //let userPassword
     let userId
     try{
-      userId = valid.idCheck(req.params.userId)
-      //userPassword = valid.passwordCheck(req.body.password)
+      userId = valid.idCheck(xss(req.params.userId))
+      //userPassword = valid.passwordCheck(xss(req.body.password))
     }
     catch(e){
       return res.status(400).render("user", {
@@ -260,5 +260,5 @@ router
       });
     }
   })
-  //eventually need to add authentication
+
 export default router;

@@ -4,6 +4,7 @@ import { phone } from "phone";
 import bcryptjs from 'bcryptjs';
 import NodeGeocoder from "node-geocoder";
 import { shopData } from "./data/index.js";
+import badwords from "bad-words";
 
 export function numCheck (num) {
     if (typeof(num) !== 'number'){
@@ -58,6 +59,8 @@ export function stringValidate (val){
     stringCheck(val)
     val = val.trim()
     atLeast(val, 1)
+    let filter = new badwords()
+    val = filter.clean(val)
     return val
 }
 
@@ -172,7 +175,7 @@ export async function getLatLong(address) {
     let res = await geocoder.geocode(address);
     let returnObj;
     if (!res || !res[0] || !res[0].latitude || !res[0].longitude) {
-        throw `Your ${elmName} could not be found. Maybe try it in a different format?
+        throw `Your ${elmName} could not be found.
         \n Example: 1234 Main St, City`;
     } else {
         returnObj = { lat: res[0].latitude, lng: res[0].longitude };

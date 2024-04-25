@@ -21,6 +21,7 @@
   "homepage": "https://github.com/EvanChan321/CS546-Group-1-Project#readme",
   "dependencies": {
     "@googlemaps/js-api-loader": "^1.16.6",
+    "bad-words": "^3.0.4",
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
@@ -29,6 +30,7 @@
     "mongodb": "^6.5.0",
     "node-geocoder": "^4.3.0",
     "phone": "^3.1.42",
-    "validator": "^13.11.0"
+    "validator": "^13.11.0",
+    "xss": "^1.0.15"
   }
 }
