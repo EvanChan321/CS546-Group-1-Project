@@ -1,0 +1,17 @@
+<section>
+  <h4 class="header">Leaderboard</h4>
+  <table class="my_coolratings_table">
+      <tr>
+          <th>Position</th>
+          <th>Username</th>
+          <th>Number of Points</th>
+      </tr>
+{{#each leaderboard}}
+    <tr>
+        <td>{{this.position}}</td>
+        <td>{{this.name}}</td>
+        <td>{{this.numOfPoints}}</td>
+     </tr>
+{{/each}}
+</table>
+</section>

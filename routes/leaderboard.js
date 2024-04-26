@@ -8,7 +8,7 @@ router
     try {
       const leaderboard = await leaderboardData.calculateLeaderBoard()
       console.log(leaderboard)
-      return res.status(200).render('leaderboard', {leaderboard: leaderboard});
+      return res.status(200).render('leaderboard', {title: "leaderboard", leaderboard: leaderboard});
     } catch (e) {
       return res.status(404).render('error',{error: e});
     }
