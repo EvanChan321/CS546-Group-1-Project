@@ -66,27 +66,6 @@ router
               review: review
             });
     }
-  })
-  .delete(async (req, res) => {
-    let reviewId //need to eventually verify if user that made it or an admin
-    try{
-      reviewId = valid.idCheck(xss(req.params.reviewId))
-    }
-    catch(e){
-      return res.status(400).render("review", {
-        error: e.toString(),
-        title: "Review"
-      });
-    }
-    try {
-      const user = await reviewData.removeReview(reviewId)
-      return res.redirect(`/user/${user._id}`)
-    } catch (error) {
-      return res.status(500).render("review", {
-              error: error.toString(),
-              title: "Review"
-            });
-    }
   });
 router
   .route('/:reviewId/comments')
@@ -149,22 +128,49 @@ router
     } catch (e) {
         return res.status(404).json({error: e});
     }
-  })
-  .delete(async (req, res) => {
-    let reviewId 
-    let commentId
-    try{
-      reviewId = valid.idCheck(xss(req.params.reviewId))
-      commentId = valid.idCheck(xss(req.params.commentId))
-    }
-    catch(e){
-      return res.status(400).json({error: e});
-    }
-    try {
-      const comment = await commentData.removeComment(commentId)
-      return res.redirect(`/${reviewId}/comments`)
-    } catch (error) {
-      return res.status(500).json({error: e});
-    }
   });
 export default router;
+
+router
+  .route('/:reviewId/delete')
+  .post(async (req, res) => {
+  let reviewId
+  try{
+    reviewId = valid.idCheck(xss(req.params.reviewId))
+  }
+  catch(e){
+    return res.status(400).render("review", {
+      error: e.toString(),
+      title: "Review"
+    });
+  }
+  try {
+    const user = await reviewData.removeReview(reviewId)
+    return res.redirect(`/user/${user._id}`)
+  } catch (error) {
+    return res.status(500).render("review", {
+            error: error.toString(),
+            title: "Review"
+          });
+  }
+});
+
+router
+  .route('/:reviewId/comment/:commentId/delete')
+  .post(async (req, res) => {
+  let reviewId 
+  let commentId
+  try{
+    reviewId = valid.idCheck(xss(req.params.reviewId))
+    commentId = valid.idCheck(xss(req.params.commentId))
+  }
+  catch(e){
+    return res.status(400).json({error: e});
+  }
+  try {
+    const comment = await commentData.removeComment(commentId)
+    return res.redirect(`/${reviewId}/comments`)
+  } catch (error) {
+    return res.status(500).json({error: e});
+  }
+});
