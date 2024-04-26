@@ -8,7 +8,6 @@ import dotenv from 'dotenv'
 dotenv.config();
 //basic stuff to render home file can change to to a different route in the future this is just for rendering the home page
 router.route('/').get(async (req, res) => {
-  //code here for GET will render the home handlebars file
   try{
     res.render('home', {
       title: "Boba Fettch",
@@ -186,7 +185,25 @@ router.route('/shop/:id').get(async (req, res) => {
     if(searchResult.flags.length >= 10){
       flagged = true 
     }
-    res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews, loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged});
+    let Default = false
+    let noOwner = false
+    let isOwner = false
+    if(req.session.user){
+      if(req.session.user.accountType === "Default"){
+        Default = true
+      }
+      if(searchResult.ownerId === ""){
+        noOwner = true
+      }
+      else{
+        if(searchResult.ownerId === req.session.user.id){
+          isOwner = true
+        }
+      }
+    }
+    res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews, 
+      loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
+      noOwner: noOwner});
   } catch(e){
     res.status(500).render('error',{error: e, loggedIn: req.session.user});
   }
