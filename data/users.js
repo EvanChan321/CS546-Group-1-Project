@@ -50,7 +50,8 @@ const createUser = async (name, password, email, address, accountType) => {
         reviews: [],
         comments: [],
         shopList: [],
-        bookmarks: []
+        bookmarks: [],
+        numOfPoints: 0
     }
     const insertInfo = await userCollection.insertOne(newUser);
     if (!insertInfo.acknowledged || !insertInfo.insertedId)
@@ -167,6 +168,9 @@ const updateUser = async (userId, updateObject) => {
     if('comments' in updateObject){
         user.comments = updateObject.comments
     }
+    if('numOfPoints' in updateObject){
+        user.numOfPoints = updateObject.numOfPoints
+    }
     const updatedInfo = await userCollection.findOneAndUpdate(
       {_id: new ObjectId(userId)},
       {$set: user},
@@ -223,6 +227,14 @@ const loginUser = async (emailOrUsername, password) => {
     return user;
 };
 
+const updatePoints = async (userId, num) => {
+    userId = valid.idCheck(userId)
+    const user = await getUser(userId)
+    const numOfLikes = num + user.numOfPoints 
+    const update = {numOfLikes: numOfLikes}
+    const updated = await updateUser(userId, update)
+    return updated
+}
 
 const exportedMethods = {
     getAllUsers,
@@ -232,6 +244,7 @@ const exportedMethods = {
     removeUser,
     loginUser,
     likeShop,
-    unlikeShop
+    unlikeShop,
+    updatePoints
 }
 export default exportedMethods;

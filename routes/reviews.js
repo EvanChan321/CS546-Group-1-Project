@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
 import * as valid from "../valid.js";
-import { commentData, reviewData } from "../data/index.js";
+import { commentData, reviewData, userData } from "../data/index.js";
 import xss from "xss";
 
 router
@@ -101,6 +101,7 @@ router
     }
     try{
       const comment = await commentData.createComment(userId, reviewId, comment)
+      const updatedUser = await userData.updatePoints(userId, 5)
       return res.redirect(`/${reviewId}/comments`)
     }
     catch(e){
@@ -129,7 +130,6 @@ router
         return res.status(404).json({error: e});
     }
   });
-export default router;
 
 router
   .route('/:reviewId/delete')
@@ -174,3 +174,5 @@ router
     return res.status(500).json({error: e});
   }
 });
+
+export default router;

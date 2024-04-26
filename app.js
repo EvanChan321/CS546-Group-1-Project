@@ -48,9 +48,9 @@ app.use('/shop/:shopId/itemForm', itemForm())
 app.use('/shop/:shopId/item/:itemId/edit', itemForm())
 app.use('/shop/:shopId/item/:itemId/delete', deleteItem())
 app.use('/shop/:shopId/item/:itemId/delete', deleteItem())
-app.use('/:reviewId', editReview())
-app.use('/:reviewId/delete', deleteReview())
-app.use('/:reviewId/comment/:commentId/delete', deleteComment())
+app.use('/review/:reviewId', editReview())
+app.use('/review/:reviewId/delete', deleteReview())
+app.use('/review/:reviewId/comment/:commentId/delete', deleteComment())
 configRoutes(app);
 
 app.listen(3000, () => {
