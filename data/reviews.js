@@ -54,6 +54,8 @@ const createReview = async (userId, objId, title, rating, review) => {
     comments: [],
     edited: false
   }
+  const existingReview = userReview.reviews.find((review) => review.objId.toString() == newReview.objId.toString());
+  if(existingReview) throw "User has already made review for this store";
   userReview.reviews.push(newReview)
   shopForReview.reviews.push(x)
   const len = shopForReview.reviews.length
