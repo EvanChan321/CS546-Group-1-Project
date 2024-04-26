@@ -3,7 +3,7 @@ You can choose to define all your middleware functions here,
 export them and then import them into your app.js and attach them that that.
 add.use(myMiddleWare()). you can also just define them in the app.js if you like as seen in lecture 10's lecture code example. If you choose to write them in the app.js, you do not have to use this file. 
 */
-import { shopData, userData } from "./data/index.js";
+import { reviewData, shopData, userData } from "./data/index.js";
 
 export const loginData = (routes) => {
     return (req, res, next) => {
@@ -176,6 +176,87 @@ export const deleteItem = (routes) => {
             }
             else{
                 if (!req.session.user || req.session.user.accountType !== "Admin") {
+                    return res.status(403).render("error", {
+                        error: "Not Authorized"})
+                }
+            }
+        }
+        next()
+    }
+}
+
+export const editReview = (routes) => {
+    return async (req, res, next) => {
+        if(req.method === "POST"){
+            const urlSegments = req.originalUrl.split('/');
+            const id = urlSegments[2];
+            if (!req.session.user) {
+                    return res.status(403).render("error", {
+                        error: "Not Authorized"})
+            }
+            else{
+                const user = await userData.getUser(req.session.user.id)
+                let isOwner = false
+                user.reviews.forEach((userReview) => {
+                    if(userReview.id.toString() === id){
+                        isOwner = true
+                    }
+                })
+                if (!isOwner) {
+                    return res.status(403).render("error", {
+                        error: "Not Authorized"})
+                }
+            }
+        }
+        next()
+    }
+}
+
+export const deleteReview = (routes) => {
+    return async (req, res, next) => {
+        if(req.method === "POST"){
+            const urlSegments = req.originalUrl.split('/');
+            const id = urlSegments[2];
+            if (!req.session.user) {
+                    return res.status(403).render("error", {
+                        error: "Not Authorized"})
+            }
+            else{
+                const user = await userData.getUser(req.session.user.id)
+                let isOwner = false
+                user.reviews.forEach((userReview) => {
+                    if(userReview.id.toString() === id){
+                        isOwner = true
+                    }
+                })
+                if (!isOwner && req.session.user.accountType !== "Admin") {
+                    return res.status(403).render("error", {
+                        error: "Not Authorized"})
+                }
+            }
+        }
+        next()
+    }
+}
+
+export const deleteComment = (routes) => {
+    return async (req, res, next) => {
+        if(req.method === "POST"){
+            const urlSegments = req.originalUrl.split('/');
+            const id = urlSegments[4];
+            if (!req.session.user) {
+                    return res.status(403).render("error", {
+                        error: "Not Authorized"})
+            }
+            else{
+                const user = await userData.getUser(req.session.user.id)
+                let isOwner = false
+                user.comments.forEach((userReview) => {
+                    if(userReview.id.toString() === id){
+                        isOwner = true
+                    }
+                })
+                if (!isOwner && req.session.user.accountType !== "Admin") {
                     return res.status(403).render("error", {
                         error: "Not Authorized"})
                 }
