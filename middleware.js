@@ -20,7 +20,7 @@ export const loginData = (routes) => {
 
 export const userLogin = (routes) => {
     return (req, res, next) => {
-        if(req.originalUrl !== '/user/login' && req.originalUrl !== '/user/signup' && req.method === "GET"){
+        if(req.originalUrl !== '/user/login' && req.originalUrl !== '/user/signup' && req.method === "GET" && req.originalUrl !== '/user/signup/business'){
             if (!req.session.user) {
                 return res.redirect('/user/login');
             }
@@ -141,7 +141,7 @@ export const flagShop = (routes) => {
 
 export const itemForm = (routes) => {
     return async (req, res, next) => {
-        if(req.method === "POST"){
+        if(req.method === "POST" || req.method === "GET"){
             const urlSegments = req.originalUrl.split('/');
             const id = urlSegments[2];
             const shop = await shopData.getShop(id)            
@@ -152,7 +152,30 @@ export const itemForm = (routes) => {
                 }
             }
             else{
-                if (!req.session.user || req.session.user.accountType === "Buisness") {
+                if (!req.session.user || req.session.user.accountType === "Business") {
+                    return res.status(403).render("error", {
+                        error: "Not Authorized"})
+                }
+            }
+        }
+        next()
+    }
+}
+
+export const deleteItem = (routes) => {
+    return async (req, res, next) => {
+        if(req.method === "POST"){
+            const urlSegments = req.originalUrl.split('/');
+            const id = urlSegments[2];
+            const shop = await shopData.getShop(id)
+            if(shop.ownerId !== ""){
+                if (!req.session.user || (req.session.user.id !== shop.ownerId && req.session.user.accountType !== "Admin")) {
+                    return res.status(403).render("error", {
+                        error: "Not Authorized"})
+                }
+            }
+            else{
+                if (!req.session.user || req.session.user.accountType !== "Admin") {
                     return res.status(403).render("error", {
                         error: "Not Authorized"})
                 }

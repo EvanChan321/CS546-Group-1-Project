@@ -11,9 +11,11 @@
                     <button type="submit" class="book">Bookmark</button>
                 </form>
             {{/if}}
+            {{#if Default}}
             <form action="/shop/{{shop._id}}/flagForm" method="GET" id="flag">
                 <button type="submit" class="flag">Flag Shop</button>
             </form>
+            {{/if}}
         {{/if}}
         {{#with shop}}
         {{#if flagged}}
@@ -30,7 +32,15 @@
         {{/with}}
         <h2>Menu:</h2>
         {{#if loggedIn}}
+        {{#if noOwner}}
+            {{#if Default}}
             <a href="/shop/{{shop._id}}/itemForm">Add an item</a><br>
+            {{/if}}
+        {{else}}
+            {{#if isOwner}}
+            <a href="/shop/{{shop._id}}/itemForm">Add an item</a><br>
+            {{/if}}
+        {{/if}}
         {{/if}}
         <button onclick="toggleContent('toggledMenu')">Display Menu</button>
         <div id="toggledMenu" style="display: none;">
@@ -51,6 +61,7 @@
         </div>
         <h2>Reviews:</h2>
         {{#if loggedIn}}
+        {{#if Default}}
         <div id="container">
         <form action="/shop/{{shop._id}}/reviewForm" method="POST" id="reviewForm">
             <label for="title">
@@ -71,6 +82,7 @@
             <button type="submit" id="submitButton" name="submitButton" class="save">Create Review</button>
         </form>
         </div>
+        {{/if}}
         {{/if}}
         <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
         <div id="toggledReviews" style="display: none;">

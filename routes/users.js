@@ -78,6 +78,9 @@ router
       userPassword = valid.passwordCheck(xss(req.body.password))
       userEmail = valid.emailCheck(xss(req.body.email))
       userAddress = valid.stringValidate(xss(req.body.zipcode))
+      if(req.body.password !== xss(req.body.passwordConf)){
+        throw "passwords dont match"
+      }
     }
     catch(e){
       return res.status(400).render("signup", {
@@ -96,7 +99,6 @@ router
         userAddress,
         "Business"
       )
-      //req.session.user = user;
       return res.redirect(`/user/login`)
     } catch (error) {
       return res.status(500).render("signup", {
