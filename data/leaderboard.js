@@ -1,10 +1,12 @@
 import { userData } from "./index.js";
 
 function compare( a, b ) {
-    if ( a.numOfLikes < b.numOfLikes ){
+  console.log(a)
+  console.log(b)
+    if ( a.numOfPoints > b.numOfPoints ){
       return -1;
     }
-    else if ( a.numOfLikes > b.numOfLikes ){
+    else if ( a.numOfPoints < b.numOfPoints ){
       return 1;
     }
     else{
