@@ -5,14 +5,19 @@
         <div>
             <label for="name">
                 Item Name:
-            <input id="name" name="name" input="text">
+            <input id="name" name="name" input="text" autocomplete="off">
         </label>
         </div>
         <div>
             <label for="price">
             Price:
-            <input id="price" name="price" input="number" step="0.01" min="0">
-        </label>
+            <input id="price" name="price" input="number" step="0.01" min="0" autocomplete="off">
+            </label>
+        </div>
+        <div>
+            <label for="description">
+                <textarea id="description" name="description" placeholder="Write a description..."></textarea>
+            </label>
         </div>
         <div>
             <label for="tagList">Add tags</label>
@@ -133,5 +138,8 @@
         <button type="submit" name="submitButton" id="submitButton" class="save">Submit</button>
     </form>
     <div id="error" hidden>{{error}}</div>
+    <footer>
+        <a href="/shop/{{_id}}">Back to Shop</a>
+    </footer>
     {{/with}}
 </main>
