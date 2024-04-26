@@ -349,6 +349,7 @@ router
         review
       )
       const updatedUser = await userData.updatePoints(userId, 10)
+      console.log(updatedUser)
       return res.redirect(`/review/${rev._id}`)
     } catch(e) {
       console.log("fsadlfjaoifnoiashpodfi");

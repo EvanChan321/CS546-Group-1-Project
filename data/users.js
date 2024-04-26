@@ -230,8 +230,8 @@ const loginUser = async (emailOrUsername, password) => {
 const updatePoints = async (userId, num) => {
     userId = valid.idCheck(userId)
     const user = await getUser(userId)
-    const numOfLikes = num + user.numOfPoints 
-    const update = {numOfLikes: numOfLikes}
+    const numOfPoints = num + user.numOfPoints 
+    const update = {numOfPoints: numOfPoints}
     const updated = await updateUser(userId, update)
     return updated
 }
