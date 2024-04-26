@@ -25,11 +25,11 @@ const createUser = async (name, password, email, address, accountType) => {
     name = valid.stringValidate(name)
     email = valid.emailCheck(email)
     const userCollection = await users();
-    const duplicateName = await userCollection.findOne({ name: name });
+    const duplicateName = await userCollection.findOne({ name: { $regex: new RegExp(`^${name}$`, 'i') } });
     if (duplicateName) {
         throw `an account with ${name} already exists`;
     }
-    const duplicateEmail = await userCollection.findOne({ email: email });
+    const duplicateEmail = await userCollection.findOne({ email: { $regex: new RegExp(`^${email}$`, 'i') } });
     if (duplicateEmail) {
         throw `an account with ${email} already exists`;
     }
@@ -125,7 +125,7 @@ const updateUser = async (userId, updateObject) => {
     const userCollection = await users()
     if('name' in updateObject){
         updateObject.name = valid.stringValidate(updateObject.name)
-        const duplicateName = await userCollection.findOne({ name: updateObject.name });
+        const duplicateName = await userCollection.findOne({ name: { $regex: new RegExp(`^${updateObject.name}$`, 'i') } });
         if (duplicateName) {
             throw `an account with ${updateObject.name} already exists`;
         }
@@ -144,7 +144,7 @@ const updateUser = async (userId, updateObject) => {
     if('email' in updateObject){
         if(updateObject.email !== user.email){
             updateObject.email = valid.emailCheck(updateObject.email)
-            const duplicateEmail = await userCollection.findOne({ email: updateObject.email });
+            const duplicateEmail = await userCollection.findOne({ email: { $regex: new RegExp(`^${updateObject.email}$`, 'i') } });
             if (duplicateEmail) {
                 throw `an account with ${email} already exists`;
             }
@@ -210,12 +210,12 @@ const loginUser = async (emailOrUsername, password) => {
     password = valid.stringValidate(password)
     let user
     if(validator.isEmail(emailOrUsername)) {
-        user = await userCollection.findOne({ email: emailOrUsername });
+        user = await userCollection.findOne({ email: { $regex: new RegExp(`^${emailOrUsername}$`, 'i') } });
         if (!user) {
             throw `Incorrect email or password`;
         }
     } else {
-        user = await userCollection.findOne({ name: emailOrUsername });
+        user = await userCollection.findOne({ name: { $regex: new RegExp(`^${emailOrUsername}$`, 'i') } });
         if (!user) {
             throw `Incorrect email or password`;
         }
