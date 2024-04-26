@@ -29,9 +29,9 @@ export function arrayCheck (val) {
         throw (`${val} is not an array`);
     }
 };
-export function atLeast (val, checkVal) {
+export function atLeast (val, checkVal, valName) {
     if(val.length < checkVal){
-        throw (`${val} has less than 2 elements`);
+        throw (`${valName} has less than 2 elements`);
     }
 };
 export function functionCheck (val) {
@@ -39,9 +39,9 @@ export function functionCheck (val) {
         throw (`${val} is not a function`);
     }
 }
-export function stringCheck (val) {
+export function stringCheck (val, valName) {
     if (typeof(val) !== 'string'){
-        throw (`${val} is not a string`);
+        throw (`${valName} is not a string`);
     }
 }
 export function keyCheck (val) {
@@ -55,10 +55,10 @@ export function notArrayCheck (val) {
     }
 };
 
-export function stringValidate (val){
-    stringCheck(val)
+export function stringValidate (val, valName){
+    stringCheck(val, valName)
     val = val.trim()
-    atLeast(val, 1)
+    atLeast(val, 1, valName)
     let filter = new badwords()
     val = filter.clean(val)
     return val
@@ -110,6 +110,13 @@ export function passwordCheck (val){
         throw "Password must be 8 characters long and contain: 1 Uppercase 1 Number 1 Symbol"
     }
     return val
+}
+
+export function checkPrice(price){
+    numCheck(price, 'Price');
+    if(price != price.toFixed(2)) throw "Price cannot be more than 2 decimal places";
+    if(price < 0) throw "Price cannot be negative";
+    return price;
 }
 
 export function arrayOfStrings (val){

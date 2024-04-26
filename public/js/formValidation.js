@@ -7,10 +7,10 @@ let errorDiv = document.getElementById('error');
 
 function numCheck (num, numName) {
     if (typeof(num) !== 'number'){
-        throw (`${num} is not a number`);
+        throw (`${numName} is not a number`);
     }
     if(isNaN(num)){
-        throw (`${num} is not a number`);
+        throw (`${numName} is not a number`);
     }
 };
 
@@ -63,14 +63,22 @@ function confirmDiff(str1, str2){
     return;
 }
 
-function checkAndSubmit(errors, form){
-    if(errors.length > 0){
+function checkAndSubmit(errors, form, addToForm) {
+    if (errors.length > 0) {
         errorDiv.hidden = false;
         errorDiv.innerHTML = "<ul class=\"error\">" + errors.map(error => `<li>${error}</li>`).join('') + "</ul>";
-    } else{
+    } else {
+        if(addShopForm){
+            for (let [key, value] of addToForm.entries()) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = value;
+                form.appendChild(input);
+            }
+        }
         form.submit();
     }
-    return;
 }
 
 
@@ -186,17 +194,18 @@ if(editUserForm){
 }
 
 if(itemForm){
-    addShopForm.addEventListener('submit', (event) => {
+    itemForm.addEventListener('submit', (event) => {
         event.preventDefault();
         let errors = [];
         if(errorDiv) errorDiv.hidden = true;
         let name = document.getElementById("name").value;
-        let price = documen.getElementById("price").value;
-        let tags = document.querySelectorAll('#tagList input[type="checkbox"] + label');
-        let tagArray = Array.from(tags).map(tags => tags.textContent);
+        let price = document.getElementById("price").value;
+        let description = document.getElementById("description").value;
+        let tags = document.querySelectorAll('#tagList input[type="checkbox"]:checked');
+        let tagArray = Array.from(tags).map(tags => tags.id);
         console.log(tagArray);
-        let allergens = document.querySelectorAll('#allergenList input[type="checkbox"] + label');
-        let allergenArray = Array.from(allergens).map(tags => tags.textContent);
+        let allergens = document.querySelectorAll('#allergenList input[type="checkbox"]:checked');
+        let allergenArray = Array.from(allergens).map(tags => tags.id);
         console.log(allergenArray);
         
         try{
@@ -209,6 +218,44 @@ if(itemForm){
         } catch(e){
             errors.push(e.toString());
         }
-        checkAndSubmit(errors, addShopForm);
+        try{
+            description = stringValidate(description);
+        } catch(e){
+            errors.push(e.toString());
+        }
+        try{
+             const tags  = ['taro', 'matcha', 'honeydew', 'mango', 'lychee', 'strawberry', 'tapioca', 'jelly', 'milk_foam', 'iced', 'hot', 'milk', 'fruit_tea', 'coffee', 'slush', 'vegan'];
+             for(let tag of tagArray){
+                if(!tags.includes(tag)){
+                    throw "Invalid Tag"
+                }
+             }
+        }catch(e){
+            errors.push(e.toString());
+        }
+        try{
+             const allergens  = ['gluten', 'dairy', 'peanuts', 'treenuts', 'sesame', 'mustard', 'soy', 'eggs', 'fish', 'shellfish'];
+             for(let allergen of allergenArray){
+                if(!allergens.includes(allergen)){
+                    throw "Invalid Tag"
+                }
+             }
+        }catch(e){
+            errors.push(e.toString());
+        }
+
+        const tagElement = document.createElement('input');
+        tagElement.type = 'hidden';
+        tagElement.name = 'tags';
+        tagElement.value = tagArray.toString();
+        itemForm.appendChild(tagElement);
+        
+        const allergenElement = document.createElement('input');
+        allergenElement.type = 'hidden';
+        allergenElement.name = 'allergens';
+        allergenElement.value = allergenArray.toString();
+        itemForm.appendChild(allergenElement);
+
+        checkAndSubmit(errors, itemForm);
     });
 }

@@ -184,7 +184,7 @@ router.route('/shop/:id').get(async (req, res) => {
     }
     res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews, loggedIn: req.session.user, inBookmarks: inBookmarks});
   } catch(e){
-    res.status(500).render('error',{error: e});
+    res.status(500).render('error',{error: e, loggedIn: req.session.user});
   }
 })
 .post(async (req, res) => {
@@ -254,46 +254,32 @@ router
       });
     }catch(e){
       console.log(e);
-      res.status(500).render('error', {error: "Internal Server Error"});
+      res.status(500).render('error', {error: "Internal Server Error", loggedIn: req.session.user});
     }
   })
   .post(async (req, res) => {
-    let shopId
-    let name
-    let description
-    let price
-    let tags
-    let allergens
+    let shopId, name, description, price, tags, allergens
     try{
       shopId = valid.idCheck(xss(req.params.shopId))
-      name = valid.stringValidate(xss(req.body.name))
-      description = valid.stringValidate(xss(req.body.description))
+      name = valid.stringValidate(xss(req.body.name), "name")
+      description = valid.stringValidate(xss(req.body.description), "description")
       price = xss(req.body.price)
-      price = parseNum(price)
-      valid.numCheck(price)
-      if(price < 1 || price > 5){
-        throw 'invalid rating'
-      }
-      if(!Number.isInteger(price)){
-        maxDecimal(price, 0)
-      }
+      price = parseFloat(price)
+      valid.checkPrice(price)
       tags = (xss(req.body.tags)).trim()
       tags = valid.arrayOfStrings(tags.split(","))
       allergens = (xss(req.body.allergens)).trim()
       allergens = valid.arrayOfStrings(allergens.split(","))
     }
     catch(e){
-      return res.status(400).render("itemForm", {
-        error: e.toString(),
-        title: "Item Form",
-        name: name,
-        description: description,
-        price: price,
-        tags: req.body.tags,
-        allergens: req.body.allergens
-      });
+      return res.status(400).render('error', {error: e});
     }
     try {
+      console.log(tags);
+      console.log(price);
+      console.log(name);
+      console.log(description);
+      console.log(allergens);
       const item = await itemData.createItem(
         name,
         description,
@@ -303,24 +289,15 @@ router
       )
       return res.redirect(`/shop/${shopId}`)
     } catch (error) {
-      return res.status(500).render("addShop", {
-              error: error.toString(),
-              title: "Add Shop",
-              name: name,
-              description: address,
-              price: website,
-              tags: phoneNumber,
-              allergens: ownerId
-            });
+      console.log(error);
+      return res.status(500).render('error', {error: "Internal Server Error"});
     }
   })
 
 router
   .route('/shop/:shopId/reviewForm')
   .get(async (req, res) => {
-    res.render("reviewForm", {
-      title: "Review Form"
-    });
+    res.render("reviewForm", {title: "Review Form"});
   })
   .post(async (req, res) => {
     let shopId
@@ -331,10 +308,10 @@ router
     try{
       userId = valid.idCheck(xss(req.session.user.id));
       shopId = valid.idCheck(xss(req.params.shopId));
-      title = valid.stringValidate(xss(req.body.title));
+      title = valid.stringValidate(xss(req.body.title), "title");
       rating = parseInt(xss(req.body.rating));
       intCheck(rating);
-      review = valid.stringValidate(xss(req.body.review));
+      review = valid.stringValidate(xss(req.body.review), "review");
     }
     catch(e){
       console.log(e);
@@ -350,15 +327,15 @@ router
       )
       return res.redirect(`/review/${rev._id}`)
     } catch(e) {
-      console.log(e);
-      res.status(500).render('error', {error: "Internal Server Error"})
+      console.log("fsadlfjaoifnoiashpodfi");
+      res.status(500).render('error', {error: "Internal Server Error", loggedIn: req.session.user})
     }
   })
 
 router
   .route('/shop/:shopId/flagForm')
   .get(async (req, res) => {
-    res.render("flagForm", {title: "Flag Form", id: xss(req.params.shopId)});
+    res.render("flagForm", {title: "Flag Form", id: xss(req.params.shopId), loggedIn: req.session.user});
   })
   .post(async (req, res) => {
     let shopId
@@ -366,7 +343,7 @@ router
     let flagReason
     try{
       shopId = valid.idCheck(xss(req.params.shopId))
-      flagReason = valid.stringValidate(xss(req.body.flagReason))
+      flagReason = valid.stringValidate(xss(req.body.flagReason), "flagReason")
     }
     catch(e){
       return res.status(400).render("flagForm", {
