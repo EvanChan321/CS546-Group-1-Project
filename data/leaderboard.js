@@ -18,7 +18,11 @@ const calculateLeaderBoard = async () => {
     let defaultUsers = users.filter(function (user) {
         return (user.accountType === "Default")
     })
-    return defaultUsers.sort(compare);
+    defaultUsers = defaultUsers.sort(compare)
+    defaultUsers = defaultUsers.map((user, index) => {
+      return { ...user, position: index+1 };
+    })
+    return defaultUsers
 }
 
 const exportedMethods = {
