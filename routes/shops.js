@@ -182,7 +182,11 @@ router.route('/shop/:id').get(async (req, res) => {
     if(req.session.user){
       inBookmarks = (xss(req.session.user.bookmarks)).includes(search)
     }
-    res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews, loggedIn: req.session.user, inBookmarks: inBookmarks});
+    let flagged = false
+    if(searchResult.flags.length >= 10){
+      flagged = true 
+    }
+    res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews, loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged});
   } catch(e){
     res.status(500).render('error',{error: e});
   }
@@ -317,11 +321,6 @@ router
 
 router
   .route('/shop/:shopId/reviewForm')
-  .get(async (req, res) => {
-    res.render("reviewForm", {
-      title: "Review Form"
-    });
-  })
   .post(async (req, res) => {
     let shopId
     let userId
@@ -365,8 +364,9 @@ router
     let userId
     let flagReason
     try{
+      userId = valid.idCheck(xss(req.session.user.id))
       shopId = valid.idCheck(xss(req.params.shopId))
-      flagReason = valid.stringValidate(xss(req.body.flagReason))
+      flagReason = valid.stringValidate(xss(req.body.description))
     }
     catch(e){
       return res.status(400).render("flagForm", {

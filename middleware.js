@@ -3,7 +3,7 @@ You can choose to define all your middleware functions here,
 export them and then import them into your app.js and attach them that that.
 add.use(myMiddleWare()). you can also just define them in the app.js if you like as seen in lecture 10's lecture code example. If you choose to write them in the app.js, you do not have to use this file. 
 */
-import { shopData } from "./data/index.js";
+import { shopData, userData } from "./data/index.js";
 
 export const loginData = (routes) => {
     return (req, res, next) => {
@@ -85,14 +85,59 @@ export const reviewShop = (routes) => {
             const urlSegments = req.originalUrl.split('/');
             const id = urlSegments[2];
             const shop = await shopData.getShop(id)
+            let double = false
+            if(req.session.user){
+                const user = await userData.getUser(req.session.user.id)
+                user.reviews.forEach((review) => {
+                    if(review.objId.toString() === id){
+                        double = true
+                    }
+                })
+                if(double){
+                    return res.status(403).render('error', { error: 'Cant Review Twice' });
+                }
+            }
             if (!req.session.user || req.session.user.accountType !== "Default" || req.session.user.id === shop.ownerId) {
-                return res.status(403).render("error", {
-                    error: "Not Authorized"})
+                return res.status(403).render('error', { error: 'Unauthorized Access' });
             }
         }
         next()
     }
 }
+
+export const flagShop = (routes) => {
+    return async (req, res, next) => {
+        const urlSegments = req.originalUrl.split('/');
+        const id = urlSegments[2];
+        const shop = await shopData.getShop(id)
+        let double = false
+        if(req.session.user){
+            shop.flags.forEach((flag) => {
+                if(flag.userId === req.session.user.id){
+                    double = true
+                }
+            })
+        }  
+        if(req.method === "GET"){
+            if(double){
+                return res.status(403).render('error', { error: 'Cant Flag Twice' });
+            }
+            if (!req.session.user || req.session.user.accountType !== "Default" || req.session.user.id === shop.ownerId) {
+                return res.status(403).render('error', { error: 'Unauthorized Access' });
+            }
+        }
+        if(req.method === "POST"){
+            if(double){
+                return res.status(403).render('error', { error: 'Cant Flag Twice' });
+            }
+            if (!req.session.user || req.session.user.accountType !== "Default" || req.session.user.id === shop.ownerId) {
+                return res.status(403).render('error', { error: 'Unauthorized Access' });
+            }
+        }
+        next()
+    }
+}
+
 
 export const itemForm = (routes) => {
     return async (req, res, next) => {
