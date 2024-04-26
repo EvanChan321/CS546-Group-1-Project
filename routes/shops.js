@@ -89,11 +89,13 @@ router
     let address
     let website
     let phoneNumber
+    let userId
     try{
       shopName = valid.stringValidate(xss(req.body.shopName))
       address = valid.stringValidate(xss(req.body.address))
       website = valid.urlCheck(xss(req.body.website))
       phoneNumber = valid.phoneNumberCheck(xss(req.body.phoneNumber))
+      userId = valid.idCheck(xss(req.session.user.id))
       if(req.body.ownerId){
         ownerId = valid.idCheck(xss(req.body.ownerId))
       }
@@ -117,6 +119,7 @@ router
         phoneNumber,
         ownerId
       )
+      const updatedUser = await userData.updatePoints(userId, 50)
       return res.redirect(`/shop/${shop._id}`)
     } catch (error) {
       return res.status(500).render("addShop", {
@@ -279,7 +282,7 @@ router
     }
   })
   .post(async (req, res) => {
-    let shopId, name, description, price, tags, allergens
+    let shopId, name, description, price, tags, allergens, userId
     try{
       shopId = valid.idCheck(xss(req.params.shopId))
       name = valid.stringValidate(xss(req.body.name), "name")
@@ -291,6 +294,7 @@ router
       tags = valid.arrayOfStrings(tags.split(","))
       allergens = (xss(req.body.allergens)).trim()
       allergens = valid.arrayOfStrings(allergens.split(","))
+      userId = valid.idCheck(xss(req.session.user.id))
     }
     catch(e){
       return res.status(400).render('error', {error: e});
@@ -308,6 +312,7 @@ router
         tags,
         allergens
       )
+      const updatedUser = await userData.updatePoints(userId, 20)
       return res.redirect(`/shop/${shopId}`)
     } catch (error) {
       console.log(error);
@@ -343,6 +348,7 @@ router
         rating,
         review
       )
+      const updatedUser = await userData.updatePoints(userId, 10)
       return res.redirect(`/review/${rev._id}`)
     } catch(e) {
       console.log("fsadlfjaoifnoiashpodfi");
