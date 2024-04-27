@@ -1,6 +1,6 @@
 import { dbConnection, closeConnection } from "../config/mongoConnection.js";
 
-import { commentData, reviewData, userData, shopData } from "../data/index.js";
+import { commentData, reviewData, userData, shopData, itemData } from "../data/index.js";
 import * as valid from "../valid.js";
 
 const db = await dbConnection();
@@ -11,15 +11,63 @@ let user = {
     name: "Tabby",
     password: "Password1!",
     email: "mangelak@stevens.edu",
-    zipcode: "07630",
+    zipcode: "076300",
     accountType: "Admin",
+}
+
+let userErr = {
+    name: "tabby",
+    password: "Password1!",
+    email: "mangelakos@stevens.edu",
+    zipcode: "076300",
+    accountType: "Admin",
+}
+
+let userErr2 = {
+    name: "totallyNotTabby",
+    password: "Password1!",
+    email: "mangelak@stevens.edu",
+    zipcode: "076300",
+    accountType: "user",
+}
+
+let user2 = {
+    name: "Denks",
+    password: "ILoveCS546!!!",
+    email: "eniemann@stevens.edu",
+    zipcode: "63124",
+    accountType: "Default",
+}
+
+let user3 = {
+    name: "PlayboiCarti",
+    password: "Go2DaMoon$",
+    email: "playboicarti@rocketmail.com",
+    zipcode: "07030",
+    accountType: "Default",
+}
+
+let user4 = {
+    name: "AmazinBuilder",
+    password: "#1Builder",
+    email: "amazin@hotmail.com",
+    zipcode: "90310",
+    accountType: "Default",
+}
+
+let user5 = {
+    name: "TheHoohn",
+    password: "Password3#",
+    email: "actronav@gmail.com",
+    zipcode: "07030",
+    accountType: "Business",
 }
 
 let shop = {
     name: "Chicken Factory",
-    address: "529 Washington St, Hoboken, NJ, 070",
-    website: "https://www.google.com/",
-    phoneNumber: "2018199192",
+    address: "529 Washington St, Hoboken, NJ, 07030",
+    website: "http://www.chickenfactoryhoboken.com/",
+    phoneNumber: "201-683-8243",
 }
 
 let review = {
@@ -37,9 +85,11 @@ let review2 = {
 let comment = {
     comment: "GOAT"
 }
+
 let comment2 = {
-    comment: "ur buggin"
+    comment: "jumpoutthehouse"
 }
+
 try {
     user = await userData.createUser(
         user.name,
@@ -56,11 +106,102 @@ try {
 }
 
 try {
+    userErr = await userData.createUser(
+        userErr.name,
+        userErr.password,
+        userErr.email,
+        userErr.zipcode,
+        userErr.accountType
+    );
+    console.log("user incorrectly created");
+    console.log(userErr);
+} catch (e) {
+    console.log("Correctly errored user");
+    console.log(e);
+}
+
+try {
+    userErr = await userData.createUser(
+        userErr2.name,
+        userErr2.password,
+        userErr2.email,
+        userErr2.zipcode,
+        userErr2.accountType
+    );
+    console.log("user incorrectly created");
+    console.log(userErr);
+} catch (e) {
+    console.log("Correctly errored user");
+    console.log(e);
+}
+
+try {
+    user2 = await userData.createUser(
+        user2.name,
+        user2.password,
+        user2.email,
+        user2.zipcode,
+        user2.accountType
+    );
+    console.log("user created");
+    console.log(user2);
+} catch (e) {
+    console.log("Error creating user");
+    console.log(e);
+}
+
+try {
+    user3 = await userData.createUser(
+        user3.name,
+        user3.password,
+        user3.email,
+        user3.zipcode,
+        user3.accountType
+    );
+    console.log("user created");
+    console.log(user3);
+} catch (e) {
+    console.log("Error creating user");
+    console.log(e);
+}
+
+try {
+    user4 = await userData.createUser(
+        user4.name,
+        user4.password,
+        user4.email,
+        user4.zipcode,
+        user4.accountType
+    );
+    console.log("user created");
+    console.log(user4);
+} catch (e) {
+    console.log("Error creating user");
+    console.log(e);
+}
+
+try {
+    user5 = await userData.createUser(
+        user5.name,
+        user5.password,
+        user5.email,
+        user5.zipcode,
+        user5.accountType
+    );
+    console.log("user created");
+    console.log(user5);
+} catch (e) {
+    console.log("Error creating user");
+    console.log(e);
+}
+
+try {
     shop = await shopData.createShop(
         shop.name,
         shop.address,
         shop.website,
         shop.phoneNumber,
+        user5._id.toString()
     );
     console.log("shop created");
     console.log(shop);
@@ -93,17 +234,17 @@ try{
         review2.rating,
         review2.review
     )
-    console.log("review created");
+    console.log("review incorrectly created");
     console.log(review2);
 }
 catch(e){
-    console.log("Error creating review");
+    console.log("Correctly errored review");
     console.log(e);
 }
 
 try{
     comment = await commentData.createComment(
-        user._id.toString(),
+        user2._id.toString(),
         review._id.toString(),
         comment.comment
     )
@@ -117,12 +258,12 @@ catch(e){
 
 try{
     comment2 = await commentData.createComment(
-        user._id.toString(),
-        review2._id.toString(),
+        user3._id.toString(),
+        review._id.toString(),
         comment2.comment
     )
     console.log("comment created");
-    console.log(comment2);
+    console.log(comment);
 }
 catch(e){
     console.log("Error creating comment");
@@ -179,25 +320,304 @@ catch(e){
     console.log(e);
 }*/
 
-shop = {
-    name: "kung fu tea",
-    address: "536 Washington St, Hoboken, NJ, 070",
-    website: "https://www.google.com/",
-    phoneNumber: "8286817074",
+let shop2 = {
+    name: "Kung Fu Tea",
+    address: "536 Washington St, Hoboken, NJ, 07030",
+    website: "https://www.kungfutea.com/",
+    phoneNumber: "201-222-9091",
 }
 
 try {
-    shop = await shopData.createShop(
-        shop.name,
-        shop.address,
-        shop.website,
-        shop.phoneNumber,
+    shop2 = await shopData.createShop(
+        shop2.name,
+        shop2.address,
+        shop2.website,
+        shop2.phoneNumber,
     );
     console.log("shop created");
-    console.log(shop);
+    console.log(shop2);
 } catch (e) {
     console.log("Error creating shop");
     console.log(e);
 }
 
+let shop3 = {
+    name: "ViVi Bubble Tea",
+    address: "117 Washington St, Hoboken, NJ, 07030",
+    website: "https://www.vivihoboken.com/",
+    phoneNumber: "201-626-3889",
+}
+
+try {
+    shop3 = await shopData.createShop(
+        shop3.name,
+        shop3.address,
+        shop3.website,
+        shop3.phoneNumber,
+    );
+    console.log("shop created");
+    console.log(shop3);
+} catch (e) {
+    console.log("Error creating shop");
+    console.log(e);
+}
+
+let shop4 = {
+    name: "Gong Cha",
+    address: "527 Washington St, Hoboken, NJ, 07030",
+    website: "https://gongchausa.com/",
+    phoneNumber: "201-710-5757",
+}
+
+try {
+    shop4 = await shopData.createShop(
+        shop4.name,
+        shop4.address,
+        shop4.website,
+        shop4.phoneNumber,
+    );
+    console.log("shop created");
+    console.log(shop4);
+} catch (e) {
+    console.log("Error creating shop");
+    console.log(e);
+}
+
+let shop5 = {
+    name: "The Whale Tea",
+    address: "303 1st St, Hoboken, NJ, 07030",
+    website: "https://www.whaleteausa.com/",
+    phoneNumber: "201-253-0168",
+}
+
+try {
+    shop5 = await shopData.createShop(
+        shop5.name,
+        shop5.address,
+        shop5.website,
+        shop5.phoneNumber,
+    );
+    console.log("shop created");
+    console.log(shop5);
+} catch (e) {
+    console.log("Error creating shop");
+    console.log(e);
+}
+
+let review3 = {
+    title: "Questionable",
+    rating: 4,
+    review: "The tea was just alright, but very good service"
+}
+
+try{
+    review3 = await reviewData.createReview(
+        user2._id.toString(),
+        shop3._id.toString(),
+        review3.title,
+        review3.rating,
+        review3.review
+    )
+    console.log("review created");
+    console.log(review);
+} catch (e) {
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let review4 = {
+    title: "AHH",
+    rating: 1,
+    review: "They put peanut, tree nuts, sesame, and mustard in my tea!"
+}
+
+try{
+    review4 = await reviewData.createReview(
+        user4._id.toString(),
+        shop2._id.toString(),
+        review4.title,
+        review4.rating,
+        review4.review
+    )
+    console.log("review created");
+    console.log(review4);
+} catch (e) {
+    console.log("Error creating review");
+    console.log(e);
+}
+
+try{
+    comment = await commentData.createComment(
+        user2._id.toString(),
+        review4._id.toString(),
+        "I'm sorry to hear that"
+    )
+    console.log("comment created");
+    console.log(comment);
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+
+
+let review5 = {
+    title: "Pretty Good",
+    rating: 5,
+    review: "They made sure to put in the special sauce"
+}
+
+try{
+    review5 = await reviewData.createReview(
+        user4._id.toString(),
+        shop3._id.toString(),
+        review5.title,
+        review5.rating,
+        review5.review
+    )
+    console.log("review created");
+    console.log(review5);
+} catch (e) {
+    console.log("Error creating review");
+    console.log(e);
+}
+
+try{
+    comment = await commentData.createComment(
+        user._id.toString(),
+        review5._id.toString(),
+        "What is the special sauce..."
+    )
+    console.log("comment created");
+    console.log(comment);
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+
+try{
+    comment = await commentData.createComment(
+        user4._id.toString(),
+        review5._id.toString(),
+        "That's a secret!"
+    )
+    console.log("comment created");
+    console.log(comment);
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+
+try{
+    review = await reviewData.createReview(
+        user3._id.toString(),
+        shop4._id.toString(),
+        "carti",
+        3,
+        "i <3 tHis pLAc3"
+    )
+    console.log("review created");
+    console.log(review);
+} catch (e) {
+    console.log("Error creating review");
+    console.log(e);
+}
+
+try{
+    comment = await commentData.createComment(
+        user4._id.toString(),
+        review._id.toString(),
+        "Me too!"
+    )
+    console.log("comment created");
+    console.log(comment);
+} catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+
+try{
+    comment = await commentData.createComment(
+        user._id.toString(),
+        review._id.toString(),
+        "I don't!"
+    )
+    console.log("comment created");
+    console.log(comment);
+} catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+
+try{
+    review = await reviewData.createReview(
+        user2._id.toString(),
+        shop5._id.toString(),
+        "it's okay...",
+        3,
+        "Nothing special really, mid tea, ok service"
+    )
+    console.log("review created");
+    console.log(review);
+} catch (e) {
+    console.log("Error creating review");
+    console.log(e);
+}
+
+try{
+    comment = await commentData.createComment(
+        user._id.toString(),
+        review._id.toString(),
+        "Nah, ur trolling"
+    )
+    console.log("comment created");
+    console.log(comment);
+} catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+
+try{
+    comment = await commentData.createComment(
+        user2._id.toString(),
+        review._id.toString(),
+        "??? No I'm not"
+    )
+    console.log("comment created");
+    console.log(comment);
+} catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+
+try{
+    review = await reviewData.createReview(
+        user._id.toString(),
+        shop5._id.toString(),
+        "Hidden gem",
+        5,
+        "I never heard of this place until the other day but it's great"
+    )
+    console.log("review created");
+    console.log(review);
+} catch (e) {
+    console.log("Error creating review");
+    console.log(e);
+}
+
+/*try{
+    item = await itemData.createItem(
+        shop._id.toString(),
+        "Taro Milk Tea",
+        "Taro Flavored Milk Tea",
+        4,
+        ["Milk Tea","Hot"],
+        ["Dairy"]        
+    )
+} catch(e){
+    console.log("Error making item");
+    console.log(e);
+}*/
 await closeConnection();

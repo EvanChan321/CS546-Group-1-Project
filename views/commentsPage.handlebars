@@ -3,9 +3,10 @@
     <ul>
     {{#each comments}}
         <li>
-            <p>{{this.comment}}</p>
-            <p>{{this.reviewDate}}</p>
-            {{#if this.edited}}
+            <p>{{this.comment.comment}}</p>
+            <p>{{this.comment.reviewDate}}</p>
+            <p>{{this.username}}</p>
+            {{#if this.comment.edited}}
             <p>Edited</p>
             {{/if}}
             <p><a href="/{{this.id}}">Comment Page</a></p>
