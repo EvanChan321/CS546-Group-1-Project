@@ -9,25 +9,25 @@ router
   .get(async (req, res) => {
     let reviewId
     try {
-        reviewId = valid.idCheck(xss(req.params.reviewId))
+      reviewId = valid.idCheck(xss(req.params.reviewId))
     } catch (e) {
-        return res.status(400).json({error: e});
+      return res.status(400).json({ error: e });
     }
     try {
-        const review = await reviewData.getReview(reviewId);
-        return res.status(200).render('reviewPage', {title: `Review: ${review.title}`, loggedIn: req.session.user, review: review});
+      const review = await reviewData.getReview(reviewId);
+      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review });
     } catch (e) {
-        return res.status(404).render('error',{error: e});
+      return res.status(404).render('error', { error: e });
     }
   })
   .post(async (req, res) => {
-    let userId 
+    let userId
     let title
     let rating
     let review
     let edited
     let reviewId
-    try{
+    try {
       reviewId = valid.idCheck(xss(req.params.reviewId))
       userId = valid.idCheck(xss(req.session.user.id))
       title = valid.stringValidate(xss(req.body.title))
@@ -36,7 +36,7 @@ router
       review = valid.stringValidate(xss(req.body.review))
       edited = true
     }
-    catch(e){
+    catch (e) {
       return res.status(400).render("review", {
         error: e.toString(),
         titlePage: "Review",
@@ -59,12 +59,12 @@ router
       return res.redirect(`/review/${review._id}`)
     } catch (error) {
       return res.status(500).render("review", {
-              error: e.toString(),
-              titlePage: "Review",
-              title: title,
-              rating: flagReason,
-              review: review
-            });
+        error: e.toString(),
+        titlePage: "Review",
+        title: title,
+        rating: flagReason,
+        review: review
+      });
     }
   });
 router
@@ -72,39 +72,48 @@ router
   .get(async (req, res) => {
     let reviewId
     try {
-        reviewId = valid.idCheck(xss(req.params.reviewId))
+      reviewId = valid.idCheck(xss(req.params.reviewId))
     } catch (e) {
-        return res.status(400).json({error: e});
+      return res.status(400).json({ error: e });
     }
     try {
-        const comments = await commentData.getAllCommentsFromReview(reviewId).map((comment) => commentData.getComment(comment));
-        return res.status(200).render('commentsPage',{comments: comments});
+      const comments = await commentData.getAllCommentsFromReview(reviewId);
+      let commData = [];
+      for (let comment of comments) {
+        let currUser = await userData.getUser(comment.userId.toString());
+        let curr = {
+          comment: comment,
+          username: currUser.name
+        }
+        commData.push(curr);
+      }
+      return res.status(200).render('commentsPage', { comments: commData });
     } catch (e) {
-        return res.status(404).render('error',{error: e});
+      return res.status(404).render('error', { error: e });
     }
   })
-  .post(async (req, res) => { 
+  .post(async (req, res) => {
     let reviewId
     let userId
     let comment
-    try{
+    try {
       reviewId = valid.idCheck(xss(req.params.reviewId))
       userId = valid.idCheck(xss(req.session.user.id))
       comment = valid.stringValidate(xss(req.body.comment))
     }
-    catch(e){
+    catch (e) {
       return res.status(400).render("review", {
         error: e.toString(),
         title: "Review",
         comment: comment
       });
     }
-    try{
+    try {
       const comment = await commentData.createComment(userId, reviewId, comment)
       const updatedUser = await userData.updatePoints(userId, 5)
       return res.redirect(`/${reviewId}/comments`)
     }
-    catch(e){
+    catch (e) {
       return res.status(400).render("review", {
         error: e.toString(),
         title: "Review",
@@ -118,61 +127,61 @@ router
   .get(async (req, res) => {
     let reviewId
     try {
-        reviewId = valid.idCheck(xss(req.params.reviewId))
-        commentId = valid.idCheck(xss(req.params.commentId))
+      reviewId = valid.idCheck(xss(req.params.reviewId))
+      commentId = valid.idCheck(xss(req.params.commentId))
     } catch (e) {
-        return res.status(400).json({error: e});
+      return res.status(400).json({ error: e });
     }
     try {
-        const comment = await commentData.getComment(commentId);
-        return res.status(200).json(comment);
+      const comment = await commentData.getComment(commentId);
+      return res.status(200).json(comment);
     } catch (e) {
-        return res.status(404).json({error: e});
+      return res.status(404).json({ error: e });
     }
   });
 
 router
   .route('/:reviewId/delete')
   .post(async (req, res) => {
-  let reviewId
-  try{
-    reviewId = valid.idCheck(xss(req.params.reviewId))
-  }
-  catch(e){
-    return res.status(400).render("review", {
-      error: e.toString(),
-      title: "Review"
-    });
-  }
-  try {
-    const user = await reviewData.removeReview(reviewId)
-    return res.redirect(`/user/${user._id}`)
-  } catch (error) {
-    return res.status(500).render("review", {
-            error: error.toString(),
-            title: "Review"
-          });
-  }
-});
+    let reviewId
+    try {
+      reviewId = valid.idCheck(xss(req.params.reviewId))
+    }
+    catch (e) {
+      return res.status(400).render("review", {
+        error: e.toString(),
+        title: "Review"
+      });
+    }
+    try {
+      const user = await reviewData.removeReview(reviewId)
+      return res.redirect(`/user/${user._id}`)
+    } catch (error) {
+      return res.status(500).render("review", {
+        error: error.toString(),
+        title: "Review"
+      });
+    }
+  });
 
 router
   .route('/:reviewId/comment/:commentId/delete')
   .post(async (req, res) => {
-  let reviewId 
-  let commentId
-  try{
-    reviewId = valid.idCheck(xss(req.params.reviewId))
-    commentId = valid.idCheck(xss(req.params.commentId))
-  }
-  catch(e){
-    return res.status(400).json({error: e});
-  }
-  try {
-    const comment = await commentData.removeComment(commentId)
-    return res.redirect(`/${reviewId}/comments`)
-  } catch (error) {
-    return res.status(500).json({error: e});
-  }
-});
+    let reviewId
+    let commentId
+    try {
+      reviewId = valid.idCheck(xss(req.params.reviewId))
+      commentId = valid.idCheck(xss(req.params.commentId))
+    }
+    catch (e) {
+      return res.status(400).json({ error: e });
+    }
+    try {
+      const comment = await commentData.removeComment(commentId)
+      return res.redirect(`/${reviewId}/comments`)
+    } catch (error) {
+      return res.status(500).json({ error: e });
+    }
+  });
 
 export default router;
