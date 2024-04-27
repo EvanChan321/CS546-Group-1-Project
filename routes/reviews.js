@@ -15,7 +15,17 @@ router
     }
     try {
       const review = await reviewData.getReview(reviewId);
-      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review });
+      const comments = await commentData.getAllCommentsFromReview(reviewId);
+      let commData = [];
+      for (let comment of comments) {
+        let currUser = await userData.getUser(comment.userId.toString());
+        let curr = {
+          comment: comment,
+          username: currUser.name
+        }
+        commData.push(curr);
+      }
+      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review, comments: commData });
     } catch (e) {
       return res.status(404).render('error', { error: e });
     }
