@@ -2,115 +2,121 @@
     <main>
         <h1>{{shop.name}}</h1>
         {{#if loggedIn}}
-            {{#if inBookmarks}}
-                <form action="/shop/{{shop._id}}" method="POST" id="bookmark">
-                    <button type="submit" class="unbook">Un-bookmark</button>
-                </form>
-            {{else}}
-                <form action="/shop/{{shop._id}}" method="POST" id="bookmark">
-                    <button type="submit" class="book">Bookmark</button>
-                </form>
-            {{/if}}
-            {{#if Default}}
-            <form action="/shop/{{shop._id}}/flagForm" method="GET" id="flag">
-                <button type="submit" class="flag">Flag Shop</button>
-            </form>
-            {{/if}}
+        {{#if inBookmarks}}
+        <form action="/shop/{{shop._id}}" method="POST" id="bookmark">
+            <button type="submit" class="unbook">Un-bookmark</button>
+        </form>
+        {{else}}
+        <form action="/shop/{{shop._id}}" method="POST" id="bookmark">
+            <button type="submit" class="book">Bookmark</button>
+        </form>
+        {{/if}}
+        {{#if Default}}
+        <form action="/shop/{{shop._id}}/flagForm" method="GET" id="flag">
+            <button type="submit" class="flag">Flag Shop</button>
+        </form>
+        {{/if}}
         {{/if}}
         {{#with shop}}
         {{#if flagged}}
-            <h2>This Shop has been flagged {{flagcount}} times</h2>
+        <h2>This Shop has been flagged {{flagcount}} times</h2>
         {{/if}}
         <h2>Details:</h2>
         <ul>
-            <li><p>Address: {{address}}</p></li>
-            <li><p>Website:  <a href="{{website}}" target="_blank">{{website}}</a></p></li>
-            <li><p>Phone Number: {{phoneNumber}}</p></li>
-            <li><p>Average Rating: {{averageRating}}</p></li>
-            <li><p>Number of Likes: {{numOfLikes}}</p></li>
+            <li>
+                <p>Address: {{address}}</p>
+            </li>
+            <li>
+                <p>Website: <a href="{{website}}" target="_blank">{{website}}</a></p>
+            </li>
+            <li>
+                <p>Phone Number: {{phoneNumber}}</p>
+            </li>
+            <li>
+                <p>Average Rating: {{averageRating}}</p>
+            </li>
+            <li>
+                <p>Number of Likes: {{numOfLikes}}</p>
+            </li>
         </ul>
         {{/with}}
         <h2>Menu:</h2>
         {{#if loggedIn}}
         {{#if noOwner}}
-            {{#if Default}}
-            <a href="/shop/{{shop._id}}/itemForm">Add an item</a><br>
-            {{/if}}
+        {{#if Default}}
+        <a href="/shop/{{shop._id}}/itemForm">Add an item</a><br>
+        {{/if}}
         {{else}}
-            {{#if isOwner}}
-            <a href="/shop/{{shop._id}}/itemForm">Add an item</a><br>
-            {{/if}}
+        {{#if isOwner}}
+        <a href="/shop/{{shop._id}}/itemForm">Add an item</a><br>
+        {{/if}}
         {{/if}}
         {{/if}}
         <button onclick="toggleContent('toggledMenu')">Display Menu</button>
         <div id="toggledMenu" style="display: none;">
-        <table>
-            <tr>
-                <th>Item    </th>
-                </th>Price    </th>
-                </th>Page Link</th>
-            </tr>
-        {{#each items}}
-            <tr>
-                <td>{{this.name}}</td>
-                <td>{{this.price}}</td>
-                <td><a href="/item/{{this.id}}">Page</a></td>
-            </tr>
-        {{/each}}
-        </table>
+            <table>
+                <tr>
+                    <th>Item </th>
+                    </th>Price </th>
+                    </th>Page Link</th>
+                </tr>
+                {{#each items}}
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.price}}</td>
+                    <td><a href="/item/{{this.id}}">Page</a></td>
+                </tr>
+                {{/each}}
+            </table>
         </div>
         <h2>Reviews:</h2>
         {{#if loggedIn}}
         {{#if Default}}
         <div id="container">
-        <form action="/shop/{{shop._id}}/reviewForm" method="POST" id="reviewForm">
-            <label for="title">
-                Review Title:
-                <input id="title" name="title" type="text"> 
-            </label>
-            <br>
-            <label for="rating">
-                Rating:
-                <input type="range" value="0" min="1" max="5" name="rating" id="rating" oninput="this.nextElementSibling.value = this.value">
-                <output>1</output>
-            </label> 
-            <br>
-            <label for="review">
-                <textarea id="review" name="review" placeholder="Write a Review..."></textarea>
-            </label>
-            <br>
-            <button type="submit" id="submitButton" name="submitButton" class="save">Create Review</button>
-        </form>
+            <form action="/shop/{{shop._id}}/reviewForm" method="POST" id="reviewForm">
+                <label for="title">
+                    Review Title:
+                    <input id="title" name="title" type="text">
+                </label>
+                <br>
+                <label for="rating">
+                    Rating:
+                    <input type="range" value="0" min="1" max="5" name="rating" id="rating"
+                        oninput="this.nextElementSibling.value = this.value">
+                    <output>1</output>
+                </label>
+                <br>
+                <label for="review">
+                    <textarea id="review" name="review" placeholder="Write a Review..."></textarea>
+                </label>
+                <br>
+                <button type="submit" id="submitButton" name="submitButton" class="save">Create Review</button>
+            </form>
         </div>
         {{/if}}
         {{/if}}
         <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
         <div id="toggledReviews" style="display: none;">
-        {{#each reviews}}
-        <div>
-            <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
-            <p>Rating: {{this.rating}}</p>
-            <div>{{this.review}}</div>
-            <p>{{this.reviewDate}}</p>
-            {{#each comments}}
-                <p>{{this.username}}</p>
+            <ul>
+                {{#each reviews}}
                 <div>
-                    {{this.comment}}
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted by: {{this.user}}</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
                 </div>
-                <p>{{this.commentDate}}</p>
-            {{/each}}
+                {{/each}}
+            </ul>
         </div>
-        {{/each}}
-        </div>  
         <footer>
             <a href="javascript:history.back()" class="static-link">Go Back to Stores</a>
             {{#if loggedIn}}
-            
+
             <hr>
             <form action="/shop/{{shop._id}}/delete" method="POST">
                 <button type="submit" class="delete">DELETE SHOP</button>
             </form>
-        {{/if}}
+            {{/if}}
         </footer>
     </main>
 </body>
