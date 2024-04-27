@@ -64,7 +64,8 @@ const createComment = async (userId, reviewId, comment) => {
     edited: false
   }
   reviewComment.comments.push(newComment)
-  const userComments = userComment.comments.push(x)
+  userComment.comments.push(x)
+  const userComments = userComment.comments
   await userData.updateUser(userComment._id.toString(), {comments: userComments})
   await reviewData.updateReview(reviewComment._id.toString(), reviewComment)
   return newComment;
