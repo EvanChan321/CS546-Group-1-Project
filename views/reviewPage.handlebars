@@ -1,12 +1,25 @@
-{{#with review}}
 <main>
-    <h1>{{title}}</h1>
-    <h2>{{rating}}</h2>
-    <p>{{review}}</p>
-    <p>Posted on: {{reviewDate}}</p>
-    {{#if edited}}
+    <h1>{{review.title}}</h1>
+    <h2>{{review.rating}}/5</h2>
+    <p>{{review.review}}</p>
+    <p>Posted by: {{review.user}}</p>
+    <p>Posted on: {{review.reviewDate}}</p>
+    {{#if review.edited}}
     <p>Edited</p>
     {{/if}}
-    <a href="{{_id}}/comments">See Comments</a>
+    <button onclick="toggleContent('toggledComments')">Display Comments</button>
+    <div id="toggledComments" style="display: none;">
+    <ul>
+    {{#each comments}}
+        <li>
+            <p>From: {{this.username}}</p>
+            <p>{{this.comment.comment}}</p>
+            <p>{{this.comment.reviewDate}}</p>
+            {{#if this.comment.edited}}
+            <p>Edited</p>
+            {{/if}}
+        </li>
+    {{/each}}
+    </ul>
+    </div>
 </main>
-{{/with}}
