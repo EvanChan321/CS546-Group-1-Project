@@ -57,14 +57,14 @@
             <table>
                 <tr>
                     <th>Item </th>
-                    </th>Price </th>
-                    </th>Page Link</th>
+                    <th>Price </th>
+                    <th>Page Link</th>
                 </tr>
                 {{#each items}}
                 <tr>
                     <td>{{this.name}}</td>
                     <td>{{this.price}}</td>
-                    <td><a href="/item/{{this.id}}">Page</a></td>
+                    <td><a href="/item/{{this._id}}">Page</a></td>
                 </tr>
                 {{/each}}
             </table>
