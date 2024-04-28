@@ -275,3 +275,12 @@ textarea {
     height: 6rem;
     margin-top: 10px;
 }
+
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 8px;
+}
