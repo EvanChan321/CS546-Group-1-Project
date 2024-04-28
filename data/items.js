@@ -27,7 +27,7 @@ const getItem = async (itemId) => {
 }
 
 const createItem = async (shopId, name, description, price, tags, allergens) => {
-  let shop = await shopData.getShop(shopId)
+  const shop = await shopData.getShop(shopId)
   name = valid.stringValidate(name)
   description = valid.stringValidate(description)
   valid.numCheck(price)
