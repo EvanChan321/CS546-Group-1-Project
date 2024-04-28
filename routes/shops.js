@@ -176,9 +176,8 @@ router.route('/shop/:id').get(async (req, res) => {
     if (!searchResult.name){
       return res.status(404).render('error',{error: `No shop with ID ${search} found`});
     }
-    const storeItemsPromises = searchResult.items.map(async (item) => await itemData.getItem(item.toString()));
+    const storeItems = await searchResult.items;
     const storeReviewsPromises = searchResult.reviews.map(async (review) => await reviewData.getReview(review.toString()));
-    const storeItems = await Promise.all(storeItemsPromises);
     const storeReviews = await Promise.all(storeReviewsPromises);
     let inBookmarks = false
     if(req.session.user){
