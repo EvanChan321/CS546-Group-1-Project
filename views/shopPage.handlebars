@@ -17,29 +17,118 @@
         </form>
         {{/if}}
         {{/if}}
-        {{#with shop}}
         {{#if flagged}}
         <h2>This Shop has been flagged {{flagcount}} times</h2>
         {{/if}}
         <h2>Details:</h2>
         <ul>
             <li>
-                <p>Address: {{address}}</p>
+                <p>Address: {{shop.address}}</p>
             </li>
             <li>
-                <p>Website: <a href="{{website}}" target="_blank">{{website}}</a></p>
+                <p>Website: <a href="{{shop.website}}" target="_blank">{{shop.website}}</a></p>
             </li>
             <li>
-                <p>Phone Number: {{phoneNumber}}</p>
+                <p>Phone Number: {{shop.phoneNumber}}</p>
             </li>
             <li>
-                <p>Average Rating: {{averageRating}}</p>
+                <p>Average Rating: {{shop.averageRating}}</p>
             </li>
             <li>
-                <p>Number of Likes: {{numOfLikes}}</p>
+                <p>Number of Likes: {{shop.numOfLikes}}</p>
             </li>
+            <li>
+                <p id="serviceHours"></p>
+            </li>
+            <script>
+                let openTime = "{{shop.openTime}}"
+                let closeTime = "{{shop.closeTime}}"
+                let openDate = new Date(openTime)
+                let closeDate = new Date(closeTime)
+                let openHour = openDate.getHours()
+                let closeHour = closeDate.getHours()
+                let openMin = openDate.getMinutes()
+                let closeMin = closeDate.getMinutes()
+                let AMORPM1 = "PM"
+                let AMORPM2 = "PM"
+                let OpenOrClose
+                let canEnter = "Open"
+                if(closeHour < openHour){
+                    OpenOrClose = closeHour + 24     
+                }
+                else{
+                    OpenOrClose = closeHour
+                }
+                if({{currentHour}} >= openHour && {{currentHour}} <= OpenOrClose){
+                    if({{currentHour}} === openHour){
+                        if({{currentMin}} >= openMin){
+                            canEnter = "Open"
+                        }
+                        else{
+                            canEnter = "Closed" 
+                        }
+                    }
+                    else{
+                        canEnter = "Open"
+                    }
+                    if({{currentHour}} === OpenOrClose){
+                        if({{currentMin}} <= closeMin){
+                            canEnter = "Open"
+                        }
+                        else{
+                            canEnter = "Closed" 
+                        }
+                    }
+                    else{
+                        canEnter = "Open" 
+                    }
+                }
+                else{
+                    canEnter = "Closed" 
+                }
+                if(openHour < 12){
+                    AMORPM1 = "AM"
+                    if(openHour === 0){
+                        openHour = 12
+                    }
+                }
+                else{
+                    if(openHour === 12){
+                        openHour = 12
+                    }
+                    else{
+                        openHour = openHour-12
+                    }
+                }
+                if(closeHour < 12){
+                    AMORPM2 = "AM"
+                    if(closeHour === 0){
+                        closeHour = 12
+                    }
+                }
+                else{
+                    if(closeHour === 12){
+                        closeHour = 12
+                    }
+                    else{
+                        closeHour = closeHour-12
+                    }
+                }
+                if(openHour < 10){
+                    openHour = '0'+openHour.toString()
+                }
+                if(closeHour < 10){
+                    closeHour = '0'+closeHour.toString()
+                }
+                if(openMin < 10){
+                    openMin = '0'+openMin.toString()
+                }
+                if(closeMin < 10){
+                    closeMin = '0'+closeMin.toString()
+                }
+                document.getElementById("serviceHours").innerText = "Service Hours: " + openHour + ":" + openMin + AMORPM1 + " - " + closeHour + ":" + closeMin + AMORPM2 + " " + canEnter;
+            </script>
         </ul>
-        {{/with}}
         <h2>Menu:</h2>
         {{#if loggedIn}}
         {{#if noOwner}}

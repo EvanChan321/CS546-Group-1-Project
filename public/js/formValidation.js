@@ -68,7 +68,7 @@ function checkAndSubmit(errors, form, addToForm) {
         errorDiv.hidden = false;
         errorDiv.innerHTML = "<ul class=\"error\">" + errors.map(error => `<li>${error}</li>`).join('') + "</ul>";
     } else {
-        if(addShopForm){
+        if(addToForm){
             for (let [key, value] of addToForm.entries()) {
                 const input = document.createElement('input');
                 input.type = 'hidden';

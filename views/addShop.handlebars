@@ -25,6 +25,24 @@
                 <br>
                 <input type="tel" name="phoneNumber" id="phoneNumber" value="{{phoneNumber}}"  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="XXX-XXX-XXXX" required><br>
             </label>
+            <label for="hour1">Opening Time:</label>
+            <input type="number" id="hour1" name="hour1" min="1" max="12" placeholder="12" required>
+            <label for="minute1">:</label>
+            <input type="number" id="minute1" name="minute1" min="0" max="59" placeholder="0" required>
+            <select id="ampm1" name="ampm1" required>
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+            </select>
+            <br>
+            <label for="hour2">Closing Time:</label>
+            <input type="number" id="hour2" name="hour2" min="1" max="12" placeholder="12" required>
+            <label for="minute2">:</label>
+            <input type="number" id="minute2" name="minute2" min="0" max="59" placeholder="0" required>
+            <select id="ampm2" name="ampm2" required>
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+            </select>
+            <br>
             <button type="submit" name="submitButton" id="submitButton" class="save">Submit</button>
         </form>
         <div id="error" class="CSerror" hidden>Error</div>

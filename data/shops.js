@@ -23,7 +23,7 @@ const getShop = async (id) => {
     return findShop
 }
 
-const createShop = async (name, address, website, phoneNumber, ownerId) => {
+const createShop = async (name, address, website, phoneNumber, hour1, minute1, ampm1, hour2, minute2, ampm2, ownerId) => {
     if(ownerId){
         ownerId = valid.idCheck(ownerId)
     }
@@ -34,6 +34,7 @@ const createShop = async (name, address, website, phoneNumber, ownerId) => {
     address = valid.stringValidate(address)
     website = valid.urlCheck(website)
     phoneNumber = valid.phoneNumberCheck(phoneNumber)
+    let {openTime, closeTime} = valid.convertTime(hour1, minute1, ampm1, hour2, minute2, ampm2)
     const newShop = {
         name: name,
         address: address,
@@ -42,6 +43,8 @@ const createShop = async (name, address, website, phoneNumber, ownerId) => {
         flags: [],
         items: [],
         reviews: [],
+        openTime: openTime,
+        closeTime: closeTime,
         averageRating: "No Ratings",
         numOfLikes: 0,
         ownerId: ownerId
@@ -87,6 +90,13 @@ const updateShop = async (shopId, updateObject) => {
     if('phoneNumber' in updateObject){
         updateObject.phoneNumber = valid.phoneNumberCheck(updateObject.phoneNumber)
         shop.phoneNumber = updateObject.phoneNumber   
+    }
+    if('openTime' in updateObject){
+        shop.openTime = updateObject.openTime 
+    }
+    if('closeTime' in updateObject){
+        shop.closeTime = updateObject.closeTime 
+        
     }
     const updatedInfo = await shopCollection.findOneAndUpdate(
       {_id: new ObjectId(userId)},

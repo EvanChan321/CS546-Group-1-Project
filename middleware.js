@@ -39,7 +39,7 @@ export const userLogin = (routes) => {
 
 export const addShop = (routes) => {
     return (req, res, next) => {
-        if(req.method === "POST"){
+        if(req.method === "POST" || req.method === "GET"){
             if (!req.session.user) {
                 return res.status(403).render("error", {
                     error: "Not Authorized"})
