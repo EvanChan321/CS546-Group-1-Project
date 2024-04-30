@@ -144,9 +144,6 @@ const updateUser = async (userId, updateObject) => {
             throw "passwords don't match"
         }
     }
-    else{
-        throw 'need to input password to make changes'
-    }
     if('password' in updateObject){
         updateObject.password = valid.passwordCheck(updateObject.password)
         const hashedPassword = await bcryptjs.hash(updateObject.password, 12);

@@ -205,6 +205,9 @@ router
       if(xss(req.body.oldPassword)){
         updateObject.oldPassword = valid.passwordCheck(xss(req.body.oldPassword))
       }
+      else{
+        throw 'need to input password to make changes'
+      }
       if(xss(req.body.password)){
         updateObject.password = valid.passwordCheck(req.body.password)
       }

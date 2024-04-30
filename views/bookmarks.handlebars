@@ -2,13 +2,128 @@
     <main>
         <h1>Your Bookmarks: </h1>
         <ol>
+            <script>
+                let openTime;
+                let closeTime;
+                let openDate;
+                let closeDate;
+                let openHour;
+                let closeHour;
+                let openMin;
+                let closeMin;
+                let AMORPM1;
+                let AMORPM2;
+                let OpenOrClose;
+                let canEnter;
+            </script>
             {{#each shops}}
                 <li>
                     <h2><a href="/shop/{{this._id}}">{{this.name}}</a></h2>
                     <ul>
                         <li><p>Address: {{this.address}}</p></li>
                         <li><p>Average Rating: {{this.averageRating}}</p></li>
-                        <li>tel: <a href="tel:{{this.phoneNumber}}">{{this.phoneNumber}}</a></li>
+                        <li><p>Number of Likes: {{this.numOfLikes}}</p></li>
+                        <li class="tel-link">Phone: <a href="tel:{{this.phoneNumber}}">{{this.phoneNumber}}</a></li>
+                        <li><p class="serviceHours_{{this._id}}"></p></li>
+                        <script>
+                            openTime;
+                            closeTime;
+                            openDate;
+                            closeDate;
+                            openHour;
+                            closeHour;
+                            openMin;
+                            closeMin;
+                            AMORPM1;
+                            AMORPM2;
+                            OpenOrClose;
+                            canEnter;
+                            openTime = "{{this.openTime}}"
+                            closeTime = "{{this.closeTime}}"
+                            openDate = new Date(openTime)
+                            closeDate = new Date(closeTime)
+                            openHour = openDate.getHours()
+                            closeHour = closeDate.getHours()
+                            openMin = openDate.getMinutes()
+                            closeMin = closeDate.getMinutes()
+                            AMORPM1 = "PM"
+                            AMORPM2 = "PM"
+                            canEnter = "Open"
+                            if(closeHour < openHour){
+                                OpenOrClose = closeHour + 24     
+                            }
+                            else{
+                                OpenOrClose = closeHour
+                            }
+                            if({{../currentHour}} >= openHour && {{../currentHour}} <= OpenOrClose){
+                                if({{../currentHour}} === openHour){
+                                    if({{../currentMin}} >= openMin){
+                                        canEnter = "Open"
+                                    }
+                                    else{
+                                        canEnter = "Closed" 
+                                    }
+                                }
+                                else{
+                                    canEnter = "Open"
+                                }
+                                if({{../currentHour}} === OpenOrClose){
+                                    if({{../currentMin}} <= closeMin){
+                                        canEnter = "Open"
+                                    }
+                                    else{
+                                        canEnter = "Closed" 
+                                    }
+                                }
+                                else{
+                                    canEnter = "Open" 
+                                }
+                            }
+                            else{
+                                canEnter = "Closed" 
+                            }
+                            if(openHour < 12){
+                                AMORPM1 = "AM"
+                                if(openHour === 0){
+                                    openHour = 12
+                                }
+                            }
+                            else{
+                                if(openHour === 12){
+                                    openHour = 12
+                                }
+                                else{
+                                    openHour = openHour-12
+                                }
+                            }
+                            if(closeHour < 12){
+                                AMORPM2 = "AM"
+                                if(closeHour === 0){
+                                    closeHour = 12
+                                }
+                            }
+                            else{
+                                if(closeHour === 12){
+                                    closeHour = 12
+                                }
+                                else{
+                                    closeHour = closeHour-12
+                                }
+                            }
+                            if(openHour < 10){
+                                openHour = '0'+openHour.toString()
+                            }
+                            if(closeHour < 10){
+                                closeHour = '0'+closeHour.toString()
+                            }
+                            if(openMin < 10){
+                                openMin = '0'+openMin.toString()
+                            }
+                            if(closeMin < 10){
+                                closeMin = '0'+closeMin.toString()
+                            }
+                            document.querySelector(".serviceHours_{{this._id}}").innerText = "Service Hours: " + openHour + ":" + openMin + AMORPM1 + " - " + closeHour + ":" + closeMin + AMORPM2 + " " + canEnter;
+                        </script>
                     </ul>
                 </li>
             {{/each}}

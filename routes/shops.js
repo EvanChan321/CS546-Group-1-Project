@@ -94,17 +94,6 @@ router.route('/map').get(async (req, res) => {
     }
 });
 
-
-router.route('/shops').get(async (req, res) => {
-  const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
-  try{
-    const shops = await shopData.getAllShops();
-    res.render('shopSearchResults', {shops: shops, themeType: themeType});
-  }catch(e){
-    console.log(e);
-  }
-});
-
 router
   .route('/shop/addShop')
   .get(async (req, res) => {
@@ -128,12 +117,15 @@ router
       if(req.body.ownerId){
         ownerId = valid.idCheck(xss(req.body.ownerId))
       }
+      if(!xss(req.body.hour1) || !xss(req.body.hour2) || !xss(req.body.minute1) || !xss(req.body.minute2) || !xss(req.body.ampm1) || !xss(req.body.ampm2)){
+        throw 'invalid date'
+      }
     }
     catch(e){
       return res.status(400).render("addShop", {
         error: e.toString(),
         title: "Add Shop",
-        name: shopName,
+        shopName: shopName,
         address: address,
         website: website,
         phoneNumber: phoneNumber,
@@ -147,6 +139,12 @@ router
         address,
         website,
         phoneNumber,
+        req.body.hour1,
+        req.body.minute1,
+        req.body.ampm1,
+        req.body.hour2,
+        req.body.minute2,
+        req.body.ampm2,
         ownerId
       )
       const updatedUser = await userData.updatePoints(userId, 50)
@@ -155,7 +153,7 @@ router
       return res.status(500).render("addShop", {
               error: error.toString(),
               title: "Add Shop",
-              name: shopName,
+              shopName: shopName,
               address: address,
               website: website,
               phoneNumber: phoneNumber,
@@ -167,6 +165,9 @@ router
 
 router.route('/shops/search').post(async (req, res) => {
   const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  const currentMin = currentTime.getMinutes();
   try{
     const shops = await shopData.getAllShops();
     const search = xss(req.body.shop);
@@ -180,7 +181,7 @@ router.route('/shops/search').post(async (req, res) => {
         sortShops = sortShops.filter((shop) => ((shop.averageRating >= minRating) && (shop.averageRating != "No Ratings")));
       }
     }
-    res.render('shopSearchResults', {title:"Search Results", shops: sortShops, loggedIn: req.session.user, search: search, themeType: themeType});
+    res.render('shopSearchResults', {title:"Search Results", shops: sortShops, loggedIn: req.session.user, search: search, themeType: themeType, currentHour: currentHour, currentMin: currentMin});
   }catch(e){
     res.status(500).render('error', {error: e, themeType: themeType});
   }
@@ -188,12 +189,15 @@ router.route('/shops/search').post(async (req, res) => {
 
 router.route('/shops/bookmarks').get(async (req,res) => {
   const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  const currentMin = currentTime.getMinutes();
   try{
     const shops = await shopData.getAllShops();
     console.log(req.session.user.bookmarks);
     console.log(shops[0]._id.toString());
     const bmShops = shops.filter((shop) => (xss(req.session.user.bookmarks)).includes(shop._id.toString()));
-    res.render('bookmarks', {title:"Bookmarks", shops: bmShops, loggedIn: req.session.user, themeType: themeType});
+    res.render('bookmarks', {title:"Bookmarks", shops: bmShops, loggedIn: req.session.user, themeType: themeType, currentHour: currentHour, currentMin: currentMin});
   }catch(e){
     res.status(500).render('error', {error: e, themeType: themeType});
   }
@@ -201,6 +205,9 @@ router.route('/shops/bookmarks').get(async (req,res) => {
 
 router.route('/shop/:id').get(async (req, res) => {
   const search = (xss(req.params.id)).trim();
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  const currentMinute = currentTime.getMinutes();
   const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
   if(!search || (search.trim().length === 0)){
     return res.status(400).render('error', {error: 'Must input search id', themeType: themeType});
@@ -239,7 +246,7 @@ router.route('/shop/:id').get(async (req, res) => {
     }
     res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews, 
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
-      noOwner: noOwner, themeType: themeType});
+      noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute});
   } catch(e){
     res.status(500).render('error',{error: e, loggedIn: req.session.user, themeType: themeType});
   }

@@ -229,3 +229,52 @@ export function haversineDistance(lat1, lon1, lat2, lon2) {
 function toRadians(degrees) {
     return degrees * Math.PI / 180;
 }
+
+export function convertTime(hour1, minute1, ampm1, hour2, minute2, ampm2){
+    try{
+        hour1 = stringValidate(hour1)
+        hour1 = parseInt(hour1)
+        minute1 = stringValidate(minute1)
+        minute1 = parseInt(minute1)
+        ampm1 = stringValidate(ampm1)
+        hour2 = stringValidate(hour2)
+        hour2 = parseInt(hour2)
+        minute1 = stringValidate(minute2)
+        minute2 = parseInt(minute2)
+        ampm2 = stringValidate(ampm2)
+        if(hour1 < 1 || hour1 > 12){
+            throw 'hour out of range'
+        }
+        if(hour2 < 1 || hour2 > 12){
+            throw 'hour out of range'
+        }
+        if(minute1 < 0 || minute1 > 59){
+            throw 'minute out of range'
+        }
+        if(minute2 < 0 || minute2 > 59){
+            throw 'minute out of range'
+        }
+        if(ampm1 !== "PM" && ampm1 !== "AM"){
+            throw 'time needs to be in AM or PM'
+        }
+        if(ampm2 !== "PM" && ampm2 !== "AM"){
+            throw 'time needs to be in AM or PM'
+        }
+        if (ampm1 === "PM" && hour1 !== 12) {
+            hour1 += 12;
+        } else if (ampm1 === "AM" && hour1 === 12) {
+            hour1 = 0;
+        }
+        if (ampm2 === "PM" && hour2 !== 12) {
+            hour2 += 12;
+        } else if (ampm2 === "AM" && hour2 === 12) {
+            hour2 = 0;
+        }
+        let openTime = new Date(0, 0, 0, hour1, minute1);
+        let closeTime = new Date(0, 0, 0, hour2, minute2);
+        return {openTime, closeTime}
+    }
+    catch(e){
+        throw e
+    }
+}
