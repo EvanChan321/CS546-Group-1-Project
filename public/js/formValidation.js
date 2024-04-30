@@ -172,6 +172,9 @@ if(editUserForm){
                 errors.push(e.toString());
             }
         }
+        if(!oldPassword){
+            errors.push('need to input password to make changes')
+        }
         if(newPassword){
             try{
                 newPassword = passwordCheck(newPassword);

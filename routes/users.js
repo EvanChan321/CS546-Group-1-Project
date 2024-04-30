@@ -202,9 +202,11 @@ router
       if(xss(req.body.bio)){
         updateObject.bio = valid.stringValidate(req.body.bio)
       }
+      if(xss(req.body.oldPassword)){
+        updateObject.oldPassword = valid.passwordCheck(xss(req.body.oldPassword))
+      }
       if(xss(req.body.password)){
         updateObject.password = valid.passwordCheck(req.body.password)
-        updateObject.oldPassword = valid.passwordCheck(xss(req.body.oldPassword))
       }
       if(xss(req.body.address)){
         updateObject.userAddress = valid.stringValidate(xss(req.body.address))

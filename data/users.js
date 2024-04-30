@@ -137,13 +137,18 @@ const updateUser = async (userId, updateObject) => {
         }
         user.name = updateObject.name
     }
-    if('password' in updateObject){
+    if('oldPassword' in updateObject){
         updateObject.oldPassword = valid.passwordCheck(updateObject.oldPassword)
-        updateObject.password = valid.passwordCheck(updateObject.password)
         const isRightPassword = await valid.verifyPassword(updateObject.oldPassword, user.password)
         if(!isRightPassword){
             throw "passwords don't match"
         }
+    }
+    else{
+        throw 'need to input password to make changes'
+    }
+    if('password' in updateObject){
+        updateObject.password = valid.passwordCheck(updateObject.password)
         const hashedPassword = await bcryptjs.hash(updateObject.password, 12);
         user.password = hashedPassword
     }
