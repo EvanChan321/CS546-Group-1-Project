@@ -244,7 +244,19 @@ router.route('/shop/:id').get(async (req, res) => {
         }
       }
     }
-    res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews, 
+    let highestReviews = [];
+    let lowestReviews = [];
+    let newestReviews = [];
+    for(let review of storeReviews){
+      highestReviews.push(review);
+      lowestReviews.push(review);
+      newestReviews.push(review);
+    }
+    highestReviews.sort(function(a,b){return  b.rating - a.rating});
+    lowestReviews.sort(function(a,b){return  a.rating - b.rating});
+    newestReviews.reverse();
+    res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews,
+      highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, 
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
       noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute});
   } catch(e){
