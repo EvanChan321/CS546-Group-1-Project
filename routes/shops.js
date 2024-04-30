@@ -46,12 +46,31 @@ router.route('/map').get(async (req, res) => {
 })
 .post(async (req, res) => {
   let address
+  let distance
   let pins
   const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
   try{
-    address = valid.stringValidate(xss(req.body.address))
-    address = await valid.getLatLong(address);   
+    if(xss(req.body.address)){
+      address = valid.stringValidate(xss(req.body.address))
+      address = await valid.getLatLong(address);
+    }
+    else{
+      if(req.session.user){
+        address = await valid.getLatLong(xss(req.session.user.address));
+      }
+      else{
+        address = await valid.getLatLong("529 Washington Street, Hoboken");
+      }
+    }
     pins = await valid.getPins()
+    if(xss(req.body.distance)){
+      distance = await valid.stringValidate(req.body.distance)
+      distance = parseInt(distance)
+      pins = pins.filter(coord => {
+        const currDistance = valid.haversineDistance(address.lat, address.lng, coord.position.lat, coord.position.lng);
+        return currDistance < distance;
+      });
+    }
   }
   catch(e){
     return res.status(400).render("Map", {
