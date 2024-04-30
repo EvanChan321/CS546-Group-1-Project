@@ -187,10 +187,10 @@
         <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
         <div id="toggledReviews" style="display: none;">
             <select id="reviewSort" name="reviewSort" onchange="reviewSort(this.value)">
+                <option value='oldest'>By Oldest</option>
+                <option value='newest'>By Newest</option>
                 <option value='highest'>By Most Positive</option>
                 <option value='lowest'>By Most Negative</option>
-                <option value='newest'>By Newest</option>
-                <option value='oldest'>By Oldest</option>
             </select>
             <ul id="oldest">
                 {{#each reviews}}
