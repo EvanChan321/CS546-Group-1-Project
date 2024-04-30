@@ -186,8 +186,44 @@
         {{/if}}
         <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
         <div id="toggledReviews" style="display: none;">
-            <ul>
+            <select id="reviewSort" name="reviewSort" onchange="reviewSort(this.value)">
+                <option value='highest'>By Most Positive</option>
+                <option value='lowest'>By Most Negative</option>
+                <option value='newest'>By Newest</option>
+                <option value='oldest'>By Oldest</option>
+            </select>
+            <ul id="oldest">
                 {{#each reviews}}
+                <div>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted by: {{this.user}}</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </div>
+                {{/each}}
+            </ul>
+            <ul id="newest" hidden>
+                {{#each newestReviews}}
+                <div>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted by: {{this.user}}</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </div>
+                {{/each}}
+            </ul>
+            <ul id="highest" hidden>
+                {{#each highestReviews}}
+                <div>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted by: {{this.user}}</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </div>
+                {{/each}}
+            </ul>
+            <ul id="lowest" hidden>
+                {{#each lowestReviews}}
                 <div>
                     <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                     <p>Rating: {{this.rating}}/5</p>
