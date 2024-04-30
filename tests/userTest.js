@@ -11,7 +11,7 @@ let user = {
     name: "Tabby",
     password: "Password1!",
     email: "mangelak@stevens.edu",
-    zipcode: "076300",
+    zipcode: "Emerson, NJ",
     accountType: "Admin",
 }
 
@@ -35,7 +35,7 @@ let user2 = {
     name: "Denks",
     password: "ILoveCS546!!!",
     email: "eniemann@stevens.edu",
-    zipcode: "63124",
+    zipcode: "Saint Louis",
     accountType: "Default",
 }
 
@@ -43,7 +43,7 @@ let user3 = {
     name: "PlayboiCarti",
     password: "Go2DaMoon$",
     email: "playboicarti@rocketmail.com",
-    zipcode: "07030",
+    zipcode: "Peachtree St, Atlanta",
     accountType: "Default",
 }
 
@@ -51,7 +51,7 @@ let user4 = {
     name: "AmazinBuilder",
     password: "#1Builder",
     email: "amazin@hotmail.com",
-    zipcode: "90310",
+    zipcode: "30 Wayne Hills Mall, Wayne",
     accountType: "Default",
 }
 
@@ -59,7 +59,7 @@ let user5 = {
     name: "TheHoohn",
     password: "Password3#",
     email: "actronav@gmail.com",
-    zipcode: "07030",
+    zipcode: "Fort Lee, NJ",
     accountType: "Business",
 }
 
