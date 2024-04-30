@@ -162,7 +162,9 @@ if(editUserForm){
         let bio = document.getElementById('bio').value;
         let newPassword = document.getElementById('password').value;
         let oldPassword = document.getElementById('oldPassword').value;
-        let address = document.getElementById('zip').value;
+        let address = document.getElementById('address').value;
+        let pfp = document.getElementById('pfp').value;
+        console.log(1)
         if(bio){
             try{
                 bio = stringValidate(bio, 'Bio');
@@ -185,6 +187,13 @@ if(editUserForm){
         if(address){
             try{
                 address = stringValidate(address, 'Address');
+            } catch(e){
+                errors.push(e.toString());
+            }
+        }
+        if(pfp){
+            try{
+                pfp = stringValidate(pfp, 'pfp');
             } catch(e){
                 errors.push(e.toString());
             }

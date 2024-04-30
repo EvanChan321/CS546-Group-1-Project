@@ -2,6 +2,9 @@
 {{#with user}}
     <h1>Welcome, {{name}}</h1>
     <h3>Account Type: {{accountType}}</h3>
+    <div>
+        <img class="error" src='/public/img/{{pfp}}' alt="mad boba cat">
+    </div>
     <button onclick="location.href='/shops/bookmarks'" type="button" class="bookmarks">Bookmarks</button>
     {{#if error}}
          <p class="error">{{error}}</p>
@@ -17,9 +20,33 @@
         <label for="oldPassword">Old Password</label>
         <input type="password" id="oldPassword" name="oldPassword">
         <br>
-        <label for="zip">Address:</label>
+        <label for="address">Address:</label>
         <input type="text" id="address" name="address">
         <br>
+        <label for="themeType">Theme:</label>
+        <select name="themeType" id="themeType">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+        </select>
+        <br>
+        <label for="pic">Profile Picture:</label>
+        <dl id="pfp">
+            <dt>
+                <input id="default" name="pfp" type="radio" value="Default_pfp.png">
+                <label for="default">Default</label>
+                <img class="error" src="/public/img/Default_pfp.png">
+            </dt>
+            <dt>
+                <input id="thomas" name="pfp" type="radio" value="Thomas_pfp.jpeg">
+                <label for="thomas">Thomas</label>
+                <img class="error" src="/public/img/Thomas_pfp.jpeg">
+            </dt>
+            <dt>
+                <input id="laurent" name="pfp" type="radio" value="Laurent_pfp.jpeg">
+                <label for="laurent">Laurent</label>
+                <img class="error" src="/public/img/Laurent_pfp.jpeg">
+            </dt>
+        </dl>
         <button type="submit" class="save">Save Changes</button>
     </form>
     </div>

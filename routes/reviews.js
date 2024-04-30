@@ -8,6 +8,7 @@ router
   .route('/:reviewId')
   .get(async (req, res) => {
     let reviewId
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try {
       reviewId = valid.idCheck(xss(req.params.reviewId))
     } catch (e) {
@@ -25,9 +26,9 @@ router
         }
         commData.push(curr);
       }
-      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review, comments: commData });
+      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review, comments: commData, themeType: themeType });
     } catch (e) {
-      return res.status(404).render('error', { error: e });
+      return res.status(404).render('error', { error: e, themeType: themeType });
     }
   })
   .post(async (req, res) => {
@@ -37,6 +38,7 @@ router
     let review
     let edited
     let reviewId
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try {
       reviewId = valid.idCheck(xss(req.params.reviewId))
       userId = valid.idCheck(xss(req.session.user.id))
@@ -52,7 +54,8 @@ router
         titlePage: "Review",
         title: title,
         rating: flagReason,
-        review: review
+        review: review,
+        themeType: themeType
       });
     }
     try {
@@ -73,13 +76,15 @@ router
         titlePage: "Review",
         title: title,
         rating: flagReason,
-        review: review
+        review: review,
+        themeType: themeType
       });
     }
   });
 router
   .route('/:reviewId/comments')
   .get(async (req, res) => {
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     let reviewId
     try {
       reviewId = valid.idCheck(xss(req.params.reviewId))
@@ -97,15 +102,16 @@ router
         }
         commData.push(curr);
       }
-      return res.status(200).render('commentsPage', { comments: commData });
+      return res.status(200).render('commentsPage', { comments: commData, themeType: themeType });
     } catch (e) {
-      return res.status(404).render('error', { error: e });
+      return res.status(404).render('error', { error: e, themeType: themeType });
     }
   })
   .post(async (req, res) => {
     let reviewId
     let userId
     let comment
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try {
       reviewId = valid.idCheck(xss(req.params.reviewId))
       userId = valid.idCheck(xss(req.session.user.id))
@@ -115,7 +121,8 @@ router
       return res.status(400).render("review", {
         error: e.toString(),
         title: "Review",
-        comment: comment
+        comment: comment,
+        themeType: themeType
       });
     }
     try {
@@ -127,7 +134,8 @@ router
       return res.status(400).render("review", {
         error: e.toString(),
         title: "Review",
-        comment: comment
+        comment: comment,
+        themeType: themeType
       });
     }
   })
@@ -154,13 +162,15 @@ router
   .route('/:reviewId/delete')
   .post(async (req, res) => {
     let reviewId
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try {
       reviewId = valid.idCheck(xss(req.params.reviewId))
     }
     catch (e) {
       return res.status(400).render("review", {
         error: e.toString(),
-        title: "Review"
+        title: "Review",
+        themeType: themeType
       });
     }
     try {
@@ -169,7 +179,8 @@ router
     } catch (error) {
       return res.status(500).render("review", {
         error: error.toString(),
-        title: "Review"
+        title: "Review",
+        themeType: themeType
       });
     }
   });

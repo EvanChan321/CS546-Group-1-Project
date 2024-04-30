@@ -21,7 +21,7 @@ const getUser = async (id) => {
     return findUser
 }
 
-const createUser = async (name, password, email, address, accountType) => {
+const createUser = async (name, password, email, address, accountType, themeType) => {
     name = valid.stringValidate(name)
     email = valid.emailCheck(email)
     const userCollection = await users();
@@ -40,6 +40,10 @@ const createUser = async (name, password, email, address, accountType) => {
     if (accountType !== "Admin" && accountType !== "Business" && accountType !== "Default") {
         throw 'invalid account type'
     }
+    themeType = valid.stringValidate(themeType)
+    if (themeType !== "dark" && themeType !== "light") {
+        throw 'invalid theme type'
+    }
     const newUser = {
         name: name,
         password: hashedPassword,
@@ -47,6 +51,8 @@ const createUser = async (name, password, email, address, accountType) => {
         bio: "",
         address: address,
         accountType: accountType,
+        themeType: themeType,
+        pfp: "Default_pfp.png",
         reviews: [],
         comments: [],
         shopList: [],
@@ -164,6 +170,14 @@ const updateUser = async (userId, updateObject) => {
     if('accountType' in updateObject){
         updateObject.accountType = valid.stringValidate(updateObject.accountType)
         user.accountType = updateObject.accountType
+    }
+    if('themeType' in updateObject){
+        updateObject.themeType = valid.stringValidate(updateObject.themeType)
+        user.themeType = updateObject.themeType
+    }
+    if('pfp' in updateObject){
+        updateObject.pfp = valid.stringValidate(updateObject.pfp)
+        user.pfp = updateObject.pfp
     }
     if('comments' in updateObject){
         user.comments = updateObject.comments
