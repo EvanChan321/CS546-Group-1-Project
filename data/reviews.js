@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 import * as valid from "../valid.js";
 import userData from './users.js';
 import shopData from './shops.js';
+import { itemData } from "./index.js";
 
 const getAllReviewsFromUser = async (userId) => {
     userId = valid.idCheck(userId)
@@ -32,12 +33,18 @@ const getReview = async (reviewId) => {
     return review
 }
 
-const createReview = async (userId, objId, title, rating, review) => {
+const createReview = async (userId, objId, title, rating, review, type) => {
   userId = valid.idCheck(userId)
   const userReview = await userData.getUser(userId)
   title = valid.stringValidate(title)
   objId = valid.idCheck(objId)
-  const shopForReview = await shopData.getShop(objId)
+  let objForReview
+  if(type === 'shop'){
+    objForReview = await shopData.getShop(objId)
+  }
+  else if(type === 'item'){
+    objForReview = await itemData.getItem(objId)
+  }
   valid.numCheck(rating)
   valid.intCheck(rating)
   review = valid.stringValidate(review)
@@ -56,15 +63,15 @@ const createReview = async (userId, objId, title, rating, review) => {
     edited: false
   }
   const existingReview = userReview.reviews.find((review) => review.objId.toString() == newReview.objId.toString());
-  if(existingReview) throw "User has already made review for this store";
+  if(existingReview) throw `User has already made review for this ${type}`;
   userReview.reviews.push(newReview)
-  shopForReview.reviews.push(x)
-  const len = shopForReview.reviews.length
+  objForReview.reviews.push(x)
+  const len = objForReview.reviews.length
   if(len == 1){
-    shopForReview.averageRating = newReview.rating 
+    objForReview.averageRating = newReview.rating
   }
   else{
-    shopForReview.averageRating = ((shopForReview.averageRating*(len-1))+newReview.rating)/len
+    objForReview.averageRating = ((objForReview.averageRating*(len-1))+newReview.rating)/len
   }
   const shopCollection = await shops();
   const userCollection = await users();
@@ -74,15 +81,27 @@ const createReview = async (userId, objId, title, rating, review) => {
     {returnDocument: 'after'}
   )
   if (!userUpdatedInfo) {
-    throw 'could not update product successfully';
+    throw 'could not update user successfully';
   }
-  const shopUpdatedInfo = await shopCollection.findOneAndUpdate(
-    {_id: new ObjectId(objId)},
-    {$set: shopForReview},
-    {returnDocument: 'after'}
-  )
-  if (!shopUpdatedInfo) {
-    throw 'could not update product successfully';
+  if(type === 'shop'){
+    const shopUpdatedInfo = await shopCollection.findOneAndUpdate(
+      {_id: new ObjectId(objId)},
+      {$set: objForReview},
+      {returnDocument: 'after'}
+    )
+    if (!shopUpdatedInfo) {
+      throw 'could not update shop successfully';
+    }
+  }
+  else if(type === 'item'){
+    const updatedInfo = await shopCollection.findOneAndUpdate(
+      { 'items._id': new ObjectId(objId) },
+      { $set: { 'item.$': objForReview } },
+      {returnDocument: 'after'}
+    );
+    if (!updatedInfo) {
+      throw 'could not update item successfully';
+    }
   }
   return newReview;
 }

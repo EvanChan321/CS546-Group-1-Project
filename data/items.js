@@ -46,7 +46,9 @@ const createItem = async (shopId, name, description, price, tags, allergens) => 
     description: description,
     price: price,
     tags: tags,
-    allergens: allergens
+    allergens: allergens,
+    reviews: [],
+    averageRating: "No Ratings"
   }
   shop.items.push(item)
   const shopCollection = await shops();
@@ -93,12 +95,12 @@ const updateItem = async (itemId, updateObject) => {
   }
   const shopCollection = await shops();
   const updatedInfo = await shopCollection.findOneAndUpdate(
-    { 'items._id': new ObjectId(reviewId) },
-    { $set: { 'flags.$': update } },
+    { 'items._id': new ObjectId(itemId) },
+    { $set: { 'item.$': update } },
     {returnDocument: 'after'}
   );
   if (!updatedInfo) {
-    throw 'could not update product successfully';
+    throw 'could not update item successfully';
   }
   return updatedInfo
 }

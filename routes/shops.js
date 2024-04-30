@@ -370,7 +370,8 @@ router
         shopId,
         title,
         rating,
-        review
+        review,
+        'shop'
       )
       const updatedUser = await userData.updatePoints(userId, 10)
       console.log(updatedUser)
@@ -477,7 +478,43 @@ router
     } catch (e) {
       return res.status(404).json({error: e});
     }
-  });
+  })
+  .post(async (req, res) => {
+    let itemId
+    let userId
+    let title
+    let rating
+    let review
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+    try{
+      userId = valid.idCheck(xss(req.session.user.id));
+      itemId = valid.idCheck(xss(req.params.itemId));
+      title = valid.stringValidate(xss(req.body.title), "title");
+      rating = parseInt(xss(req.body.rating));
+      intCheck(rating);
+      review = valid.stringValidate(xss(req.body.review), "review");
+    }
+    catch(e){
+      console.log(e);
+      res.status(504).redirect(`/shop/${xss(req.params.shopId)}/item/${xss(req.params.itemId)}`);
+    }
+    try {
+      const rev = await reviewData.createReview(
+        userId,
+        itemId,
+        title,
+        rating,
+        review,
+        'item'
+      )
+      const updatedUser = await userData.updatePoints(userId, 10)
+      console.log(updatedUser)
+      return res.redirect(`/review/${rev._id}`)
+    } catch(e) {
+      res.status(500).render('error', {error: "Internal Server Error", loggedIn: req.session.user, themeType: themeType})
+    }
+  })
+
 
 router
   .route('/shop/:shopId/item/:itemId/delete')
