@@ -24,3 +24,34 @@ function swapContent(contentId1,contentId2) {
         button.innerHTML = "Edit Info";
     }
 }
+
+function reviewSort(sorter){
+    const highest = document.getElementById('highest');
+    const lowest = document.getElementById('lowest');
+    const newest = document.getElementById('newest');
+    const oldest = document.getElementById('oldest');
+    if(sorter === "highest"){
+        highest.style.display = 'block';
+        lowest.style.display = 'none';
+        newest.style.display = 'none';
+        oldest.style.display = 'none';
+    }
+    if(sorter === "lowest"){
+        highest.style.display = 'none';
+        lowest.style.display = 'block';
+        newest.style.display = 'none';
+        oldest.style.display = 'none';
+    }
+    if(sorter === "newest"){
+        highest.style.display = 'none';
+        lowest.style.display = 'none';
+        newest.style.display = 'block';
+        oldest.style.display = 'none';
+    }
+    if(sorter === "oldest"){
+        highest.style.display = 'none';
+        lowest.style.display = 'none';
+        newest.style.display = 'none';
+        oldest.style.display = 'block';
+    }
+}
