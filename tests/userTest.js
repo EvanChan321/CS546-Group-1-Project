@@ -11,8 +11,9 @@ let user = {
     name: "Tabby",
     password: "Password1!",
     email: "mangelak@stevens.edu",
-    zipcode: "076300",
+    zipcode: "Emerson, NJ",
     accountType: "Admin",
+    themeType: 'light'
 }
 
 let userErr = {
@@ -21,6 +22,7 @@ let userErr = {
     email: "mangelakos@stevens.edu",
     zipcode: "076300",
     accountType: "Admin",
+    themeType: 'light'
 }
 
 let userErr2 = {
@@ -29,38 +31,43 @@ let userErr2 = {
     email: "mangelak@stevens.edu",
     zipcode: "076300",
     accountType: "user",
+    themeType: 'light'
 }
 
 let user2 = {
     name: "Denks",
     password: "ILoveCS546!!!",
     email: "eniemann@stevens.edu",
-    zipcode: "63124",
+    zipcode: "Saint Louis",
     accountType: "Default",
+    themeType: 'light'
 }
 
 let user3 = {
     name: "PlayboiCarti",
     password: "Go2DaMoon$",
     email: "playboicarti@rocketmail.com",
-    zipcode: "07030",
+    zipcode: "Peachtree St, Atlanta",
     accountType: "Default",
+    themeType: 'light'
 }
 
 let user4 = {
     name: "AmazinBuilder",
     password: "#1Builder",
     email: "amazin@hotmail.com",
-    zipcode: "90310",
+    zipcode: "30 Wayne Hills Mall, Wayne",
     accountType: "Default",
+    themeType: 'light'
 }
 
 let user5 = {
     name: "TheHoohn",
     password: "Password3#",
     email: "actronav@gmail.com",
-    zipcode: "07030",
+    zipcode: "Fort Lee, NJ",
     accountType: "Business",
+    themeType: 'light'
 }
 
 let shop = {
@@ -96,7 +103,8 @@ try {
         user.password,
         user.email,
         user.zipcode,
-        user.accountType
+        user.accountType,
+        user.themeType
     );
     console.log("user created");
     console.log(user);
@@ -111,7 +119,8 @@ try {
         userErr.password,
         userErr.email,
         userErr.zipcode,
-        userErr.accountType
+        userErr.accountType,
+        userErr.themeType
     );
     console.log("user incorrectly created");
     console.log(userErr);
@@ -126,7 +135,8 @@ try {
         userErr2.password,
         userErr2.email,
         userErr2.zipcode,
-        userErr2.accountType
+        userErr2.accountType,
+        userErr2.themeType
     );
     console.log("user incorrectly created");
     console.log(userErr);
@@ -141,7 +151,8 @@ try {
         user2.password,
         user2.email,
         user2.zipcode,
-        user2.accountType
+        user2.accountType,
+        user2.themeType
     );
     console.log("user created");
     console.log(user2);
@@ -156,7 +167,8 @@ try {
         user3.password,
         user3.email,
         user3.zipcode,
-        user3.accountType
+        user3.accountType,
+        user3.themeType
     );
     console.log("user created");
     console.log(user3);
@@ -171,7 +183,8 @@ try {
         user4.password,
         user4.email,
         user4.zipcode,
-        user4.accountType
+        user4.accountType,
+        user4.themeType
     );
     console.log("user created");
     console.log(user4);
@@ -186,7 +199,8 @@ try {
         user5.password,
         user5.email,
         user5.zipcode,
-        user5.accountType
+        user5.accountType,
+        user5.themeType
     );
     console.log("user created");
     console.log(user5);

@@ -9,9 +9,11 @@ dotenv.config();
 //basic stuff to render home file can change to to a different route in the future this is just for rendering the home page
 router.route('/').get(async (req, res) => {
   try{
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     res.render('home', {
       title: "Boba Fettch",
       loggedIn: req.session.user,
+      themeType: themeType
     });
   }catch(e){
     res.sendStatus(500);
@@ -27,13 +29,15 @@ router.route('/map').get(async (req, res) => {
     }
     else{
       cord = await valid.getLatLong("529 Washington Street, Hoboken");
-    }   
+    }
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';   
     res.render('map', {
       title: "Map",
       lat: cord.lat,
       long: cord.lng,
       shops: JSON.stringify(pins),
-      keys: process.env.GOOGLE_MAPS_KEY
+      keys: process.env.GOOGLE_MAPS_KEY,
+      themeType: themeType
     });
   } catch (e) {
     console.log(e);
@@ -43,6 +47,7 @@ router.route('/map').get(async (req, res) => {
 .post(async (req, res) => {
   let address
   let pins
+  const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
   try{
     address = valid.stringValidate(xss(req.body.address))
     address = await valid.getLatLong(address);   
@@ -52,6 +57,7 @@ router.route('/map').get(async (req, res) => {
     return res.status(400).render("Map", {
       error: e.toString(),
       title: "Map",
+      themeType: themeType
     });
   }
   try{
@@ -60,7 +66,8 @@ router.route('/map').get(async (req, res) => {
         lat: address.lat,
         long: address.lng,
         shops: JSON.stringify(pins),
-        keys: process.env.GOOGLE_MAPS_KEY
+        keys: process.env.GOOGLE_MAPS_KEY,
+        themeType: themeType
       });
     } catch (e) {
         console.log(e);
@@ -70,9 +77,10 @@ router.route('/map').get(async (req, res) => {
 
 
 router.route('/shops').get(async (req, res) => {
+  const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
   try{
     const shops = await shopData.getAllShops();
-    res.render('shopSearchResults', {shops: shops});
+    res.render('shopSearchResults', {shops: shops, themeType: themeType});
   }catch(e){
     console.log(e);
   }
@@ -81,7 +89,8 @@ router.route('/shops').get(async (req, res) => {
 router
   .route('/shop/addShop')
   .get(async (req, res) => {
-    res.render('addShop', {title: "Add Shop", loggedIn: req.session.user});
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+    res.render('addShop', {title: "Add Shop", loggedIn: req.session.user, themeType: themeType});
   })
   .post(async (req, res) => {
     let ownerId
@@ -90,6 +99,7 @@ router
     let website
     let phoneNumber
     let userId
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try{
       shopName = valid.stringValidate(xss(req.body.shopName))
       address = valid.stringValidate(xss(req.body.address))
@@ -108,7 +118,8 @@ router
         address: address,
         website: website,
         phoneNumber: phoneNumber,
-        ownerId: ownerId
+        ownerId: ownerId,
+        themeType: themeType
       });
     }
     try {
@@ -129,12 +140,14 @@ router
               address: address,
               website: website,
               phoneNumber: phoneNumber,
-              ownerId: ownerId
+              ownerId: ownerId,
+              themeType: themeType
             });
     }
   })
 
 router.route('/shops/search').post(async (req, res) => {
+  const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
   try{
     const shops = await shopData.getAllShops();
     const search = xss(req.body.shop);
@@ -148,33 +161,35 @@ router.route('/shops/search').post(async (req, res) => {
         sortShops = sortShops.filter((shop) => ((shop.averageRating >= minRating) && (shop.averageRating != "No Ratings")));
       }
     }
-    res.render('shopSearchResults', {title:"Search Results", shops: sortShops, loggedIn: req.session.user, search: search});
+    res.render('shopSearchResults', {title:"Search Results", shops: sortShops, loggedIn: req.session.user, search: search, themeType: themeType});
   }catch(e){
-    res.status(500).render('error', {error: e});
+    res.status(500).render('error', {error: e, themeType: themeType});
   }
 })
 
 router.route('/shops/bookmarks').get(async (req,res) => {
+  const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
   try{
     const shops = await shopData.getAllShops();
     console.log(req.session.user.bookmarks);
     console.log(shops[0]._id.toString());
     const bmShops = shops.filter((shop) => (xss(req.session.user.bookmarks)).includes(shop._id.toString()));
-    res.render('bookmarks', {title:"Bookmarks", shops: bmShops, loggedIn: req.session.user});
+    res.render('bookmarks', {title:"Bookmarks", shops: bmShops, loggedIn: req.session.user, themeType: themeType});
   }catch(e){
-    res.status(500).render('error', {error: e});
+    res.status(500).render('error', {error: e, themeType: themeType});
   }
 })
 
 router.route('/shop/:id').get(async (req, res) => {
   const search = (xss(req.params.id)).trim();
+  const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
   if(!search || (search.trim().length === 0)){
-    return res.status(400).render('error', {error: 'Must input search id'});
+    return res.status(400).render('error', {error: 'Must input search id', themeType: themeType});
   } 
   try {
     const searchResult = await shopData.getShop(search);
     if (!searchResult.name){
-      return res.status(404).render('error',{error: `No shop with ID ${search} found`});
+      return res.status(404).render('error',{error: `No shop with ID ${search} found`, themeType: themeType});
     }
     const storeItems = await searchResult.items;
     const storeReviewsPromises = searchResult.reviews.map(async (review) => await reviewData.getReview(review.toString()));
@@ -205,20 +220,22 @@ router.route('/shop/:id').get(async (req, res) => {
     }
     res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews, 
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
-      noOwner: noOwner});
+      noOwner: noOwner, themeType: themeType});
   } catch(e){
-    res.status(500).render('error',{error: e, loggedIn: req.session.user});
+    res.status(500).render('error',{error: e, loggedIn: req.session.user, themeType: themeType});
   }
 })
 .post(async (req, res) => {
   let userId 
   let shopId
+  const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
   try{
     userId = valid.idCheck(xss(req.session.user.id)) 
     shopId = valid.idCheck(xss(req.params.id))
   }catch(e){
     return res.status(400).render('shopPage', {
-      error: e.toString(), 
+      error: e.toString(),
+      themeType: themeType 
     })    
   }
   try{
@@ -235,6 +252,7 @@ router.route('/shop/:id').get(async (req, res) => {
   }catch(e){
     return res.status(500).render('shopPage', {
       error: e.toString(), 
+      themeType: themeType
     })  
   }
 });
@@ -242,6 +260,7 @@ router.route('/shop/:id').get(async (req, res) => {
 router.route('/shop/:id/delete')
 .post(async (req, res) => {
   let shopId
+  const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
   try{
     shopId = valid.idCheck(xss(req.params.id))
   }
@@ -249,6 +268,7 @@ router.route('/shop/:id/delete')
     return res.status(400).render("shopPage", {
       error: e.toString(),
       title: "Shop",
+      themeType: themeType
     });
   }
   try {
@@ -258,6 +278,7 @@ router.route('/shop/:id/delete')
     return res.status(500).render("shopPage", {
             error: error.toString(),
             title: "Shop",
+            themeType: themeType
           });
   }
 })
@@ -265,6 +286,7 @@ router.route('/shop/:id/delete')
 router
   .route('/shop/:shopId/itemForm')
   .get(async (req, res) => {
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try{
       const searchResult = await shopData.getShop(xss(req.params.shopId)); 
       if (!searchResult.name){
@@ -273,15 +295,17 @@ router
       res.render("itemForm", {
         title: "Item Form",
         shop: searchResult,
-        loggedIn: req.session.user
+        loggedIn: req.session.user,
+        themeType: themeType
       });
     }catch(e){
       console.log(e);
-      res.status(500).render('error', {error: "Internal Server Error", loggedIn: req.session.user});
+      res.status(500).render('error', {error: "Internal Server Error", loggedIn: req.session.user, themeType: themeType});
     }
   })
   .post(async (req, res) => {
     let shopId, name, description, price, tags, allergens, userId
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try{
       shopId = valid.idCheck(xss(req.params.shopId))
       name = valid.stringValidate(xss(req.body.name), "name")
@@ -296,7 +320,7 @@ router
       userId = valid.idCheck(xss(req.session.user.id))
     }
     catch(e){
-      return res.status(400).render('error', {error: e});
+      return res.status(400).render('error', {error: e, themeType: themeType});
     }
     try {
       console.log(tags);
@@ -315,7 +339,7 @@ router
       return res.redirect(`/shop/${shopId}`)
     } catch (error) {
       console.log(error);
-      return res.status(500).render('error', {error: "Internal Server Error"});
+      return res.status(500).render('error', {error: "Internal Server Error", themeType: themeType});
     }
   })
 
@@ -327,6 +351,7 @@ router
     let title
     let rating
     let review
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try{
       userId = valid.idCheck(xss(req.session.user.id));
       shopId = valid.idCheck(xss(req.params.shopId));
@@ -352,19 +377,21 @@ router
       return res.redirect(`/review/${rev._id}`)
     } catch(e) {
       console.log("fsadlfjaoifnoiashpodfi");
-      res.status(500).render('error', {error: "Internal Server Error", loggedIn: req.session.user})
+      res.status(500).render('error', {error: "Internal Server Error", loggedIn: req.session.user, themeType: themeType})
     }
   })
 
 router
   .route('/shop/:shopId/flagForm')
   .get(async (req, res) => {
-    res.render("flagForm", {title: "Flag Form", id: xss(req.params.shopId), loggedIn: req.session.user});
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+    res.render("flagForm", {title: "Flag Form", id: xss(req.params.shopId), loggedIn: req.session.user, themeType: themeType});
   })
   .post(async (req, res) => {
     let shopId
     let userId
     let flagReason
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try{
       userId = valid.idCheck(xss(req.session.user.id))
       shopId = valid.idCheck(xss(req.params.shopId))
@@ -374,7 +401,8 @@ router
       return res.status(400).render("flagForm", {
         error: e.toString(),
         title: "Flag Form",
-        flagReason: flagReason
+        flagReason: flagReason,
+        themeType: themeType
       });
     }
     try {
@@ -388,7 +416,8 @@ router
       return res.status(500).render("flagForm", {
               error: e.toString(),
               title: "Flag Form",
-              flagReason: flagReason
+              flagReason: flagReason,
+              themeType: themeType
             });
     }
   })
@@ -471,8 +500,10 @@ router
   
 router.route('/shop/:shopid/:itemId/edit')
   .get(async (req, res) => {
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     res.render("itemEdit", {
-      title: "Item Edit"
+      title: "Item Edit",
+      themeType: themeType
     });
   })
   .post(async (req, res) => {
@@ -483,6 +514,7 @@ router.route('/shop/:shopid/:itemId/edit')
     let tags
     let allergens
     let updateItem
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try{
       shopId = valid.idCheck(xss(req.params.shopId))
       itemId = valid.idCheck(xss(req.params.itemId))
@@ -518,6 +550,7 @@ router.route('/shop/:shopid/:itemId/edit')
         price: price,
         tags: tags,
         allergens: allergens,
+        themeType: themeType
       });
     }
     try {
@@ -525,7 +558,6 @@ router.route('/shop/:shopid/:itemId/edit')
         itemId,
         updateItem
       )
-      //req.session.user = user;
       return res.redirect(`/shop/${shopId}/${item._id}`)
     } catch (error) {
       return res.status(500).render("itemEdit", {
@@ -535,7 +567,8 @@ router.route('/shop/:shopid/:itemId/edit')
                 description: address,
                 price: website,
                 tags: phoneNumber,
-                allergens: ownerId
+                allergens: ownerId,
+                themeType: themeType
             });
     }
   })

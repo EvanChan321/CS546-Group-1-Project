@@ -11,7 +11,8 @@ router
       title: "User Signup",
       postTo: "",
       type: "business",
-      link: "/business"
+      link: "/business",
+      themeType: 'light'
     });
   })
   .post(async (req, res) => {
@@ -19,6 +20,7 @@ router
     let userPassword
     let userEmail
     let userAddress
+    let themeType
     try{
       userName = valid.stringValidate(xss(req.body.username))
       userPassword = valid.passwordCheck(xss(req.body.password))
@@ -27,6 +29,7 @@ router
       }
       userEmail = valid.emailCheck(xss(req.body.email))
       userAddress = valid.stringValidate(xss(req.body.zipcode))
+      themeType = valid.stringValidate(xss(req.body.themeType))
     }
     catch(e){
       return res.status(400).render("signup", {
@@ -34,7 +37,8 @@ router
         title: "User Signup",
         username: userName,
         email: userEmail,
-        address: userAddress
+        address: userAddress,
+        themeType: 'light'
       });
     }
     try {
@@ -43,9 +47,9 @@ router
         userPassword,
         userEmail,
         userAddress,
-        "Default"
+        "Default",
+        themeType
       )
-      //req.session.user = user;
       return res.redirect(`/user/login`)
     } catch (error) {
       return res.status(500).render("signup", {
@@ -53,7 +57,8 @@ router
               title: "User Signup",
               username: userName,
               email: userEmail,
-              address: userAddress
+              address: userAddress,
+              themeType: 'light'
             });
     }
   })
@@ -65,7 +70,8 @@ router
       title: "Business Signup",
       postTo: "/business",
       type: "user",
-      link: ""
+      link: "",
+      themeType: 'light'
     });
   })
   .post(async (req, res) => {
@@ -73,11 +79,13 @@ router
     let userPassword
     let userEmail
     let userAddress
+    let themeType
     try{
       userName = valid.stringValidate(xss(req.body.username))
       userPassword = valid.passwordCheck(xss(req.body.password))
       userEmail = valid.emailCheck(xss(req.body.email))
       userAddress = valid.stringValidate(xss(req.body.zipcode))
+      themeType = valid.stringValidate(xss(req.body.themeType))
       if(req.body.password !== xss(req.body.passwordConf)){
         throw "passwords dont match"
       }
@@ -88,7 +96,8 @@ router
         title: "Business Signup",
         username: userName,
         email: userEmail,
-        address: userAddress
+        address: userAddress,
+        themeType: 'light'
       });
     }
     try {
@@ -97,7 +106,8 @@ router
         userPassword,
         userEmail,
         userAddress,
-        "Business"
+        "Business",
+        themeType
       )
       return res.redirect(`/user/login`)
     } catch (error) {
@@ -106,7 +116,8 @@ router
               title: "Business Signup",
               username: userName,
               email: userEmail,
-              address: userAddress
+              address: userAddress,
+              themeType: 'light'
             });
     }
   })
@@ -114,10 +125,9 @@ router
 router
   .route('/login')
   .get(async (req, res) => {
-    res.render("login", {title: "User Login"});
+    res.render("login", {title: "User Login", themeType: 'light'});
   })
   .post(async (req, res) => {
-    console.log(req.body)
     let userEmailOrUsername
     let userPassword
     let user
@@ -129,6 +139,7 @@ router
         error: e.toString(),
         title: "User Login",
         emailOrUsername: userEmailOrUsername,
+        themeType: 'light'
       });
     }
     try{
@@ -139,6 +150,8 @@ router
         email: user.email,
         address: user.address,
         accountType: user.accountType,
+        pfp: user.pfp,
+        themeType: user.themeType,
         bookmarks: user.bookmarks
       }
       return res.redirect(`/user/${user._id.toString()}`)
@@ -147,6 +160,7 @@ router
         error: e.toString(),
         title: "User Login",
         emailOrUsername: userEmailOrUsername,
+        themeType: 'light'
       });
     }
   }) 
@@ -164,6 +178,7 @@ router
   .route('/:userId')
   .get(async (req, res) => {
     let userId
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try {
         userId = valid.idCheck(xss(req.params.userId))
     } catch (e) {
@@ -171,16 +186,16 @@ router
     }
     try {
         const user = await userData.getUser(userId);
-        return res.status(200).render('user', {user: user, title: "Profile", loggedIn: req.session.user});
+        return res.status(200).render('user', {user: user, title: "Profile", loggedIn: req.session.user, themeType: themeType, pfp: req.session.user.pfp});
     } catch (e) {
         return res.status(404).json({error: e});
     }
   })
   .post(async (req, res) => {
-    let userAddress
     let updateObject = {}
     let userId
     let user
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try{
       userId = valid.idCheck(xss(req.params.userId))
       user = await userData.getUser(userId);
@@ -192,7 +207,13 @@ router
         updateObject.oldPassword = valid.passwordCheck(xss(req.body.oldPassword))
       }
       if(xss(req.body.address)){
-        userAddress = valid.stringValidate(xss(req.body.address))
+        updateObject.userAddress = valid.stringValidate(xss(req.body.address))
+      }
+      if(xss(req.body.themeType)){
+        updateObject.themeType = valid.stringValidate(xss(req.body.themeType))
+      }
+      if(xss(req.body.pfp)){
+        updateObject.pfp = valid.stringValidate(xss(req.body.pfp))
       }
     }
     catch(e){
@@ -200,7 +221,8 @@ router
       return res.status(400).render("user", {
         error: e.toString(),
         title: "Profile",
-        user
+        user: user,
+        themeType: themeType
       });
     }
     try {
@@ -208,12 +230,22 @@ router
         userId,
         updateObject
       )
+      if(updateObject.address){
+        req.session.user.address = user.address
+      }
+      if(updateObject.themeType){
+        req.session.user.themeType = user.themeType
+      }
+      if(updateObject.pfp){
+        req.session.user.pfp = user.pfp
+      }
       return res.redirect(`/user/${user._id}`)
     } catch (error) {
       return res.status(500).render("user", {
               error: error.toString(),
               title: "Profile",
-              user
+              user: user,
+              themeType: themeType
             });
     }
   })
@@ -241,6 +273,7 @@ router
   .post(async (req, res) => {
     //let userPassword
     let userId
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try{
       userId = valid.idCheck(xss(req.params.userId))
       //userPassword = valid.passwordCheck(xss(req.body.password))
@@ -248,7 +281,8 @@ router
     catch(e){
       return res.status(400).render("user", {
         error: e.toString(),
-        title: "Profile"
+        title: "Profile",
+        themeType: themeType
       });
     }
     try {
@@ -258,7 +292,8 @@ router
     } catch (error) {
       return res.status(500).render("user", {
         error: e.toString(),
-        title: "Profile"
+        title: "Profile",
+        themeType: themeType
       });
     }
   })
