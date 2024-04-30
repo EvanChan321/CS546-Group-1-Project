@@ -230,7 +230,8 @@ try{
         shop._id.toString(),
         review.title,
         review.rating,
-        review.review
+        review.review,
+        'shop'
     )
     console.log("review created");
     console.log(review);
@@ -246,7 +247,8 @@ try{
         shop._id.toString(),
         review2.title,
         review2.rating,
-        review2.review
+        review2.review,
+        'shop'
     )
     console.log("review incorrectly created");
     console.log(review2);
@@ -430,7 +432,8 @@ try{
         shop3._id.toString(),
         review3.title,
         review3.rating,
-        review3.review
+        review3.review,
+        'shop'
     )
     console.log("review created");
     console.log(review);
@@ -451,7 +454,8 @@ try{
         shop2._id.toString(),
         review4.title,
         review4.rating,
-        review4.review
+        review4.review,
+        'shop'
     )
     console.log("review created");
     console.log(review4);
@@ -487,7 +491,8 @@ try{
         shop3._id.toString(),
         review5.title,
         review5.rating,
-        review5.review
+        review5.review,
+        'shop'
     )
     console.log("review created");
     console.log(review5);
@@ -530,7 +535,8 @@ try{
         shop4._id.toString(),
         "carti",
         3,
-        "i <3 tHis pLAc3"
+        "i <3 tHis pLAc3",
+        'shop'
     )
     console.log("review created");
     console.log(review);
@@ -571,7 +577,8 @@ try{
         shop5._id.toString(),
         "it's okay...",
         3,
-        "Nothing special really, mid tea, ok service"
+        "Nothing special really, mid tea, ok service",
+        'shop'
     )
     console.log("review created");
     console.log(review);
@@ -612,7 +619,8 @@ try{
         shop5._id.toString(),
         "Hidden gem",
         5,
-        "I never heard of this place until the other day but it's great"
+        "I never heard of this place until the other day but it's great",
+        'shop'
     )
     console.log("review created");
     console.log(review);
