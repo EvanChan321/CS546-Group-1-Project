@@ -7,7 +7,7 @@
         <h1>Items at {{shop.name}}</h1>
         {{/unless}}
         <div id="container">
-                <label for="shops">Search Items:</label>
+                <label>Search Items:</label>
                 <input class="search-bar" type="text" name="search" id="itemSearch" placeholder="Matcha...">
                 <br>
                 <button type="button" onclick="location.href='/shop/{{shop._id}}/itemSearch/' + encodeURIComponent(document.getElementById('itemSearch').value)">
