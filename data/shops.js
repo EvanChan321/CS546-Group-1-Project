@@ -50,6 +50,8 @@ const createShop = async (name, address, website, phoneNumber, hour1, minute1, a
         ownerId: ownerId
     }
     const shopCollection = await shops();
+    const duplicateAdd =  await shopCollection.findOne({address: { $regex: new RegExp(`^${address}$`, 'i') }});
+    if(duplicateAdd) throw "Store at this location already exists";
     const insertInfo = await shopCollection.insertOne(newShop);
     if (!insertInfo.acknowledged || !insertInfo.insertedId)
       throw 'Could not add product';
