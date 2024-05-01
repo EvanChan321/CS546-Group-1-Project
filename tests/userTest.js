@@ -1,6 +1,6 @@
 import { dbConnection, closeConnection } from "../config/mongoConnection.js";
 
-import { commentData, reviewData, userData, shopData, itemData } from "../data/index.js";
+import { commentData, reviewData, userData, shopData, itemData, flagData } from "../data/index.js";
 import * as valid from "../valid.js";
 
 const db = await dbConnection();
@@ -215,6 +215,12 @@ try {
         shop.address,
         shop.website,
         shop.phoneNumber,
+        "12",
+        "0",
+        "AM",
+        "12",
+        "0",
+        "PM",
         user5._id.toString()
     );
     console.log("shop created");
@@ -349,6 +355,12 @@ try {
         shop2.address,
         shop2.website,
         shop2.phoneNumber,
+        "12",
+        "0",
+        "AM",
+        "12",
+        "0",
+        "PM"
     );
     console.log("shop created");
     console.log(shop2);
@@ -370,6 +382,12 @@ try {
         shop3.address,
         shop3.website,
         shop3.phoneNumber,
+        "12",
+        "0",
+        "AM",
+        "12",
+        "0",
+        "PM"
     );
     console.log("shop created");
     console.log(shop3);
@@ -391,6 +409,12 @@ try {
         shop4.address,
         shop4.website,
         shop4.phoneNumber,
+        "12",
+        "0",
+        "AM",
+        "12",
+        "0",
+        "PM"
     );
     console.log("shop created");
     console.log(shop4);
@@ -412,6 +436,12 @@ try {
         shop5.address,
         shop5.website,
         shop5.phoneNumber,
+        "12",
+        "0",
+        "AM",
+        "12",
+        "0",
+        "PM"
     );
     console.log("shop created");
     console.log(shop5);
@@ -626,6 +656,40 @@ try{
     console.log(review);
 } catch (e) {
     console.log("Error creating review");
+    console.log(e);
+}
+
+
+try{
+    await reviewData.removeReview(review._id.toString())
+    console.log("review removed");
+}catch (e) {
+    console.log("Error removing review");
+    console.log(e);
+}
+let flag
+try{
+    flag = await flagData.createFlag(shop5._id.toString(), user._id.toString(), "bruh")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+
+try{
+    console.log(await flagData.getFlag(flag._id.toString()))
+}
+catch(e){
+    console.log("Error finding flag");
+    console.log(e);
+}
+
+try{
+    flag = await flagData.deleteFlag(flag._id.toString())
+    console.log("flag removed");
+}catch (e) {
+    console.log("Error removing flag");
     console.log(e);
 }
 

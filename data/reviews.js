@@ -29,7 +29,6 @@ const getReview = async (reviewId) => {
     if (!review) {
       throw 'cannot find review';
     }
-    //foundReview._id = foundReview._id.toString();
     return review
 }
 
@@ -159,10 +158,9 @@ const removeReview = async (reviewId) => {
   reviewId = valid.idCheck(reviewId)
   const review = await getReview(reviewId)
   const userCollection = await users();
-  const updatedUser = await userCollection.findOneAndUpdate(
-    { 'reviews._id': new ObjectId(reviewId) },
-    { $pull: { reviews: { _id: new ObjectId(reviewId) } } },
-    { returnDocument: 'after' }
+  const updatedUser = await userCollection.updateOne(
+    { 'reviews._id': new ObjectId(reviewId) }, 
+    { $pull: { reviews: { _id: new ObjectId(reviewId) } } } 
   );
   if(!updatedUser){
     throw 'could not delete'

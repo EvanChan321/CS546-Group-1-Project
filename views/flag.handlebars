@@ -1,0 +1,23 @@
+
+    <main>
+        <h1>{{shop.name}} Flags: </h1>
+        <ol>
+                <li>
+                    <h2><a href="/shop/{{flag._id}}">{{flag.name}}</a></h2>
+                    <ul>
+                        <li><p>UserId: {{flag.userId}}</p></li>
+                        <li><p>Reason: {{flag.flagReason}}</p></li>
+                        <li><p>Flag Date: {{flag.flagDate}}</p></li>
+                    </ul>
+                </li>
+        </ol>
+        <form action="/shop/{{shop._id}}/flag/{{flag._id}}/delete" method="POST">
+            <button type="submit" class="delete">DELETE FLAG</button>
+        </form>
+        <footer>
+            <a href="/shop/{{shop._id}}/flags" class="static-link">Go back to {{shop.name}} flags</a>
+            <br>
+            <a href="/shop/{{shop._id}}" class="static-link">Go back to {{shop.name}}</a>
+        </footer>
+
+    </main>
