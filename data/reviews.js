@@ -59,7 +59,8 @@ const createReview = async (userId, objId, title, rating, review, type) => {
     review: review,
     reviewDate: currentDateString,
     comments: [],
-    edited: false
+    edited: false,
+    type: type
   }
   const existingReview = userReview.reviews.find((review) => review.objId.toString() == newReview.objId.toString());
   if(existingReview) throw `User has already made review for this ${type}`;
@@ -158,23 +159,30 @@ const removeReview = async (reviewId) => {
   reviewId = valid.idCheck(reviewId)
   const review = await getReview(reviewId)
   const userCollection = await users();
-  const updatedUser = await userCollection.updateOne(
+  const updatedUser = await userCollection.findOneAndUpdate(
     { 'reviews._id': new ObjectId(reviewId) }, 
-    { $pull: { reviews: { _id: new ObjectId(reviewId) } } } 
+    { $pull: { reviews: { _id: new ObjectId(reviewId) } } },
+    {returnDocument: 'after'} 
   );
   if(!updatedUser){
     throw 'could not delete'
   }
   review.objId = valid.idCheck(review.objId.toString())
   const shopCollection = await shops()
-  const shop = await shopData.getShop(review.objId.toString())
+  let shop
   function findIndexById(arr, id) {
     for (let i = 0; i < arr.length; i++) {
         if (arr[i].equals(id)) { 
             return i;
         }
     }
-    return -1; 
+    return i; 
+  }
+  if(review.type === "item"){
+    shop = await itemData.getItem(review.objId.toString())
+  }
+  else{
+    shop = await shopData.getShop(review.objId.toString())
   }
   const index = findIndexById(shop.reviews, new ObjectId(reviewId))
   if (index !== -1) {
@@ -185,13 +193,30 @@ const removeReview = async (reviewId) => {
     shop.averageRating = ((shop.averageRating*(len+1))-review.rating)/len
   }
   else{
-    shop.averageRating = 0
+    shop.averageRating = "No Ratings"
   }
-  const updatedShop = await shopCollection.findOneAndUpdate(
-    {_id: new ObjectId(review.objId)},
-    {$set: shop},
-    {returnDocument: 'after'}
-  )
+  console.log(shop)
+  if(review.type === "item"){
+    const updatedInfo = await shopCollection.findOneAndUpdate(
+      { 'items._id': new ObjectId(review.objId) },
+      { $set: { 'items.$': shop } },
+      {returnDocument: 'after'}
+    )
+  }
+  else{
+    const updatedShop = await shopCollection.findOneAndUpdate(
+      {_id: new ObjectId(review.objId)},
+      {$set: shop},
+      {returnDocument: 'after'}
+    )
+  }
+  await review.comments.forEach(async comment => {
+    let updatedUserComment = await userCollection.findOneAndUpdate(
+      { comments: new ObjectId(comment._id) }, 
+      { $pull: { comments: new ObjectId(comment._id) } },
+      {returnDocument: 'after'} 
+    );
+  });
   return updatedUser
 }
 
