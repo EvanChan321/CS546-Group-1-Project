@@ -37,7 +37,8 @@ router.route('/map').get(async (req, res) => {
       long: cord.lng,
       shops: JSON.stringify(pins),
       keys: process.env.GOOGLE_MAPS_KEY,
-      themeType: themeType
+      themeType: themeType,
+      loggedIn: req.session.user
     });
   } catch (e) {
     console.log(e);
@@ -76,7 +77,8 @@ router.route('/map').get(async (req, res) => {
     return res.status(400).render("Map", {
       error: e.toString(),
       title: "Map",
-      themeType: themeType
+      themeType: themeType,
+      loggedIn: req.session.user
     });
   }
   try{
@@ -86,7 +88,8 @@ router.route('/map').get(async (req, res) => {
         long: address.lng,
         shops: JSON.stringify(pins),
         keys: process.env.GOOGLE_MAPS_KEY,
-        themeType: themeType
+        themeType: themeType,
+        loggedIn: req.session.user
       });
     } catch (e) {
         console.log(e);
@@ -130,7 +133,8 @@ router
         website: website,
         phoneNumber: phoneNumber,
         ownerId: ownerId,
-        themeType: themeType
+        themeType: themeType,
+        loggedIn: req.session.user
       });
     }
     try {
@@ -158,7 +162,8 @@ router
               website: website,
               phoneNumber: phoneNumber,
               ownerId: ownerId,
-              themeType: themeType
+              themeType: themeType,
+              loggedIn: req.session.user
             });
     }
   })
@@ -183,7 +188,7 @@ router.route('/shops/search').post(async (req, res) => {
     }
     res.render('shopSearchResults', {title:"Search Results", shops: sortShops, loggedIn: req.session.user, search: search, themeType: themeType, currentHour: currentHour, currentMin: currentMin});
   }catch(e){
-    res.status(500).render('error', {error: e, themeType: themeType});
+    res.status(500).render('error', {title: "Search Results", error: e, themeType: themeType, loggedIn: req.session.user});
   }
 })
 
@@ -199,7 +204,7 @@ router.route('/shops/bookmarks').get(async (req,res) => {
     const bmShops = shops.filter((shop) => (xss(req.session.user.bookmarks)).includes(shop._id.toString()));
     res.render('bookmarks', {title:"Bookmarks", shops: bmShops, loggedIn: req.session.user, themeType: themeType, currentHour: currentHour, currentMin: currentMin});
   }catch(e){
-    res.status(500).render('error', {error: e, themeType: themeType});
+    res.status(500).render('error', {title: "Bookmarks", error: e, themeType: themeType, loggedIn: req.session.user});
   }
 })
 
@@ -210,12 +215,12 @@ router.route('/shop/:id').get(async (req, res) => {
   const currentMinute = currentTime.getMinutes();
   const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
   if(!search || (search.trim().length === 0)){
-    return res.status(400).render('error', {error: 'Must input search id', themeType: themeType});
+    return res.status(400).render('error', {title: "Shop Page", error: 'Must input search id', themeType: themeType, loggedIn: req.session.user});
   } 
   try {
     const searchResult = await shopData.getShop(search);
     if (!searchResult.name){
-      return res.status(404).render('error',{error: `No shop with ID ${search} found`, themeType: themeType});
+      return res.status(404).render('error',{title: "Shop Page", error: `No shop with ID ${search} found`, themeType: themeType, loggedIn: req.session.user});
     }
     const storeItems = await searchResult.items;
     const storeReviewsPromises = searchResult.reviews.map(async (review) => await reviewData.getReview(review.toString()));
@@ -264,7 +269,7 @@ router.route('/shop/:id').get(async (req, res) => {
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
       noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin});
   } catch(e){
-    res.status(500).render('error',{error: e, loggedIn: req.session.user, themeType: themeType});
+    res.status(500).render('error',{title: "Shop Page", error: e, loggedIn: req.session.user, themeType: themeType});
   }
 })
 .post(async (req, res) => {
@@ -276,8 +281,10 @@ router.route('/shop/:id').get(async (req, res) => {
     shopId = valid.idCheck(xss(req.params.id))
   }catch(e){
     return res.status(400).render('shopPage', {
+      title: "Shop Page",
       error: e.toString(),
-      themeType: themeType 
+      themeType: themeType,
+      loggedIn: req.session.user
     })    
   }
   try{
@@ -293,8 +300,10 @@ router.route('/shop/:id').get(async (req, res) => {
     return res.redirect(`/shop/${shopId}`)
   }catch(e){
     return res.status(500).render('shopPage', {
+      title: "Shop Page",
       error: e.toString(), 
-      themeType: themeType
+      themeType: themeType,
+      loggedIn: req.session.user
     })  
   }
 });
@@ -310,7 +319,8 @@ router.route('/shop/:id/flags')
     return res.status(400).render("shopFlags", {
       error: e.toString(),
       title: "Shop Flags",
-      themeType: themeType
+      themeType: themeType,
+      loggedIn: req.session.user
     });
   }
   try {
@@ -320,13 +330,15 @@ router.route('/shop/:id/flags')
       title: "Shop Flags",
       themeType: themeType,
       flags: flags,
-      shop: shop
+      shop: shop,
+      loggedIn: req.session.user
     })
   } catch (error) {
     return res.status(500).render("shopFlags", {
             error: error.toString(),
             title: "Shop Flags",
-            themeType: themeType
+            themeType: themeType,
+            loggedIn: req.session.user
           });
   }
 })
@@ -342,7 +354,8 @@ router.route('/shop/:id/delete')
     return res.status(400).render("shopPage", {
       error: e.toString(),
       title: "Shop",
-      themeType: themeType
+      themeType: themeType,
+      loggedIn: req.session.user
     });
   }
   try {
@@ -352,7 +365,8 @@ router.route('/shop/:id/delete')
     return res.status(500).render("shopPage", {
             error: error.toString(),
             title: "Shop",
-            themeType: themeType
+            themeType: themeType,
+            loggedIn: req.session.user
           });
   }
 })
@@ -370,11 +384,11 @@ router
         title: "Item Form",
         shop: searchResult,
         loggedIn: req.session.user,
-        themeType: themeType
+        themeType: themeType,
       });
     }catch(e){
       console.log(e);
-      res.status(500).render('error', {error: "Internal Server Error", loggedIn: req.session.user, themeType: themeType});
+      res.status(500).render('error', {title: "Item Form", error: "Internal Server Error", loggedIn: req.session.user, themeType: themeType});
     }
   })
   .post(async (req, res) => {
@@ -394,7 +408,7 @@ router
       userId = valid.idCheck(xss(req.session.user.id))
     }
     catch(e){
-      return res.status(400).render('error', {error: e, themeType: themeType});
+      return res.status(400).render('error', {title: "Item Form", error: e, themeType: themeType, loggedIn: req.session.user});
     }
     try {
       console.log(tags);
@@ -413,7 +427,7 @@ router
       return res.redirect(`/shop/${shopId}`)
     } catch (error) {
       console.log(error);
-      return res.status(500).render('error', {error: "Internal Server Error", themeType: themeType});
+      return res.status(500).render('error', {error: "Internal Server Error", themeType: themeType, loggedIn: req.session.user});
     }
   })
 
@@ -452,7 +466,7 @@ router
       return res.redirect(`/review/${rev._id}`)
     } catch(e) {
       console.log("fsadlfjaoifnoiashpodfi");
-      res.status(500).render('error', {error: "Internal Server Error", loggedIn: req.session.user, themeType: themeType})
+      res.status(500).render('error', {title: "Review Form", error: "Internal Server Error", loggedIn: req.session.user, themeType: themeType})
     }
   })
 
@@ -477,7 +491,8 @@ router
         error: e.toString(),
         title: "Flag Form",
         flagReason: flagReason,
-        themeType: themeType
+        themeType: themeType,
+        loggedIn: req.session.user
       });
     }
     try {
@@ -492,7 +507,8 @@ router
               error: e.toString(),
               title: "Flag Form",
               flagReason: flagReason,
-              themeType: themeType
+              themeType: themeType,
+              loggedIn: req.session.user
             });
     }
   })
@@ -516,8 +532,8 @@ router
         title: "Flag",
         flag: flag,
         shop: shop,
-        themeType: themeType});
-      // return res.json(flag)
+        themeType: themeType,
+        loggedIn: req.session.user});
     } catch (e) {
       return res.status(500).json({error: e});
     }
@@ -592,7 +608,7 @@ router
       console.log(updatedUser)
       return res.redirect(`/review/${rev._id}`)
     } catch(e) {
-      res.status(500).render('error', {error: "Internal Server Error", loggedIn: req.session.user, themeType: themeType})
+      res.status(500).render('error', {title: "Review", error: "Internal Server Error", loggedIn: req.session.user, themeType: themeType})
     }
   })
 
@@ -621,7 +637,8 @@ router.route('/shop/:shopid/:itemId/edit')
     const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     res.render("itemEdit", {
       title: "Item Edit",
-      themeType: themeType
+      themeType: themeType,
+      loggedIn: req.session.user
     });
   })
   .post(async (req, res) => {
@@ -668,7 +685,8 @@ router.route('/shop/:shopid/:itemId/edit')
         price: price,
         tags: tags,
         allergens: allergens,
-        themeType: themeType
+        themeType: themeType,
+        loggedIn: req.session.user
       });
     }
     try {
@@ -686,7 +704,8 @@ router.route('/shop/:shopid/:itemId/edit')
                 price: website,
                 tags: phoneNumber,
                 allergens: ownerId,
-                themeType: themeType
+                themeType: themeType,
+                loggedIn: req.session.user
             });
     }
   })

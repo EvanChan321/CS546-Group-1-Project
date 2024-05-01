@@ -26,9 +26,9 @@ router
         }
         commData.push(curr);
       }
-      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review, comments: commData, themeType: themeType });
+      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review, comments: commData, themeType: themeType, loggedIn: req.session.user });
     } catch (e) {
-      return res.status(404).render('error', { error: e, themeType: themeType });
+      return res.status(404).render('error', { title: "error", error: e, themeType: themeType, loggedIn: req.session.user });
     }
   })
   .post(async (req, res) => {
@@ -55,7 +55,8 @@ router
         title: title,
         rating: flagReason,
         review: review,
-        themeType: themeType
+        themeType: themeType,
+        loggedIn: req.session.user
       });
     }
     try {
@@ -77,7 +78,8 @@ router
         title: title,
         rating: flagReason,
         review: review,
-        themeType: themeType
+        themeType: themeType,
+        loggedIn: req.session.user
       });
     }
   });
@@ -102,9 +104,9 @@ router
         }
         commData.push(curr);
       }
-      return res.status(200).render('commentsPage', { comments: commData, themeType: themeType });
+      return res.status(200).render('commentsPage', { title: "Comments", comments: commData, themeType: themeType, loggedIn: req.session.user });
     } catch (e) {
-      return res.status(404).render('error', { error: e, themeType: themeType });
+      return res.status(404).render('error', { title: "error", error: e, themeType: themeType, loggedIn: req.session.user });
     }
   })
   .post(async (req, res) => {
@@ -122,7 +124,8 @@ router
         error: e.toString(),
         title: "Review",
         comment: comment,
-        themeType: themeType
+        themeType: themeType,
+        loggedIn: req.session.user
       });
     }
     try {
@@ -135,7 +138,8 @@ router
         error: e.toString(),
         title: "Review",
         comment: comment,
-        themeType: themeType
+        themeType: themeType,
+        loggedIn: req.session.user
       });
     }
   })
@@ -170,7 +174,8 @@ router
       return res.status(400).render("review", {
         error: e.toString(),
         title: "Review",
-        themeType: themeType
+        themeType: themeType,
+        loggedIn: req.session.user
       });
     }
     try {
@@ -180,7 +185,8 @@ router
       return res.status(500).render("review", {
         error: error.toString(),
         title: "Review",
-        themeType: themeType
+        themeType: themeType,
+        loggedIn: req.session.user
       });
     }
   });

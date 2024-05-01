@@ -12,7 +12,8 @@ router
       postTo: "",
       type: "business",
       link: "/business",
-      themeType: 'light'
+      themeType: 'light',
+      loggedIn: req.session.user
     });
   })
   .post(async (req, res) => {
@@ -38,7 +39,8 @@ router
         username: userName,
         email: userEmail,
         address: userAddress,
-        themeType: 'light'
+        themeType: 'light',
+        loggedIn: req.session.user
       });
     }
     try {
@@ -58,7 +60,8 @@ router
               username: userName,
               email: userEmail,
               address: userAddress,
-              themeType: 'light'
+              themeType: 'light',
+              loggedIn: req.session.user
             });
     }
   })
@@ -71,7 +74,8 @@ router
       postTo: "/business",
       type: "user",
       link: "",
-      themeType: 'light'
+      themeType: 'light',
+      loggedIn: req.session.user
     });
   })
   .post(async (req, res) => {
@@ -97,7 +101,8 @@ router
         username: userName,
         email: userEmail,
         address: userAddress,
-        themeType: 'light'
+        themeType: 'light',
+        loggedIn: req.session.user
       });
     }
     try {
@@ -117,7 +122,8 @@ router
               username: userName,
               email: userEmail,
               address: userAddress,
-              themeType: 'light'
+              themeType: 'light',
+              loggedIn: req.session.user
             });
     }
   })
@@ -125,7 +131,7 @@ router
 router
   .route('/login')
   .get(async (req, res) => {
-    res.render("login", {title: "User Login", themeType: 'light'});
+    res.render("login", {title: "User Login", themeType: 'light', loggedIn: req.session.user});
   })
   .post(async (req, res) => {
     let userEmailOrUsername
@@ -139,7 +145,8 @@ router
         error: e.toString(),
         title: "User Login",
         emailOrUsername: userEmailOrUsername,
-        themeType: 'light'
+        themeType: 'light',
+        loggedIn: req.session.user
       });
     }
     try{
@@ -160,7 +167,8 @@ router
         error: e.toString(),
         title: "User Login",
         emailOrUsername: userEmailOrUsername,
-        themeType: 'light'
+        themeType: 'light',
+        loggedIn: req.session.user
       });
     }
   }) 
@@ -227,7 +235,8 @@ router
         error: e.toString(),
         title: "Profile",
         user: user,
-        themeType: themeType
+        themeType: themeType,
+        loggedIn: req.session.user
       });
     }
     try {
@@ -250,7 +259,8 @@ router
               error: error.toString(),
               title: "Profile",
               user: user,
-              themeType: themeType
+              themeType: themeType,
+              loggedIn: req.session.user
             });
     }
   })
@@ -287,7 +297,8 @@ router
       return res.status(400).render("user", {
         error: e.toString(),
         title: "Profile",
-        themeType: themeType
+        themeType: themeType,
+        loggedIn: req.session.user
       });
     }
     try {
@@ -298,7 +309,8 @@ router
       return res.status(500).render("user", {
         error: e.toString(),
         title: "Profile",
-        themeType: themeType
+        themeType: themeType,
+        loggedIn: req.session.user
       });
     }
   })

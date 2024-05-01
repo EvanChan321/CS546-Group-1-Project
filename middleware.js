@@ -20,6 +20,7 @@ export const loginData = (routes) => {
 
 export const userLogin = (routes) => {
     return (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
         if(req.originalUrl !== '/user/login' && req.originalUrl !== '/user/signup' && req.method === "GET" && req.originalUrl !== '/user/signup/business'){
             if (!req.session.user) {
                 return res.redirect('/user/login');
@@ -29,7 +30,8 @@ export const userLogin = (routes) => {
                 const id = urlSegments[2]; 
                 if(req.session.user.id !== id && req.session.user.accountType !== "Admin"){
                     return res.status(403).render("error", {
-                        error: "Not Authorized"})
+                        title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user
+                    })
                 } 
             }
         }
@@ -39,13 +41,14 @@ export const userLogin = (routes) => {
 
 export const deleteUser = (routes) => {
     return async (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
         if(req.method === "POST"){
             const urlSegments = req.originalUrl.split('/');
             const id = urlSegments[2];
             const user = await userData.getShop(id)   
             if (!req.session.user || (req.session.user.id !== id && req.session.user.accountType !== "Admin")) {
                 return res.status(403).render("error", {
-                    error: "Not Authorized"})
+                    title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})
             }         
         }
         next()
@@ -54,10 +57,11 @@ export const deleteUser = (routes) => {
 
 export const addShop = (routes) => {
     return (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
         if(req.method === "POST" || req.method === "GET"){
             if (!req.session.user) {
                 return res.status(403).render("error", {
-                    error: "Not Authorized"})
+                    title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})
             }
         }
         next()
@@ -66,13 +70,14 @@ export const addShop = (routes) => {
 
 export const deleteShop = (routes) => {
     return async (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
         if(req.method === "POST"){
             const urlSegments = req.originalUrl.split('/');
             const id = urlSegments[2];
             const shop = await shopData.getShop(id)
             if (!req.session.user || (req.session.user.accountType !== "Admin" && req.session.user.id !== shop.ownerId)) {
                 return res.status(403).render("error", {
-                    error: "Not Authorized"})
+                    title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})
             }
         }
         next()
@@ -81,13 +86,14 @@ export const deleteShop = (routes) => {
 
 export const seeFlag = (routes) => {
     return async (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
         if(req.method === "GET"){
             const urlSegments = req.originalUrl.split('/');
             const id = urlSegments[4];
             const flag = await flagData.getFlag(id)
             if (!req.session.user || (req.session.user.accountType !== "Admin" && req.session.user.id !== flag.userId)) {
                 return res.status(403).render("error", {
-                    error: "Not Authorized"})
+                    title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})
             }
         }
         next()
@@ -96,13 +102,14 @@ export const seeFlag = (routes) => {
 
 export const deleteFlag = (routes) => {
     return async (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
         if(req.method === "POST" || req.method === "GET"){
             const urlSegments = req.originalUrl.split('/');
             const id = urlSegments[2];
             const shop = await shopData.getShop(id)
             if (!req.session.user || req.session.user.accountType !== "Admin") {
                 return res.status(403).render("error", {
-                    error: "Not Authorized"})
+                    title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})
             }
         }
         next()
@@ -111,6 +118,7 @@ export const deleteFlag = (routes) => {
 
 export const reviewShop = (routes) => {
     return async (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
         if(req.method === "POST"){
             const urlSegments = req.originalUrl.split('/');
             const id = urlSegments[2];
@@ -124,11 +132,11 @@ export const reviewShop = (routes) => {
                     }
                 })
                 if(double){
-                    return res.status(403).render('error', { error: 'Cant Review Twice' });
+                    return res.status(403).render('error', { title: "Error", error: 'Cant Review Twice', themeType: themeType, loggedIn: req.session.user });
                 }
             }
             if (!req.session.user || req.session.user.accountType !== "Default" || req.session.user.id === shop.ownerId) {
-                return res.status(403).render('error', { error: 'Unauthorized Access' });
+                return res.status(403).render('error', { title: "Error", error: 'Unauthorized Access', themeType: themeType, loggedIn: req.session.user });
             }
         }
         next()
@@ -137,6 +145,7 @@ export const reviewShop = (routes) => {
 
 export const flagShop = (routes) => {
     return async (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
         const urlSegments = req.originalUrl.split('/');
         const id = urlSegments[2];
         const shop = await shopData.getShop(id)
@@ -150,18 +159,18 @@ export const flagShop = (routes) => {
         }  
         if(req.method === "GET"){
             if(double){
-                return res.status(403).render('error', { error: 'Cant Flag Twice' });
+                return res.status(403).render('error', { title: "Error", error: 'Cant Flag Twice', themeType: themeType, loggedIn: req.session.user });
             }
             if (!req.session.user || req.session.user.accountType !== "Default" || req.session.user.id === shop.ownerId) {
-                return res.status(403).render('error', { error: 'Unauthorized Access' });
+                return res.status(403).render('error', { title: "Error", error: 'Unauthorized Access', themeType: themeType, loggedIn: req.session.user });
             }
         }
         if(req.method === "POST"){
             if(double){
-                return res.status(403).render('error', { error: 'Cant Flag Twice' });
+                return res.status(403).render('error', { title: "Error", error: 'Cant Flag Twice', loggedIn: req.session.user, themeType: themeType });
             }
             if (!req.session.user || req.session.user.accountType !== "Default" || req.session.user.id === shop.ownerId) {
-                return res.status(403).render('error', { error: 'Unauthorized Access' });
+                return res.status(403).render('error', { title: "Error", error: 'Unauthorized Access', themeType: themeType, loggedIn: req.session.user });
             }
         }
         next()
@@ -171,6 +180,7 @@ export const flagShop = (routes) => {
 
 export const itemForm = (routes) => {
     return async (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
         if(req.method === "POST" || req.method === "GET"){
             const urlSegments = req.originalUrl.split('/');
             const id = urlSegments[2];
@@ -178,13 +188,13 @@ export const itemForm = (routes) => {
             if(shop.ownerId !== ""){
                 if (!req.session.user || (req.session.user.id !== shop.ownerId && req.session.user.accountType !== "Admin")) {
                     return res.status(403).render("error", {
-                        error: "Not Authorized"})
+                        title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})
                 }
             }
             else{
                 if (!req.session.user || req.session.user.accountType === "Business") {
                     return res.status(403).render("error", {
-                        error: "Not Authorized"})
+                        title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})
                 }
             }
         }
@@ -194,12 +204,13 @@ export const itemForm = (routes) => {
 
 export const editReview = (routes) => {
     return async (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
         if(req.method === "POST"){
             const urlSegments = req.originalUrl.split('/');
             const id = urlSegments[2];
             if (!req.session.user) {
                     return res.status(403).render("error", {
-                        error: "Not Authorized"})
+                        title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})
             }
             else{
                 const user = await userData.getUser(req.session.user.id)
@@ -211,7 +222,7 @@ export const editReview = (routes) => {
                 })
                 if (!isOwner) {
                     return res.status(403).render("error", {
-                        error: "Not Authorized"})
+                        title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})
                 }
             }
         }
@@ -221,12 +232,13 @@ export const editReview = (routes) => {
 
 export const deleteReview = (routes) => {
     return async (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
         if(req.method === "POST"){
             const urlSegments = req.originalUrl.split('/');
             const id = urlSegments[2];
             if (!req.session.user) {
                     return res.status(403).render("error", {
-                        error: "Not Authorized"})
+                        title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})
             }
             else{
                 const user = await userData.getUser(req.session.user.id)
@@ -238,7 +250,7 @@ export const deleteReview = (routes) => {
                 })
                 if (!isOwner && req.session.user.accountType !== "Admin") {
                     return res.status(403).render("error", {
-                        error: "Not Authorized"})
+                        title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})
                 }
             }
         }
@@ -248,12 +260,13 @@ export const deleteReview = (routes) => {
 
 export const deleteComment = (routes) => {
     return async (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
         if(req.method === "POST"){
             const urlSegments = req.originalUrl.split('/');
             const id = urlSegments[4];
             if (!req.session.user) {
                     return res.status(403).render("error", {
-                        error: "Not Authorized"})
+                        title: "Error", error: "Not Authorized", loggedIn: req.session.user, themeType: themeType})
             }
             else{
                 const user = await userData.getUser(req.session.user.id)
@@ -265,7 +278,7 @@ export const deleteComment = (routes) => {
                 })
                 if (!isOwner && req.session.user.accountType !== "Admin") {
                     return res.status(403).render("error", {
-                        error: "Not Authorized"})
+                        title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})
                 }
             }
         }
