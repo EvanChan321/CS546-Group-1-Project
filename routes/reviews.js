@@ -26,7 +26,13 @@ router
         }
         commData.push(curr);
       }
-      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review, comments: commData, themeType: themeType, loggedIn: req.session.user });
+      let isOwner = false
+      if(req.session.user){
+        if(req.session.user.name === review.user){
+          isOwner = true
+        }
+      }
+      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review, comments: commData, themeType: themeType, loggedIn: req.session.user, isOwner: isOwner });
     } catch (e) {
       return res.status(404).render('error', { title: "error", error: e, themeType: themeType, loggedIn: req.session.user });
     }
@@ -43,17 +49,18 @@ router
       reviewId = valid.idCheck(xss(req.params.reviewId))
       userId = valid.idCheck(xss(req.session.user.id))
       title = valid.stringValidate(xss(req.body.title))
-      rating = parseNum(xss(req.body.rating))
-      intCheck(rating)
+      rating = parseInt(xss(req.body.rating))
+      valid.intCheck(rating)
       review = valid.stringValidate(xss(req.body.review))
       edited = true
     }
     catch (e) {
-      return res.status(400).render("review", {
+      console.log(e)
+      return res.status(400).render("reviewPage", {
         error: e.toString(),
         titlePage: "Review",
         title: title,
-        rating: flagReason,
+        rating: rating,
         review: review,
         themeType: themeType,
         loggedIn: req.session.user
@@ -66,17 +73,18 @@ router
         review: review,
         edited: edited
       }
-      const review = await reviewData.updateReview(
+      const review2 = await reviewData.updateReview(
         reviewId,
         updateObject
       )
-      return res.redirect(`/review/${review._id}`)
+      return res.redirect(`/review/${review2._id}`)
     } catch (error) {
-      return res.status(500).render("review", {
-        error: e.toString(),
+      console.log(error)
+      return res.status(500).render("reviewPage", {
+        error: error.toString(),
         titlePage: "Review",
         title: title,
-        rating: flagReason,
+        rating: rating,
         review: review,
         themeType: themeType,
         loggedIn: req.session.user

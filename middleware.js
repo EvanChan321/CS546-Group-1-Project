@@ -244,7 +244,7 @@ export const editReview = (routes) => {
                 const user = await userData.getUser(req.session.user.id)
                 let isOwner = false
                 user.reviews.forEach((userReview) => {
-                    if(userReview.id.toString() === id){
+                    if(userReview._id.toString() === id){
                         isOwner = true
                     }
                 })
