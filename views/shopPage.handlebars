@@ -1,4 +1,4 @@
-<body>
+
     <main>
         <h1>{{shop.name}}</h1>
         {{#if loggedIn}}
@@ -193,12 +193,42 @@
         <div id="toggledReviews" style="display: none;">
             <ul>
                 {{#each reviews}}
-                <div>
+                <li>
                     <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                     <p>Rating: {{this.rating}}/5</p>
                     <p>Posted by: {{this.user}}</p>
                     <p>Posted on: {{this.reviewDate}}</p>
-                </div>
+                </li>
+                {{/each}}
+            </ul>
+            <ul id="newest" hidden>
+                {{#each newestReviews}}
+                <li>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted by: {{this.user}}</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </li>
+                {{/each}}
+            </ul>
+            <ul id="highest" hidden>
+                {{#each highestReviews}}
+                <li>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted by: {{this.user}}</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </li>
+                {{/each}}
+            </ul>
+            <ul id="lowest" hidden>
+                {{#each lowestReviews}}
+                <li>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted by: {{this.user}}</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </li>
                 {{/each}}
             </ul>
         </div>
@@ -213,4 +243,3 @@
             {{/if}}
         </footer>
     </main>
-</body>
