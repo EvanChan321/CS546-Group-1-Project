@@ -151,7 +151,7 @@ const updateReview = async (reviewId, updateObject) => {
   if (!updatedShop) {
     throw 'could not update product successfully';
   }
-  return updatedUser
+  return review
 }
 
 const removeReview = async (reviewId) => {
