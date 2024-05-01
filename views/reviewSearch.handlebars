@@ -3,8 +3,13 @@
         {{#if search}}
         <h1>Reviews mentioning "{{search}}" at {{shop.name}}</h1>
         {{/if}}
+        {{#if user}}
+        <h1>Reviews posted by "{{user}}" at {{shop.name}}</h1>
+        {{/if}}
         {{#unless search}}
-        <h1>Reviews at {{shop.name}}</h1>
+            {{#unless user}}
+            <h1>Reviews at {{shop.name}}</h1>
+            {{/unless}}
         {{/unless}}
         <div id="container">
             <label>Search Reviews:</label>
