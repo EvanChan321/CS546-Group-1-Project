@@ -1,6 +1,11 @@
 <body>
     <main>
+        {{#if search}}
         <h1>Reviews mentioning "{{search}}" at {{shop.name}}</h1>
+        {{/if}}
+        {{#unless search}}
+        <h1>Reviews at {{shop.name}}</h1>
+        {{/unless}}
         <div id="container">
             <label for="shops">Search Reviews:</label>
             <input class="search-bar" type="text" name="search" id="search" placeholder="Service...">

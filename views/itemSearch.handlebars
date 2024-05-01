@@ -1,0 +1,32 @@
+<body>
+    <main>
+        {{#if search}}
+        <h1>Items with description mentioning "{{search}}" at {{shop.name}}</h1>
+        {{/if}}
+        {{#unless search}}
+        <h1>Items at {{shop.name}}</h1>
+        {{/unless}}
+        <div id="container">
+                <label for="shops">Search Items:</label>
+                <input class="search-bar" type="text" name="search" id="itemSearch" placeholder="Matcha...">
+                <br>
+                <button type="button" onclick="location.href='/shop/{{shop._id}}/itemSearch/' + encodeURIComponent(document.getElementById('itemSearch').value)">
+                <img class="search-button" alt="search-button" src="/public/img/search-icon.png">
+                </button>
+            </div>
+            <table>
+                <tr>
+                    <th>Item </th>
+                    <th>Price </th>
+                    <th>Page Link</th>
+                </tr>
+                {{#each items}}
+                <tr>
+                    <td>{{this.name}}</td>
+                    <td>{{this.price}}</td>
+                    <td><a href="/shop/{{../shop._id}}/item/{{this._id}}">Page</a></td>
+                </tr>
+                {{/each}}
+            </table>
+    </main>
+</body>
