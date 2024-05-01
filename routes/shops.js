@@ -726,4 +726,42 @@ router.route('/shop/:shopid/:itemId/edit')
     }
   })
 
+  router.route('/shop/:id/reviewSearch/:search').get(async (req, res) => {
+    const shop = (xss(req.params.id)).trim();
+    const search = (xss(req.params.search)).trim();
+    const decodeSearch = decodeURIComponent(search);
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+    if(!shop || (shop.trim().length === 0)){
+      return res.status(400).render('error', {error: 'Must input shop id', themeType: themeType});
+    } 
+    try {
+      const searchResult = await shopData.getShop(shop);
+      if (!searchResult.name){
+        return res.status(404).render('error',{error: `No shop with ID ${shop} found`, themeType: themeType});
+      }
+      const storeReviewsPromises = searchResult.reviews.map(async (review) => await reviewData.getReview(review.toString()));
+      const storeReviews = await Promise.all(storeReviewsPromises);
+      let filteredReviews = [];
+      let highestReviews = [];
+      let lowestReviews = [];
+      let newestReviews = [];
+      for(let review of storeReviews){
+        if(review.review.toLowerCase().includes(decodeSearch.toLowerCase())){
+          filteredReviews.push(review);
+          highestReviews.push(review);
+          lowestReviews.push(review);
+          newestReviews.push(review);
+        }
+      }
+      highestReviews.sort(function(a,b){return  b.rating - a.rating});
+      lowestReviews.sort(function(a,b){return  a.rating - b.rating});
+      newestReviews.reverse();
+      res.render('reviewSearch', {title: "Review Search Results", shop:searchResult, reviews:filteredReviews, search:decodeSearch,
+        highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, 
+        loggedIn: req.session.user, themeType: themeType});
+    } catch(e){
+      res.status(500).render('error',{error: e, loggedIn: req.session.user, themeType: themeType});
+    }
+  })
+
 export default router;

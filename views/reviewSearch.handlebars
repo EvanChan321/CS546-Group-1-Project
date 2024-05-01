@@ -1,0 +1,60 @@
+<body>
+    <main>
+        <h1>Reviews mentioning "{{search}}" at {{shop.name}}</h1>
+        <div id="container">
+            <label for="shops">Search Reviews:</label>
+            <input class="search-bar" type="text" name="search" id="search" placeholder="Service...">
+            <br>
+            <button type="button"
+                onclick="location.href='/shop/{{shop._id}}/reviewSearch/' + encodeURIComponent(document.getElementById('search').value)">
+                <img class="search-button" alt="search-button" src="/public/img/search-icon.png">
+            </button>
+        </div>
+        <select id="reviewSort" name="reviewSort" onchange="reviewSort(this.value)">
+            <option value='oldest'>By Oldest</option>
+            <option value='newest'>By Newest</option>
+            <option value='highest'>By Most Positive</option>
+            <option value='lowest'>By Most Negative</option>
+        </select>
+        <ul id="oldest">
+            {{#each reviews}}
+            <div>
+                <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                <p>Rating: {{this.rating}}/5</p>
+                <p>Posted by: {{this.user}}</p>
+                <p>Posted on: {{this.reviewDate}}</p>
+            </div>
+            {{/each}}
+        </ul>
+        <ul id="newest" hidden>
+            {{#each newestReviews}}
+            <div>
+                <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                <p>Rating: {{this.rating}}/5</p>
+                <p>Posted by: {{this.user}}</p>
+                <p>Posted on: {{this.reviewDate}}</p>
+            </div>
+            {{/each}}
+        </ul>
+        <ul id="highest" hidden>
+            {{#each highestReviews}}
+            <div>
+                <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                <p>Rating: {{this.rating}}/5</p>
+                <p>Posted by: {{this.user}}</p>
+                <p>Posted on: {{this.reviewDate}}</p>
+            </div>
+            {{/each}}
+        </ul>
+        <ul id="lowest" hidden>
+            {{#each lowestReviews}}
+            <div>
+                <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                <p>Rating: {{this.rating}}/5</p>
+                <p>Posted by: {{this.user}}</p>
+                <p>Posted on: {{this.reviewDate}}</p>
+            </div>
+            {{/each}}
+        </ul>
+    </main>
+</body>
