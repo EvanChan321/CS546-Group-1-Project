@@ -12,17 +12,16 @@ const getAllFlagsFromShop = async (shopId) => {
 const getFlag = async (flagId) => {
     flagId = valid.idCheck(flagId)
     const shopCollection = await shops();
-    const foundShop = await shopCollection.findOne(
+    const foundFlag = await shopCollection.findOne(
       { 'flags._id': new ObjectId(flagId) }
     );
-    if(!foundShop){
+    if(!foundFlag){
       throw 'cant find shop'
     }
-    const flag = foundShop.flags.find(flag => flag._id.equals(new ObjectId(flagId)));
+    const flag = foundFlag.flags.find(flag => flag._id.equals(new ObjectId(flagId)));
     if (!flag) {
       throw 'cannot find flag';
     }
-    //foundReview._id = foundReview._id.toString();
     return flag
 }
 
@@ -48,7 +47,7 @@ const createFlag = async (shopId, userId, flagReason) => {
   if (!shopUpdatedInfo) {
     throw 'could not update product successfully';
   }
-  return shopUpdatedInfo;
+  return flag;
 }
 const updateFlag = async (flagId, updateObject) => {
   const flag = await getFlag(flagId)
@@ -77,12 +76,11 @@ const updateFlag = async (flagId, updateObject) => {
 
 const deleteFlag = async (flagId) => {
   flagId = valid.idCheck(flagId)
-  const flag = await this.getFlag(flagId)
+  const flag = await getFlag(flagId)
   const shopCollection = await shops();
-  const updatedInfo = await shopCollection.findOneAndUpdate(
+  const updatedInfo = await shopCollection.updateOne(
     { 'flags._id': new ObjectId(flagId) },
-    { $pull: { flags: { _id: new ObjectId(flagId) } } },
-    { returnDocument: 'after' }
+    { $pull: { flags: { _id: new ObjectId(flagId) } } }
   );
   if(!updatedInfo){
     throw 'could not delete'

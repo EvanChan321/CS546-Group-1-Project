@@ -3,7 +3,7 @@ You can choose to define all your middleware functions here,
 export them and then import them into your app.js and attach them that that.
 add.use(myMiddleWare()). you can also just define them in the app.js if you like as seen in lecture 10's lecture code example. If you choose to write them in the app.js, you do not have to use this file. 
 */
-import { itemData, reviewData, shopData, userData } from "./data/index.js";
+import { flagData, shopData, userData } from "./data/index.js";
 
 export const loginData = (routes) => {
     return (req, res, next) => {
@@ -37,6 +37,21 @@ export const userLogin = (routes) => {
     }
 }
 
+export const deleteUser = (routes) => {
+    return async (req, res, next) => {
+        if(req.method === "POST"){
+            const urlSegments = req.originalUrl.split('/');
+            const id = urlSegments[2];
+            const user = await userData.getShop(id)   
+            if (!req.session.user || (req.session.user.id !== id && req.session.user.accountType !== "Admin")) {
+                return res.status(403).render("error", {
+                    error: "Not Authorized"})
+            }         
+        }
+        next()
+    }
+}
+
 export const addShop = (routes) => {
     return (req, res, next) => {
         if(req.method === "POST" || req.method === "GET"){
@@ -64,9 +79,24 @@ export const deleteShop = (routes) => {
     }
 }
 
+export const seeFlag = (routes) => {
+    return async (req, res, next) => {
+        if(req.method === "GET"){
+            const urlSegments = req.originalUrl.split('/');
+            const id = urlSegments[4];
+            const flag = await flagData.getFlag(id)
+            if (!req.session.user || (req.session.user.accountType !== "Admin" && req.session.user.id !== flag.userId)) {
+                return res.status(403).render("error", {
+                    error: "Not Authorized"})
+            }
+        }
+        next()
+    }
+}
+
 export const deleteFlag = (routes) => {
     return async (req, res, next) => {
-        if(req.method === "POST"){
+        if(req.method === "POST" || req.method === "GET"){
             const urlSegments = req.originalUrl.split('/');
             const id = urlSegments[2];
             const shop = await shopData.getShop(id)
@@ -146,36 +176,13 @@ export const itemForm = (routes) => {
             const id = urlSegments[2];
             const shop = await shopData.getShop(id)            
             if(shop.ownerId !== ""){
-                if (!req.session.user || req.session.user.id !== shop.ownerId) {
-                    return res.status(403).render("error", {
-                        error: "Not Authorized"})
-                }
-            }
-            else{
-                if (!req.session.user || req.session.user.accountType === "Business") {
-                    return res.status(403).render("error", {
-                        error: "Not Authorized"})
-                }
-            }
-        }
-        next()
-    }
-}
-
-export const deleteItem = (routes) => {
-    return async (req, res, next) => {
-        if(req.method === "POST"){
-            const urlSegments = req.originalUrl.split('/');
-            const id = urlSegments[2];
-            const shop = await shopData.getShop(id)
-            if(shop.ownerId !== ""){
                 if (!req.session.user || (req.session.user.id !== shop.ownerId && req.session.user.accountType !== "Admin")) {
                     return res.status(403).render("error", {
                         error: "Not Authorized"})
                 }
             }
             else{
-                if (!req.session.user || req.session.user.accountType !== "Admin") {
+                if (!req.session.user || req.session.user.accountType === "Business") {
                     return res.status(403).render("error", {
                         error: "Not Authorized"})
                 }

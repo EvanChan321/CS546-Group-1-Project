@@ -231,9 +231,13 @@ router.route('/shop/:id').get(async (req, res) => {
     let Default = false
     let noOwner = false
     let isOwner = false
+    let Admin = false
     if(req.session.user){
       if(req.session.user.accountType === "Default"){
         Default = true
+      }
+      if(req.session.user.accountType === "Admin"){
+        Admin = true
       }
       if(searchResult.ownerId === ""){
         noOwner = true
@@ -258,7 +262,7 @@ router.route('/shop/:id').get(async (req, res) => {
     res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews,
       highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, 
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
-      noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute});
+      noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin});
   } catch(e){
     res.status(500).render('error',{error: e, loggedIn: req.session.user, themeType: themeType});
   }
@@ -294,6 +298,38 @@ router.route('/shop/:id').get(async (req, res) => {
     })  
   }
 });
+
+router.route('/shop/:id/flags')
+.get(async (req, res) => {
+  let shopId
+  const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+  try{
+    shopId = valid.idCheck(xss(req.params.id))
+  }
+  catch(e){
+    return res.status(400).render("shopFlags", {
+      error: e.toString(),
+      title: "Shop Flags",
+      themeType: themeType
+    });
+  }
+  try {
+    const shop = await shopData.getShop(shopId)
+    const flags = shop.flags
+    return res.status(200).render("shopFlags", {
+      title: "Shop Flags",
+      themeType: themeType,
+      flags: flags,
+      shop: shop
+    })
+  } catch (error) {
+    return res.status(500).render("shopFlags", {
+            error: error.toString(),
+            title: "Shop Flags",
+            themeType: themeType
+          });
+  }
+})
 
 router.route('/shop/:id/delete')
 .post(async (req, res) => {
@@ -466,6 +502,7 @@ router
   .get(async (req, res) => {
     let shopId
     let flagId
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try {
       shopId = valid.idCheck(xss(req.params.shopId))
       flagId = valid.idCheck(xss(req.params.flagId))
@@ -473,10 +510,16 @@ router
       return res.status(400).json({error: e});
     }
     try {
-      const flag = await flagData.getFlag(flagId);
-      return res.status(200).json(flag);
+      const flag = await flagData.getFlag(flagId)
+      const shop = await shopData.getShop(shopId)
+      return res.render("flag", {
+        title: "Flag",
+        flag: flag,
+        shop: shop,
+        themeType: themeType});
+      // return res.json(flag)
     } catch (e) {
-      return res.status(404).json({error: e});
+      return res.status(500).json({error: e});
     }
   });
 

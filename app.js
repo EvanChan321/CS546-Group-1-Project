@@ -4,7 +4,7 @@ const app = express();
 import session from 'express-session';
 import configRoutes from './routes/index.js';
 import exphbs from 'express-handlebars';
-import { addShop, deleteComment, deleteFlag, deleteItem, deleteReview, deleteShop, editReview, flagShop, itemForm, loginData, reviewShop, userLogin } from './middleware.js';
+import { addShop, deleteComment, deleteFlag, deleteReview, deleteShop, deleteUser, editReview, flagShop, itemForm, loginData, reviewShop, seeFlag, userLogin } from './middleware.js';
 
 
 const rewriteUnsupportedBrowserMethods = (req, res, next) => {
@@ -38,17 +38,19 @@ app.use(session({
 
 app.use('/user', loginData());
 app.use('/user', userLogin());
+app.use('/user/:userId/delete', deleteUser());
 app.use('/shop/addShop', addShop())
 app.use('/shop/:id/delete', deleteShop())
 app.use('/shop/:shopId/item/:itemId/delete', deleteShop())
 app.use('/shop/:shopId/flag/:flagId/delete', deleteFlag())
+app.use('/shop/:shopId/flag/:flagId', seeFlag())
+app.use('/shop/:shopId/flags', deleteFlag())
 app.use('/shop/:shopId/reviewForm', reviewShop())
 app.use('/shop/:shopId/flagForm', flagShop())
 app.use('/shop/:shopId/itemForm', itemForm())
 app.use('/shop/:shopId/item/:itemId', reviewShop())
 app.use('/shop/:shopId/item/:itemId/edit', itemForm())
-app.use('/shop/:shopId/item/:itemId/delete', deleteItem())
-app.use('/shop/:shopId/item/:itemId/delete', deleteItem())
+app.use('/shop/:shopId/item/:itemId/delete', itemForm())
 app.use('/review/:reviewId', editReview())
 app.use('/review/:reviewId/delete', deleteReview())
 app.use('/review/:reviewId/comment/:commentId/delete', deleteComment())

@@ -1,0 +1,22 @@
+
+    <main>
+        <h1>{{shop.name}} Flags: </h1>
+        <ol>
+            {{#each flags}}
+                <li>
+                    <h2><a href="/shop/{{this._id}}">{{this.name}}</a></h2>
+                    <ul>
+                        <li><p>UserId: {{this.userId}}</p></li>
+                        <li><p>Reason: {{this.flagReason}}</p></li>
+                        <li><p>Flag Date: {{this.flagDate}}</p></li>
+                        <li><a href="/shop/{{../shop._id}}/flag/{{this._id}}" class="static-link">Go to Flag</a></li>
+                    </ul>
+                </li>
+            {{/each}}
+        </ol>
+
+        <footer>
+            <a href="/shop/{{shop._id}}" class="static-link">Go back to {{shop.name}}</a>
+        </footer>
+
+    </main>

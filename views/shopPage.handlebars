@@ -16,6 +16,11 @@
             <button type="submit" class="flag">Flag Shop</button>
         </form>
         {{/if}}
+        {{#if Admin}}
+        <form action="/shop/{{shop._id}}/flags" method="GET" id="flagSee">
+            <button type="submit" class="flag">Flags</button>
+        </form>
+        {{/if}}
         {{/if}}
         {{#if flagged}}
         <h2>This Shop has been flagged {{flagcount}} times</h2>
