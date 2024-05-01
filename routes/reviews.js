@@ -128,7 +128,7 @@ router
       comment = valid.stringValidate(xss(req.body.comment))
     }
     catch (e) {
-      return res.status(400).render("review", {
+      return res.status(400).render("reviewPage", {
         error: e.toString(),
         title: "Review",
         comment: comment,
@@ -142,7 +142,7 @@ router
       return res.redirect(`/${reviewId}/comments`)
     }
     catch (e) {
-      return res.status(400).render("review", {
+      return res.status(400).render("reviewPage", {
         error: e.toString(),
         title: "Review",
         comment: comment,
@@ -179,7 +179,8 @@ router
       reviewId = valid.idCheck(xss(req.params.reviewId))
     }
     catch (e) {
-      return res.status(400).render("review", {
+      console.log(e)
+      return res.status(400).render("reviewPage", {
         error: e.toString(),
         title: "Review",
         themeType: themeType,
@@ -190,7 +191,8 @@ router
       const user = await reviewData.removeReview(reviewId)
       return res.redirect(`/user/${user._id}`)
     } catch (error) {
-      return res.status(500).render("review", {
+      console.log(error)
+      return res.status(500).render("reviewPage", {
         error: error.toString(),
         title: "Review",
         themeType: themeType,

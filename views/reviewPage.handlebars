@@ -30,7 +30,7 @@
     <ul>
     {{#each comments}}
         <li>
-            <p>From: {{this.username}}</p>
+            <p><a href="/review/{{../review._id}}/comment/{{this.comment._id}}">From: {{this.username}}</a><p>
             <p>{{this.comment.comment}}</p>
             <p>{{this.comment.reviewDate}}</p>
             {{#if this.comment.edited}}
@@ -40,4 +40,9 @@
     {{/each}}
     </ul>
     </div>
+    {{#if isOwner}}
+    <form action="/review/{{review._id}}/delete" method="POST">
+        <button type="submit" class="delete">DELETE REVIEW</button>
+    </form>
+    {{/if}}
 </main>
