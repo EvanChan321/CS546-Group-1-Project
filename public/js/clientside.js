@@ -55,3 +55,7 @@ function reviewSort(sorter){
         oldest.style.display = 'block';
     }
 }
+
+function encodeSearchQuery(query) {
+    return encodeURIComponent(query);
+}
