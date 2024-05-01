@@ -399,12 +399,13 @@ router
       return res.status(400).render('error', {title: "Item Form", error: e, themeType: themeType, loggedIn: req.session.user});
     }
     try {
-      console.log(tags);
       console.log(price);
       console.log(name);
       console.log(description);
       console.log(allergens);
+      console.log(tags);
       const item = await itemData.createItem(
+        shopId,
         name,
         description,
         price,
@@ -412,7 +413,7 @@ router
         allergens
       )
       const updatedUser = await userData.updatePoints(userId, 20)
-      return res.redirect(`/shop/${shopId}`)
+      return res.redirect(`/shop/${shopId}/item/${item._id.toString()}`)
     } catch (error) {
       console.log(error);
       return res.status(500).render('error', {error: "Internal Server Error", themeType: themeType, loggedIn: req.session.user});
@@ -549,6 +550,7 @@ router
 router
   .route('/shop/:shopId/item/:itemId')
   .get(async (req, res) => {
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     let shopId
     let itemId
     try {
@@ -558,9 +560,24 @@ router
       return res.status(400).json({error: e});
     }
     try {
+      const shop = await shopData.getShop(shopId);
       const item = await itemData.getItem(itemId);
-      return res.status(200).json(item);
+      let Default = false
+      if(req.session.user){
+        if(req.session.user.accountType === "Default"){
+          Default = true
+        }
+      }
+      return res.status(200).render("item", {
+        title: item.name,
+        item: item,
+        shop: shop,
+        loggedIn: req.session.user,
+        themeType: themeType,
+        Default: Default
+      });
     } catch (e) {
+      console.log(e)
       return res.status(404).json({error: e});
     }
   })
@@ -593,7 +610,6 @@ router
         'item'
       )
       const updatedUser = await userData.updatePoints(userId, 10)
-      console.log(updatedUser)
       return res.redirect(`/review/${rev._id}`)
     } catch(e) {
       res.status(500).render('error', {title: "Review", error: "Internal Server Error", loggedIn: req.session.user, themeType: themeType})

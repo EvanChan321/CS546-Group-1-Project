@@ -3,7 +3,7 @@ You can choose to define all your middleware functions here,
 export them and then import them into your app.js and attach them that that.
 add.use(myMiddleWare()). you can also just define them in the app.js if you like as seen in lecture 10's lecture code example. If you choose to write them in the app.js, you do not have to use this file. 
 */
-import { flagData, shopData, userData } from "./data/index.js";
+import { flagData, itemData, shopData, userData } from "./data/index.js";
 
 export const loginData = (routes) => {
     return (req, res, next) => {
@@ -123,6 +123,34 @@ export const reviewShop = (routes) => {
             const urlSegments = req.originalUrl.split('/');
             const id = urlSegments[2];
             const shop = await shopData.getShop(id)
+            let double = false
+            if(req.session.user){
+                const user = await userData.getUser(req.session.user.id)
+                user.reviews.forEach((review) => {
+                    if(review.objId.toString() === id){
+                        double = true
+                    }
+                })
+                if(double){
+                    return res.status(403).render('error', { title: "Error", error: 'Cant Review Twice', themeType: themeType, loggedIn: req.session.user });
+                }
+            }
+            if (!req.session.user || req.session.user.accountType !== "Default" || req.session.user.id === shop.ownerId) {
+                return res.status(403).render('error', { title: "Error", error: 'Unauthorized Access', themeType: themeType, loggedIn: req.session.user });
+            }
+        }
+        next()
+    }
+}
+
+export const reviewItem = (routes) => {
+    return async (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+        if(req.method === "POST"){
+            const urlSegments = req.originalUrl.split('/');
+            const shopid = urlSegments[2];
+            const id = urlSegments[4];
+            const shop = await shopData.get(shopid)
             let double = false
             if(req.session.user){
                 const user = await userData.getUser(req.session.user.id)

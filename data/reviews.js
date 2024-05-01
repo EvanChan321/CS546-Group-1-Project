@@ -95,7 +95,7 @@ const createReview = async (userId, objId, title, rating, review, type) => {
   else if(type === 'item'){
     const updatedInfo = await shopCollection.findOneAndUpdate(
       { 'items._id': new ObjectId(objId) },
-      { $set: { 'item.$': objForReview } },
+      { $set: { 'items.$': objForReview } },
       {returnDocument: 'after'}
     );
     if (!updatedInfo) {
