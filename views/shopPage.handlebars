@@ -232,6 +232,14 @@
         {{/if}}
         <button onclick="toggleContent('toggledMenu')">Display Menu</button>
         <div id="toggledMenu" style="display: none;">
+            <div id="container">
+                <label for="shops">Search Items:</label>
+                <input class="search-bar" value="" type="text" name="search" id="itemSearch" placeholder="Matcha...">
+                <br>
+                <button type="button" onclick="location.href='/shop/{{shop._id}}/itemSearch/' + encodeURIComponent(document.getElementById('itemSearch').value)">
+                <img class="search-button" alt="search-button" src="/public/img/search-icon.png">
+                </button>
+            </div>
             <table>
                 <tr>
                     <th>Item </th>
