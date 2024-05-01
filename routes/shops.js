@@ -818,20 +818,38 @@ router.route('/shop/:shopid/:itemId/edit')
       let highestReviews = [];
       let lowestReviews = [];
       let newestReviews = [];
-      for(let review of storeReviews){
-        if(review.review.toLowerCase().includes(decodeSearch.toLowerCase())){
-          filteredReviews.push(review);
-          highestReviews.push(review);
-          lowestReviews.push(review);
-          newestReviews.push(review);
+      if(decodeSearch.toLowerCase().substring(0,3) == "by:"){
+        let userSearch = decodeSearch.substring(3);
+        for(let review of storeReviews){
+          if(review.user.toLowerCase() == userSearch.toLowerCase()){
+            filteredReviews.push(review);
+            highestReviews.push(review);
+            lowestReviews.push(review);
+            newestReviews.push(review);
+          }
         }
-      }
+        highestReviews.sort(function(a,b){return  b.rating - a.rating});
+        lowestReviews.sort(function(a,b){return  a.rating - b.rating});
+        newestReviews.reverse();
+        res.render('reviewSearch', {title: "Review Search Results", shop:searchResult, reviews:filteredReviews, user:userSearch,
+        highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, 
+        loggedIn: req.session.user, themeType: themeType});
+      } else {
+        for(let review of storeReviews){
+          if(review.review.toLowerCase().includes(decodeSearch.toLowerCase())){
+            filteredReviews.push(review);
+            highestReviews.push(review);
+            lowestReviews.push(review);
+            newestReviews.push(review);
+          }
+        }
       highestReviews.sort(function(a,b){return  b.rating - a.rating});
       lowestReviews.sort(function(a,b){return  a.rating - b.rating});
       newestReviews.reverse();
       res.render('reviewSearch', {title: "Review Search Results", shop:searchResult, reviews:filteredReviews, search:decodeSearch,
         highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, 
         loggedIn: req.session.user, themeType: themeType});
+      }
     } catch(e){
       res.status(500).render('error',{error: e, loggedIn: req.session.user, themeType: themeType});
     }
