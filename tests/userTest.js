@@ -693,6 +693,25 @@ try{
     console.log(e);
 }
 
+let item
+try{
+    item = await itemData.createItem(shop._id.toString(), "Winston's Drink", "Winston's Drink that is made with his Special Sauce!", 420.69, ["strawberry", "tapioca", "jelly", "iced", "milk"], ["gluten"])
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+let review6
+try{
+    review6 = await reviewData.createReview(user._id.toString(), item._id.toString(), "WOW", 5, "Its great!", "item")
+    console.log("item review created");
+    console.log(review6)
+}catch (e) {
+    console.log("Error making item review");
+    console.log(e);
+}
+
 /*try{
     item = await itemData.createItem(
         shop._id.toString(),

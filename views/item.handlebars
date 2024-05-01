@@ -1,0 +1,90 @@
+
+    <main>
+        <h1>{{shop.name}}'s {{item.name}}: </h1>
+        <ol>
+                <li>
+                    <ul>
+                        <li><p>Description: {{item.description}}</p></li>
+                        <li><p>Price: {{item.price}}</p></li>
+                        <li><p>Average Rating: {{item.averageRating}}</p></li>
+                        <li><p>Tags: {{item.tags}}</p></li>
+                        <li><p>Average Rating: {{item.allergens}}</p></li>
+                    </ul>
+                </li>
+        </ol>
+        {{#if loggedIn}}
+        {{#if Default}}
+        <div id="container">
+            <form action="/shop/{{shop._id}}/item/{{item._id}}" method="POST" id="reviewForm">
+                <label for="title">
+                    Review Title:
+                    <input id="title" name="title" type="text">
+                </label>
+                <br>
+                <label for="rating">
+                    Rating:
+                    <input type="range" value="0" min="1" max="5" name="rating" id="rating"
+                        oninput="this.nextElementSibling.value = this.value">
+                    <output>1</output>
+                </label>
+                <br>
+                <label for="review">
+                    <textarea id="review" name="review" placeholder="Write a Review..."></textarea>
+                </label>
+                <br>
+                <button type="submit" id="submitButton" name="submitButton" class="save">Create Review</button>
+            </form>
+        </div>
+        {{/if}}
+        {{/if}}
+        <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
+        <div id="toggledReviews" style="display: none;">
+            <ul>
+                {{#each reviews}}
+                <li>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted by: {{this.user}}</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </li>
+                {{/each}}
+            </ul>
+            <ul id="newest" hidden>
+                {{#each newestReviews}}
+                <li>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted by: {{this.user}}</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </li>
+                {{/each}}
+            </ul>
+            <ul id="highest" hidden>
+                {{#each highestReviews}}
+                <li>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted by: {{this.user}}</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </li>
+                {{/each}}
+            </ul>
+            <ul id="lowest" hidden>
+                {{#each lowestReviews}}
+                <li>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted by: {{this.user}}</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+        <form action="/shop/{{shop._id}}/item/{{item._id}}/delete" method="POST">
+            <button type="submit" class="delete">DELETE ITEM</button>
+        </form>
+        <footer>
+            <a href="/shop/{{shop._id}}" class="static-link">Go back to {{shop.name}}</a>
+        </footer>
+
+    </main>

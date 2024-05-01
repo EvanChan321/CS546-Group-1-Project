@@ -22,8 +22,7 @@ const getItem = async (itemId) => {
   if (!item) {
     throw 'cannot find item';
   }
-  //foundReview._id = foundReview._id.toString();
-  return review
+  return item
 }
 
 const createItem = async (shopId, name, description, price, tags, allergens) => {
@@ -31,11 +30,13 @@ const createItem = async (shopId, name, description, price, tags, allergens) => 
   name = valid.stringValidate(name)
   description = valid.stringValidate(description)
   valid.numCheck(price)
-  if(price < 1 || price > 5){
-    throw 'invalid rating'
+  if(price <= 0){
+    throw 'invalid pricing'
   }
-  if(!Number.isInteger(price)){
-    maxDecimal(price, 0)
+  const numStr = price.toString();
+  const decimalRegex = /\.\d{3,}$/;
+  if(decimalRegex.test(numStr)){
+    throw 'invalid pricing'
   }
   tags = valid.arrayOfStrings(tags)
   allergens = valid.arrayOfStrings(allergens)
