@@ -313,3 +313,34 @@ export const deleteComment = (routes) => {
         next()
     }
 }
+
+export const editShop = (routes) => {
+    return async (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+        if(req.method === "POST"){
+            const urlSegments = req.originalUrl.split('/');
+            const id = urlSegments[2];
+            const shop = shopData.getShop(id)
+            if (!req.session.user) {
+                    return res.status(403).render("error", {
+                        title: "Error", error: "Not Authorized", loggedIn: req.session.user, themeType: themeType})
+            }
+            else{
+                let isOwner = false
+                if(shop.ownerId){
+                    if(shop.ownerId === req.session.user.id){
+                        isOwner = true
+                    }
+                }
+                else{
+                    isOwner = true
+                }
+                if (!isOwner && req.session.user.accountType !== "Admin") {
+                    return res.status(403).render("error", {
+                        title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})
+                }
+            }
+        }
+        next()
+    }
+}

@@ -134,6 +134,90 @@
                 document.getElementById("serviceHours").innerText = "Service Hours: " + openHour + ":" + openMin + AMORPM1 + " - " + closeHour + ":" + closeMin + AMORPM2 + " " + canEnter;
             </script>
         </ul>
+        {{#if Admin}}
+        <div id="userEdit" hidden>
+        <form action="/shop/{{shop._id}}/edit" method="POST" name="edit-shop-form" id="edit-shop-form" class="user">
+            <label for="shopName">Name:</label>
+            <input type="text" id="shopName" name="shopName" value="{{shop.name}}">
+            <br>
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" value="{{shop.address}}">
+            <br>
+            <label for="website">Website:</label>
+            <input type="text" id="website" name="website" value="{{shop.website}}">
+            <br>
+            <label for="phoneNumber:">Phone Number:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" value="{{shop.phoneNumber}}">
+            <br>
+            <label for="hour1">Opening Time:</label>
+            <input type="number" id="hour1" name="hour1" min="1" max="12" placeholder="12" required>
+            <label for="minute1">:</label>
+            <input type="number" id="minute1" name="minute1" min="0" max="59" placeholder="0" required>
+            <select id="ampm1" name="ampm1" required>
+                <option value="">Choose</option>
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+            </select>
+            <br>
+            <label for="hour2">Closing Time:</label>
+            <input type="number" id="hour2" name="hour2" min="1" max="12" placeholder="12" required>
+            <label for="minute2">:</label>
+            <input type="number" id="minute2" name="minute2" min="0" max="59" placeholder="0" required>
+            <select id="ampm2" name="ampm2" required>
+                <option value="">Choose</option>
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+            </select>
+            <br>
+            <button type="submit" class="save">Save Changes</button>
+        </form>
+        </div>
+        <button onclick="swapContent('userEdit','userInfo')" class="editInfo" id="editButton">Edit Info</button>
+        {{else}}
+        {{#if noOwner}}
+        {{else}}
+        {{#if isOwner}}
+        <div id="userEdit" hidden>
+        <form action="/shop/{{shop._id}}/edit" method="POST" name="edit-shop-form" id="edit-shop-form" class="user">
+            <label for="shopName">Name:</label>
+            <input type="text" id="shopName" name="shopName" value="{{shop.name}}">
+            <br>
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" value="{{shop.address}}">
+            <br>
+            <label for="website">Website:</label>
+            <input type="text" id="website" name="website" value="{{shop.website}}">
+            <br>
+            <label for="phoneNumber:">Phone Number:</label>
+            <input type="text" id="phoneNumber" name="phoneNumber" value="{{shop.phoneNumber}}">
+            <br>
+            <label for="hour1">Opening Time:</label>
+            <input type="number" id="hour1" name="hour1" min="1" max="12" placeholder="12" required>
+            <label for="minute1">:</label>
+            <input type="number" id="minute1" name="minute1" min="0" max="59" placeholder="0" required>
+            <select id="ampm1" name="ampm1" required>
+                <option value="">Choose</option>
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+            </select>
+            <br>
+            <label for="hour2">Closing Time:</label>
+            <input type="number" id="hour2" name="hour2" min="1" max="12" placeholder="12" required>
+            <label for="minute2">:</label>
+            <input type="number" id="minute2" name="minute2" min="0" max="59" placeholder="0" required>
+            <select id="ampm2" name="ampm2" required>
+                <option value="">Choose</option>
+                <option value="AM">AM</option>
+                <option value="PM">PM</option>
+            </select>
+            <br>
+            <button type="submit" class="save">Save Changes</button>
+        </form>
+        </div>
+        <button onclick="swapContent('userEdit','userInfo')" class="editInfo" id="editButton">Edit Info</button>
+        {{/if}}
+        {{/if}}
+        {{/if}}
         <h2>Menu:</h2>
         {{#if loggedIn}}
         {{#if noOwner}}

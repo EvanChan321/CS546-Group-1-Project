@@ -308,6 +308,74 @@ router.route('/shop/:id').get(async (req, res) => {
   }
 });
 
+router
+.route('/shop/:id/edit').post(async (req, res) => {
+  let ownerId
+  let shopName
+  let address
+  let website
+  let phoneNumber
+  let userId
+  let shopId
+  const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+  try{
+    shopId = valid.idCheck(xss(req.params.id))
+    shopName = valid.stringValidate(xss(req.body.shopName))
+    address = valid.stringValidate(xss(req.body.address))
+    website = valid.urlCheck(xss(req.body.website))
+    phoneNumber = valid.phoneNumberCheck(xss(req.body.phoneNumber))
+    if(!xss(req.body.hour1) || !xss(req.body.hour2) || !xss(req.body.minute1) || !xss(req.body.minute2) || !xss(req.body.ampm1) || !xss(req.body.ampm2)){
+      throw 'invalid date'
+    }
+  }
+  catch(e){
+    console.log(e)
+    return res.status(400).render("shopPage", {
+      error: e.toString(),
+      title: "Shop Page",
+      shopName: shopName,
+      address: address,
+      website: website,
+      phoneNumber: phoneNumber,
+      ownerId: ownerId,
+      themeType: themeType,
+      loggedIn: req.session.user
+    });
+  }
+  try {
+    let updateObject = {
+      shopName: shopName,
+      address: address,
+      website: website,
+      phoneNumber: phoneNumber,
+      hour1: req.body.hour1,
+      minute1: req.body.minute1,
+      ampm1: req.body.ampm1,
+      hour2: req.body.hour2,
+      minute2: req.body.minute2,
+      ampm2: req.body.ampm2,
+    }
+    const shop = await shopData.updateShop(
+      shopId,
+      updateObject
+    )
+    return res.redirect(`/shop/${shop._id}`)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).render("shopPage", {
+            error: error.toString(),
+            title: "Shop Page",
+            shopName: shopName,
+            address: address,
+            website: website,
+            phoneNumber: phoneNumber,
+            ownerId: ownerId,
+            themeType: themeType,
+            loggedIn: req.session.user
+          });
+  }
+})
+
 router.route('/shop/:id/flags')
 .get(async (req, res) => {
   let shopId
@@ -575,9 +643,13 @@ router
       const shop = await shopData.getShop(shopId);
       const item = await itemData.getItem(itemId);
       let Default = false
+      let Admin = false
       if(req.session.user){
         if(req.session.user.accountType === "Default"){
           Default = true
+        }
+        if(req.session.user.accountType === "Admin"){
+          Admin = true
         }
       }
       return res.status(200).render("item", {
@@ -586,7 +658,8 @@ router
         shop: shop,
         loggedIn: req.session.user,
         themeType: themeType,
-        Default: Default
+        Default: Default,
+        Admin: Admin
       });
     } catch (e) {
       console.log(e)
