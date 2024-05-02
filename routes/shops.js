@@ -82,15 +82,11 @@ router.route('/map').get(async (req, res) => {
     });
   }
   try{
-    res.render('map', {
-        title: "Map",
-        lat: address.lat,
-        long: address.lng,
-        shops: JSON.stringify(pins),
-        keys: process.env.GOOGLE_MAPS_KEY,
-        themeType: themeType,
-        loggedIn: req.session.user
-      });
+    res.json({
+      lat: address.lat,
+      lng: address.lng,
+      shops: pins
+    });
     } catch (e) {
         console.log(e);
         res.status(500).send("Internal Server Error");
