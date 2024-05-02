@@ -206,6 +206,7 @@ router.route('/shops/search').post(async (req, res) => {
     let eggs = xss(req.body.eggs)
     let fish = xss(req.body.fish)
     let shellfish = xss(req.body.shellfish)
+    let itemKeyWord = xss(req.body.itemKeyWord)
     let allergens = []
     if(gluten){
       allergens.push("gluten")
@@ -245,7 +246,6 @@ router.route('/shops/search').post(async (req, res) => {
         for (let j = 0; j < shop.items.length; j++) {
           currAllergen = [...allergens];
           const item = shop.items[j];
-          console.log(item)
           for (let k = 0; k < currAllergen.length; k++) {
             const allergen = currAllergen[k];
             if (!item.allergens.includes(allergen)) {
@@ -261,7 +261,24 @@ router.route('/shops/search').post(async (req, res) => {
           i--;
         }
       }
-    }    
+    }
+    if(itemKeyWord){
+      for (let i = 0; i < sortShops.length; i++) {
+        let hasItem = true
+        const shop = sortShops[i];
+        for (let j = 0; j < shop.items.length; j++) {
+          const item = shop.items[j];
+          if (item.name.includes(itemKeyWord)) {
+            hasItem = false;
+            break;
+          }
+        }
+        if (hasItem) {
+          sortShops.splice(i, 1);
+          i--;
+        }
+      }
+    }
     if(minRating){
       if(req.body.minRating > 0){
         sortShops = sortShops.filter((shop) => ((shop.averageRating >= minRating) && (shop.averageRating != "No Ratings")));
