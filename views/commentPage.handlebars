@@ -1,0 +1,12 @@
+
+<div>
+    <p>From: {{user.name}}</a><p>
+    <p>{{comment.comment}}</p>
+    <p>{{comment.reviewDate}}</p>
+    {{#if comment.edited}}
+    <p>Edited</p>
+    {{/if}}
+</div>
+        <footer>
+            <a href="/review/{{reviewId}}" class="static-link">Go back to original review</a>
+        </footer>

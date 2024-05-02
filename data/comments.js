@@ -33,7 +33,6 @@ const getComment = async (commentId) => {
     if (!foundUser.reviews) {
       throw 'User has no reviews';
     }
-    console.log(foundUser)
     let foundComment = null
     for (let i = 0; i < foundUser.reviews.length; i++) {
       const review = foundUser.reviews[i]
