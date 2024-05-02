@@ -110,6 +110,13 @@ router
     let website
     let phoneNumber
     let userId
+    let customizationList
+    let customizationObj = {
+      size_options: false,
+      ice_level: false,
+      sugar_level: false,
+      customization_charge: false
+    }
     const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try{
       shopName = valid.stringValidate(xss(req.body.shopName))
@@ -117,6 +124,19 @@ router
       website = valid.urlCheck(xss(req.body.website))
       phoneNumber = valid.phoneNumberCheck(xss(req.body.phoneNumber))
       userId = valid.idCheck(xss(req.session.user.id))
+      console.log(req.body)
+        if(xss(req.body.size_options) === "on"){
+          customizationObj.size_options = true
+        }
+        else if(xss(req.body.ice_level) === "on"){
+          customizationObj.ice_level = true
+        }
+        else if(xss(req.body.sugar_level) === "on"){
+          customizationObj.sugar_level = true
+        }
+        else if(xss(req.body.customization_charge) === "on"){
+          customizationObj.customization_charge = true
+        }
       if(req.body.ownerId){
         ownerId = valid.idCheck(xss(req.body.ownerId))
       }
@@ -149,6 +169,7 @@ router
         req.body.hour2,
         req.body.minute2,
         req.body.ampm2,
+        customizationObj,
         ownerId
       )
       const updatedUser = await userData.updatePoints(userId, 50)
@@ -264,10 +285,21 @@ router.route('/shop/:id').get(async (req, res) => {
     highestReviews.sort(function(a,b){return  b.rating - a.rating});
     lowestReviews.sort(function(a,b){return  a.rating - b.rating});
     newestReviews.reverse();
+    const trueKeys = Object.keys(searchResult.customization).filter(key => searchResult.customization[key]);
+    const filteredData = {};
+    trueKeys.forEach(key => {
+      filteredData[key] = true; 
+    });
+    const filteredDataString = JSON.stringify(filteredData);
+    let cleanedString = filteredDataString.replace(/[{}]/g, '').replaceAll(':true', '');
+    cleanedString = cleanedString.replace(/[{}]/g, '').replaceAll(':true', '').replaceAll('"', '').replaceAll('_', ' ').replaceAll(',', ' ');
+    cleanedString = cleanedString.toLowerCase().replace(/\b\w/g, function(char) {
+      return char.toUpperCase();
+    });
     res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews,
       highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, 
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
-      noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin});
+      noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin, customList: cleanedString});
   } catch(e){
     res.status(500).render('error',{title: "Shop Page", error: e, loggedIn: req.session.user, themeType: themeType});
   }

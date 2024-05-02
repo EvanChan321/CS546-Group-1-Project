@@ -21,7 +21,7 @@ const getShop = async (id) => {
     return findShop
 }
 
-const createShop = async (name, address, website, phoneNumber, hour1, minute1, ampm1, hour2, minute2, ampm2, ownerId) => {
+const createShop = async (name, address, website, phoneNumber, hour1, minute1, ampm1, hour2, minute2, ampm2, customization, ownerId) => {
     if(ownerId){
         ownerId = valid.idCheck(ownerId)
     }
@@ -32,7 +32,12 @@ const createShop = async (name, address, website, phoneNumber, hour1, minute1, a
     address = valid.stringValidate(address)
     website = valid.urlCheck(website)
     phoneNumber = valid.phoneNumberCheck(phoneNumber)
+    valid.objectCheck(customization)
     let {openTime, closeTime} = valid.convertTime(hour1, minute1, ampm1, hour2, minute2, ampm2)
+    for (const [key, value] of Object.entries(customization)) {
+        valid.customizationCheck(key)
+        valid.booleanCheck(value)
+    }
     const newShop = {
         name: name,
         address: address,
@@ -41,8 +46,10 @@ const createShop = async (name, address, website, phoneNumber, hour1, minute1, a
         flags: [],
         items: [],
         reviews: [],
+        customization: customization,
         openTime: openTime,
         closeTime: closeTime,
+        customization: customization,
         averageRating: "No Ratings",
         numOfLikes: 0,
         ownerId: ownerId

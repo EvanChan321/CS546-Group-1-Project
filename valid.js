@@ -55,6 +55,20 @@ export function notArrayCheck (val) {
     }
 };
 
+export function customizationCheck (val) {
+    let customization = ["ice_level", "sugar_level", "size_options", "customization_charge"]
+    if(!customization.includes(val)){
+        throw 'invalid customization'
+    }
+};
+
+
+export function booleanCheck (val) {
+    if (typeof val !== "boolean") {
+        throw (`${val} is not an array`);
+    }
+};
+
 export function stringValidate (val, valName){
     stringCheck(val, valName)
     val = val.trim()

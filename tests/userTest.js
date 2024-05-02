@@ -6,7 +6,12 @@ import * as valid from "../valid.js";
 const db = await dbConnection();
 await db.collection("users").drop();
 await db.collection("shops").drop();
-
+let customization = {
+    size_options: true,
+    ice_level: true,
+    sugar_level: true,
+    customization_charge: false
+}
 let user = {
     name: "Tabby",
     password: "Password1!",
@@ -208,7 +213,6 @@ try {
     console.log("Error creating user");
     console.log(e);
 }
-
 try {
     shop = await shopData.createShop(
         shop.name,
@@ -221,6 +225,7 @@ try {
         "12",
         "0",
         "PM",
+        customization,
         user5._id.toString()
     );
     console.log("shop created");
@@ -360,7 +365,8 @@ try {
         "AM",
         "12",
         "0",
-        "PM"
+        "PM",
+        customization
     );
     console.log("shop created");
     console.log(shop2);
@@ -387,7 +393,8 @@ try {
         "AM",
         "12",
         "0",
-        "PM"
+        "PM",
+        customization
     );
     console.log("shop created");
     console.log(shop3);
@@ -414,7 +421,8 @@ try {
         "AM",
         "12",
         "0",
-        "PM"
+        "PM",
+        customization
     );
     console.log("shop created");
     console.log(shop4);
@@ -441,7 +449,8 @@ try {
         "AM",
         "12",
         "0",
-        "PM"
+        "PM",
+        customization
     );
     console.log("shop created");
     console.log(shop5);
