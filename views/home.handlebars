@@ -1,11 +1,13 @@
 <main>
     <h1>{{title}}</h1>
+    <div>
+        <img class="error" src="/public/img/IMG_3240.jpg" alt="mad boba cat">
+    </div>
     <form action="/shops/search/" method="POST">
         <div id="container">
         <label>
             Search Boba Stores:
         </label>
-        
         <input class= "search-bar" type="text" name="shop" id="shop" placeholder= "Kung Fu Tea...">
         <p>Minimum Rating</p>
         <input type="range" value="0" min="0" max="5" name="minRating" id="minRating" oninput="this.nextElementSibling.value = this.value">
