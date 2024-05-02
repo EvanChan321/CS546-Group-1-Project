@@ -7,7 +7,8 @@ function getColor(num){
   return colorHex;
 }
 
-async function initMap() {
+async function initMap(shops) {
+  console.log(shops)
   const { Map, InfoWindow } = await google.maps.importLibrary("maps");
   const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary(
     "marker",
@@ -49,7 +50,6 @@ async function initMap() {
         infoWindow.open(marker.map, marker);
         infoWindowOpen = true;
       } else {
-        infoWindow.close();
         infoWindowOpen = false;
         window.location.href = url;
       }
@@ -57,6 +57,34 @@ async function initMap() {
   });
 }
 
-document.addEventListener("DOMContentLoaded", async function() {
-  initMap();
+async function fetchDataAndRenderMap(address, distance) {
+  try {
+    const response = await $.ajax({
+      url: '/map',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        address: address,
+        distance: distance
+      })
+    });
+    const { lat, lng, shops } = response;
+    $('#latitude').val(lat);
+    $('#longitude').val(lng);
+    console.log(shops)
+    initMap(shops);
+
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+}
+
+$(document).ready(function() {
+  initMap(shops);
+  $('#Map').submit(async function(event) {
+    event.preventDefault();
+    const address = $('#address').val();
+    const distance = $('#distance').val();
+    await fetchDataAndRenderMap(address, distance);
+  });
 });
