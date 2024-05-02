@@ -189,7 +189,6 @@ router.route('/shops/search').post(async (req, res) => {
   const currentHour = currentTime.getHours();
   const currentMin = currentTime.getMinutes();
   try{
-    console.log(req.body)
     const shops = await shopData.getAllShops();
     const search = xss(req.body.shop);
     let minLikes = xss(req.body.minLikes)
@@ -309,7 +308,6 @@ router.route('/shops/bookmarks').get(async (req,res) => {
   const currentMin = currentTime.getMinutes();
   try{
     const shops = await shopData.getAllShops();
-    console.log(req.session.user.bookmarks);
     console.log(shops[0]._id.toString());
     let bmShops = shops.filter((shop) => (xss(req.session.user.bookmarks)).includes(shop._id.toString()));
     bmShops = await valid.getDistances(bmShops, req.session.user.address)
@@ -626,11 +624,6 @@ router
       return res.status(400).render('error', {title: "Item Form", error: e, themeType: themeType, loggedIn: req.session.user});
     }
     try {
-      console.log(price);
-      console.log(name);
-      console.log(description);
-      console.log(allergens);
-      console.log(tags);
       const item = await itemData.createItem(
         shopId,
         name,
@@ -678,7 +671,6 @@ router
         'shop'
       )
       const updatedUser = await userData.updatePoints(userId, 10)
-      console.log(updatedUser)
       return res.redirect(`/review/${rev._id}`)
     } catch(e) {
       console.log("fsadlfjaoifnoiashpodfi");
@@ -689,8 +681,9 @@ router
 router
   .route('/shop/:shopId/flagForm')
   .get(async (req, res) => {
+    const id = xss(req.params.shopId)
     const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
-    res.render("flagForm", {title: "Flag Form", id: xss(req.params.shopId), loggedIn: req.session.user, themeType: themeType});
+    res.render("flagForm", {title: "Flag Form", id: id, loggedIn: req.session.user, themeType: themeType});
   })
   .post(async (req, res) => {
     let shopId

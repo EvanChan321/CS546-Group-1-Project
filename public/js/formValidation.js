@@ -4,6 +4,7 @@ let editUserForm = document.getElementById('edit-user-form');
 let itemForm = document.getElementById('itemForm');
 let reviewForm = document.getElementById('reviewForm')
 let errorDiv = document.getElementById('error');
+let flagForm = document.getElementById('flagForm');
 
 function numCheck (num, numName) {
     if (typeof(num) !== 'number'){
@@ -152,6 +153,22 @@ if(addShopForm){
         }
         checkAndSubmit(errors, addShopForm);
     });
+}
+
+if(flagForm){
+    flagForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        let errors = []
+        let description = document.getElementById('description').value;
+        if(description){
+            try{
+                bio = stringValidate(description, 'description');
+            } catch(e){
+                errors.push(e.toString());
+            }
+        }
+        checkAndSubmit(errors, editUserForm);
+    })
 }
 
 if(editUserForm){

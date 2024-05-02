@@ -45,7 +45,7 @@ export const deleteUser = (routes) => {
         if(req.method === "POST"){
             const urlSegments = req.originalUrl.split('/');
             const id = urlSegments[2];
-            const user = await userData.getShop(id)   
+            const user = await userData.getUser(id)   
             if (!req.session.user || (req.session.user.id !== id && req.session.user.accountType !== "Admin")) {
                 return res.status(403).render("error", {
                     title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})

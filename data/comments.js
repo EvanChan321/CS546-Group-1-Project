@@ -92,14 +92,22 @@ const updateComment = async (commentId, updateObject) => {
 
 const removeComment = async (commentId) => {
   commentId = valid.idCheck(commentId)
-  const comment = await this.getComment(commentId)
+  const comment = await getComment(commentId)
   const userCollection = await users();
   const updatedInfo = await userCollection.findOneAndUpdate(
     { 'reviews.comments._id': new ObjectId(commentId) },
-    { $pull: { 'reviews.comments': { _id: new ObjectId(commentId) } } },
+    { $pull: { 'reviews.$[].comments': { _id: new ObjectId(commentId) } } },
     { returnDocument: 'after' }
   );
   if(!updatedInfo){
+    throw 'could not delete'
+  }
+  const updatedInfo2 = await userCollection.findOneAndUpdate(
+    { comments: new ObjectId(commentId) },
+    { $pull: { comments:  new ObjectId(commentId)  } },
+    { returnDocument: 'after' }
+  );
+  if(!updatedInfo2){
     throw 'could not delete'
   }
   return updatedInfo
