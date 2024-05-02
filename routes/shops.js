@@ -189,13 +189,79 @@ router.route('/shops/search').post(async (req, res) => {
   const currentHour = currentTime.getHours();
   const currentMin = currentTime.getMinutes();
   try{
+    console.log(req.body)
     const shops = await shopData.getAllShops();
     const search = xss(req.body.shop);
     let minLikes = xss(req.body.minLikes)
     let minRating = xss(req.body.minRating)
     let minReviews = xss(req.body.minReviews)
-    console.log(search);
     let sortShops = sortLev(shops,search);
+    let gluten = xss(req.body.gluten)
+    let dairy = xss(req.body.dairy)
+    let peanuts = xss(req.body.peanuts)
+    let treenuts = xss(req.body.treenuts)
+    let sesame = xss(req.body.sesame)
+    let mustard = xss(req.body.mustard)
+    let soy = xss(req.body.soy)
+    let eggs = xss(req.body.eggs)
+    let fish = xss(req.body.fish)
+    let shellfish = xss(req.body.shellfish)
+    let allergens = []
+    if(gluten){
+      allergens.push("gluten")
+    }
+    if(dairy){
+      allergens.push("dairy")
+    }
+    if(peanuts){
+      allergens.push("peanuts")
+    }
+    if(treenuts){
+      allergens.push("treenuts")
+    }
+    if(sesame){
+      allergens.push("sesame")
+    }
+    if(mustard){
+      allergens.push("mustard")
+    }
+    if(soy){
+      allergens.push("soy")
+    }
+    if(eggs){
+      allergens.push("eggs")
+    }
+    if(fish){
+      allergens.push("fish")
+    }
+    if(shellfish){
+      allergens.push("shellfish")
+    }
+    if (allergens.length > 0) {
+      let index;
+      for (let i = 0; i < sortShops.length; i++) {
+        const shop = sortShops[i];
+        let currAllergen = []
+        for (let j = 0; j < shop.items.length; j++) {
+          currAllergen = [...allergens];
+          const item = shop.items[j];
+          console.log(item)
+          for (let k = 0; k < currAllergen.length; k++) {
+            const allergen = currAllergen[k];
+            if (!item.allergens.includes(allergen)) {
+              index = currAllergen.indexOf(allergen);
+              if (index !== -1) {
+                currAllergen.splice(index, 1);
+              }
+            }
+          }
+        }
+        if (currAllergen.length > 0) {
+          sortShops.splice(i, 1);
+          i--;
+        }
+      }
+    }    
     if(minRating){
       if(req.body.minRating > 0){
         sortShops = sortShops.filter((shop) => ((shop.averageRating >= minRating) && (shop.averageRating != "No Ratings")));
@@ -214,6 +280,7 @@ router.route('/shops/search').post(async (req, res) => {
     }
     res.render('shopSearchResults', {title:"Search Results", shops: sortShops, loggedIn: req.session.user, search: search, themeType: themeType, currentHour: currentHour, currentMin: currentMin, Distance: Distance});
   }catch(e){
+    console.log(e)
     res.status(500).render('error', {title: "Search Results", error: e, themeType: themeType, loggedIn: req.session.user});
   }
 })
