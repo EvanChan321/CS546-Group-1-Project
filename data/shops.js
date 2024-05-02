@@ -2,14 +2,13 @@ import { users } from "../config/mongoCollections.js";
 import { shops } from "../config/mongoCollections.js";
 import { ObjectId } from "mongodb";
 import * as valid from "../valid.js";
-import { reviewData, userData } from "./index.js";
+import { reviewData, shopData, userData } from "./index.js";
 
 
 const getAllShops = async () => {
     const shopCollection = await shops();
     const allShops = await shopCollection.find().toArray();
     if(allShops.length === 0){
-        throw "Shops Collection is Empty";
     }
     return allShops;
 }
@@ -49,8 +48,21 @@ const createShop = async (name, address, website, phoneNumber, hour1, minute1, a
         ownerId: ownerId
     }
     const shopCollection = await shops();
-    const duplicateAdd =  await shopCollection.findOne({address: { $regex: new RegExp(`^${address}$`, 'i') }});
-    if(duplicateAdd) throw "Store at this location already exists";
+    const cords = await valid.getLatLong(address);
+    const allShops = await shopData.getAllShops()
+    let duplicateAdd = false;
+    for (const shop of allShops) {
+        const currCords = await valid.getLatLong(shop.address);
+        console.log(currCords);
+        if (cords.lat === currCords.lat && cords.lng === currCords.lng) {
+            duplicateAdd = true;
+            break; 
+        }
+    }
+    console.log(duplicateAdd)
+    if(duplicateAdd) {
+        throw "Store at this location already exists";
+    }
     const insertInfo = await shopCollection.insertOne(newShop);
     if (!insertInfo.acknowledged || !insertInfo.insertedId)
       throw 'Could not add product';
