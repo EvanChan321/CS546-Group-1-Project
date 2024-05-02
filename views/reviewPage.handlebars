@@ -25,6 +25,19 @@
     <button onclick="swapContent('userEdit','userInfo')" class="editInfo" id="editButton">Edit Info</button>
     <br>
     {{/if}}
+    {{#if loggedIn}}
+    {{#if Default}}
+    <div id="container">
+        <form action="/review/{{review._id}}/comments" method="POST" id="commentForm">
+            <label for="comment">
+                <textarea id="comment" name="comment" placeholder="Write a Comment..."></textarea>
+            </label>
+            <br>
+            <button type="submit" id="submitButton" name="submitButton" class="save">Create Comment</button>
+        </form>
+    </div>
+    {{/if}}
+    {{/if}}
     <button onclick="toggleContent('toggledComments')">Display Comments</button>
     <div id="toggledComments" style="display: none;">
     <ul>

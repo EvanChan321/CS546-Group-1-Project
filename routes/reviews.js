@@ -32,7 +32,13 @@ router
           isOwner = true
         }
       }
-      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review, comments: commData, themeType: themeType, loggedIn: req.session.user, isOwner: isOwner });
+      let Default = false
+      if(req.session.user){
+        if(req.session.user.accountType === "Default"){
+          Default = true
+        }
+      }
+      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review, comments: commData, themeType: themeType, loggedIn: req.session.user, isOwner: isOwner, Default: Default });
     } catch (e) {
       return res.status(404).render('error', { title: "error", error: e, themeType: themeType, loggedIn: req.session.user });
     }
@@ -91,32 +97,9 @@ router
       });
     }
   });
+
 router
   .route('/:reviewId/comments')
-  .get(async (req, res) => {
-    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
-    let reviewId
-    try {
-      reviewId = valid.idCheck(xss(req.params.reviewId))
-    } catch (e) {
-      return res.status(400).json({ error: e });
-    }
-    try {
-      const comments = await commentData.getAllCommentsFromReview(reviewId);
-      let commData = [];
-      for (let comment of comments) {
-        let currUser = await userData.getUser(comment.userId.toString());
-        let curr = {
-          comment: comment,
-          username: currUser.name
-        }
-        commData.push(curr);
-      }
-      return res.status(200).render('commentsPage', { title: "Comments", comments: commData, themeType: themeType, loggedIn: req.session.user });
-    } catch (e) {
-      return res.status(404).render('error', { title: "error", error: e, themeType: themeType, loggedIn: req.session.user });
-    }
-  })
   .post(async (req, res) => {
     let reviewId
     let userId
@@ -128,6 +111,7 @@ router
       comment = valid.stringValidate(xss(req.body.comment))
     }
     catch (e) {
+      console.log(e)
       return res.status(400).render("reviewPage", {
         error: e.toString(),
         title: "Review",
@@ -137,11 +121,12 @@ router
       });
     }
     try {
-      const comment = await commentData.createComment(userId, reviewId, comment)
+      const newComment = await commentData.createComment(userId, reviewId, comment)
       const updatedUser = await userData.updatePoints(userId, 5)
-      return res.redirect(`/${reviewId}/comments`)
+      return res.redirect(`/review/${reviewId}/comment/${newComment._id.toString()}`)
     }
     catch (e) {
+      console.log(e)
       return res.status(400).render("reviewPage", {
         error: e.toString(),
         title: "Review",
@@ -156,6 +141,8 @@ router
   .route('/:reviewId/comment/:commentId')
   .get(async (req, res) => {
     let reviewId
+    let commentId
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try {
       reviewId = valid.idCheck(xss(req.params.reviewId))
       commentId = valid.idCheck(xss(req.params.commentId))
@@ -164,8 +151,17 @@ router
     }
     try {
       const comment = await commentData.getComment(commentId);
-      return res.status(200).json(comment);
+      const user = await userData.getUser(comment.userId.toString())
+      return res.status(200).render("commentPage", {
+        title: "Comment",
+        comment: comment,
+        themeType: themeType,
+        loggedIn: req.session.user,
+        reviewId: reviewId,
+        user: user
+      });
     } catch (e) {
+      console.log(e)
       return res.status(404).json({ error: e });
     }
   });
