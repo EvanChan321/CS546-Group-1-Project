@@ -12,6 +12,9 @@
                 <p>Minimum Likes</p>
                 <input type="text" name="minLikes" id="minLikes" placeholder= "0" value="0">
                 <br>
+                <p>Minimum Reviews</p>
+                <input type="text" name="minReviews" id="minReviews" placeholder= "0" value="0">
+                <br>
                 <br><button type="submit"><img class= "search-button" alt="search-button" src="/public/img/search-icon.png"></button>
             </div>
         </form>
@@ -38,6 +41,9 @@
                         <li><p>Average Rating: {{this.averageRating}}</p></li>
                         <li><p>Number of Likes: {{this.numOfLikes}}</p></li>
                         <li class="tel-link">Phone: <a href="tel:{{this.phoneNumber}}">{{this.phoneNumber}}</a></li>
+                        {{#if ../Distance}}
+                        <li><p>Distance: {{this.distance}} miles away</p></li>
+                        {{/if}}
                         <li><p class="serviceHours_{{this._id}}"></p></li>
                         <script>
                             openTime;
