@@ -195,7 +195,6 @@ const removeReview = async (reviewId) => {
   else{
     shop.averageRating = "No Ratings"
   }
-  console.log(shop)
   if(review.type === "item"){
     const updatedInfo = await shopCollection.findOneAndUpdate(
       { 'items._id': new ObjectId(review.objId) },
