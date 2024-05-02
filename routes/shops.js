@@ -110,7 +110,6 @@ router
     let website
     let phoneNumber
     let userId
-    let customizationList
     let customizationObj = {
       size_options: false,
       ice_level: false,
@@ -124,7 +123,6 @@ router
       website = valid.urlCheck(xss(req.body.website))
       phoneNumber = valid.phoneNumberCheck(xss(req.body.phoneNumber))
       userId = valid.idCheck(xss(req.session.user.id))
-      console.log(req.body)
         if(xss(req.body.size_options) === "on"){
           customizationObj.size_options = true
         }
@@ -347,15 +345,32 @@ router
   let address
   let website
   let phoneNumber
-  let userId
   let shopId
   const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+  let customizationObj = {
+    size_options: false,
+    ice_level: false,
+    sugar_level: false,
+    customization_charge: false
+  }
   try{
     shopId = valid.idCheck(xss(req.params.id))
     shopName = valid.stringValidate(xss(req.body.shopName))
     address = valid.stringValidate(xss(req.body.address))
     website = valid.urlCheck(xss(req.body.website))
     phoneNumber = valid.phoneNumberCheck(xss(req.body.phoneNumber))
+    if(xss(req.body.size_options) === "on"){
+      customizationObj.size_options = true
+    }
+    else if(xss(req.body.ice_level) === "on"){
+      customizationObj.ice_level = true
+    }
+    else if(xss(req.body.sugar_level) === "on"){
+      customizationObj.sugar_level = true
+    }
+    else if(xss(req.body.customization_charge) === "on"){
+      customizationObj.customization_charge = true
+    }
     if(!xss(req.body.hour1) || !xss(req.body.hour2) || !xss(req.body.minute1) || !xss(req.body.minute2) || !xss(req.body.ampm1) || !xss(req.body.ampm2)){
       throw 'invalid date'
     }
@@ -386,6 +401,7 @@ router
       hour2: req.body.hour2,
       minute2: req.body.minute2,
       ampm2: req.body.ampm2,
+      customization: customizationObj
     }
     const shop = await shopData.updateShop(
       shopId,

@@ -104,6 +104,9 @@ const updateShop = async (shopId, updateObject) => {
         shop.openTime = openTime
         shop.closeTime = closeTime
     }
+    if('customization' in updateObject){
+        shop.customization = updateObject.customization
+    }
     const updatedInfo = await shopCollection.findOneAndUpdate(
       {_id: new ObjectId(shopId)},
       {$set: shop},
