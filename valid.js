@@ -292,3 +292,14 @@ export function convertTime(hour1, minute1, ampm1, hour2, minute2, ampm2){
         throw e
     }
 }
+
+export async function getDistances(shops, address){
+    const userAddress = await getLatLong(address);
+    for (const shop of shops) {
+        const cords = await getLatLong(shop.address);
+        let currDistance = haversineDistance(userAddress.lat, userAddress.lng, cords.lat, cords.lng);
+        currDistance = currDistance.toFixed(1);
+        shop.distance = currDistance
+    }
+    return shops;
+}

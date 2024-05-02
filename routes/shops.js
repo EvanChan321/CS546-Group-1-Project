@@ -193,15 +193,26 @@ router.route('/shops/search').post(async (req, res) => {
     const search = xss(req.body.shop);
     let minLikes = xss(req.body.minLikes)
     let minRating = xss(req.body.minRating)
+    let minReviews = xss(req.body.minReviews)
     console.log(search);
     let sortShops = sortLev(shops,search);
-    if(minRating && minLikes){
-      sortShops = sortShops.filter((shop) => (shop.numOfLikes >= minLikes));
+    if(minRating){
       if(req.body.minRating > 0){
         sortShops = sortShops.filter((shop) => ((shop.averageRating >= minRating) && (shop.averageRating != "No Ratings")));
       }
     }
-    res.render('shopSearchResults', {title:"Search Results", shops: sortShops, loggedIn: req.session.user, search: search, themeType: themeType, currentHour: currentHour, currentMin: currentMin});
+    if(minRating){
+      sortShops = sortShops.filter((shop) => (shop.numOfLikes >= minLikes));
+    }
+    if(minReviews){
+      sortShops = sortShops.filter((shop) => (shop.reviews.length >= minReviews));
+    }
+    let Distance = false
+    if(req.session.user){
+      Distance = true
+      sortShops = await valid.getDistances(sortShops, req.session.user.address)
+    }
+    res.render('shopSearchResults', {title:"Search Results", shops: sortShops, loggedIn: req.session.user, search: search, themeType: themeType, currentHour: currentHour, currentMin: currentMin, Distance: Distance});
   }catch(e){
     res.status(500).render('error', {title: "Search Results", error: e, themeType: themeType, loggedIn: req.session.user});
   }
@@ -216,7 +227,8 @@ router.route('/shops/bookmarks').get(async (req,res) => {
     const shops = await shopData.getAllShops();
     console.log(req.session.user.bookmarks);
     console.log(shops[0]._id.toString());
-    const bmShops = shops.filter((shop) => (xss(req.session.user.bookmarks)).includes(shop._id.toString()));
+    let bmShops = shops.filter((shop) => (xss(req.session.user.bookmarks)).includes(shop._id.toString()));
+    bmShops = await valid.getDistances(bmShops, req.session.user.address)
     res.render('bookmarks', {title:"Bookmarks", shops: bmShops, loggedIn: req.session.user, themeType: themeType, currentHour: currentHour, currentMin: currentMin});
   }catch(e){
     res.status(500).render('error', {title: "Bookmarks", error: e, themeType: themeType, loggedIn: req.session.user});
@@ -290,6 +302,13 @@ router.route('/shop/:id').get(async (req, res) => {
     cleanedString = cleanedString.toLowerCase().replace(/\b\w/g, function(char) {
       return char.toUpperCase();
     });
+    if(req.session.user){
+      const userAddress = await valid.getLatLong(req.session.user.address);
+      const cords = await valid.getLatLong(searchResult.address);
+      let currDistance = valid.haversineDistance(userAddress.lat, userAddress.lng, cords.lat, cords.lng);
+      currDistance = currDistance.toFixed(1);
+      searchResult.distance = currDistance
+    }
     res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews,
       highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, 
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
