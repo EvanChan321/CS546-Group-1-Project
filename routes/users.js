@@ -286,12 +286,10 @@ router
 router
   .route('/:userId/delete')
   .post(async (req, res) => {
-    //let userPassword
     let userId
     const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try{
       userId = valid.idCheck(xss(req.params.userId))
-      //userPassword = valid.passwordCheck(xss(req.body.password))
     }
     catch(e){
       return res.status(400).render("user", {
@@ -306,8 +304,9 @@ router
       delete req.session.user;
       return res.redirect(`/`)
     } catch (error) {
+      console.log(error)
       return res.status(500).render("user", {
-        error: e.toString(),
+        error: error.toString(),
         title: "Profile",
         themeType: themeType,
         loggedIn: req.session.user

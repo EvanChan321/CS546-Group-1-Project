@@ -208,7 +208,7 @@ const removeUser = async (userId, password) => {
     }*/
     const deletedReviews = user.reviews.map(async (review) => await reviewData.removeReview(review._id.toString()));
     const deleted = await Promise.all(deletedReviews);
-    const deletedComments = user.comments.map(async (comment) => await commentData.removeComment(comment._id.toString()));
+    const deletedComments = user.comments.map(async (comment) => await commentData.removeComment(comment.toString()));
     const deleted2 = await Promise.all(deletedComments);
     const userCollection = await users();
     const deletionInfo = await userCollection.findOneAndDelete({
