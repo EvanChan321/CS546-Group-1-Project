@@ -30,29 +30,55 @@ function reviewSort(sorter){
     const lowest = document.getElementById('lowest');
     const newest = document.getElementById('newest');
     const oldest = document.getElementById('oldest');
+    const atoz = document.getElementById('atoz');
+    const ztoa = document.getElementById('ztoa');
     if(sorter === "highest"){
         highest.style.display = 'block';
         lowest.style.display = 'none';
         newest.style.display = 'none';
         oldest.style.display = 'none';
+        atoz.style.display = 'none';
+        ztoa.style.display = 'none';
     }
     if(sorter === "lowest"){
         highest.style.display = 'none';
         lowest.style.display = 'block';
         newest.style.display = 'none';
         oldest.style.display = 'none';
+        atoz.style.display = 'none';
+        ztoa.style.display = 'none';
     }
     if(sorter === "newest"){
         highest.style.display = 'none';
         lowest.style.display = 'none';
         newest.style.display = 'block';
         oldest.style.display = 'none';
+        atoz.style.display = 'none';
+        ztoa.style.display = 'none';
     }
     if(sorter === "oldest"){
         highest.style.display = 'none';
         lowest.style.display = 'none';
         newest.style.display = 'none';
         oldest.style.display = 'block';
+        atoz.style.display = 'none';
+        ztoa.style.display = 'none';
+    }
+    if(sorter === "atoz"){
+        highest.style.display = 'none';
+        lowest.style.display = 'none';
+        newest.style.display = 'none';
+        oldest.style.display = 'none';
+        atoz.style.display = 'block';
+        ztoa.style.display = 'none';
+    }
+    if(sorter === "ztoa"){
+        highest.style.display = 'none';
+        lowest.style.display = 'none';
+        newest.style.display = 'none';
+        oldest.style.display = 'none';
+        atoz.style.display = 'none';
+        ztoa.style.display = 'block';
     }
 }
 
