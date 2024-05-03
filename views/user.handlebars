@@ -1,16 +1,23 @@
 {{#with user}}
+    {{#if ../ownAccount}}
     <h1>Welcome, {{name}}</h1>
+    {{else}}
+    <h1>{{name}}'s Page</h1>
+    {{/if}}
     <h3>Account Type: {{accountType}}</h3>
     <div>
         <img class="error" src='/public/img/{{pfp}}' alt="mad boba cat">
     </div>
+    {{#if ../ownAccount}}
     {{#if ../Business}}
     <button onclick="location.href='/shops/claimed'" type="button" class="bookmarks">Claimed Shops</button>
     {{/if}}
     <button onclick="location.href='/shops/bookmarks'" type="button" class="bookmarks">Bookmarks</button>
+    {{/if}}
     {{#if error}}
          <p class="error">{{error}}</p>
     {{/if}}
+    {{#if ../ownAccount}}
     <div id="userEdit" hidden>
     <form action="/user/{{_id}}" method="POST" name="edit-user-form" id="edit-user-form" class="user">
         <label for="bio">Bio:</label>
@@ -54,6 +61,8 @@
     </form>
     </div>
     <div id="error" class="CSerror" hidden>Error</div>
+    {{/if}}
+    <h2>User Info</h2>
     <div id="userInfo">
         <ul>
             <li>Bio: {{bio}}</li>
@@ -62,8 +71,9 @@
             <li>Theme: {{themeType}}</li>
         </ul>
     </div>
+    {{#if ../ownAccount}}
     <button onclick="swapContent('userEdit','userInfo')" class="editInfo" id="editButton">Edit Info</button>
-    
+    {{/if}}
     <h2>Reviews:</h2>
     {{#each reviews}}
         <div>
@@ -74,7 +84,14 @@
         </div>
     {{/each}}
     <hr>
+    {{#if ../ownAccount}}
     <form action="/user/{{_id}}/delete" method="POST">
         <button type="submit" class="delete">DELETE USER</button>
     </form>
+    {{/if}}
+    {{#if ../Admin}}
+    <form action="/user/{{_id}}/delete" method="POST">
+        <button type="submit" class="delete">DELETE USER</button>
+    </form>
+    {{/if}}
 {{/with}}    
