@@ -954,5 +954,64 @@ catch(e){
 //     console.log("Error removing flag");
 //     console.log(e);
 // }
+let shopBergen
+try {
+    shopBergen = await shopData.createShop(
+        "Littleboba",
+        "374 S Washington Ave, Bergenfield, NJ 07621",
+        "https://www.littleboba365.com/",
+        "201-778-0001",
+        "12",
+        "00",
+        "PM",
+        "1",
+        "00",
+        "AM",
+        customization
+    );
+    console.log("shop created");
+    console.log(shop);
+} catch (e) {
+    console.log("Error creating shop");
+    console.log(e);
+}
 
+let shopFlushing
+try {
+    shopFlushing = await shopData.createShop(
+        "Xing Fu Tang",
+        "40-52 Main St, Queens, NY 11354",
+        "https://xingfutang.com/",
+        "929-519-6206",
+        "11",
+        "00",
+        "AM",
+        "10",
+        "00",
+        "PM",
+        customization
+    );
+    console.log("shop created");
+    console.log(shop);
+} catch (e) {
+    console.log("Error creating shop");
+    console.log(e);
+}
+
+let admin
+try {
+    admin = await userData.createUser(
+        "phill",
+        "Password1!",
+        "phill@stevens.edu",
+        "Hoboken, NJ",
+        "Admin",
+        'dark'
+    );
+    console.log("user created");
+    console.log(admin);
+}catch (e) {
+    console.log("Error creating admin");
+    console.log(e);
+}
 await closeConnection();
