@@ -107,6 +107,11 @@ const updateShop = async (shopId, updateObject) => {
     if('customization' in updateObject){
         shop.customization = updateObject.customization
     }
+    if('ownerId' in updateObject){
+        if(updateObject.ownerId){
+            shop.ownerId = updateObject.ownerId
+        }
+    }
     const updatedInfo = await shopCollection.findOneAndUpdate(
       {_id: new ObjectId(shopId)},
       {$set: shop},

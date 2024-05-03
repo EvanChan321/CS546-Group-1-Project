@@ -394,9 +394,15 @@
         </div>
         <footer>
             <a href="javascript:history.back()" class="static-link">Go Back to Stores</a>
-            {{#if loggedIn}}
-
             <hr>
+            {{#if noOwner}}
+            {{#if Business}}
+            <form action="/shop/{{shop._id}}/user/claim" method="POST">
+                <button type="submit" class="delete">CLAIM SHOP</button>
+            </form>
+            {{/if}}
+            {{/if}}
+            {{#if Admin}}
             <form action="/shop/{{shop._id}}/delete" method="POST">
                 <button type="submit" class="delete">DELETE SHOP</button>
             </form>
