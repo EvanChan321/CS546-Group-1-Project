@@ -399,14 +399,20 @@ router.route('/shop/:id').get(async (req, res) => {
     let highestReviews = [];
     let lowestReviews = [];
     let newestReviews = [];
+    let alphaForward = [];
+    let alphaBackward = [];
     for(let review of storeReviews){
       highestReviews.push(review);
       lowestReviews.push(review);
       newestReviews.push(review);
+      alphaBackward.push(review);
+      alphaForward.push(review);
     }
     highestReviews.sort(function(a,b){return  b.rating - a.rating});
     lowestReviews.sort(function(a,b){return  a.rating - b.rating});
     newestReviews.reverse();
+    alphaForward.sort(function(a,b){return a.title.localeCompare(b.title)});
+    alphaBackward.sort(function(a,b){return b.title.localeCompare(a.title)});
     const trueKeys = Object.keys(searchResult.customization).filter(key => searchResult.customization[key]);
     const filteredData = {};
     trueKeys.forEach(key => {
@@ -426,7 +432,7 @@ router.route('/shop/:id').get(async (req, res) => {
       searchResult.distance = currDistance
     }
     res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews,
-      highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, 
+      highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, alphaForward, alphaBackward,
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
       noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin, customList: cleanedString, flagcount: flagcount, Business: Business});
   } catch(e){
@@ -1056,6 +1062,8 @@ router.route('/shop/:shopid/:itemId/edit')
       let highestReviews = [];
       let lowestReviews = [];
       let newestReviews = [];
+      let alphaForward = [];
+      let alphaBackward = [];
       if(decodeSearch.toLowerCase().substring(0,3) == "by:"){
         let userSearch = decodeSearch.substring(3);
         for(let review of storeReviews){
@@ -1064,13 +1072,17 @@ router.route('/shop/:shopid/:itemId/edit')
             highestReviews.push(review);
             lowestReviews.push(review);
             newestReviews.push(review);
+            alphaBackward.push(review);
+            alphaForward.push(review);
           }
         }
         highestReviews.sort(function(a,b){return  b.rating - a.rating});
         lowestReviews.sort(function(a,b){return  a.rating - b.rating});
         newestReviews.reverse();
+        alphaForward.sort(function(a,b){return a.title.localeCompare(b.title)});
+        alphaBackward.sort(function(a,b){return b.title.localeCompare(a.title)});
         res.render('reviewSearch', {title: "Review Search Results", shop:searchResult, reviews:filteredReviews, user:userSearch,
-        highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, 
+        highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, alphaBackward:alphaBackward, alphaForward:alphaForward,
         loggedIn: req.session.user, themeType: themeType});
       } else {
         for(let review of storeReviews){
@@ -1079,13 +1091,17 @@ router.route('/shop/:shopid/:itemId/edit')
             highestReviews.push(review);
             lowestReviews.push(review);
             newestReviews.push(review);
+            alphaBackward.push(review);
+            alphaForward.push(review);
           }
         }
       highestReviews.sort(function(a,b){return  b.rating - a.rating});
       lowestReviews.sort(function(a,b){return  a.rating - b.rating});
       newestReviews.reverse();
+      alphaForward.sort(function(a,b){return a.title.localeCompare(b.title)});
+      alphaBackward.sort(function(a,b){return b.title.localeCompare(a.title)});
       res.render('reviewSearch', {title: "Review Search Results", shop:searchResult, reviews:filteredReviews, search:decodeSearch,
-        highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, 
+        highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, alphaBackward:alphaBackward, alphaForward:alphaForward,
         loggedIn: req.session.user, themeType: themeType, item: item});
       }
     } catch(e){
@@ -1110,17 +1126,23 @@ router.route('/shop/:shopid/:itemId/edit')
       let highestReviews = [];
       let lowestReviews = [];
       let newestReviews = [];
+      let alphaForward = [];
+      let alphaBackward = [];
       for(let review of storeReviews){
           filteredReviews.push(review);
           highestReviews.push(review);
           lowestReviews.push(review);
           newestReviews.push(review);
+          alphaForward.push(review);
+          alphaBackward.push(review);
       }
       highestReviews.sort(function(a,b){return  b.rating - a.rating});
       lowestReviews.sort(function(a,b){return  a.rating - b.rating});
       newestReviews.reverse();
+      alphaForward.sort(function(a,b){return a.title.localeCompare(b.title)});
+      alphaBackward.sort(function(a,b){return b.title.localeCompare(a.title)});
       res.render('reviewSearch', {title: "Review Search Results", shop:searchResult, reviews:filteredReviews,
-        highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, 
+        highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, alphaForward:alphaForward, alphaBackward:alphaBackward,
         loggedIn: req.session.user, themeType: themeType});
     } catch(e){
       res.status(500).render('error',{error: e, loggedIn: req.session.user, themeType: themeType});

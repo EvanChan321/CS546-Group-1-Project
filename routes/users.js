@@ -194,13 +194,32 @@ router
     }
     try {
       let Business = false
-        const user = await userData.getUser(userId);
+      const user = await userData.getUser(userId);
+      let highestReviews = [];
+      let lowestReviews = [];
+      let newestReviews = [];
+      let alphaForward = [];
+      let alphaBackward = [];
+      for(let review of user.reviews){
+        highestReviews.push(review);
+        lowestReviews.push(review);
+        newestReviews.push(review);
+        alphaBackward.push(review);
+        alphaForward.push(review);
+      }
+      highestReviews.sort(function(a,b){return  b.rating - a.rating});
+      lowestReviews.sort(function(a,b){return  a.rating - b.rating});
+      newestReviews.reverse();
+      alphaForward.sort(function(a,b){return a.title.localeCompare(b.title)});
+      alphaBackward.sort(function(a,b){return b.title.localeCompare(a.title)});
         if(req.session.user){
           if(req.session.user.accountType === "Business"){
             Business = true
           }
         }
-        return res.status(200).render('user', {user: user, title: "Profile", loggedIn: req.session.user, themeType: themeType, pfp: req.session.user.pfp, Business: Business});
+      return res.status(200).render('user', {user: user, title: "Profile",
+      reviews:user.reviews, newestReviews:newestReviews, highestReviews:highestReviews, lowestReviews:lowestReviews, alphaBackward:alphaBackward, alphaForward:alphaForward,
+      loggedIn: req.session.user, themeType: themeType, pfp: req.session.user.pfp, Business: Business});
     } catch (e) {
         return res.status(404).json({error: e});
     }
