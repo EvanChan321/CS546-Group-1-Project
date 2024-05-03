@@ -13,29 +13,29 @@
                 </li>
         </ol>
         {{#if loggedIn}}
-        {{#if Default}}
-        <div id="container">
-            <form action="/shop/{{shop._id}}/item/{{item._id}}" method="POST" id="reviewForm">
-                <label for="title">
-                    Review Title:
-                    <input id="title" name="title" type="text">
-                </label>
-                <br>
-                <label for="rating">
-                    Rating:
-                    <input type="range" value="0" min="1" max="5" name="rating" id="rating"
-                        oninput="this.nextElementSibling.value = this.value">
-                    <output>1</output>
-                </label>
-                <br>
-                <label for="review">
-                    <textarea id="review" name="review" placeholder="Write a Review..."></textarea>
-                </label>
-                <br>
-                <button type="submit" id="submitButton" name="submitButton" class="save">Create Review</button>
-            </form>
-        </div>
-        {{/if}}
+            {{#if Default}}
+            <div id="container">
+                <form action="/shop/{{shop._id}}/item/{{item._id}}" method="POST" id="reviewForm">
+                    <label for="title">
+                        Review Title:
+                        <input id="title" name="title" type="text">
+                    </label>
+                    <br>
+                    <label for="rating">
+                        Rating:
+                        <input type="range" value="0" min="1" max="5" name="rating" id="rating"
+                            oninput="this.nextElementSibling.value = this.value">
+                        <output>1</output>
+                    </label>
+                    <br>
+                    <label for="review">
+                        <textarea id="review" name="review" placeholder="Write a Review..."></textarea>
+                    </label>
+                    <br>
+                    <button type="submit" id="submitButton" name="submitButton" class="save">Create Review</button>
+                </form>
+            </div>
+            {{/if}}
         {{/if}}
         <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
         <div id="toggledReviews" style="display: none;">

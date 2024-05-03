@@ -5,16 +5,24 @@
 html,
 body {
     font-size: 14pt;   
+    background-color: #fbf8f3;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.dark{
+    background-color: #414141;
+    color: #fbf8f3;
+    border-color: #fbf8f3;
+}
+
+.light {
+    background-color: #fbf8f3;
+    color: #000000;
 }
 
 h1 {
     font-size: 2.5rem;
     text-align: center;
-    font-family: Helvetica, Arial, sans-serif;
-}
-
-body {
-    background-color: #fbf8f3;
     font-family: Helvetica, Arial, sans-serif;
 }
 
@@ -35,35 +43,20 @@ input.search-bar {
     background-color: transparent;
     padding: 14px 20px;
     margin: 8px 0;
-    border: 2px solid #000000;
+    border: 2px solid;
     border-radius: 18px;
     cursor: pointer;
 }
 
-input[type="text"] {
-    border-radius: 5px;
-}
-
-input[type="email"] {
-    border-radius: 5px;
-}
-
-input[type="url"] {
-    border-radius: 5px;
-}
-
+input[type="text"],
+input[type="email"],
+input[type="url"],
 input[type="tel"] {
     border-radius: 5px;
 }
 
-.logSign input[type="text"] {
-    font-size: 14px;
-}
-
-.logSign input[type="email"] {
-    font-size: 14px;
-}
-
+.logSign input[type="text"],
+.logSign input[type="email"],
 .logSign input[type="password"] {
     font-size:14px;
 }
@@ -75,17 +68,10 @@ input[type="password"] {
 button {
     padding: 5px 10px;
     background-color: transparent;
-    border: 2px solid #000000;
+    border: 2px solid;
     border-radius: 13px;
     cursor: pointer;
     font-size: 1rem;
-}
-
-button[type="submit"] {
-    border: 2px solid #000000;
-    background-color: transparent;
-    cursor: pointer;
-    vertical-align: middle;
 }
 
 button.save {

@@ -8,7 +8,7 @@
     <link rel="icon" type="image/x-icon" href="/public/img/favicon.jpg">
     <link rel="stylesheet" href="/public/css/styles.css">
 </head>
-<body>
+<body class={{themeType}}>
     {{#unless loggedIn}}
     <div class="account">
         <button onclick="location.href='/user/signup'" type="button" class="signup">Sign Up</button>
