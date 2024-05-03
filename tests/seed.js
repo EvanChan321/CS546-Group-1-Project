@@ -1011,7 +1011,164 @@ try {
     console.log("user created");
     console.log(admin);
 }catch (e) {
-    console.log("Error creating admin");
+    console.log("Error creating user");
+    console.log(e);
+}
+
+let bot
+try {
+    bot = await userData.createUser(
+        "notalim",
+        "Password1!",
+        "akassymo@stevens.edu",
+        "Hoboken, NJ",
+        "Default",
+        'dark'
+    );
+    console.log("user created");
+    console.log(bot);
+}catch (e) {
+    console.log("Error creating user");
+    console.log(e);
+}
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), bot._id.toString(), "wrong hours")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+try {
+    bot = await userData.createUser(
+        "redrumy",
+        "Password1!",
+        "knakano@stevens.edu",
+        "Rockaway, NJ",
+        "Default",
+        'dark'
+    );
+    console.log("user created");
+    console.log(bot);
+}catch (e) {
+    console.log("Error creating user");
+    console.log(e);
+}
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), bot._id.toString(), "wrong hours")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+try {
+    bot = await userData.createUser(
+        "yap",
+        "Password1!",
+        "myap@stevens.edu",
+        "Hoboken, NJ",
+        "Default",
+        'dark'
+    );
+    console.log("user created");
+    console.log(bot);
+}catch (e) {
+    console.log("Error creating user");
+    console.log(e);
+}
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), bot._id.toString(), "wrong hours")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+try {
+    bot = await userData.createUser(
+        "tiantao",
+        "Password1!",
+        "echeng2@stevens.edu",
+        "Edison, NJ",
+        "Default",
+        'dark'
+    );
+    console.log("user created");
+    console.log(bot);
+}catch (e) {
+    console.log("Error creating user");
+    console.log(e);
+}
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), bot._id.toString(), "wrong hours")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+try {
+    bot = await userData.createUser(
+        "realass",
+        "Password1!",
+        "carias1@stevens.edu",
+        "Brick, NJ",
+        "Default",
+        'dark'
+    );
+    console.log("user created");
+    console.log(bot);
+}catch (e) {
+    console.log("Error creating user");
+    console.log(e);
+}
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), bot._id.toString(), "wrong hours")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), tabby._id.toString(), "wrong hours")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), denks._id.toString(), "wrong hours")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), carti._id.toString(), "wrong hours")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), amazin._id.toString(), "wrong hours")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), CP._id.toString(), "wrong hours")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
     console.log(e);
 }
 await closeConnection();

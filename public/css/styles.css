@@ -230,6 +230,13 @@ img.error {
     width: 20%;
 }
 
+.flag {
+    flex: 1;
+    max-width: 4%;
+    height: 40px;
+    margin-left: 10px; 
+}
+
 section.login {
     text-align: center;
 }

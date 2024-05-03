@@ -18,7 +18,12 @@
             </script>
             {{#each shops}}
                 <li>
-                    <h2><a href="/shop/{{this._id}}">{{this.name}}</a></h2>
+                    <h2>
+                        <a href="/shop/{{this._id}}">{{this.name}}</a>
+                        {{#if this.flagged}}
+                            <img class="flag" src="/public/img/flag.webp" alt="Flag">
+                        {{/if}}
+                    </h2>
                     <ul>
                         <li><p>Address: {{this.address}}</p></li>
                         <li><p>Average Rating: {{this.averageRating}}</p></li>
