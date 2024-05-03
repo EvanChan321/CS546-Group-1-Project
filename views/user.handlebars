@@ -4,6 +4,9 @@
     <div>
         <img class="error" src='/public/img/{{pfp}}' alt="mad boba cat">
     </div>
+    {{#if ../Business}}
+    <button onclick="location.href='/shops/claimed'" type="button" class="bookmarks">Claimed Shops</button>
+    {{/if}}
     <button onclick="location.href='/shops/bookmarks'" type="button" class="bookmarks">Bookmarks</button>
     {{#if error}}
          <p class="error">{{error}}</p>
