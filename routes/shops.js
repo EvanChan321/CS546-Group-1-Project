@@ -294,6 +294,12 @@ router.route('/shops/search').post(async (req, res) => {
       Distance = true
       sortShops = await valid.getDistances(sortShops, req.session.user.address)
     }
+    for(const shop of sortShops){
+      console.log(shop)
+      if(shop.flags.length >= 10){
+        shop.flagged = true
+      }
+    }
     res.render('shopSearchResults', {title:"Search Results", shops: sortShops, loggedIn: req.session.user, search: search, themeType: themeType, currentHour: currentHour, currentMin: currentMin, Distance: Distance});
   }catch(e){
     console.log(e)
@@ -311,6 +317,11 @@ router.route('/shops/bookmarks').get(async (req,res) => {
     console.log(shops[0]._id.toString());
     let bmShops = shops.filter((shop) => (xss(req.session.user.bookmarks)).includes(shop._id.toString()));
     bmShops = await valid.getDistances(bmShops, req.session.user.address)
+    for(const shop of bmShops){
+      if(shop.flags.length >= 10){
+        shop.flagged = true
+      }
+    }
     res.render('bookmarks', {title:"Bookmarks", shops: bmShops, loggedIn: req.session.user, themeType: themeType, currentHour: currentHour, currentMin: currentMin});
   }catch(e){
     res.status(500).render('error', {title: "Bookmarks", error: e, themeType: themeType, loggedIn: req.session.user});
@@ -339,6 +350,7 @@ router.route('/shop/:id').get(async (req, res) => {
       inBookmarks = (xss(req.session.user.bookmarks)).includes(search)
     }
     let flagged = false
+    let flagcount = searchResult.flags.length
     if(searchResult.flags.length >= 10){
       flagged = true 
     }
@@ -391,10 +403,11 @@ router.route('/shop/:id').get(async (req, res) => {
       currDistance = currDistance.toFixed(1);
       searchResult.distance = currDistance
     }
+
     res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews,
       highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, 
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
-      noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin, customList: cleanedString});
+      noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin, customList: cleanedString, flagcount: flagcount});
   } catch(e){
     res.status(500).render('error',{title: "Shop Page", error: e, loggedIn: req.session.user, themeType: themeType});
   }
