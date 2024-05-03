@@ -194,6 +194,20 @@ router
     }
     try {
       let Business = false
+      let ownAccount = false
+      let Admin = false
+        const user = await userData.getUser(userId);
+        if(req.session.user){
+          if(req.session.user.accountType === "Business"){
+            Business = true
+          }
+          else if(req.session.user.accountType === "Admin"){
+            Admin = true
+          }
+          if(req.session.user.id === user._id.toString()){
+            ownAccount=true
+          }
+        }
       const user = await userData.getUser(userId);
       let highestReviews = [];
       let lowestReviews = [];
@@ -219,7 +233,7 @@ router
         }
       return res.status(200).render('user', {user: user, title: "Profile",
       reviews:user.reviews, newestReviews:newestReviews, highestReviews:highestReviews, lowestReviews:lowestReviews, alphaBackward:alphaBackward, alphaForward:alphaForward,
-      loggedIn: req.session.user, themeType: themeType, pfp: req.session.user.pfp, Business: Business});
+      loggedIn: req.session.user, themeType: themeType, pfp: req.session.user.pfp, Business: Business, ownAccount: ownAccount, Admin: Admin});
     } catch (e) {
         return res.status(404).json({error: e});
     }
@@ -338,5 +352,4 @@ router
       });
     }
   })
-
 export default router;

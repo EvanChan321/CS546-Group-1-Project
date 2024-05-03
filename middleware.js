@@ -25,15 +25,15 @@ export const userLogin = (routes) => {
             if (!req.session.user) {
                 return res.redirect('/user/login');
             }
-            else{
-                const urlSegments = req.originalUrl.split('/');
-                const id = urlSegments[2]; 
-                if(req.session.user.id !== id && req.session.user.accountType !== "Admin"){
-                    return res.status(403).render("error", {
-                        title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user
-                    })
-                } 
-            }
+            // else{
+            //     const urlSegments = req.originalUrl.split('/');
+            //     const id = urlSegments[2]; 
+            //     if(req.session.user.id !== id && req.session.user.accountType !== "Admin"){
+            //         return res.status(403).render("error", {
+            //             title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user
+            //         })
+            //     } 
+            // }
         }
         next()
     }
