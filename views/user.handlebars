@@ -48,7 +48,8 @@
     </div>
     {{#if ../ownAccount}}
     <button onclick="swapContent('userEdit','userInfo')" class="editInfo" id="editButton">Edit Info</button>
-{{/with}}
+    {{/if}}
+{{/with}}   
 <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
         <div id="toggledReviews" style="display: none;">
             <select id="reviewSort" name="reviewSort" onchange="reviewSort(this.value)">
@@ -115,8 +116,15 @@
             </ul>
         </div>
 {{#with user}}
-<hr>
-<form action="/user/{{_id}}/delete" method="POST">
-    <button type="submit" class="delete">DELETE USER</button>
-</form>
+    <hr>
+    {{#if ../ownAccount}}
+    <form action="/user/{{_id}}/delete" method="POST">
+        <button type="submit" class="delete">DELETE USER</button>
+    </form>
+    {{/if}}
+    {{#if ../Admin}}
+    <form action="/user/{{_id}}/delete" method="POST">
+        <button type="submit" class="delete">DELETE USER</button>
+    </form>
+    {{/if}}
 {{/with}}
