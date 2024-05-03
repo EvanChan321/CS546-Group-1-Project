@@ -1,12 +1,7 @@
+<body>
 {{#with user}}
     <h1>Welcome, {{name}}</h1>
     <h3>Account Type: {{accountType}}</h3>
-    <div>
-        <img class="error" src='/public/img/{{pfp}}' alt="mad boba cat">
-    </div>
-    {{#if ../Business}}
-    <button onclick="location.href='/shops/claimed'" type="button" class="bookmarks">Claimed Shops</button>
-    {{/if}}
     <button onclick="location.href='/shops/bookmarks'" type="button" class="bookmarks">Bookmarks</button>
     {{#if error}}
          <p class="error">{{error}}</p>
@@ -19,37 +14,12 @@
         <label for="password">New Password</label>
         <input type="password" id="password" name="password">
         <br>
-        <label for="oldPassword">Confirm Old Password</label>
+        <label for="oldPassword">Old Password</label>
         <input type="password" id="oldPassword" name="oldPassword">
         <br>
-        <label for="address">Address:</label>
+        <label for="zip">Address:</label>
         <input type="text" id="address" name="address">
         <br>
-        <label for="themeType">Theme:</label>
-        <select name="themeType" id="themeType">
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-        </select>
-        <br>
-        <label>Profile Picture:</label>
-        <dl id="pfp">
-            <dt>
-                <input id="default" name="pfp" type="radio" value="Default_pfp.png">
-                <label for="default">Default</label>
-                <img class="error" src="/public/img/Default_pfp.png" alt="mad boba cat">
-            </dt>
-            <dt>
-                <input id="thomas" name="pfp" type="radio" value="Thomas_pfp.jpeg">
-                <label for="thomas">Thomas</label>
-                <img class="error" src="/public/img/Thomas_pfp.jpeg" alt="mad boba cat">
-            </dt>
-            <dt>
-                <input id="laurent" name="pfp" type="radio" value="Laurent_pfp.jpeg">
-                <label for="laurent">Laurent</label>
-                <img class="error" src="/public/img/Laurent_pfp.jpeg" alt="mad boba cat">
-            </dt>
-        <dd></dd>
-        </dl>
         <button type="submit" class="save">Save Changes</button>
     </form>
     </div>
@@ -59,22 +29,79 @@
             <li>Bio: {{bio}}</li>
             <li>Email: {{email}}</li>
             <li>Address: {{address}}</li>
-            <li>Theme: {{themeType}}</li>
         </ul>
     </div>
     <button onclick="swapContent('userEdit','userInfo')" class="editInfo" id="editButton">Edit Info</button>
-    
-    <h2>Reviews:</h2>
-    {{#each reviews}}
-        <div>
-            <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
-            <span>{{this.reviewDate}}</span>
-            <p>Rating: {{this.rating}}</p>
-            <p>{{this.review}}</p>
+
+{{/with}}
+<button onclick="toggleContent('toggledReviews')">Display Reviews</button>
+        <div id="toggledReviews" style="display: none;">
+            <select id="reviewSort" name="reviewSort" onchange="reviewSort(this.value)">
+                <option value='oldest'>By Oldest</option>
+                <option value='newest'>By Newest</option>
+                <option value='highest'>By Most Positive</option>
+                <option value='lowest'>By Most Negative</option>
+                <option value="atoz">A - Z</option>
+                <option value="ztoa">Z - A</option>
+            </select>
+            <ul id="oldest">
+                {{#each reviews}}
+                <li>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </li>
+                {{/each}}
+            </ul>
+            <ul id="newest" hidden>
+                {{#each newestReviews}}
+                <li>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </li>
+                {{/each}}
+            </ul>
+            <ul id="highest" hidden>
+                {{#each highestReviews}}
+                <li>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </li>
+                {{/each}}
+            </ul>
+            <ul id="lowest" hidden>
+                {{#each lowestReviews}}
+                <li>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </li>
+                {{/each}}
+            </ul>
+            <ul id="atoz" hidden>
+                {{#each alphaForward}}
+                <li>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </li>
+                {{/each}}
+            </ul>
+            <ul id="ztoa" hidden>
+                {{#each alphaBackward}}
+                <li>
+                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                    <p>Rating: {{this.rating}}/5</p>
+                    <p>Posted on: {{this.reviewDate}}</p>
+                </li>
+                {{/each}}
+            </ul>
         </div>
-    {{/each}}
-    <hr>
-    <form action="/user/{{_id}}/delete" method="POST">
-        <button type="submit" class="delete">DELETE USER</button>
-    </form>
-{{/with}}    
+{{#with user}}
+<hr>
+<form action="/user/{{_id}}/delete" method="POST">
+    <button type="submit" class="delete">DELETE USER</button>
+</form>
+{{/with}}
