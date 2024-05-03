@@ -84,6 +84,22 @@ export const deleteShop = (routes) => {
     }
 }
 
+export const claimShop = (routes) => {
+    return async (req, res, next) => {
+        const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+        if(req.method === "POST"){
+            const urlSegments = req.originalUrl.split('/');
+            const id = urlSegments[2];
+            const shop = await shopData.getShop(id)
+            if (!req.session.user || req.session.user.accountType !== "Business" || shop.ownerId !== "" ) {
+                return res.status(403).render("error", {
+                    title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user})
+            }
+        }
+        next()
+    }
+}
+
 export const seeFlag = (routes) => {
     return async (req, res, next) => {
         const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';

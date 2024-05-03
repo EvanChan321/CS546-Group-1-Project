@@ -295,7 +295,6 @@ router.route('/shops/search').post(async (req, res) => {
       sortShops = await valid.getDistances(sortShops, req.session.user.address)
     }
     for(const shop of sortShops){
-      console.log(shop)
       if(shop.flags.length >= 10){
         shop.flagged = true
       }
@@ -314,7 +313,6 @@ router.route('/shops/bookmarks').get(async (req,res) => {
   const currentMin = currentTime.getMinutes();
   try{
     const shops = await shopData.getAllShops();
-    console.log(shops[0]._id.toString());
     let bmShops = shops.filter((shop) => (xss(req.session.user.bookmarks)).includes(shop._id.toString()));
     bmShops = await valid.getDistances(bmShops, req.session.user.address)
     for(const shop of bmShops){
@@ -358,12 +356,16 @@ router.route('/shop/:id').get(async (req, res) => {
     let noOwner = false
     let isOwner = false
     let Admin = false
+    let Business = false
     if(req.session.user){
       if(req.session.user.accountType === "Default"){
         Default = true
       }
       if(req.session.user.accountType === "Admin"){
         Admin = true
+      }
+      if(req.session.user.accountType === "Business"){
+        Business = true
       }
       if(searchResult.ownerId === ""){
         noOwner = true
@@ -403,11 +405,10 @@ router.route('/shop/:id').get(async (req, res) => {
       currDistance = currDistance.toFixed(1);
       searchResult.distance = currDistance
     }
-
     res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews,
       highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, 
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
-      noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin, customList: cleanedString, flagcount: flagcount});
+      noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin, customList: cleanedString, flagcount: flagcount, Business: Business});
   } catch(e){
     res.status(500).render('error',{title: "Shop Page", error: e, loggedIn: req.session.user, themeType: themeType});
   }
@@ -533,6 +534,45 @@ router
           });
   }
 })
+
+router.route('/shop/:id/user/claim')
+.post(async (req, res) => {
+  const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+  let shopId
+  let shop
+  try{
+    shopId = valid.idCheck(xss(req.params.id))
+  }
+  catch(e){
+    console.log(e)
+    return res.status(400).render("shopPage", {
+      error: e.toString(),
+      title: "Shop Page",
+    });
+  }
+  try{
+    shop = await shopData.getShop(shopId)
+    if(req.session.user){
+      if(req.session.user.accountType === "Business"){
+        shop.ownerId = req.session.user.id
+      }
+      else{
+        throw 'needs to be a business account'
+      }
+    }
+    else{
+      throw 'need to be logged in'
+    }
+    shopData.updateShop(shopId, shop)
+    return res.redirect(`/shop/${shop._id}`)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).render("shopPage", {
+            error: error.toString(),
+            title: "Shop Page",
+          });
+  }
+});
 
 router.route('/shop/:id/flags')
 .get(async (req, res) => {
