@@ -326,6 +326,26 @@ router.route('/shops/bookmarks').get(async (req,res) => {
   }
 })
 
+router.route('/shops/claimed').get(async (req,res) => {
+  const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+  const currentTime = new Date();
+  const currentHour = currentTime.getHours();
+  const currentMin = currentTime.getMinutes();
+  try{
+    const shops = await shopData.getAllShops();
+    let bmShops = shops.filter((shop) => xss(req.session.user.id) === shop.ownerId);
+    bmShops = await valid.getDistances(bmShops, req.session.user.address)
+    for(const shop of bmShops){
+      if(shop.flags.length >= 10){
+        shop.flagged = true
+      }
+    }
+    res.render('bookmarks', {title:"Owned Shops", shops: bmShops, loggedIn: req.session.user, themeType: themeType, currentHour: currentHour, currentMin: currentMin});
+  }catch(e){
+    res.status(500).render('error', {title: "Owned Shops", error: e, themeType: themeType, loggedIn: req.session.user});
+  }
+})
+
 router.route('/shop/:id').get(async (req, res) => {
   const search = (xss(req.params.id)).trim();
   const currentTime = new Date();

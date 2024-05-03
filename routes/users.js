@@ -193,8 +193,14 @@ router
         return res.status(400).json({error: e});
     }
     try {
+      let Business = false
         const user = await userData.getUser(userId);
-        return res.status(200).render('user', {user: user, title: "Profile", loggedIn: req.session.user, themeType: themeType, pfp: req.session.user.pfp});
+        if(req.session.user){
+          if(req.session.user.accountType === "Business"){
+            Business = true
+          }
+        }
+        return res.status(200).render('user', {user: user, title: "Profile", loggedIn: req.session.user, themeType: themeType, pfp: req.session.user.pfp, Business: Business});
     } catch (e) {
         return res.status(404).json({error: e});
     }
