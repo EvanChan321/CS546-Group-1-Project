@@ -106,9 +106,15 @@ const createReview = async (userId, objId, title, rating, review, type) => {
   return newReview;
 }
 
-const updateReview = async (reviewId, updateObject) => {
+const updateReview = async (reviewId, updateObject, type) => {
   const review = await getReview(reviewId)
-  const obj = await shopData.getShop(review.objId.toString())
+  let obj
+  if(type === "item"){
+    obj = await itemData.getItem(review.objId.toString())
+  }
+  else{
+    obj = await shopData.getShop(review.objId.toString())
+  }
   if('title' in updateObject){
     updateObject.title = valid.stringValidate(updateObject.title)
     review.title = updateObject.title
@@ -144,13 +150,23 @@ const updateReview = async (reviewId, updateObject) => {
     throw 'could not update product successfully';
   }
   const shopCollection = await shops();
-  const updatedShop = await shopCollection.findOneAndUpdate(
-    {_id: new ObjectId(obj._id)},
-    {$set: obj},
-    {returnDocument: 'after'}
-  );
-  if (!updatedShop) {
-    throw 'could not update product successfully';
+  let updatedInfo
+  if(type === "item"){
+    updatedInfo = await shopCollection.findOneAndUpdate(
+      { 'items._id': review.objId },
+      { $set: { 'items.$': obj } },
+      {returnDocument: 'after'}
+    )
+  }
+  else{
+    updatedInfo = await shopCollection.findOneAndUpdate(
+      {_id: new ObjectId(obj._id)},
+      {$set: obj},
+      {returnDocument: 'after'}
+    ); 
+  }
+  if (!updatedInfo) {
+    throw 'could not update obj successfully';
   }
   return review
 }

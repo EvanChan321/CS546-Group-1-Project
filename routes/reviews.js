@@ -111,7 +111,12 @@ router
     const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try {
       reviewId = valid.idCheck(xss(req.params.reviewId))
-      userId = valid.idCheck(xss(req.session.user.id))
+      if(req.session.user){
+        userId = valid.idCheck(xss(req.session.user.id))
+      }
+      else{
+        throw 'needs to be logged in'
+      }
       comment = valid.stringValidate(xss(req.body.comment))
     }
     catch (e) {
@@ -151,6 +156,7 @@ router
       reviewId = valid.idCheck(xss(req.params.reviewId))
       commentId = valid.idCheck(xss(req.params.commentId))
     } catch (e) {
+      console.log(e)
       return res.status(400).json({ error: e });
     }
     try {
