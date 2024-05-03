@@ -208,7 +208,6 @@ router
             ownAccount=true
           }
         }
-      const user = await userData.getUser(userId);
       let highestReviews = [];
       let lowestReviews = [];
       let newestReviews = [];
