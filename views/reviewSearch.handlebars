@@ -32,6 +32,8 @@
             <option value='newest'>By Newest</option>
             <option value='highest'>By Most Positive</option>
             <option value='lowest'>By Most Negative</option>
+            <option value='atoz'>A - Z</option>
+            <option value='ztoa'>Z - A</option>
         </select>
         <ul id="oldest">
             {{#each reviews}}
@@ -65,6 +67,26 @@
         </ul>
         <ul id="lowest" hidden>
             {{#each lowestReviews}}
+            <div>
+                <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                <p>Rating: {{this.rating}}/5</p>
+                <p>Posted by: {{this.user}}</p>
+                <p>Posted on: {{this.reviewDate}}</p>
+            </div>
+            {{/each}}
+        </ul>
+        <ul id="atoz" hidden>
+            {{#each alphaForward}}
+            <div>
+                <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                <p>Rating: {{this.rating}}/5</p>
+                <p>Posted by: {{this.user}}</p>
+                <p>Posted on: {{this.reviewDate}}</p>
+            </div>
+            {{/each}}
+        </ul>
+        <ul id="ztoa" hidden>
+            {{#each alphaBackward}}
             <div>
                 <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                 <p>Rating: {{this.rating}}/5</p>
