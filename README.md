@@ -2,6 +2,17 @@
 
 ## CS 546 Project- Group 1
 
+## Usage
+Running the Server
+```
+npm start
+```
+Seeding the database
+```
+npm test
+```
+
+
 ## Introduction
 The goal of this website is to create a Boba shop-specific review website. Inspired by the popularity of boba shops in Hoboken, such as Kung Fu Tea, we will implement a user profile system with varying account types, a shop review system, and lists of boba shops with basic information
 
