@@ -33,12 +33,16 @@ router
         }
       }
       let Default = false
+      let Admin = false
       if(req.session.user){
         if(req.session.user.accountType === "Default"){
           Default = true
         }
+        if(req.session.user.accountType === "Admin"){
+          Admin = true
+        }
       }
-      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review, comments: commData, themeType: themeType, loggedIn: req.session.user, isOwner: isOwner, Default: Default });
+      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review, comments: commData, themeType: themeType, loggedIn: req.session.user, isOwner: isOwner, Default: Default, Admin: Admin });
     } catch (e) {
       return res.status(404).render('error', { title: "error", error: e, themeType: themeType, loggedIn: req.session.user });
     }
@@ -152,13 +156,27 @@ router
     try {
       const comment = await commentData.getComment(commentId);
       const user = await userData.getUser(comment.userId.toString())
+      let isOwner = false
+      if(req.session.user){
+        if(req.session.user.id === comment.userId.toString()){
+          isOwner = true
+        }
+      }
+      let Admin = false
+      if(req.session.user){
+        if(req.session.user.accountType === "Admin"){
+          Admin = true
+        }
+      }
       return res.status(200).render("commentPage", {
         title: "Comment",
         comment: comment,
         themeType: themeType,
         loggedIn: req.session.user,
         reviewId: reviewId,
-        user: user
+        user: user,
+        isOwner: isOwner,
+        Admin: Admin
       });
     } catch (e) {
       console.log(e)
@@ -211,7 +229,7 @@ router
     }
     try {
       const comment = await commentData.removeComment(commentId)
-      return res.redirect(`/${reviewId}/comments`)
+      return res.redirect(`/review/${reviewId}`)
     } catch (error) {
       return res.status(500).json({ error: e });
     }
