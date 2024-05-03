@@ -6,8 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "userTest": "node ./tests/userTest.js"
+    "test": "node tests/seed.js"
   },
   "repository": {
     "type": "git",
