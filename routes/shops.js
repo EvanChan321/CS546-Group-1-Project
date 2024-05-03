@@ -432,7 +432,7 @@ router.route('/shop/:id').get(async (req, res) => {
       searchResult.distance = currDistance
     }
     res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews,
-      highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, alphaForward, alphaBackward,
+      highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, alphaForward:alphaForward, alphaBackward:alphaBackward,
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
       noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin, customList: cleanedString, flagcount: flagcount, Business: Business});
   } catch(e){
