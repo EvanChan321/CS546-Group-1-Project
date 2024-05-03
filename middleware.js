@@ -316,7 +316,7 @@ export const deleteComment = (routes) => {
                 const user = await userData.getUser(req.session.user.id)
                 let isOwner = false
                 user.comments.forEach((userReview) => {
-                    if(userReview.id.toString() === id){
+                    if(userReview.toString() === id){
                         isOwner = true
                     }
                 })

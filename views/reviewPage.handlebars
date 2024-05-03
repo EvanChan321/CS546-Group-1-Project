@@ -53,9 +53,15 @@
     {{/each}}
     </ul>
     </div>
+    {{#if Admin}}
+    <form action="/review/{{review._id}}/delete" method="POST">
+        <button type="submit" class="delete">DELETE REVIEW</button>
+    </form>
+    {{else}}
     {{#if isOwner}}
     <form action="/review/{{review._id}}/delete" method="POST">
         <button type="submit" class="delete">DELETE REVIEW</button>
     </form>
+    {{/if}}
     {{/if}}
 </main>

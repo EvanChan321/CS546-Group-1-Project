@@ -7,6 +7,17 @@
     <p>Edited</p>
     {{/if}}
 </div>
-        <footer>
-            <a href="/review/{{reviewId}}" class="static-link">Go back to original review</a>
-        </footer>
+{{#if Admin}}
+<form action="/review/{{reviewId}}/comment/{{comment._id}}/delete" method="POST">
+    <button type="submit" class="delete">DELETE COMMENT</button>
+</form>
+{{else}}
+{{#if isOwner}}
+<form action="/review/{{reviewId}}/comment/{{comment._id}}/delete" method="POST">
+    <button type="submit" class="delete">DELETE COMMENT</button>
+</form>
+{{/if}}
+{{/if}}
+<footer>
+    <a href="/review/{{reviewId}}" class="static-link">Go back to original review</a>
+</footer>
