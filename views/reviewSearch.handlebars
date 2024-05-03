@@ -12,14 +12,21 @@
             {{/unless}}
         {{/unless}}
         <div id="container">
-            <label>Search Reviews:</label>
+            <label for="shops">Search Reviews:</label>
             <input class="search-bar" type="text" name="search" id="search" placeholder="Service...">
             <br>
-            <button type="button"
-                onclick="location.href='/shop/{{shop._id}}/reviewSearch/' + encodeURIComponent(document.getElementById('search').value)">
+            <button type="button" onclick="searchReviews()">
                 <img class="search-button" alt="search-button" src="/public/img/search-icon.png">
             </button>
         </div>
+        <script>
+            function searchReviews() {
+                var searchValue = document.getElementById('search').value;
+                var itemValue = "{{item}}"
+                var url = '/shop/{{shop._id}}/reviewSearch/' + encodeURIComponent(searchValue) + '?item=' + encodeURIComponent(itemValue);
+                location.href = url;
+            }
+        </script>
         <select id="reviewSort" name="reviewSort" onchange="reviewSort(this.value)">
             <option value='oldest'>By Oldest</option>
             <option value='newest'>By Newest</option>

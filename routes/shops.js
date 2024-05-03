@@ -792,6 +792,19 @@ router
           Admin = true
         }
       }
+      const itemReviewsPromises = item.reviews.map(async (review) => await reviewData.getReview(review.toString()));
+      const itemReviews = await Promise.all(itemReviewsPromises);
+      let highestReviews = [];
+      let lowestReviews = [];
+      let newestReviews = [];
+      for(let review of itemReviews){
+        highestReviews.push(review);
+        lowestReviews.push(review);
+        newestReviews.push(review);
+      }
+      highestReviews.sort(function(a,b){return  b.rating - a.rating});
+      lowestReviews.sort(function(a,b){return  a.rating - b.rating});
+      newestReviews.reverse();
       return res.status(200).render("item", {
         title: item.name,
         item: item,
@@ -799,7 +812,12 @@ router
         loggedIn: req.session.user,
         themeType: themeType,
         Default: Default,
-        Admin: Admin
+        Admin: Admin,
+        reviews: itemReviews,
+        lowestReviews: lowestReviews,
+        highestReviews: highestReviews,
+        newestReviews: newestReviews
+
       });
     } catch (e) {
       console.log(e)
@@ -942,13 +960,20 @@ router.route('/shop/:shopid/:itemId/edit')
   router.route('/shop/:id/reviewSearch/:search').get(async (req, res) => {
     const shop = (xss(req.params.id)).trim();
     const search = (xss(req.params.search)).trim();
-    const decodeSearch = decodeURIComponent(search);
+    const decodeSearch = xss(decodeURIComponent(search));
+    const item = xss((xss(req.originalUrl)).split('?item=')[1]);
     const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     if(!shop || (shop.trim().length === 0)){
       return res.status(400).render('error', {error: 'Must input shop id', themeType: themeType});
     } 
     try {
-      const searchResult = await shopData.getShop(shop);
+      let searchResult
+      if(item){
+        searchResult = await itemData.getItem(item);
+      }
+      else{
+        searchResult = await shopData.getShop(shop);
+      }
       if (!searchResult.name){
         return res.status(404).render('error',{error: `No shop with ID ${shop} found`, themeType: themeType});
       }
@@ -988,7 +1013,7 @@ router.route('/shop/:shopid/:itemId/edit')
       newestReviews.reverse();
       res.render('reviewSearch', {title: "Review Search Results", shop:searchResult, reviews:filteredReviews, search:decodeSearch,
         highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, 
-        loggedIn: req.session.user, themeType: themeType});
+        loggedIn: req.session.user, themeType: themeType, item: item});
       }
     } catch(e){
       res.status(500).render('error',{error: e, loggedIn: req.session.user, themeType: themeType});
