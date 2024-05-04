@@ -60,10 +60,12 @@ const createShop = async (name, address, website, phoneNumber, hour1, minute1, a
     let duplicateAdd = false;
     for (const shop of allShops) {
         const currCords = await valid.getLatLong(shop.address);
-        console.log(currCords);
         if (cords.lat === currCords.lat && cords.lng === currCords.lng) {
             duplicateAdd = true;
             break; 
+        }
+        if(shop.name.toLowerCase() === name.toLowerCase()){
+            throw 'store with that name already exists'
         }
     }
     console.log(duplicateAdd)
