@@ -1,71 +1,74 @@
     <main>
-        <h1>List of nearby shops: </h1>
+        <h1>Search for Shops: </h1>
         <form action="/shops/search/" method="POST">
             <div id="container">
             <label for="shop">
-                Search Boba Stores:
+                Search By Name:
                 <input class= "search-bar" type="text" name="shop" id="shop" value="{{search}}">
             </label>
-            <br>
             <label>
-                Search Items:
+                Search By Items:
+                <input class= "search-bar" type="text" name="itemKeyWord" id="itemKeyWord">
             </label>
-            <br>
-            <input class= "search-bar" type="text" name="itemKeyWord" id="itemKeyWord">
-                <p>Minimum Rating</p>
+            <span class="filter">
+                <label for="minRating">Minimum Rating</label>
                 <input type="range" value="0" min="0" max="5" name="minRating" id="minRating" oninput="this.nextElementSibling.value = this.value">
                 <output>0</output>
-                <p>Minimum Likes</p>
+            </span>
+            <span class="filter">
+                <label for="minLikes">Minimum Likes</label>
                 <input type="text" name="minLikes" id="minLikes" placeholder= "0" value="0">
-                <br>
-                <p>Minimum Reviews</p>
+            </span>
+            <span class="filter">
+                <label for="minReviews">Minimum Reviews</label>
                 <input type="text" name="minReviews" id="minReviews" placeholder= "0" value="0">
-                <br>
-                <h4>Common Allergens Filter</h4>
-                    <dl id="allergenList">
-                        <dt></dt>
-                        <dd>
-                            <input id="gluten" name="gluten" type="checkbox">
-                            <label for="gluten">Gluten</label>
-                        </dd>
-                        <dd>
-                            <input id="dairy" name="dairy" type="checkbox">
-                            <label for="dairy">Dairy</label>
-                        </dd>
-                        <dd>
-                            <input id="peanuts" name="peanuts" type="checkbox">
-                            <label for="peanuts">Peanuts</label>
-                        </dd>
-                        <dd>
-                            <input id="treenuts" name="treenuts" type="checkbox">
-                            <label for="treenuts">Tree Nuts</label>
-                        </dd>
-                        <dd>
-                            <input id="sesame" name="sesame" type="checkbox">
-                            <label for="sesame">Sesame</label>
-                        </dd>
-                        <dd>
-                            <input id="mustard" name="mustard" type="checkbox">
-                            <label for="mustard">Mustard</label>
-                        </dd>
-                        <dd>
-                            <input id="soy" name="soy" type="checkbox">
-                            <label for="soy">Soy</label>
-                        </dd>
-                        <dd>
-                            <input id="eggs" name="eggs" type="checkbox">
-                            <label for="eggs">Eggs</label>
-                        </dd>
-                        <dd>
-                            <input id="fish" name="fish" type="checkbox">
-                            <label for="fish">Fish</label>
-                        </dd>
-                        <dd>
-                            <input id="shellfish" name="shellfish" type="checkbox">
-                            <label for="shellfish">Shellfish</label>
-                        </dd>
-                    </dl>
-                <br><button type="submit"><img class= "search-button" alt="search-button" src="/public/img/search-icon.png"></button>
+            </span>
+            
+            <h4>Common Allergens Filter</h4>
+                <dl id="allergenList">
+                    <dt></dt>
+                    <dd>
+                        <input id="gluten" name="gluten" type="checkbox">
+                        <label for="gluten">Gluten</label>
+                    </dd>
+                    <dd>
+                        <input id="dairy" name="dairy" type="checkbox">
+                        <label for="dairy">Dairy</label>
+                    </dd>
+                    <dd>
+                        <input id="peanuts" name="peanuts" type="checkbox">
+                        <label for="peanuts">Peanuts</label>
+                    </dd>
+                    <dd>
+                        <input id="treenuts" name="treenuts" type="checkbox">
+                        <label for="treenuts">Tree Nuts</label>
+                    </dd>
+                    <dd>
+                        <input id="sesame" name="sesame" type="checkbox">
+                        <label for="sesame">Sesame</label>
+                    </dd>
+                    <dd>
+                        <input id="mustard" name="mustard" type="checkbox">
+                        <label for="mustard">Mustard</label>
+                    </dd>
+                    <dd>
+                        <input id="soy" name="soy" type="checkbox">
+                        <label for="soy">Soy</label>
+                    </dd>
+                    <dd>
+                        <input id="eggs" name="eggs" type="checkbox">
+                        <label for="eggs">Eggs</label>
+                    </dd>
+                    <dd>
+                        <input id="fish" name="fish" type="checkbox">
+                        <label for="fish">Fish</label>
+                    </dd>
+                    <dd>
+                        <input id="shellfish" name="shellfish" type="checkbox">
+                        <label for="shellfish">Shellfish</label>
+                    </dd>
+                </dl>
+            <button type="submit"><img class= "search-button" alt="search-button" src="/public/img/search-icon.png"></button>
             </div>
         </form>
         <ol>

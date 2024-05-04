@@ -1,28 +1,32 @@
 <main>
     <h1>{{title}}</h1>
-    <div>
-        <img class="error" src="/public/img/IMG_3240.jpg" alt="mad boba cat">
-    </div>
     <form action="/shops/search/" method="POST">
         <div id="container">
-        <label>
-            Search Boba Stores:
+        <div>
+            <label for="shop">
+            Search By Name:
+            <input class= "search-bar" type="text" name="shop" id="shop" value="{{search}}">
         </label>
-        <input class= "search-bar" type="text" name="shop" id="shop" placeholder= "Kung Fu Tea...">
-        <br>
-        <label>
-            Search Items:
+        </div>
+        <div>
+            <label>
+            Search By Items:
+            <input class= "search-bar" type="text" name="itemKeyWord" id="itemKeyWord">
         </label>
-        <br>
-        <input class= "search-bar" type="text" name="itemKeyWord" id="itemKeyWord">
-        <p>Minimum Rating</p>
-        <input type="range" value="0" min="0" max="5" name="minRating" id="minRating" oninput="this.nextElementSibling.value = this.value">
-        <output>0</output>
-        <p>Minimum Likes</p>
-        <input type="text" name="minLikes" id="minLikes" placeholder= "0" value="0"><br>
-        <p>Minimum Reviews</p>
-        <input type="text" name="minReviews" id="minReviews" placeholder= "0" value="0">
-        <br>
+        </div>
+        <span class="filter">
+            <label for="minRating">Minimum Rating</label>
+            <input type="range" value="0" min="0" max="5" name="minRating" id="minRating" oninput="this.nextElementSibling.value = this.value">
+            <output>0</output>
+        </span>
+        <span class="filter">
+            <label for="minLikes">Minimum Likes</label>
+            <input type="text" name="minLikes" id="minLikes" placeholder= "0" value="0">
+        </span>
+        <span class="filter">
+            <label for="minReviews">Minimum Reviews</label>
+            <input type="text" name="minReviews" id="minReviews" placeholder= "0" value="0">
+        </span>
         <h4>Common Allergens Filter</h4>
             <dl id="allergenList">
                 <dt></dt>
@@ -70,7 +74,14 @@
             <br><button type="submit"><img class= "search-button" alt="search-button" src="/public/img/search-icon.png"></button>
         </div>
     </form>
-    <br>
+    <div class="testimonial">
+        <img class="testimonial" src="/public/img/winton.jpg">
+        <p>"I love using LeBobaQuest to find nearby boba stores" - Winton</p>
+        <img class="testimonial" src="/public/img/krispy.jpg">
+        <p>"Thanks to LeBobaQuest I found my favorite boba store within 5 miles" - CP</p>
+        <img class="testimonial" src="/public/img/jamy.jpg">
+        <p>"As a boba enthusiast, I'm always on the lookout for the best boba joints in town, and LeBobaQuest has been an great tool for finding new spots around town!"- Alex Ha</p>
+    </div>
     <footer>
         {{#if loggedIn}}
         <a href="/shop/addShop" class="static-link">Add Shop</a>
