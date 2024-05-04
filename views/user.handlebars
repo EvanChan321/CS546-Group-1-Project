@@ -52,6 +52,15 @@
 {{/with}}   
 <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
         <div id="toggledReviews" style="display: none;">
+            <h2><a href="/user/{{user._id}}/reviewSearch/"> See All Reviews</a></h2>
+            <div id="container">
+                <label>Search Reviews:</label>
+                <input class="search-bar" type="text" name="search" id="search" placeholder="Service...">
+                <br>
+                <button type="button" onclick="location.href='/user/{{user._id}}/reviewSearch/' + encodeURIComponent(document.getElementById('search').value)">
+                    <img class="search-button" alt="search-button" src="/public/img/search-icon.png">
+                </button>
+            </div>
             <select id="reviewSort" name="reviewSort" onchange="reviewSort(this.value)">
                 <option value='oldest'>By Oldest</option>
                 <option value='newest'>By Newest</option>
