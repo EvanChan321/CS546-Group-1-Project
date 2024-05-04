@@ -1,5 +1,11 @@
 <main>
     <h1>{{review.title}}</h1>
+    {{#if item.name}}
+        <h2>Review of <a href="/item/{{item._id}}">{{item.name}}</a> at <a href="/shop/{{shop._id}}">{{shop.name}}</a></h2>
+    {{/if}}
+    {{#unless item.name}}
+        <h2>Review of  <a href="/shop/{{shop._id}}">{{shop.name}}</a></h2>
+    {{/unless}}
     <h2>{{review.rating}}/5</h2>
     <p>{{review.review}}</p>
     <p>Posted by: {{review.user}}</p>

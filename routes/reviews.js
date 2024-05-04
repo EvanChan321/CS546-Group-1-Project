@@ -1,7 +1,7 @@
 import { Router } from "express";
 const router = Router();
 import * as valid from "../valid.js";
-import { commentData, reviewData, userData } from "../data/index.js";
+import { commentData, itemData, reviewData, shopData, userData } from "../data/index.js";
 import xss from "xss";
 
 router
@@ -17,6 +17,13 @@ router
     try {
       const review = await reviewData.getReview(reviewId);
       const comments = await commentData.getAllCommentsFromReview(reviewId);
+      let shop;
+      let item;
+      try{ shop = await shopData.getShop(review.objId.toString()); }
+      catch(e){
+        item = await itemData.getItem(review.objId.toString());
+        shop = await shopData.getShop(item.shopId.toString());
+      }
       let commData = [];
       for (let comment of comments) {
         let currUser = await userData.getUser(comment.userId.toString());
@@ -42,7 +49,8 @@ router
           Admin = true
         }
       }
-      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review, comments: commData, themeType: themeType, loggedIn: req.session.user, isOwner: isOwner, Default: Default, Admin: Admin });
+      return res.status(200).render('reviewPage', { title: `Review: ${review.title}`, loggedIn: req.session.user, review: review, comments: commData, themeType: themeType, loggedIn: req.session.user, isOwner: isOwner, Default: Default, Admin: Admin,
+      shop:shop, item:item});
     } catch (e) {
       return res.status(404).render('error', { title: "error", error: e, themeType: themeType, loggedIn: req.session.user });
     }
