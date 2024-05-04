@@ -396,23 +396,11 @@ router.route('/shop/:id').get(async (req, res) => {
         }
       }
     }
-    let highestReviews = [];
-    let lowestReviews = [];
     let newestReviews = [];
-    let alphaForward = [];
-    let alphaBackward = [];
-    for(let review of storeReviews){
-      highestReviews.push(review);
-      lowestReviews.push(review);
+    for(let review of storeReviews.slice(0,5)){
       newestReviews.push(review);
-      alphaBackward.push(review);
-      alphaForward.push(review);
     }
-    highestReviews.sort(function(a,b){return  b.rating - a.rating});
-    lowestReviews.sort(function(a,b){return  a.rating - b.rating});
     newestReviews.reverse();
-    alphaForward.sort(function(a,b){return a.title.localeCompare(b.title)});
-    alphaBackward.sort(function(a,b){return b.title.localeCompare(a.title)});
     const trueKeys = Object.keys(searchResult.customization).filter(key => searchResult.customization[key]);
     const filteredData = {};
     trueKeys.forEach(key => {
@@ -431,8 +419,7 @@ router.route('/shop/:id').get(async (req, res) => {
       currDistance = currDistance.toFixed(1);
       searchResult.distance = currDistance
     }
-    res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:storeReviews,
-      highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, alphaForward:alphaForward, alphaBackward:alphaBackward,
+    res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:newestReviews,
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
       noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin, customList: cleanedString, flagcount: flagcount, Business: Business});
   } catch(e){
