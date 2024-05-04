@@ -28,71 +28,71 @@
             }
         </script>
         <select id="reviewSort" name="reviewSort" onchange="reviewSort(this.value)">
-            <option value='oldest'>By Oldest</option>
             <option value='newest'>By Newest</option>
+            <option value='oldest'>By Oldest</option>
             <option value='highest'>By Most Positive</option>
             <option value='lowest'>By Most Negative</option>
             <option value='atoz'>A - Z</option>
             <option value='ztoa'>Z - A</option>
         </select>
-        <ul id="oldest">
+        <ul id="oldest" hidden>
             {{#each reviews}}
-            <div>
+            <li>
                 <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                 <p>Rating: {{this.rating}}/5</p>
                 <p>Posted by: {{this.user}}</p>
                 <p>Posted on: {{this.reviewDate}}</p>
-            </div>
+            </li>
             {{/each}}
         </ul>
-        <ul id="newest" hidden>
+        <ul id="newest">
             {{#each newestReviews}}
-            <div>
+            <li>
                 <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                 <p>Rating: {{this.rating}}/5</p>
                 <p>Posted by: {{this.user}}</p>
                 <p>Posted on: {{this.reviewDate}}</p>
-            </div>
+            </li>
             {{/each}}
         </ul>
         <ul id="highest" hidden>
             {{#each highestReviews}}
-            <div>
+            <li>
                 <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                 <p>Rating: {{this.rating}}/5</p>
                 <p>Posted by: {{this.user}}</p>
                 <p>Posted on: {{this.reviewDate}}</p>
-            </div>
+            </li>
             {{/each}}
         </ul>
         <ul id="lowest" hidden>
             {{#each lowestReviews}}
-            <div>
+            <li>
                 <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                 <p>Rating: {{this.rating}}/5</p>
                 <p>Posted by: {{this.user}}</p>
                 <p>Posted on: {{this.reviewDate}}</p>
-            </div>
+            </li>
             {{/each}}
         </ul>
         <ul id="atoz" hidden>
             {{#each alphaForward}}
-            <div>
+            <li>
                 <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                 <p>Rating: {{this.rating}}/5</p>
                 <p>Posted by: {{this.user}}</p>
                 <p>Posted on: {{this.reviewDate}}</p>
-            </div>
+            </li>
             {{/each}}
         </ul>
         <ul id="ztoa" hidden>
             {{#each alphaBackward}}
-            <div>
+            <li>
                 <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                 <p>Rating: {{this.rating}}/5</p>
                 <p>Posted by: {{this.user}}</p>
                 <p>Posted on: {{this.reviewDate}}</p>
-            </div>
+            </li>
             {{/each}}
         </ul>
     </main>
