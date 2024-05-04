@@ -1016,8 +1016,9 @@ try {
 }
 
 let bot
+let alim
 try {
-    bot = await userData.createUser(
+    alim = await userData.createUser(
         "notalim",
         "Password1!",
         "akassymo@stevens.edu",
@@ -1032,7 +1033,7 @@ try {
     console.log(e);
 }
 try{
-    flag = await flagData.createFlag(shopFlushing._id.toString(), bot._id.toString(), "wrong hours")
+    flag = await flagData.createFlag(shopFlushing._id.toString(), alim._id.toString(), "wrong hours")
     console.log("flag added");
     console.log(flag);
 }catch (e) {
@@ -1329,6 +1330,265 @@ try{
     console.log(item)
 }catch (e) {
     console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        whaleTea._id.toString(), 
+        "Matcha Fresh Milk Tea", 
+        "Matcha Fresh Milk Tea now with extra matcha", 
+        5.75, 
+        ["matcha", "iced", "milk tea"],
+        ["dairy"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        whaleTea._id.toString(), 
+        "Rose Milk Tea", 
+        "Rose Milk Tea with real roses", 
+        5.25, 
+        ["strawberry", "iced", "milk tea", "fruit tea"],
+        ["dairy"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        whaleTea._id.toString(), 
+        "The Whale Crystal", 
+        "The Whale Crystal where do they come from?", 
+        6.00, 
+        ["taro", "mango", "iced", "milk tea"],
+        ["dairy"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        gongCha._id.toString(), 
+        "PEARL MILK TEA", 
+        "PEARL MILK TEA with your choice of flavoring", 
+        5.75, 
+        ["tapioca pearls", "iced", "milk tea"],
+        ["dairy"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        gongCha._id.toString(), 
+        "EARL GREY MILK TEA WITH 3J’S", 
+        "EARL GREY MILK TEA WITH 3J’S (WITH PEARLS, PUDDING & HERBAL JELLY)", 
+        5.00, 
+        ["jelly", "tapioca pearls", "iced", "milk tea"],
+        ["dairy"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        vivi._id.toString(), 
+        "Flaming Brown Sugar Tapioca Milk", 
+        "Flaming Brown Sugar Tapioca Milk With Creme Brulee. Made With Premium Lactaid Milk. Sweetened With Brown Sugar Only. If You Request For No Sugar, Then Its No Brown Sugar, Milk And Creme Brulee Only", 
+        6.50, 
+        ["tapioca pearls", "iced", "milk tea"],
+        ["dairy"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        vivi._id.toString(), 
+        "Oat Milk Roast Oolong Tea 乌龙鲜燕麦奶茶", 
+        "Oat Milk Roast Oolong Tea 乌龙鲜燕麦奶茶 NON DAIRY", 
+        6.00, 
+        ["tapioca pearls", "iced", "milk tea"],
+        []
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        vivi._id.toString(), 
+        "Taro Slush", 
+        "Taro Slush extra slushy", 
+        6.50, 
+        ["taro", "iced", "slush", "vegan"],
+        []
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        kft._id.toString(), 
+        "MATCHA MILK CAP", 
+        "MATCHA MILK CAP no CAP(lies)", 
+        6.89, 
+        ["matcha", "iced", "milk foam", "milk tea"],
+        ["dairy"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        kft._id.toString(), 
+        "MANGO GREEN TEA", 
+        "MANGO GREEN TEA now VEGAN", 
+        6.00, 
+        ["mango", "iced", "fruit tea", "vegan"],
+        []
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        kft._id.toString(), 
+        "CAPPUCCINO", 
+        "CAPPUCCINO with cinnamon", 
+        6.00, 
+        ["tapioca peals", "milk foam", "iced", "hot", "coffee"],
+        ["dairy"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        shop._id.toString(), 
+        "Aaren Patel Special", 
+        "Please give to Aaren Patel", 
+        6.23, 
+        ["lychee", "tapioca peals", "milk foam", "iced", "hot", "milk tea"],
+        ["gluten",  "dairy",  "peanuts",  "tree nuts",  "sesame",  "mustard",  "soy",  "eggs",  "fish",  "shellfish"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        shop._id.toString(), 
+        "Mason Lim Special", 
+        "Please give to Mason Lim", 
+        7.00, 
+        ["taro", "tapioca peals", "milk foam", "iced", "hot", "milk tea"],
+        ["gluten", "dairy", "shellfish"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        shop._id.toString(), 
+        "The Hoohn's Insanity", 
+        "i never claimed to be sane i simply claimed to be the sanest person around, which is true seeing i live in a world of crazies - alex ha on his allegations of insanity", 
+        5.75, 
+        ["match", "tapioca peals", "milk foam", "iced", "hot", "slush"],
+        ["dairy"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    await userData.updatePoints(
+        bot._id.toString(), 
+        170
+    )
+    await userData.updatePoints(
+        tabby._id.toString(), 
+        350
+    )
+    await userData.updatePoints(
+        denks._id.toString(), 
+        185
+    )
+    await userData.updatePoints(
+        carti._id.toString(), 
+        15
+    )
+    await userData.updatePoints(
+        amazin._id.toString(), 
+        180
+    )
+    await userData.updatePoints(
+        CP._id.toString(), 
+        160
+    )
+    await userData.updatePoints(
+        alim._id.toString(), 
+        150
+    )
+    console.log("points updates");
+}catch (e) {
+    console.log("Error updating points");
     console.log(e);
 }
 await closeConnection();
