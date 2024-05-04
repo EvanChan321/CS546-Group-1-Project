@@ -1171,4 +1171,164 @@ try{
     console.log("Error adding flag");
     console.log(e);
 }
+
+try{
+    item = await itemData.createItem(
+        shopBergen._id.toString(), 
+        "Strawberry Popping Boba Sundae", 
+        "Strawberry Popping Boba Sundae made with your choice of icecream", 
+        8.50, 
+        ["strawberry", "iced", "dairy"], 
+        ["gluten"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        shopBergen._id.toString(), 
+        "Sesame Milk Tea", 
+        "Sesame Milk Tea (NEW. Soooo Good!!)", 
+        5.75, 
+        ["taro", "matcha", "honeydew", "mango", "lychee", "strawberry", "jelly", "milk foam", "tapioca pearls", "iced", "milk tea"],
+        ["dairy", "sesame"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        shopBergen._id.toString(), 
+        "Mango Slush", 
+        "Mango Slush all new", 
+        5.75, 
+        ["taro", "matcha", "honeydew", "mango", "lychee", "strawberry", "jelly", "milk foam", "tapioca pearls", "iced", "slush"],
+        []
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        shopBergen._id.toString(), 
+        "Green Apple Yugurt Tea", 
+        "Green Apple Yugurt Tea not YOGURT", 
+        5.75, 
+        ["taro", "matcha", "honeydew", "mango", "lychee", "strawberry", "jelly", "milk foam", "tapioca pearls", "iced", "fruit tea", "vegan"],
+        []
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        shopBergen._id.toString(), 
+        "Cafe Mocha", 
+        "Cafe Mocha Milk Tea", 
+        5.75, 
+        ["taro", "matcha", "honeydew", "mango", "lychee", "strawberry", "jelly", "milk foam", "tapioca pearls", "iced", "milk tea", "coffee"],
+        ["dairy"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(   
+        shopFlushing._id.toString(), 
+        "Lime Green Tea 一顆檸檬鮮綠茶", 
+        "Lime Green Tea 一顆檸檬鮮綠茶 all new!", 
+        6.43, 
+        ["taro", "strawberry", "jelly", "iced", "fruit tea"],
+        []
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(   
+        shopFlushing._id.toString(), 
+        "Mango Passionfruit Yakult", 
+        "Mango Passionfruit Yakult", 
+        6.66, 
+        ["mango", "iced", "vegan"],
+        []
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        shopFlushing._id.toString(), 
+        "Dalgona Coffee", 
+        "Dalgona Coffee 幸福400次鲜奶咖啡", 
+        6.20, 
+        ["iced", "coffee"],
+        ["dairy"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        shopFlushing._id.toString(), 
+        "Brown sugar Iced Jelly", 
+        "Brown sugar Iced Jelly", 
+        5.75, 
+        ["iced"],
+        ["dairy"]
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
+
+try{
+    item = await itemData.createItem(
+        shopFlushing._id.toString(), 
+        "Kirin King Roasted Oolong Tea", 
+        "Kirin King Roasted Oolong Tea 鑽石台灣麒麟茶王", 
+        5.75, 
+        ["iced", "vegan"],
+        []
+    )
+    console.log("item created");
+    console.log(item)
+}catch (e) {
+    console.log("Error making item");
+    console.log(e);
+}
 await closeConnection();

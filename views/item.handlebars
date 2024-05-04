@@ -23,10 +23,16 @@
                     <br>
                     <label for="rating">
                         Rating:
-                        <input type="range" value="0" min="1" max="5" name="rating" id="rating"
-                            oninput="this.nextElementSibling.value = this.value">
-                        <output>1</output>
+                        <input type="range" value="1" min="1" max="5" name="rating" id="rating" oninput="updateOutput()">
                     </label>
+                    <output id="ratingOutput">1</output>
+                    <script>
+                        function updateOutput() {
+                            var ratingInput = document.getElementById("rating");
+                            var output = document.getElementById("ratingOutput");
+                            output.textContent = ratingInput.value;
+                        }
+                    </script>
                     <br>
                     <label for="review">
                         <textarea id="review" name="review" placeholder="Write a Review..."></textarea>
@@ -39,8 +45,8 @@
         {{/if}}
         <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
         <div id="toggledReviews" style="display: none;">
-        <div id="container">
-            <label for="shops">Search Reviews:</label>
+        <div id="container3">
+            <label>Search Reviews:</label>
             <input class="search-bar" type="text" name="search" id="search" placeholder="Service...">
             <br>
             <button type="button" onclick="searchReviews()">
@@ -101,40 +107,18 @@
                 </li>
                 {{/each}}
             </ul>
-            <ul id="newest" hidden>
-                {{#each newestReviews}}
-                <div>
-                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
-                    <p>Rating: {{this.rating}}/5</p>
-                    <p>Posted by: {{this.user}}</p>
-                    <p>Posted on: {{this.reviewDate}}</p>
-                </div>
-                {{/each}}
-            </ul>
-            <ul id="highest" hidden>
-                {{#each highestReviews}}
-                <div>
-                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
-                    <p>Rating: {{this.rating}}/5</p>
-                    <p>Posted by: {{this.user}}</p>
-                    <p>Posted on: {{this.reviewDate}}</p>
-                </div>
-                {{/each}}
-            </ul>
-            <ul id="lowest" hidden>
-                {{#each lowestReviews}}
-                <div>
-                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
-                    <p>Rating: {{this.rating}}/5</p>
-                    <p>Posted by: {{this.user}}</p>
-                    <p>Posted on: {{this.reviewDate}}</p>
-                </div>
-                {{/each}}
-            </ul>
         </div>
+        {{#if isOwner}}
         <form action="/shop/{{shop._id}}/item/{{item._id}}/delete" method="POST">
             <button type="submit" class="delete">DELETE ITEM</button>
         </form>
+        {{else}}
+        {{#if Admin}}
+        <form action="/shop/{{shop._id}}/item/{{item._id}}/delete" method="POST">
+            <button type="submit" class="delete">DELETE ITEM</button>
+        </form>
+        {{/if}}
+        {{/if}}
         <footer>
             <a href="/shop/{{shop._id}}" class="static-link">Go back to {{shop.name}}</a>
         </footer>

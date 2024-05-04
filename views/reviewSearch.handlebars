@@ -1,4 +1,4 @@
-<body>
+
     <main>
         {{#if search}}
         <h1>Reviews mentioning "{{search}}" at {{shop.name}}</h1>
@@ -12,7 +12,7 @@
             {{/unless}}
         {{/unless}}
         <div id="container">
-            <label for="shops">Search Reviews:</label>
+            <label>Search Reviews:</label>
             <input class="search-bar" type="text" name="search" id="search" placeholder="Service...">
             <br>
             <button type="button" onclick="searchReviews()">
@@ -96,4 +96,3 @@
             {{/each}}
         </ul>
     </main>
-</body>

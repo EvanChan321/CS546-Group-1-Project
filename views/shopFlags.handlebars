@@ -4,12 +4,12 @@
         <ol>
             {{#each flags}}
                 <li>
-                    <h2><a href="/shop/{{this._id}}">{{this.name}}</a></h2>
+                    <a href="/shop/{{this._id}}">{{this.name}}</a>
                     <ul>
+                        <li><a href="/shop/{{../shop._id}}/flag/{{this._id}}" class="static-link">Go to Flag</a></li>
                         <li><p>UserId: {{this.userId}}</p></li>
                         <li><p>Reason: {{this.flagReason}}</p></li>
                         <li><p>Flag Date: {{this.flagDate}}</p></li>
-                        <li><a href="/shop/{{../shop._id}}/flag/{{this._id}}" class="static-link">Go to Flag</a></li>
                     </ul>
                 </li>
             {{/each}}
