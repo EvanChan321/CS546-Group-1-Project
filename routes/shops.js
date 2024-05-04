@@ -671,7 +671,7 @@ router
     }
   })
   .post(async (req, res) => {
-    let shopId, name, description, price, tags, allergens, userId
+    let shopId, name, description, price, tags, allergens, userId, calories
     const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try{
       shopId = valid.idCheck(xss(req.params.shopId))
@@ -680,6 +680,9 @@ router
       price = xss(req.body.price)
       price = parseFloat(price)
       valid.checkPrice(price)
+      calories = xss(req.body.calories)
+      calories = parseInt(calories)
+      valid.intCheck(calories)
       tags = (xss(req.body.tags)).trim()
       tags = valid.arrayOfStrings(tags.split(","))
       allergens = (xss(req.body.allergens)).trim()
@@ -696,7 +699,8 @@ router
         description,
         price,
         tags,
-        allergens
+        allergens,
+        calories
       )
       const updatedUser = await userData.updatePoints(userId, 20)
       return res.redirect(`/shop/${shopId}/item/${item._id.toString()}`)
@@ -973,13 +977,16 @@ router.route('/shop/:shopid/:itemId/edit')
       name = valid.stringValidate(xss(req.body.name))
       description = valid.stringValidate(xss(req.body.description))
       price = xss(req.body.price)
-      price = parseNum(price)
+      price = parseFloat(price)
       valid.numCheck(price)
-      if(price < 1 || price > 5){
-        throw 'invalid rating'
+      if(price <= 0){
+        throw 'invalid pricing'
       }
-      if(!Number.isInteger(price)){
-        maxDecimal(price, 0)
+      calories = xss(req.body.calories)
+      calories = parseInt(calories)
+      valid.intCheck(calories)
+      if(calories < 0){
+        throw 'invalid calories'
       }
       tags = (xss(req.body.tags)).trim()
       tags = valid.arrayOfStrings(tags.split(","))

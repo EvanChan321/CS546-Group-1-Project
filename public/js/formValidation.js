@@ -229,6 +229,7 @@ if(itemForm){
         if(errorDiv) errorDiv.hidden = true;
         let name = document.getElementById("name").value;
         let price = document.getElementById("price").value;
+        let calories = document.getElementById("calories").value;
         let description = document.getElementById("description").value;
         let tags = document.querySelectorAll('#tagList input[type="checkbox"]:checked');
         let tagArray = Array.from(tags).map(tags => tags.id);
@@ -244,6 +245,18 @@ if(itemForm){
         }
         try{
             price = checkPrice(price);
+        } catch(e){
+            errors.push(e.toString());
+        }
+        try{
+            calories = parseInt(calories);
+            numCheck(calories);
+            if(!Number.isInteger(calories)){
+                throw (`${calories} is not an integer`);
+            }
+            if(calories < 0){
+                throw 'invalid calories'
+            }
         } catch(e){
             errors.push(e.toString());
         }
