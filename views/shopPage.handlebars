@@ -256,8 +256,8 @@
         {{/if}}
         <button onclick="toggleContent('toggledMenu')">Display Menu</button>
         <div id="toggledMenu" style="display: none;">
-            <div id="container">
-                <label for="shops">Search Items:</label>
+            <div id="container3">
+                <label>Search Items:</label>
                 <input class="search-bar" value="" type="text" name="search" id="itemSearch" placeholder="Matcha...">
                 <br>
                 <button type="button" onclick="location.href='/shop/{{shop._id}}/itemSearch/' + encodeURIComponent(document.getElementById('itemSearch').value)">
@@ -291,10 +291,16 @@
                 <br>
                 <label for="rating">
                     Rating:
-                    <input type="range" value="0" min="1" max="5" name="rating" id="rating"
-                        oninput="this.nextElementSibling.value = this.value">
-                    <output>1</output>
+                    <input type="range" value="1" min="1" max="5" name="rating" id="rating" oninput="updateOutput()">
                 </label>
+                <output id="ratingOutput">1</output>
+                <script>
+                    function updateOutput() {
+                        var ratingInput = document.getElementById("rating");
+                        var output = document.getElementById("ratingOutput");
+                        output.textContent = ratingInput.value;
+                    }
+                </script>
                 <br>
                 <label for="review">
                     <textarea id="review" name="review" placeholder="Write a Review..."></textarea>
@@ -306,9 +312,9 @@
         {{/if}}
         {{/if}}
         <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
-        <div id="toggledReviews" style="display: none;">
-            <div id="container">
-                <label for="shops">Search Reviews:</label>
+        <div id="toggledReviews">
+            <div id="container2">
+                <label>Search Reviews:</label>
                 <input class="search-bar" type="text" name="search" id="search" placeholder="Service...">
                 <br>
                 <button type="button" onclick="location.href='/shop/{{shop._id}}/reviewSearch/' + encodeURIComponent(document.getElementById('search').value)">
@@ -365,22 +371,22 @@
             </ul>
             <ul id="atoz" hidden>
                 {{#each alphaForward}}
-                <div>
+                <li>
                     <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                     <p>Rating: {{this.rating}}/5</p>
                     <p>Posted by: {{this.user}}</p>
                     <p>Posted on: {{this.reviewDate}}</p>
-                </div>
+                </li>
                 {{/each}}
             </ul>
             <ul id="ztoa" hidden>
                 {{#each alphaBackward}}
-                <div>
+                <li>
                     <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                     <p>Rating: {{this.rating}}/5</p>
                     <p>Posted by: {{this.user}}</p>
                     <p>Posted on: {{this.reviewDate}}</p>
-                </div>
+                </li>
                 {{/each}}
             </ul>
         </div>

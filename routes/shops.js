@@ -863,12 +863,16 @@ router
       const item = await itemData.getItem(itemId);
       let Default = false
       let Admin = false
+      let isOwner = false
       if(req.session.user){
         if(req.session.user.accountType === "Default"){
           Default = true
         }
         if(req.session.user.accountType === "Admin"){
           Admin = true
+        }
+        if(req.session.user.id === shop.ownerId){
+          isOwner = true
         }
       }
       const itemReviewsPromises = item.reviews.map(async (review) => await reviewData.getReview(review.toString()));
@@ -895,8 +899,8 @@ router
         reviews: itemReviews,
         lowestReviews: lowestReviews,
         highestReviews: highestReviews,
-        newestReviews: newestReviews
-
+        newestReviews: newestReviews,
+        isOwner: isOwner
       });
     } catch (e) {
       console.log(e)
