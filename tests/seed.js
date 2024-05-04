@@ -380,7 +380,8 @@ try{
         "Winston's Drink that is made with his Special Sauce!", 
         420.69, 
         ["strawberry", "tapioca", "jelly", "iced", "milk"], 
-        ["gluten"]
+        ["gluten"],
+        128
     )
     console.log("item created");
     // console.log(item)
@@ -396,7 +397,8 @@ try{
         taroMT.description,
         taroMT.price,
         taroMT.tags,
-        taroMT.allergens        
+        taroMT.allergens,
+        876
     )
     console.log("item created");
 } catch(e){
@@ -502,7 +504,8 @@ try{
         oolong.description,
         oolong.price,
         oolong.tags,
-        oolong.allergens
+        oolong.allergens,
+        180
     )
     console.log("item created");
 } catch(e){
@@ -517,7 +520,8 @@ try{
         taroMT.description,
         taroMT.price,
         taroMT.tags,
-        taroMT.allergens        
+        taroMT.allergens,
+        801 
     )
     console.log("item created");
 } catch(e){
@@ -532,7 +536,8 @@ try{
         "Thai Tea mixed with Espresso",
         6.99,
         ["hot", "iced", "espresso", "hot", "iced"],
-        []
+        [],
+        241
     );
     console.log("item created");
 } catch(e){
@@ -651,7 +656,8 @@ try{
         oolong.description,
         oolong.price,
         oolong.tags,
-        oolong.allergens
+        oolong.allergens,
+        424
     )
     console.log("item created");
 } catch(e){
@@ -666,7 +672,8 @@ try{
         taroMT.description,
         taroMT.price,
         taroMT.tags,
-        taroMT.allergens        
+        taroMT.allergens,
+        944      
     )
     console.log("item created");
 } catch(e){
@@ -735,7 +742,8 @@ try{
         oolong.description,
         oolong.price,
         oolong.tags,
-        oolong.allergens
+        oolong.allergens,
+        218
     )
     console.log("item created");
 } catch(e){
@@ -750,7 +758,8 @@ try{
         taroMT.description,
         taroMT.price,
         taroMT.tags,
-        taroMT.allergens        
+        taroMT.allergens,
+        103   
     )
     console.log("item created");
 } catch(e){
@@ -766,7 +775,8 @@ try{
         bsMT.description,
         bsMT.price,
         bsMT.tags,
-        bsMT.allergens
+        bsMT.allergens,
+        195
     );
     console.log("item created");
 } catch(e){
@@ -895,7 +905,8 @@ try{
         oolong.description,
         oolong.price,
         oolong.tags,
-        oolong.allergens
+        oolong.allergens,
+        940
     )
     console.log("item created");
 } catch(e){
@@ -910,7 +921,8 @@ try{
         taroMT.description,
         taroMT.price,
         taroMT.tags,
-        taroMT.allergens        
+        taroMT.allergens,
+        653        
     )
     console.log("item created");
 } catch(e){
@@ -1180,7 +1192,8 @@ try{
         "Strawberry Popping Boba Sundae made with your choice of icecream", 
         8.50, 
         ["strawberry", "iced", "dairy"], 
-        ["gluten"]
+        ["gluten"],
+        775
     )
     console.log("item created");
     console.log(item)
@@ -1196,7 +1209,8 @@ try{
         "Sesame Milk Tea (NEW. Soooo Good!!)", 
         5.75, 
         ["taro", "matcha", "honeydew", "mango", "lychee", "strawberry", "jelly", "milk foam", "tapioca pearls", "iced", "milk tea"],
-        ["dairy", "sesame"]
+        ["dairy", "sesame"],
+        961
     )
     console.log("item created");
     console.log(item)
@@ -1212,7 +1226,8 @@ try{
         "Mango Slush all new", 
         5.75, 
         ["taro", "matcha", "honeydew", "mango", "lychee", "strawberry", "jelly", "milk foam", "tapioca pearls", "iced", "slush"],
-        []
+        [],
+        486
     )
     console.log("item created");
     console.log(item)
@@ -1228,7 +1243,8 @@ try{
         "Green Apple Yugurt Tea not YOGURT", 
         5.75, 
         ["taro", "matcha", "honeydew", "mango", "lychee", "strawberry", "jelly", "milk foam", "tapioca pearls", "iced", "fruit tea", "vegan"],
-        []
+        [],
+        252
     )
     console.log("item created");
     console.log(item)
@@ -1244,7 +1260,8 @@ try{
         "Cafe Mocha Milk Tea", 
         5.75, 
         ["taro", "matcha", "honeydew", "mango", "lychee", "strawberry", "jelly", "milk foam", "tapioca pearls", "iced", "milk tea", "coffee"],
-        ["dairy"]
+        ["dairy"],
+        326
     )
     console.log("item created");
     console.log(item)
@@ -1260,7 +1277,8 @@ try{
         "Lime Green Tea 一顆檸檬鮮綠茶 all new!", 
         6.43, 
         ["taro", "strawberry", "jelly", "iced", "fruit tea"],
-        []
+        [],
+        518
     )
     console.log("item created");
     console.log(item)
@@ -1276,7 +1294,8 @@ try{
         "Mango Passionfruit Yakult", 
         6.66, 
         ["mango", "iced", "vegan"],
-        []
+        [],
+        730
     )
     console.log("item created");
     console.log(item)
@@ -1292,7 +1311,8 @@ try{
         "Dalgona Coffee 幸福400次鲜奶咖啡", 
         6.20, 
         ["iced", "coffee"],
-        ["dairy"]
+        ["dairy"],
+        658
     )
     console.log("item created");
     console.log(item)
@@ -1308,7 +1328,8 @@ try{
         "Brown sugar Iced Jelly", 
         5.75, 
         ["iced"],
-        ["dairy"]
+        ["dairy"],
+        153
     )
     console.log("item created");
     console.log(item)
@@ -1324,7 +1345,8 @@ try{
         "Kirin King Roasted Oolong Tea 鑽石台灣麒麟茶王", 
         5.75, 
         ["iced", "vegan"],
-        []
+        [],
+        254
     )
     console.log("item created");
     console.log(item)
@@ -1340,7 +1362,8 @@ try{
         "Matcha Fresh Milk Tea now with extra matcha", 
         5.75, 
         ["matcha", "iced", "milk tea"],
-        ["dairy"]
+        ["dairy"],
+        943
     )
     console.log("item created");
     console.log(item)
@@ -1372,7 +1395,8 @@ try{
         "The Whale Crystal where do they come from?", 
         6.00, 
         ["taro", "mango", "iced", "milk tea"],
-        ["dairy"]
+        ["dairy"],
+        1000
     )
     console.log("item created");
     console.log(item)
@@ -1388,7 +1412,8 @@ try{
         "PEARL MILK TEA with your choice of flavoring", 
         5.75, 
         ["tapioca pearls", "iced", "milk tea"],
-        ["dairy"]
+        ["dairy"],
+        539
     )
     console.log("item created");
     console.log(item)
@@ -1404,7 +1429,8 @@ try{
         "EARL GREY MILK TEA WITH 3J’S (WITH PEARLS, PUDDING & HERBAL JELLY)", 
         5.00, 
         ["jelly", "tapioca pearls", "iced", "milk tea"],
-        ["dairy"]
+        ["dairy"],
+        665
     )
     console.log("item created");
     console.log(item)
@@ -1420,7 +1446,8 @@ try{
         "Flaming Brown Sugar Tapioca Milk With Creme Brulee. Made With Premium Lactaid Milk. Sweetened With Brown Sugar Only. If You Request For No Sugar, Then Its No Brown Sugar, Milk And Creme Brulee Only", 
         6.50, 
         ["tapioca pearls", "iced", "milk tea"],
-        ["dairy"]
+        ["dairy"],
+        136
     )
     console.log("item created");
     console.log(item)
@@ -1436,7 +1463,8 @@ try{
         "Oat Milk Roast Oolong Tea 乌龙鲜燕麦奶茶 NON DAIRY", 
         6.00, 
         ["tapioca pearls", "iced", "milk tea"],
-        []
+        [],
+        899
     )
     console.log("item created");
     console.log(item)
@@ -1452,7 +1480,8 @@ try{
         "Taro Slush extra slushy", 
         6.50, 
         ["taro", "iced", "slush", "vegan"],
-        []
+        [],
+        249
     )
     console.log("item created");
     console.log(item)
@@ -1468,7 +1497,8 @@ try{
         "MATCHA MILK CAP no CAP(lies)", 
         6.89, 
         ["matcha", "iced", "milk foam", "milk tea"],
-        ["dairy"]
+        ["dairy"],
+        354
     )
     console.log("item created");
     console.log(item)
@@ -1484,7 +1514,8 @@ try{
         "MANGO GREEN TEA now VEGAN", 
         6.00, 
         ["mango", "iced", "fruit tea", "vegan"],
-        []
+        [],
+        0
     )
     console.log("item created");
     console.log(item)
@@ -1500,7 +1531,8 @@ try{
         "CAPPUCCINO with cinnamon", 
         6.00, 
         ["tapioca peals", "milk foam", "iced", "hot", "coffee"],
-        ["dairy"]
+        ["dairy"],
+        803
     )
     console.log("item created");
     console.log(item)
@@ -1516,7 +1548,8 @@ try{
         "Please give to Aaren Patel", 
         6.23, 
         ["lychee", "tapioca peals", "milk foam", "iced", "hot", "milk tea"],
-        ["gluten",  "dairy",  "peanuts",  "tree nuts",  "sesame",  "mustard",  "soy",  "eggs",  "fish",  "shellfish"]
+        ["gluten",  "dairy",  "peanuts",  "tree nuts",  "sesame",  "mustard",  "soy",  "eggs",  "fish",  "shellfish"],
+        167
     )
     console.log("item created");
     console.log(item)
@@ -1532,7 +1565,8 @@ try{
         "Please give to Mason Lim", 
         7.00, 
         ["taro", "tapioca peals", "milk foam", "iced", "hot", "milk tea"],
-        ["gluten", "dairy", "shellfish"]
+        ["gluten", "dairy", "shellfish"],
+        195
     )
     console.log("item created");
     console.log(item)
@@ -1548,7 +1582,8 @@ try{
         "i never claimed to be sane i simply claimed to be the sanest person around, which is true seeing i live in a world of crazies - alex ha on his allegations of insanity", 
         5.75, 
         ["match", "tapioca peals", "milk foam", "iced", "hot", "slush"],
-        ["dairy"]
+        ["dairy"],
+        651
     )
     console.log("item created");
     console.log(item)

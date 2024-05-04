@@ -25,13 +25,18 @@ const getItem = async (itemId) => {
   return item
 }
 
-const createItem = async (shopId, name, description, price, tags, allergens) => {
+const createItem = async (shopId, name, description, price, tags, allergens, calories) => {
   const shop = await shopData.getShop(shopId)
   name = valid.stringValidate(name)
   description = valid.stringValidate(description)
   valid.numCheck(price)
+  valid.numCheck(calories)
+  valid.intCheck(calories)
   if(price <= 0){
     throw 'invalid pricing'
+  }
+  if(calories < 0){
+    throw 'invalid calories'
   }
   const numStr = price.toString();
   const decimalRegex = /\.\d{3,}$/;
@@ -47,6 +52,7 @@ const createItem = async (shopId, name, description, price, tags, allergens) => 
     name: name,
     description: description,
     price: price,
+    calories: calories,
     tags: tags,
     allergens: allergens,
     reviews: [],
@@ -76,16 +82,18 @@ const updateItem = async (itemId, updateObject) => {
     item.description = updateObject.description
   }
   if('price' in updateObject){
-    updateObject.flagReason = valid.stringValidate(updateObject.name)
-    description = valid.stringValidate(description)
-    valid.numCheck(price)
-    if(price < 1 || price > 5){
-      throw 'invalid rating'
+    valid.numCheck(updateObject.price)
+    if(updateObject.price <= 0){
+      throw 'invalid pricing'
     }
-    if(!Number.isInteger(price)){
-      maxDecimal(price, 0)
+    item.price = updateObject.price
+  }
+  if('calories' in updateObject){
+    valid.intCheck(updateObject.calories)
+    if(updateObject.calories < 0){
+      throw 'invalid pricing'
     }
-    item.description = updateObject.description
+    item.price = updateObject.calories
   }
   if('tags' in updateObject){
     tags = valid.arrayOfStrings(tags)
