@@ -351,4 +351,86 @@ router
       });
     }
   })
+
+  router.route('/:userId/reviewSearch/:search').get(async (req, res) => {
+    const user = (xss(req.params.userId)).trim();
+    const search = (xss(req.params.search)).trim();
+    const decodeSearch = xss(decodeURIComponent(search));
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+    if(!user || (user.trim().length === 0)){
+      return res.status(400).render('error', {error: 'Must input user id', themeType: themeType});
+    } 
+    try {
+      let searchResult = await userData.getUser(user);
+      if (!searchResult.name){
+        return res.status(404).render('error',{error: `No user with ID ${shop} found`, themeType: themeType});
+      }
+      const userReviews = searchResult.reviews;
+      let filteredReviews = [];
+      let highestReviews = [];
+      let lowestReviews = [];
+      let newestReviews = [];
+      let alphaForward = [];
+      let alphaBackward = [];
+      for(let review of userReviews){
+        if(review.review.toLowerCase().includes(decodeSearch.toLowerCase())){
+          filteredReviews.push(review);
+          highestReviews.push(review);
+          lowestReviews.push(review);
+          newestReviews.push(review);
+          alphaBackward.push(review);
+          alphaForward.push(review);
+        }
+      }
+      highestReviews.sort(function(a,b){return  b.rating - a.rating});
+      lowestReviews.sort(function(a,b){return  a.rating - b.rating});
+      newestReviews.reverse();
+      alphaForward.sort(function(a,b){return a.title.localeCompare(b.title)});
+      alphaBackward.sort(function(a,b){return b.title.localeCompare(a.title)});
+      res.render('userReviewSearch', {title: "Review Search Results", user:searchResult, reviews:filteredReviews, search:decodeSearch,
+        highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, alphaBackward:alphaBackward, alphaForward:alphaForward,
+        loggedIn: req.session.user, themeType: themeType});
+    } catch(e){
+      res.status(500).render('error',{error: e, loggedIn: req.session.user, themeType: themeType});
+    }
+  })
+
+  router.route('/:userId/reviewSearch').get(async (req, res) => {
+    const user = (xss(req.params.userId)).trim();
+    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+    if(!user || (user.trim().length === 0)){
+      return res.status(400).render('error', {error: 'Must input user id', themeType: themeType});
+    } 
+    try {
+      const searchResult = await userData.getUser(user);
+      if (!searchResult.name){
+        return res.status(404).render('error',{error: `No user with ID ${shop} found`, themeType: themeType});
+      }
+      const userReviews = searchResult.reviews;
+      let filteredReviews = [];
+      let highestReviews = [];
+      let lowestReviews = [];
+      let newestReviews = [];
+      let alphaForward = [];
+      let alphaBackward = [];
+      for(let review of userReviews){
+          filteredReviews.push(review);
+          highestReviews.push(review);
+          lowestReviews.push(review);
+          newestReviews.push(review);
+          alphaForward.push(review);
+          alphaBackward.push(review);
+      }
+      highestReviews.sort(function(a,b){return  b.rating - a.rating});
+      lowestReviews.sort(function(a,b){return  a.rating - b.rating});
+      newestReviews.reverse();
+      alphaForward.sort(function(a,b){return a.title.localeCompare(b.title)});
+      alphaBackward.sort(function(a,b){return b.title.localeCompare(a.title)});
+      res.render('userReviewSearch', {title: "Review Search Results", user:searchResult, reviews:filteredReviews,
+        highestReviews:highestReviews, lowestReviews:lowestReviews, newestReviews:newestReviews, alphaForward:alphaForward, alphaBackward:alphaBackward,
+        loggedIn: req.session.user, themeType: themeType});
+    } catch(e){
+      res.status(500).render('error',{error: e, loggedIn: req.session.user, themeType: themeType});
+    }
+  })
 export default router;
