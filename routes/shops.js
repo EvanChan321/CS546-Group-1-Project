@@ -953,16 +953,9 @@ router
     }
   });
   
-router.route('/shop/:shopid/:itemId/edit')
-  .get(async (req, res) => {
-    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
-    res.render("itemEdit", {
-      title: "Item Edit",
-      themeType: themeType,
-      loggedIn: req.session.user
-    });
-  })
+router.route('/shop/:shopId/item/:itemId/edit')
   .post(async (req, res) => {
+    console.log(1)
     let shopId
     let name
     let description
@@ -970,6 +963,8 @@ router.route('/shop/:shopid/:itemId/edit')
     let tags
     let allergens
     let updateItem
+    let itemId
+    let calories
     const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     try{
       shopId = valid.idCheck(xss(req.params.shopId))
@@ -997,18 +992,15 @@ router.route('/shop/:shopid/:itemId/edit')
         description,
         price,
         tags,
-        allergens
+        allergens,
+        calories
       }
     }
     catch(e){
-      return res.status(400).render("itemEdit", {
+      console.log(e)
+      return res.status(400).render("item", {
         error: e.toString(),
-        title: "Item Edit",
-        name: name,
-        description: description,
-        price: price,
-        tags: tags,
-        allergens: allergens,
+        title: "Item Error",
         themeType: themeType,
         loggedIn: req.session.user
       });
@@ -1018,16 +1010,12 @@ router.route('/shop/:shopid/:itemId/edit')
         itemId,
         updateItem
       )
-      return res.redirect(`/shop/${shopId}/${item._id}`)
+      return res.redirect(`/shop/${shopId}/item/${itemId}`)
     } catch (error) {
-      return res.status(500).render("itemEdit", {
+      console.log(error)
+      return res.status(500).render("item", {
                 error: error.toString(),
-                title: "Add Shop",
-                name: name,
-                description: address,
-                price: website,
-                tags: phoneNumber,
-                allergens: ownerId,
+                title: "Item Error",
                 themeType: themeType,
                 loggedIn: req.session.user
             });
