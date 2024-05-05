@@ -21,16 +21,16 @@ router
     let userPassword
     let userEmail
     let userAddress
-    let themeType
+    let themeType = 'light'
     try{
-      userName = valid.stringValidate(xss(req.body.username))
+      userName = valid.stringValidate(xss(req.body.username, 'Username'))
       userPassword = valid.passwordCheck(xss(req.body.password))
       if(req.body.password !== xss(req.body.passwordConf)){
         throw "passwords dont match"
       }
       userEmail = valid.emailCheck(xss(req.body.email))
-      userAddress = valid.stringValidate(xss(req.body.zipcode))
-      themeType = valid.stringValidate(xss(req.body.themeType))
+      userAddress = valid.stringValidate(xss(req.body.zipcode), 'Address')
+      // themeType = valid.stringValidate(xss(req.body.themeType), 'Theme')
     }
     catch(e){
       return res.status(400).render("signup", {

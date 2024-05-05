@@ -80,7 +80,7 @@ export function stringValidate (val, valName){
 
 export function idCheck (val) {
     stringCheck(val)
-    atLeast(val.trim(), 1)
+    atLeast(val.trim(), 1, 'id')
     if (!ObjectId.isValid(val)) {
         throw `Error as ${val} invalid object ID`;
     }
