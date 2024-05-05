@@ -82,6 +82,71 @@ function reviewSort(sorter){
     }
 }
 
+function itemSort(sorter){
+    const defaultT = document.getElementById('default');
+    const cheapest = document.getElementById('cheapest');
+    const expensive = document.getElementById('expensive');
+    const highest = document.getElementById('highest');
+    const lowest = document.getElementById('lowest');
+    const atoz = document.getElementById('atoz');
+    const ztoa = document.getElementById('ztoa');
+    if(sorter === "cheapest"){
+        defaultT.style.display = 'none';
+        cheapest.style.display = 'block';
+        expensive.style.display = 'none';
+        highest.style.display = 'none';
+        lowest.style.display = 'none';
+        atoz.style.display = 'none';
+        ztoa.style.display = 'none';
+    }
+    if(sorter === "expensive"){
+        defaultT.style.display = 'none';
+        cheapest.style.display = 'none';
+        expensive.style.display = 'block';
+        highest.style.display = 'none';
+        lowest.style.display = 'none';
+        atoz.style.display = 'none';
+        ztoa.style.display = 'none';
+    }
+    if(sorter === "highest"){
+        defaultT.style.display = 'none';
+        cheapest.style.display = 'none';
+        expensive.style.display = 'none';
+        highest.style.display = 'block';
+        lowest.style.display = 'none';
+        atoz.style.display = 'none';
+        ztoa.style.display = 'none';
+    }
+    if(sorter === "lowest"){
+        defaultT.style.display = 'none';
+        cheapest.style.display = 'none';
+        expensive.style.display = 'none';
+        highest.style.display = 'none';
+        lowest.style.display = 'block';
+        atoz.style.display = 'none';
+        ztoa.style.display = 'none';
+    }
+    if(sorter === "atoz"){
+        defaultT.style.display = 'none';
+        cheapest.style.display = 'none';
+        expensive.style.display = 'none';
+        highest.style.display = 'none';
+        lowest.style.display = 'none';
+        atoz.style.display = 'block';
+        ztoa.style.display = 'none';
+    }
+    if(sorter === "ztoa"){
+        defaultT.style.display = 'none';
+        cheapest.style.display = 'none';
+        expensive.style.display = 'none';
+        highest.style.display = 'none';
+        lowest.style.display = 'none';
+        atoz.style.display = 'none';
+        ztoa.style.display = 'block';
+    }
+}
+
+
 function encodeSearchQuery(query) {
     return encodeURIComponent(query);
 }
