@@ -146,6 +146,54 @@ function itemSort(sorter){
     }
 }
 
+function searchItems() {
+    const shopId = document.getElementById('container').getAttribute('data-shop-id');
+    const itemName = encodeURIComponent(document.getElementById('itemNameSearch').value);
+    const itemDescription = encodeURIComponent(document.getElementById('itemDescriptionSearch').value);
+    const excludeGluten = document.getElementById('glutenCheckbox').checked;
+    const excludeDairy = document.getElementById('dairyCheckbox').checked;
+    const excludePeanuts = document.getElementById('peanutsCheckbox').checked;
+    const excludeTree = document.getElementById('treeCheckbox').checked;
+    const excludeSesame = document.getElementById('sesameCheckbox').checked;
+    const excludeMustard = document.getElementById('mustardCheckbox').checked;
+    const excludeSoy = document.getElementById('soyCheckbox').checked;
+    const excludeEggs = document.getElementById('eggsCheckbox').checked;
+    const excludeFish = document.getElementById('fishCheckbox').checked;
+    const excludeShellfish = document.getElementById('shellfishCheckbox').checked;
+    let searchURL = '/shop/' + shopId + '/itemSearch/?name=' + itemName + '&description=' + itemDescription;
+    if (excludeGluten) {
+        searchURL += '&excludeGluten=true';
+    }
+    if (excludeDairy) {
+        searchURL += '&excludeDairy=true';
+    }
+    if (excludePeanuts) {
+        searchURL += '&excludePeanuts=true';
+    }
+    if (excludeTree) {
+        searchURL += '&excludeTree=true';
+    }
+    if (excludeSesame) {
+        searchURL += '&excludeSesame=true';
+    }
+    if (excludeMustard) {
+        searchURL += '&excludeMustard=true';
+    }
+    if (excludeSoy) {
+        searchURL += '&excludeSoy=true';
+    }
+    if (excludeEggs) {
+        searchURL += '&excludeEggs=true';
+    }
+    if (excludeFish) {
+        searchURL += '&excludeFish=true';
+    }
+    if (excludeShellfish) {
+        searchURL += '&excludeShellfish=true';
+    }
+    window.location.href = searchURL;
+}
+
 
 function encodeSearchQuery(query) {
     return encodeURIComponent(query);

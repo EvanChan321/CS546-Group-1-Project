@@ -1,14 +1,47 @@
 <main>
     {{#if search}}
-    <h1>Items with description mentioning "{{search}}" at {{shop.name}}</h1>
+    <h1>Items with name mentioning "{{search}}" at {{shop.name}}</h1>
     {{else}}
     <h1>Items at {{shop.name}}</h1>
     {{/if}}
-    <div id="container">
+    <div id="container" data-shop-id="{{shop._id}}">
         <label>Search Items:</label>
-        <input class="search-bar" type="text" name="search" id="itemSearch" placeholder="Matcha...">
+        <input class="search-bar" type="text" name="search" id="itemNameSearch" placeholder="Matcha...">
         <br>
-        <button type="button" onclick="location.href='/shop/{{shop._id}}/itemSearch/' + encodeURIComponent(document.getElementById('itemSearch').value)">
+        <label>Description:</label>
+        <input class="search-bar" type="text" name="description" id="itemDescriptionSearch" placeholder="Green tea...">
+        <br>
+        <label for="glutenCheckbox">Exclude Gluten:</label>
+        <input type="checkbox" id="glutenCheckbox">
+        <br>
+        <label for="dairyCheckbox">Exclude Dairy:</label>
+        <input type="checkbox" id="dairyCheckbox">
+        <br>
+        <label for="peanutsCheckbox">Exclude Peanuts:</label>
+        <input type="checkbox" id="peanutsCheckbox">
+        <br>
+        <label for="treeCheckbox">Exclude Tree Nuts:</label>
+        <input type="checkbox" id="treeCheckbox">
+        <br>
+        <label for="sesameCheckbox">Exclude Sesame:</label>
+        <input type="checkbox" id="sesameCheckbox">
+        <br>
+        <label for="mustardCheckbox">Exclude Mustard:</label>
+        <input type="checkbox" id="mustardCheckbox">
+        <br>
+        <label for="soyCheckbox">Exclude Soy:</label>
+        <input type="checkbox" id="soyCheckbox">
+        <br>
+        <label for="eggsCheckbox">Exclude Eggs:</label>
+        <input type="checkbox" id="eggsCheckbox">
+        <br>
+        <label for="fishCheckbox">Exclude Fish:</label>
+        <input type="checkbox" id="fishCheckbox">
+        <br>
+        <label for="shellfishCheckbox">Exclude Shellfish:</label>
+        <input type="checkbox" id="shellfishCheckbox">
+        <br>
+        <button type="button" onclick="searchItems()">
             <img class="search-button" alt="search-button" src="/public/img/search-icon.png">
         </button>
     </div>
