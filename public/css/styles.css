@@ -48,6 +48,13 @@ input.search-bar {
     cursor: pointer;
 }
 
+.addShop {
+    text-align: center;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    font-size: 1.1em;
+}
+
 input[type="text"],
 input[type="email"],
 input[type="url"],
@@ -298,16 +305,22 @@ th, td {
     padding: 8px;
 }
 
+/*styling for the hompage*/
 .testimonial {
     display: flex;
     justify-content: center;
-    font-family: 'Times New Roman', Times, serif;
 }
 
-img.testimonial {
+.testimonial p {
+    max-width: 10%;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 1.1rem;
+}
+
+.testimonial img{
     float: left;
     width: 15%;
-    margin-left: 3%;
+    margin-left: 1%;
     margin-right: 1%;
     border-radius: 7%;
 }
@@ -322,4 +335,16 @@ img.testimonial {
     display: inline-block;
     margin-right: 5%; 
     text-align: left; 
+}
+
+/* style rules for the user page*/
+#pfp-container {
+    text-align: left;
+    margin: 0 auto;
+    margin-bottom: 1%
+}
+
+#pfp {
+    max-width: 150px;
+    max-height: 150px;
 }

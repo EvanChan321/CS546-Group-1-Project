@@ -7,7 +7,7 @@ function toggleContent(contentId) {
     }
 }
 
-function swapContent(contentId1,contentId2) {
+function swapContent(contentId1, contentId2) {
     const content1 = document.getElementById(contentId1);
     const content2 = document.getElementById(contentId2);
     const button = document.getElementById('editButton');
@@ -22,6 +22,10 @@ function swapContent(contentId1,contentId2) {
         button.innerHTML = "View Info";
     } else {
         button.innerHTML = "Edit Info";
+    }
+    const errorDiv = document.getElementById("error");
+    if(errorDiv){
+        errorDiv.hidden = true;
     }
 }
 

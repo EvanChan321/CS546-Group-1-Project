@@ -11,7 +11,7 @@ router.route('/').get(async (req, res) => {
   try{
     const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     res.render('home', {
-      title: "LeBobaQuest",
+      title: "Boba Fettch",
       loggedIn: req.session.user,
       themeType: themeType
     });

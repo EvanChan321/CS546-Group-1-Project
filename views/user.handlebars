@@ -6,8 +6,8 @@
     <h1>{{name}}'s Page</h1>
     {{/if}}
     <h3>Account Type: {{accountType}}</h3>
-    <div>
-        <img class="error" src='/public/img/{{pfp}}' alt="mad boba cat">
+    <div id="pfp-container">
+        <img id="pfp" src='/public/img/{{pfp}}' alt="profile picture">
     </div>
     {{#if ../ownAccount}}
     {{#if ../Business}}
@@ -18,6 +18,14 @@
     {{#if error}}
          <p class="error">{{error}}</p>
     {{/if}}
+    <h2>User Info</h2>
+    <div id="userInfo">
+        <ul>
+            <li>Bio: {{bio}}</li>
+            <li>Email: {{email}}</li>
+            <li>Address: {{address}}</li>
+        </ul>
+    </div>
     {{#if ../ownAccount}}
     <div id="userEdit" hidden>
     <form action="/user/{{_id}}" method="POST" name="edit-user-form" id="edit-user-form" class="user">
@@ -38,21 +46,12 @@
     </div>
     <div id="error" class="CSerror" hidden>Error</div>
     {{/if}}
-    <h2>User Info</h2>
-    <div id="userInfo">
-        <ul>
-            <li>Bio: {{bio}}</li>
-            <li>Email: {{email}}</li>
-            <li>Address: {{address}}</li>
-        </ul>
-    </div>
     {{#if ../ownAccount}}
     <button onclick="swapContent('userEdit','userInfo')" class="editInfo" id="editButton">Edit Info</button>
     {{/if}}
 {{/with}}   
 <button onclick="toggleContent('toggledReviews')">Display Reviews</button>
         <div id="toggledReviews" style="display: none;">
-            <h2><a href="/user/{{user._id}}/reviewSearch/"> See All Reviews</a></h2>
             <div id="container">
                 <label>Search Reviews:</label>
                 <input class="search-bar" type="text" name="search" id="search" placeholder="Service...">
@@ -61,20 +60,27 @@
                     <img class="search-button" alt="search-button" src="/public/img/search-icon.png">
                 </button>
             </div>
-            <select id="reviewSort" name="reviewSort" onchange="reviewSort(this.value)">
-                <option value='oldest'>By Oldest</option>
-                <option value='newest'>By Newest</option>
-                <option value='highest'>By Most Positive</option>
-                <option value='lowest'>By Most Negative</option>
-                <option value="atoz">A - Z</option>
-                <option value="ztoa">Z - A</option>
-            </select>
+            <div>
+                <label for="reviewSort">Sort By: </label>
+                <select id="reviewSort" name="reviewSort" onchange="reviewSort(this.value)">
+                    <option value='oldest'>By Oldest</option>
+                    <option value='newest'>By Newest</option>
+                    <option value='highest'>By Most Positive</option>
+                    <option value='lowest'>By Most Negative</option>
+                    <option value="atoz">A - Z</option>
+                    <option value="ztoa">Z - A</option>
+                </select>
+                <a class="static-link" href="/user/{{user._id}}/reviewSearch/"> See All Reviews</a>
+            </div>
+            
+
             <ul id="oldest">
                 {{#each reviews}}
                 <li>
                     <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                     <p>Rating: {{this.rating}}/5</p>
                     <p>Posted on: {{this.reviewDate}}</p>
+                    <p>{{this.review}}</p>
                 </li>
                 {{/each}}
             </ul>
@@ -84,6 +90,7 @@
                     <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                     <p>Rating: {{this.rating}}/5</p>
                     <p>Posted on: {{this.reviewDate}}</p>
+                    <p>{{this.review}}</p>
                 </li>
                 {{/each}}
             </ul>
@@ -93,7 +100,8 @@
                     <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                     <p>Rating: {{this.rating}}/5</p>
                     <p>Posted on: {{this.reviewDate}}</p>
-                </li>
+                    <p>{{this.review}}</p>
+                                   </li>
                 {{/each}}
             </ul>
             <ul id="lowest" hidden>
@@ -102,6 +110,7 @@
                     <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                     <p>Rating: {{this.rating}}/5</p>
                     <p>Posted on: {{this.reviewDate}}</p>
+                    <p>{{this.review}}</p>
                 </li>
                 {{/each}}
             </ul>
@@ -111,6 +120,7 @@
                     <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                     <p>Rating: {{this.rating}}/5</p>
                     <p>Posted on: {{this.reviewDate}}</p>
+                    <p>{{this.review}}</p>
                 </li>
                 {{/each}}
             </ul>
@@ -120,6 +130,7 @@
                     <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
                     <p>Rating: {{this.rating}}/5</p>
                     <p>Posted on: {{this.reviewDate}}</p>
+                    <p>{{this.review}}</p>
                 </li>
                 {{/each}}
             </ul>

@@ -324,20 +324,19 @@
                     <img class="search-button" alt="search-button" src="/public/img/search-icon.png">
                 </button>
             </div>
-            <ul>
-                {{#each reviews}}
-                <li>
-                    <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
-                    <p>Rating: {{this.rating}}/5</p>
-                    <p>Posted by: {{this.user}}</p>
-                    <p>Posted on: {{this.reviewDate}}</p>
-                </li>
-                {{/each}}
-            </ul>
+            {{#each reviews}}
+            <div class="review">
+                <h3><a href="/review/{{this._id}}">{{this.title}}</a></h3>
+                <p>Rating: {{this.rating}}/5</p>
+                <p>Posted by: {{this.user}}</p>
+                <p>Posted on: {{this.reviewDate}}</p>
+                <p>{{this.review}}</p>
+            </div>
+            {{/each}}
         </div>
         <footer>
-            <a href="javascript:history.back()" class="static-link">Go Back to Stores</a>
             <hr>
+            <a href="javascript:history.back()" class="static-link">Go Back to Stores</a>
             {{#if noOwner}}
             {{#if Business}}
             <form action="/shop/{{shop._id}}/user/claim" method="POST">

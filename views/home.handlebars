@@ -75,17 +75,19 @@
             <br><button type="submit"><img class= "search-button" alt="search-button" src="/public/img/search-icon.png"></button>
         </div>
     </form>
+    {{#if loggedIn}}
+        <div class="addShop">
+            <a href="/shop/addShop" class="static-link">Add a Shop</a>
+        </div>
+    {{/if}}
     <div class="testimonial">
         <img class="testimonial" src="/public/img/winton.jpg" alt="testimonials">
         <p>"I love using LeBobaQuest to find nearby boba stores" - Winston Lee</p>
         <img class="testimonial" src="/public/img/krispy.jpg" alt="testimonials">
-        <p>"Thanks to LeBobaQuest I found my favorite boba store within 5 miles" - CP</p>
+        <p>"Thanks to LeBobaQuest I found my favorite boba shop within 5 miles" - CP</p>
         <img class="testimonial" src="/public/img/jamy.jpg" alt="testimonials">
         <p>"As a boba enthusiast, I'm always on the lookout for the best boba joints in town, and LeBobaQuest has been an great tool for finding new spots around town!"- Alex Ha</p>
+        <img class="testimonial" src="/public/img/boba_fett.jpg" alt="testimonials">
+        <p>"Best website in the galaxy to find boba shops!"- Boba Fett</p>
     </div>
-    <footer>
-        {{#if loggedIn}}
-        <a href="/shop/addShop" class="static-link">Add Shop</a>
-        {{/if}}
-    </footer>
 </main>
