@@ -1152,10 +1152,60 @@ router.route('/shop/:shopId/item/:itemId/edit')
     }
   })
 
-  router.route('/shop/:id/itemSearch/:search').get(async (req, res) => {
+  router.route('/shop/:id/itemSearch').get(async (req, res) => {
     const shop = (xss(req.params.id)).trim();
-    const search = (xss(req.params.search)).trim();
-    const decodeSearch = decodeURIComponent(search);
+    const queryString = xss(req.originalUrl).split('?')[1];
+    const params = new URLSearchParams(xss(queryString));
+    let name = params.get('name');
+    let description = params.get('description');
+    const excludeGluten = params.get('excludeGluten');
+    const excludeDairy = params.get('excludeDairy');
+    const excludePeanuts = params.get('excludePeanuts');
+    const excludeTree = params.get('excludeTree');
+    const excludeSesame = params.get('excludeSesame');
+    const excludeMustard = params.get('excludeMustard');
+    const excludeSoy = params.get('excludeSoy');
+    const excludeEggs = params.get('excludeEggs');
+    const excludeFish = params.get('excludeFish');
+    const excludeShellfish = params.get('excludeShellfish');
+    if(excludeGluten !== null){
+      xss(excludeGluten)
+    }
+    if(excludeDairy !== null){
+      xss(excludeDairy)
+    }
+    if(excludePeanuts !== null){
+      xss(excludePeanuts)
+    }
+    if(excludeTree !== null){
+      xss(excludeTree)
+    }
+    if(excludeShellfish !== null){
+      xss(excludeShellfish)
+    }
+    if(excludeSesame !== null){
+      xss(excludeSesame)
+    }
+    if(excludeMustard !== null){
+      xss(excludeMustard)
+    }
+    if(excludeSoy !== null){
+      xss(excludeSoy)
+    }
+    if(excludeEggs !== null){
+      xss(excludeEggs)
+    }
+    if(excludeFish !== null){
+      xss(excludeFish)
+    }
+    if(name){
+      xss(name)
+      name = name.toLowerCase()
+    }
+    if(description){
+      xss(description)
+      description = description.toLowerCase()
+    }
     const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
     if(!shop || (shop.trim().length === 0)){
       return res.status(400).render('error', {error: 'Must input shop id', themeType: themeType});
@@ -1166,15 +1216,85 @@ router.route('/shop/:shopId/item/:itemId/edit')
         return res.status(404).render('error',{error: `No shop with ID ${shop} found`, themeType: themeType});
       }
       const storeItems = await searchResult.items;
-      let filteredItems = [];
       let cheapest = [];
       let expensive = [];
       let highest = [];
       let lowest = [];
       let alphaForward = [];
       let alphaBackward = [];
+      let filteredItems = [];
+      // for(let item of storeItems){
+      //   cheapest.push(item)
+      //   expensive.push(item)
+      //   highest.push(item)
+      //   lowest.push(item)
+      //   alphaForward.push(item)
+      //   alphaBackward.push(item)
+      // }
+      let namePass, descriptionPass, glutenPass, dairyPass, peanutsPass, fishPass, shellPass, mustardPass, sesamePass, treePass, soyPass, eggPass
       for(let item of storeItems){
-        if(item.description.toLowerCase().includes(decodeSearch.toLowerCase())){
+        namePass = descriptionPass=glutenPass=dairyPass=peanutsPass=fishPass=shellPass=mustardPass=sesamePass=treePass=soyPass=eggPass=true
+        if(name){
+          if(!(item.name.toLowerCase().includes(name))){
+            namePass = false
+          }  
+        }
+        if(description){
+          if(!(item.description.toLowerCase().includes(description))){
+            descriptionPass = false
+          }
+        }
+        if(excludeGluten !== null){
+          if((item.allergens.includes("gluten"))){
+            glutenPass = false
+          }
+        }
+        if(excludeDairy !== null){
+          if((item.allergens.includes("dairy"))){
+            dairyPass = false
+          }
+        }
+        if(excludePeanuts !== null){
+          if((item.allergens.includes("peanuts"))){
+            peanutsPass = false
+          }
+        }
+        if(excludeTree !== null){
+          if((item.allergens.includes("tree nuts"))){
+            treePass = false
+          }
+        }
+        if(excludeShellfish !== null){
+          if((item.allergens.includes("shellfish"))){
+            shellPass = false
+          }
+        }
+        if(excludeSesame !== null){
+          if((item.allergens.includes("sesame"))){
+            sesamePass = false
+          }
+        }
+        if(excludeMustard !== null){
+          if((item.allergens.includes("mustard"))){
+            mustardPass = false
+          }
+        }
+        if(excludeSoy !== null){
+          if((item.allergens.includes("soy"))){
+            soyPass = false
+          }
+        }
+        if(excludeEggs !== null){
+          if((item.allergens.includes("eggs"))){
+            eggPass = false
+          }
+        }
+        if(excludeFish !== null){
+          if((item.allergens.includes("fish"))){
+            fishPass = false
+          }
+        }
+        if(namePass && descriptionPass && glutenPass && fishPass && eggPass && soyPass && sesamePass && mustardPass && shellPass && treePass && peanutsPass && dairyPass){
           filteredItems.push(item);
           cheapest.push(item)
           expensive.push(item)
@@ -1190,46 +1310,7 @@ router.route('/shop/:shopId/item/:itemId/edit')
       cheapest.sort(function(a,b){return  a.price - b.price});
       alphaForward.sort(function(a,b){return a.name.localeCompare(b.name)});
       alphaBackward.sort(function(a,b){return b.name.localeCompare(a.name)});
-      res.render('itemSearch', {title: "Item Search Results", shop:searchResult, items:filteredItems, search:decodeSearch,
-        loggedIn: req.session.user, themeType: themeType, highest: highest, lowest: lowest, cheapest: cheapest, expensive: expensive, alphaForward: alphaForward, alphaBackward: alphaBackward});
-    } catch(e){
-      res.status(500).render('error',{error: e, loggedIn: req.session.user, themeType: themeType});
-    }
-  })
-
-  router.route('/shop/:id/itemSearch').get(async (req, res) => {
-    const shop = (xss(req.params.id)).trim();
-    const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
-    if(!shop || (shop.trim().length === 0)){
-      return res.status(400).render('error', {error: 'Must input shop id', themeType: themeType});
-    } 
-    try {
-      const searchResult = await shopData.getShop(shop);
-      if (!searchResult.name){
-        return res.status(404).render('error',{error: `No shop with ID ${shop} found`, themeType: themeType});
-      }
-      const storeItems = await searchResult.items;
-      let cheapest = [];
-      let expensive = [];
-      let highest = [];
-      let lowest = [];
-      let alphaForward = [];
-      let alphaBackward = [];
-      for(let item of storeItems){
-        cheapest.push(item)
-        expensive.push(item)
-        highest.push(item)
-        lowest.push(item)
-        alphaForward.push(item)
-        alphaBackward.push(item)
-      }
-      highest.sort(function(a,b){return  b.calories - a.calories});
-      lowest.sort(function(a,b){return  a.calories - b.calories});
-      expensive.sort(function(a,b){return  b.price - a.price});
-      cheapest.sort(function(a,b){return  a.price - b.price});
-      alphaForward.sort(function(a,b){return a.name.localeCompare(b.name)});
-      alphaBackward.sort(function(a,b){return b.name.localeCompare(a.name)});
-      res.render('itemSearch', {title: "Item Search Results", shop:searchResult, items:storeItems, cheapest: cheapest, expensive: expensive, alphaBackward: alphaBackward, alphaForward: alphaForward, lowest: lowest, highest: highest,
+      res.render('itemSearch', {title: "Item Search Results", shop:searchResult, items:filteredItems, cheapest: cheapest, expensive: expensive, alphaBackward: alphaBackward, alphaForward: alphaForward, lowest: lowest, highest: highest,
         loggedIn: req.session.user, themeType: themeType});
     } catch(e){
       res.status(500).render('error',{error: e, loggedIn: req.session.user, themeType: themeType});
