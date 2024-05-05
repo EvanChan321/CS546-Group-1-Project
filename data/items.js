@@ -93,20 +93,20 @@ const updateItem = async (itemId, updateObject) => {
     if(updateObject.calories < 0){
       throw 'invalid pricing'
     }
-    item.price = updateObject.calories
+    item.calories = updateObject.calories
   }
   if('tags' in updateObject){
-    tags = valid.arrayOfStrings(tags)
+    updateObject.tags = valid.arrayOfStrings(updateObject.tags)
     item.tags = updateObject.tags
   }
   if('allergens' in updateObject){
-    allergens = valid.arrayOfStrings(allergens)
+    updateObject.allergens = valid.arrayOfStrings(updateObject.allergens)
     item.allergens = updateObject.allergens
   }
   const shopCollection = await shops();
   const updatedInfo = await shopCollection.findOneAndUpdate(
     { 'items._id': new ObjectId(itemId) },
-    { $set: { 'item.$': update } },
+    { $set: { 'items.$': item } },
     {returnDocument: 'after'}
   );
   if (!updatedInfo) {

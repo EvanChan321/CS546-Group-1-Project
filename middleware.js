@@ -164,23 +164,25 @@ export const reviewItem = (routes) => {
         const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
         if(req.method === "POST"){
             const urlSegments = req.originalUrl.split('/');
-            const shopid = urlSegments[2];
-            const id = urlSegments[4];
-            const shop = await shopData.get(shopid)
-            let double = false
-            if(req.session.user){
-                const user = await userData.getUser(req.session.user.id)
-                user.reviews.forEach((review) => {
-                    if(review.objId.toString() === id){
-                        double = true
+            if(urlSegments.length === 5){
+                const shopid = urlSegments[2];
+                const id = urlSegments[4];
+                const shop = await shopData.getShop(shopid)
+                let double = false
+                if(req.session.user){
+                    const user = await userData.getUser(req.session.user.id)
+                    user.reviews.forEach((review) => {
+                        if(review.objId.toString() === id){
+                            double = true
+                        }
+                    })
+                    if(double){
+                        return res.status(403).render('error', { title: "Error", error: 'Cant Review Twice', themeType: themeType, loggedIn: req.session.user });
                     }
-                })
-                if(double){
-                    return res.status(403).render('error', { title: "Error", error: 'Cant Review Twice', themeType: themeType, loggedIn: req.session.user });
                 }
-            }
-            if (!req.session.user || req.session.user.accountType !== "Default" || req.session.user.id === shop.ownerId) {
-                return res.status(403).render('error', { title: "Error", error: 'Unauthorized Access', themeType: themeType, loggedIn: req.session.user });
+                if (!req.session.user || req.session.user.accountType !== "Default" || req.session.user.id === shop.ownerId) {
+                    return res.status(403).render('error', { title: "Error", error: 'Unauthorized Access', themeType: themeType, loggedIn: req.session.user });
+                }
             }
         }
         next()
