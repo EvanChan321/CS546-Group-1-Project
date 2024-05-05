@@ -377,9 +377,16 @@ router.route('/shop/:id').get(async (req, res) => {
     let isOwner = false
     let Admin = false
     let Business = false
+    let notDouble = true
     if(req.session.user){
       if(req.session.user.accountType === "Default"){
         Default = true
+        const user = await userData.getUser(req.session.user.id)
+        user.reviews.forEach((review) => {
+            if(review.objId.toString() === search){
+              notDouble = false
+            }
+        })
       }
       if(req.session.user.accountType === "Admin"){
         Admin = true
@@ -421,7 +428,7 @@ router.route('/shop/:id').get(async (req, res) => {
     }
     res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:newestReviews,
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
-      noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin, customList: cleanedString, flagcount: flagcount, Business: Business});
+      noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin, customList: cleanedString, flagcount: flagcount, Business: Business, notDouble: notDouble});
   } catch(e){
     res.status(500).render('error',{title: "Shop Page", error: e, loggedIn: req.session.user, themeType: themeType});
   }
@@ -855,9 +862,16 @@ router
       let Default = false
       let Admin = false
       let isOwner = false
+      let notDouble = true
       if(req.session.user){
         if(req.session.user.accountType === "Default"){
           Default = true
+          const user = await userData.getUser(req.session.user.id)
+          user.reviews.forEach((review) => {
+              if(review.objId.toString() === itemId){
+                notDouble = false
+              }
+          })
         }
         if(req.session.user.accountType === "Admin"){
           Admin = true
@@ -891,7 +905,8 @@ router
         lowestReviews: lowestReviews,
         highestReviews: highestReviews,
         newestReviews: newestReviews,
-        isOwner: isOwner
+        isOwner: isOwner,
+        notDouble: notDouble
       });
     } catch (e) {
       console.log(e)

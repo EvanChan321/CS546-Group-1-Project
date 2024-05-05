@@ -1,7 +1,7 @@
 <main>
     <h1>{{review.title}}</h1>
     {{#if item.name}}
-        <h2>Review of <a href="/item/{{item._id}}">{{item.name}}</a> at <a href="/shop/{{shop._id}}">{{shop.name}}</a></h2>
+        <h2>Review of <a href="/shop/{{shop._id}}/item/{{item._id}}">{{item.name}}</a> at <a href="/shop/{{shop._id}}">{{shop.name}}</a></h2>
     {{/if}}
     {{#unless item.name}}
         <h2>Review of  <a href="/shop/{{shop._id}}">{{shop.name}}</a></h2>
@@ -41,7 +41,7 @@
             <br>
             <button type="submit" id="submitButton" name="submitButton" class="save">Create Comment</button>
         </form>
-    </div>
+    </div>]
     {{/if}}
     {{/if}}
     <button onclick="toggleContent('toggledComments')">Display Comments</button>
