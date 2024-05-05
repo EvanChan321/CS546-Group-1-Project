@@ -282,6 +282,7 @@
         <h2>Reviews:</h2>
         {{#if loggedIn}}
         {{#if Default}}
+        {{#if notDouble}}
         <div id="container">
             <form action="/shop/{{shop._id}}/reviewForm" method="POST" id="reviewForm">
                 <label for="title">
@@ -309,6 +310,7 @@
                 <button type="submit" id="submitButton" name="submitButton" class="save">Create Review</button>
             </form>
         </div>
+        {{/if}}
         {{/if}}
         {{/if}}
         <button onclick="toggleContent('toggledReviews')">Display Recent Reviews</button>
