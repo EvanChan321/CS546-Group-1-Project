@@ -773,6 +773,7 @@ router
       flagReason = valid.stringValidate(xss(req.body.description))
     }
     catch(e){
+      console.log(e)
       return res.status(400).render("flagForm", {
         error: e.toString(),
         title: "Flag Form",
@@ -789,6 +790,7 @@ router
       )
       return res.redirect(`/shop/${shopId}/flag/${flag._id}`)
     } catch (error) {
+      console.log(error)
       return res.status(500).render("flagForm", {
               error: e.toString(),
               title: "Flag Form",

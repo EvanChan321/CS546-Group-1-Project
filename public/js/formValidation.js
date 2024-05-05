@@ -162,12 +162,12 @@ if(flagForm){
         let description = document.getElementById('description').value;
         if(description){
             try{
-                bio = stringValidate(description, 'description');
+                description = stringValidate(description, 'description');
             } catch(e){
                 errors.push(e.toString());
             }
         }
-        checkAndSubmit(errors, editUserForm);
+        checkAndSubmit(errors, flagForm);
     })
 }
 
