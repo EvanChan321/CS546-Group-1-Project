@@ -1167,13 +1167,31 @@ router.route('/shop/:shopId/item/:itemId/edit')
       }
       const storeItems = await searchResult.items;
       let filteredItems = [];
+      let cheapest = [];
+      let expensive = [];
+      let highest = [];
+      let lowest = [];
+      let alphaForward = [];
+      let alphaBackward = [];
       for(let item of storeItems){
         if(item.description.toLowerCase().includes(decodeSearch.toLowerCase())){
           filteredItems.push(item);
+          cheapest.push(item)
+          expensive.push(item)
+          highest.push(item)
+          lowest.push(item)
+          alphaForward.push(item)
+          alphaBackward.push(item)
         }
       }
+      highest.sort(function(a,b){return  b.calories - a.calories});
+      lowest.sort(function(a,b){return  a.calories - b.calories});
+      expensive.sort(function(a,b){return  b.price - a.price});
+      cheapest.sort(function(a,b){return  a.price - b.price});
+      alphaForward.sort(function(a,b){return a.name.localeCompare(b.name)});
+      alphaBackward.sort(function(a,b){return b.name.localeCompare(a.name)});
       res.render('itemSearch', {title: "Item Search Results", shop:searchResult, items:filteredItems, search:decodeSearch,
-        loggedIn: req.session.user, themeType: themeType});
+        loggedIn: req.session.user, themeType: themeType, highest: highest, lowest: lowest, cheapest: cheapest, expensive: expensive, alphaForward: alphaForward, alphaBackward: alphaBackward});
     } catch(e){
       res.status(500).render('error',{error: e, loggedIn: req.session.user, themeType: themeType});
     }
@@ -1191,7 +1209,27 @@ router.route('/shop/:shopId/item/:itemId/edit')
         return res.status(404).render('error',{error: `No shop with ID ${shop} found`, themeType: themeType});
       }
       const storeItems = await searchResult.items;
-      res.render('itemSearch', {title: "Item Search Results", shop:searchResult, items:storeItems,
+      let cheapest = [];
+      let expensive = [];
+      let highest = [];
+      let lowest = [];
+      let alphaForward = [];
+      let alphaBackward = [];
+      for(let item of storeItems){
+        cheapest.push(item)
+        expensive.push(item)
+        highest.push(item)
+        lowest.push(item)
+        alphaForward.push(item)
+        alphaBackward.push(item)
+      }
+      highest.sort(function(a,b){return  b.calories - a.calories});
+      lowest.sort(function(a,b){return  a.calories - b.calories});
+      expensive.sort(function(a,b){return  b.price - a.price});
+      cheapest.sort(function(a,b){return  a.price - b.price});
+      alphaForward.sort(function(a,b){return a.name.localeCompare(b.name)});
+      alphaBackward.sort(function(a,b){return b.name.localeCompare(a.name)});
+      res.render('itemSearch', {title: "Item Search Results", shop:searchResult, items:storeItems, cheapest: cheapest, expensive: expensive, alphaBackward: alphaBackward, alphaForward: alphaForward, lowest: lowest, highest: highest,
         loggedIn: req.session.user, themeType: themeType});
     } catch(e){
       res.status(500).render('error',{error: e, loggedIn: req.session.user, themeType: themeType});
