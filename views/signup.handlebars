@@ -2,9 +2,6 @@
     <section class="login">
         <form action="/user/signup{{postTo}}" name="signup-form" id="signup-form" method="POST" class="logSign">
         <h2>Create an account for Boba Fettch</h2>
-            {{#if error}}
-                <p class="error">{{error}}</p>
-            {{/if}}
             <label for="username">Username:</label><br>
             <input type="text" name="username" id="username" value="{{username}}" required><br>
             <label for="password">Password:</label><br>
@@ -16,6 +13,9 @@
             <label for="zipcode">Address:</label><br>
             <input type="text" name="zipcode" id="zipcode" value="{{zipcode}}" required><br>
             <button type="submit" name="submitButton" id="submitButton" class="save">Signup!</button>
+            {{#if error}}
+                <p class="CSerror">{{error}}</p>
+            {{/if}}
         </form>
         <p><a href="/user/signup{{link}}">Sign up for a {{type}} account</a></p>
         <p><a href="/user/login">Need to login?</a></p>
