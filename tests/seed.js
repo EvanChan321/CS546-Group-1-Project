@@ -75,7 +75,7 @@ let carti = {
     email: "playboicarti@rocketmail.com",
     zipcode: "Peachtree St, Atlanta",
     accountType: "Default",
-    themeType: 'light'
+    themeType: 'dark'
 }
 
 try {
@@ -175,6 +175,82 @@ try {
     console.log(e);
 }
 
+// User 7
+
+let rumy
+try {
+    rumy = await userData.createUser(
+        "redrumy",
+        "Password1!",
+        "knakano@stevens.edu",
+        "Rockaway, NJ",
+        "Default",
+        'dark'
+    );
+    console.log("user created");
+    console.log(rumy);
+}catch (e) {
+    console.log("Error creating user");
+    console.log(e);
+}
+
+// User 8
+
+let yap
+try {
+    yap = await userData.createUser(
+        "yap",
+        "Password1!",
+        "myap@stevens.edu",
+        "Hoboken, NJ",
+        "Default",
+        'dark'
+    );
+    console.log("user created");
+    console.log(yap);
+}catch (e) {
+    console.log("Error creating user");
+    console.log(e);
+}
+
+// User 9
+
+let tiantao
+try {
+    tiantao = await userData.createUser(
+        "tiantao",
+        "Password1!",
+        "echeng2@stevens.edu",
+        "Edison, NJ",
+        "Default",
+        'dark'
+    );
+    console.log("user created");
+    console.log(tiantao);
+}catch (e) {
+    console.log("Error creating user");
+    console.log(e);
+}
+
+// User 10
+
+let realass
+try {
+    realass = await userData.createUser(
+        "realass",
+        "Password1!",
+        "carias1@stevens.edu",
+        "Brick, NJ",
+        "Default",
+        'dark'
+    );
+    console.log("user created");
+    console.log(realass);
+}catch (e) {
+    console.log("Error creating user");
+    console.log(e);
+}
+
 // oolong item
 
 let oolong = {
@@ -182,7 +258,7 @@ let oolong = {
     description: "The finest tea, perfect for both sweet and non-sweet enjoyers",
     price: 5.99,
     tags: ["honey", "tapioca", "jelly", "iced", "milk", "malted"],
-    allergens: ["milk"]
+    allergens: ["Dairy"]
 }
 
 /// taro item
@@ -260,29 +336,101 @@ catch(e){
     console.log(e);
 }
 
-let tabbyReview2 = {
-    title: "ass",
-    rating: 1,
-    review: "this is bad",
-    user: tabby
+let tiantaoReview1 = {
+    title: "Ehhh",
+    rating: 2,
+    review: "Could be better, I like kung fu tea more",
+    user: tiantao
 }
 
 try{
-    tabbyReview2 = await reviewData.createReview(
-        tabbyReview2.user._id.toString(),
+    tiantaoReview1 = await reviewData.createReview(
+        tiantaoReview1.user._id.toString(),
         shop._id.toString(),
-        tabbyReview2.title,
-        tabbyReview2.rating,
-        tabbyReview2.review,
+        tiantaoReview1.title,
+        tiantaoReview1.rating,
+        tiantaoReview1.review,
         'shop'
     )
-    console.log("review incorrectly created");
-    console.log(tabbyReview2);
+    console.log("review created");
+    console.log(tiantaoReview1);
 }
 catch(e){
-    console.log("Correctly errored review");
+    console.log("Error creating review");
     console.log(e);
 }
+
+let realassReview1 = {
+    title: "#blessed",
+    rating: 4,
+    review: "My buddy Ha Chung Hoohn recommended this place to me! It's great!",
+    user: realass
+}
+
+try{
+    realassReview1 = await reviewData.createReview(
+        realassReview1.user._id.toString(),
+        shop._id.toString(),
+        realassReview1.title,
+        realassReview1.rating,
+        realassReview1.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(realassReview1);
+}
+catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let yapReview1 = {
+    title: "HYPE",
+    rating: 4,
+    review: "love that you can get both food and boba here",
+    user: yap
+}
+
+try{
+    yapReview1 = await reviewData.createReview(
+        yapReview1.user._id.toString(),
+        shop._id.toString(),
+        yapReview1.title,
+        yapReview1.rating,
+        yapReview1.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(yapReview1);
+}
+catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+// let tabbyReview2 = {
+//     title: "ass",
+//     rating: 1,
+//     review: "this is bad",
+//     user: tabby
+// }
+
+// try{
+//     tabbyReview2 = await reviewData.createReview(
+//         tabbyReview2.user._id.toString(),
+//         shop._id.toString(),
+//         tabbyReview2.title,
+//         tabbyReview2.rating,
+//         tabbyReview2.review,
+//         'shop'
+//     )
+//     console.log("review incorrectly created");
+//     console.log(tabbyReview2);
+// }
+// catch(e){
+//     console.log("Correctly errored review");
+//     console.log(e);
+// }
 
 let comment = {
     comment: "GOAT"
@@ -483,6 +631,76 @@ try{
     console.log(e);
 }
 
+let rumyReview1 = {
+    title: "A Classic",
+    rating: 5,
+    review: "The most popular boba spot in hoboken for a reason!",
+    user: rumy
+}
+
+try{
+    rumyReview1 = await reviewData.createReview(
+        rumyReview1.user._id.toString(),
+        kft._id.toString(),
+        rumyReview1.title,
+        rumyReview1.rating,
+        rumyReview1.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(rumyReview1);
+} catch (e) {
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let realassReview2 = {
+    title: "PEAK",
+    rating: 5,
+    review: "Even their coffee is good, of course this place is goated",
+    user: realass
+}
+
+try{
+    realassReview2 = await reviewData.createReview(
+        realassReview2.user._id.toString(),
+        kft._id.toString(),
+        realassReview2.title,
+        realassReview2.rating,
+        realassReview2.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(realassReview2);
+} catch (e) {
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let tiantaoReview2 = {
+    title: "THE MECCA",
+    rating: 5,
+    review: "I LOVE KFT WOOOOOOOO!",
+    user: tiantao
+}
+
+try{
+    tiantaoReview2 = await reviewData.createReview(
+        tiantaoReview2.user._id.toString(),
+        kft._id.toString(),
+        tiantaoReview2.title,
+        tiantaoReview2.rating,
+        tiantaoReview2.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(tiantaoReview2);
+}
+catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
 try{
     comment = await commentData.createComment(
         denks._id.toString(),
@@ -621,6 +839,52 @@ try{
     console.log(e);
 }
 
+let yapReview2 = {
+    title: "Pretty Good",
+    rating: 4,
+    review: "Crazy flavors, makes this place unique",
+    user: yap
+}
+
+try {
+    yapReview2 = await reviewData.createReview(
+        yapReview2.user._id.toString(),
+        vivi._id.toString(),
+        yapReview2.title,
+        yapReview2.rating,
+        yapReview2.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(yapReview2);
+} catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let rumyReview2 = {
+    title: "Variety",
+    rating: 3,
+    review: "Mid bubble tea, but the food is good at least",
+    user: rumy
+}
+
+try {
+    rumyReview2 = await reviewData.createReview(
+        rumyReview2.user._id.toString(),
+        vivi._id.toString(),
+        rumyReview2.title,
+        rumyReview2.rating,
+        rumyReview2.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(rumyReview2);
+} catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
 try{
     comment = await commentData.createComment(
         tabby._id.toString(),
@@ -735,6 +999,75 @@ try{
     console.log(e);
 }
 
+let amazinReview3 = {
+    title: "Whales...",
+    rating: 4,
+    review: "Great boba, but sadly no whales",
+    user: amazin
+}
+
+try{
+    amazinReview3 = await reviewData.createReview(
+        amazinReview3.user._id.toString(),
+        gongCha._id.toString(),
+        amazinReview3.title,
+        amazinReview3.rating,
+        amazinReview3.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(amazinReview3);
+} catch (e) {
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let cpReview1 = {
+    title: "Cool vibes",
+    rating: 2,
+    review: "Only go here if you like really sweet boba tea",
+    user: CP
+}
+
+try{
+    cpReview1 = await reviewData.createReview(
+        cpReview1.user._id.toString(),
+        gongCha._id.toString(),
+        cpReview1.title,
+        cpReview1.rating,
+        cpReview1.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(cpReview1);
+} catch (e) {
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let realassReview3 = {
+    title: "Mid",
+    rating: 3,
+    review: "Overrated sadly, not bad though",
+    user: realass
+}
+
+try{
+    realassReview3 = await reviewData.createReview(
+        realassReview3.user._id.toString(),
+        gongCha._id.toString(),
+        realassReview3.title,
+        realassReview3.rating,
+        realassReview3.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(realassReview3);
+} catch (e) {
+    console.log("Error creating review");
+    console.log(e);
+}
+
 try{
     item = await itemData.createItem(
         gongCha._id.toString(),
@@ -784,7 +1117,7 @@ try{
     console.log(e);
 }
 
-let cpReview1 = {
+let cpReview2 = {
     title: "First time trying",
     rating: 2,
     review: "Too sweet smh",
@@ -792,25 +1125,25 @@ let cpReview1 = {
 }
 
 try{
-    cpReview1 = await reviewData.createReview(
-        cpReview1.user._id.toString(),
+    cpReview2 = await reviewData.createReview(
+        cpReview2.user._id.toString(),
         bsItem._id.toString(),
-        cpReview1.title,
-        cpReview1.rating,
-        cpReview1.review,
+        cpReview2.title,
+        cpReview2.rating,
+        cpReview2.review,
         'item'
     )
     console.log("review created");
-    console.log(cpReview1);
+    console.log(cpReview2);
 } catch (e) {
     console.log("Error creating review");
     console.log(e);
 }
 
 try{
-    comment = await commentData.createComment( // THIS SHIT DONT WORK
+    comment = await commentData.createComment(
         tabby._id.toString(),
-        cpReview1._id.toString(),
+        cpReview2._id.toString(),
         "I would die if I drank that!"
     )
     console.log("comment created");
@@ -893,6 +1226,52 @@ try{
     )
     console.log("review created");
     console.log(tabbyReview3);
+} catch (e) {
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let rumyReview3 = {
+    title: "POISON",
+    rating: 1,
+    review: "Pretty sure their boba gave me food poisoning :(",
+    user: rumy
+}
+
+try{
+    rumyReview3 = await reviewData.createReview(
+        rumyReview3.user._id.toString(),
+        whaleTea._id.toString(),
+        rumyReview3.title,
+        rumyReview3.rating,
+        rumyReview3.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(rumyReview3);
+} catch (e) {
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let yapReview3 = {
+    title: "Yikes",
+    rating: 2,
+    review: "Wanted a new place, THIS AINT IT",
+    user: yap
+}
+
+try{
+    yapReview3 = await reviewData.createReview(
+        yapReview3.user._id.toString(),
+        whaleTea._id.toString(),
+        yapReview3.title,
+        yapReview3.rating,
+        yapReview3.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(yapReview3);
 } catch (e) {
     console.log("Error creating review");
     console.log(e);
@@ -988,6 +1367,101 @@ try {
     console.log(e);
 }
 
+let cartiReview2 = {
+    title: "Rockstar Made",
+    rating: 4,
+    review: "tHis pLac3 sh0uld b3 on 00ppium",
+    user: carti
+}
+
+try {
+    cartiReview2 = await reviewData.createReview(
+        cartiReview2.user._id.toString(),
+        shopBergen._id.toString(),
+        cartiReview2.title,
+        cartiReview2.rating,
+        cartiReview2.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(cartiReview2);
+} catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let denksReview3 = {
+    title: "Pleasantly Surprised",
+    rating: 4,
+    review: "First boba tea outside Hoboken, its great!",
+    user: denks
+}
+
+try {
+    denksReview3 = await reviewData.createReview(
+        denksReview3.user._id.toString(),
+        shopBergen._id.toString(),
+        denksReview3.title,
+        denksReview3.rating,
+        denksReview3.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(denksReview3);
+} catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let tiantaoReview3 = {
+    title: "Amazing!!",
+    rating: 5,
+    review: "Fire boba tea",
+    user: tiantao
+}
+
+try {
+    tiantaoReview3 = await reviewData.createReview(
+        tiantaoReview3.user._id.toString(),
+        shopBergen._id.toString(),
+        tiantaoReview3.title,
+        tiantaoReview3.rating,
+        tiantaoReview3.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(tiantaoReview3);
+} catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let tabbyReview4 = {
+    title: "Best in Bergen",
+    rating: 5,
+    review: "They serve only PEAK here",
+    user: tabby
+}
+
+try {
+    tabbyReview4 = await reviewData.createReview(
+        tabbyReview4.user._id.toString(),
+        shopBergen._id.toString(),
+        tabbyReview4.title,
+        tabbyReview4.rating,
+        tabbyReview4.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(tabbyReview4);
+} catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+// end of shopBergen
+
+// shopFlushing
 let shopFlushing
 try {
     shopFlushing = await shopData.createShop(
@@ -1009,6 +1483,100 @@ try {
     console.log("Error creating shop");
     console.log(e);
 }
+
+let cpReview3 = {
+    title: "Illegal????",
+    rating: 3,
+    review: "Really good, but the place was NASTY inside",
+    user: CP
+}
+
+try {
+    cpReview3 = await reviewData.createReview(
+        cpReview3.user._id.toString(),
+        shopFlushing._id.toString(),
+        cpReview3.title,
+        cpReview3.rating,
+        cpReview3.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(cpReview3);
+} catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let cartiReview3 = {
+    title: "FW3H",
+    rating: 5,
+    review: "My brudda k3n cars0n (fschyeah) said dis plac3 fir3",
+    user: carti
+}
+
+try {
+    cartiReview3 = await reviewData.createReview(
+        cartiReview3.user._id.toString(),
+        shopFlushing._id.toString(),
+        cartiReview3.title,
+        cartiReview3.rating,
+        cartiReview3.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(cartiReview3);
+} catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let realassReview4 = {
+    title: "Kings of Flushing!!!",
+    rating: 5,
+    review: "Best place in Flushing NO CAP",
+    user: realass
+}
+
+try {
+    realassReview4 = await reviewData.createReview(
+        realassReview4.user._id.toString(),
+        shopFlushing._id.toString(),
+        realassReview4.title,
+        realassReview4.rating,
+        realassReview4.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(realassReview4);
+} catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+let yapReview4 = {
+    title: "Really good!",
+    rating: 4,
+    review: "I've been going here since childhood",
+    user: yap
+}
+
+try {
+    yapReview4 = await reviewData.createReview(
+        yapReview4.user._id.toString(),
+        shopFlushing._id.toString(),
+        yapReview4.title,
+        yapReview4.rating,
+        yapReview4.review,
+        'shop'
+    )
+    console.log("review created");
+    console.log(yapReview4);
+} catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+// end of shopFlushing
 
 let admin
 try {
@@ -1039,105 +1607,241 @@ try {
         'dark'
     );
     console.log("user created");
-    console.log(bot);
+    console.log(alim);
 }catch (e) {
     console.log("Error creating user");
     console.log(e);
 }
+
+// alim review spam
+
+let alimReview1 = {
+    title: "So soy",
+    rating: 1,
+    review: "No MoT10N!!",
+    user: alim
+}
+
+let alimReview2 = {
+    title: "Dairy !!",
+    rating: 1,
+    review: "Opium Банда",
+    user: alim
+}
+
+let spamReview
 try{
-    flag = await flagData.createFlag(shopFlushing._id.toString(), alim._id.toString(), "wrong hours")
+    spamReview = await reviewData.createReview(
+        alimReview1.user._id.toString(),
+        shop._id.toString(),
+        alimReview1.title,
+        alimReview1.rating,
+        alimReview1.review,
+        'shop'
+    )
+    console.log("Spam review created");
+}
+catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+
+try{
+    spamReview = await reviewData.createReview(
+        alimReview2.user._id.toString(),
+        kft._id.toString(),
+        alimReview2.title,
+        alimReview2.rating,
+        alimReview2.review,
+        'shop'
+    )
+    console.log("Spam review created");
+}
+catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+try{
+    spamReview = await reviewData.createReview(
+        alimReview2.user._id.toString(),
+        vivi._id.toString(),
+        alimReview2.title,
+        alimReview2.rating,
+        alimReview2.review,
+        'shop'
+    )
+    console.log("Spam review created");
+}
+catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+try{
+    spamReview = await reviewData.createReview(
+        alimReview1.user._id.toString(),
+        gongCha._id.toString(),
+        alimReview1.title,
+        alimReview1.rating,
+        alimReview1.review,
+        'shop'
+    )
+    console.log("Spam review created");
+}
+catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+try{
+    spamReview = await reviewData.createReview(
+        alim._id.toString(),
+        whaleTea._id.toString(),
+        "WHALES??",
+        1,
+        "THERE WERE NO WHALES THERE (FWEH)",
+        'shop'
+    )
+    console.log("Spam review created");
+}
+catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+try{
+    spamReview = await reviewData.createReview(
+        alimReview2.user._id.toString(),
+        shopBergen._id.toString(),
+        alimReview2.title,
+        alimReview2.rating,
+        alimReview2.review,
+        'shop'
+    )
+    console.log("Spam review created");
+}
+catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+try{
+    spamReview = await reviewData.createReview(
+        alimReview1.user._id.toString(),
+        shopFlushing._id.toString(),
+        alimReview1.title,
+        alimReview1.rating,
+        alimReview1.review,
+        'shop'
+    )
+    console.log("Spam review created");
+}
+catch(e){
+    console.log("Error creating review");
+    console.log(e);
+}
+
+// end of alim review spam
+
+// alim flag spam
+
+try{
+    flag = await flagData.createFlag(shop._id.toString(), alim._id.toString(), "Chicken Factory? BANNED")
     console.log("flag added");
     console.log(flag);
 }catch (e) {
     console.log("Error adding flag");
     console.log(e);
 }
-try {
-    bot = await userData.createUser(
-        "redrumy",
-        "Password1!",
-        "knakano@stevens.edu",
-        "Rockaway, NJ",
-        "Default",
-        'dark'
-    );
-    console.log("user created");
-    console.log(bot);
-}catch (e) {
-    console.log("Error creating user");
-    console.log(e);
-}
+
 try{
-    flag = await flagData.createFlag(shopFlushing._id.toString(), bot._id.toString(), "wrong hours")
+    flag = await flagData.createFlag(kft._id.toString(), alim._id.toString(), "Not Opium")
     console.log("flag added");
     console.log(flag);
 }catch (e) {
     console.log("Error adding flag");
     console.log(e);
 }
-try {
-    bot = await userData.createUser(
-        "yap",
-        "Password1!",
-        "myap@stevens.edu",
-        "Hoboken, NJ",
-        "Default",
-        'dark'
-    );
-    console.log("user created");
-    console.log(bot);
-}catch (e) {
-    console.log("Error creating user");
-    console.log(e);
-}
+
 try{
-    flag = await flagData.createFlag(shopFlushing._id.toString(), bot._id.toString(), "wrong hours")
+    flag = await flagData.createFlag(vivi._id.toString(), alim._id.toString(), "GO2DAMOON")
     console.log("flag added");
     console.log(flag);
 }catch (e) {
     console.log("Error adding flag");
     console.log(e);
 }
-try {
-    bot = await userData.createUser(
-        "tiantao",
-        "Password1!",
-        "echeng2@stevens.edu",
-        "Edison, NJ",
-        "Default",
-        'dark'
-    );
-    console.log("user created");
-    console.log(bot);
-}catch (e) {
-    console.log("Error creating user");
-    console.log(e);
-}
+
 try{
-    flag = await flagData.createFlag(shopFlushing._id.toString(), bot._id.toString(), "wrong hours")
+    flag = await flagData.createFlag(gongCha._id.toString(), alim._id.toString(), "Ken Carson")
     console.log("flag added");
     console.log(flag);
 }catch (e) {
     console.log("Error adding flag");
     console.log(e);
 }
-try {
-    bot = await userData.createUser(
-        "realass",
-        "Password1!",
-        "carias1@stevens.edu",
-        "Brick, NJ",
-        "Default",
-        'dark'
-    );
-    console.log("user created");
-    console.log(bot);
+
+try{
+    flag = await flagData.createFlag(whaleTea._id.toString(), alim._id.toString(), "LISTEN TO 2105!!!")
+    console.log("flag added");
+    console.log(flag);
 }catch (e) {
-    console.log("Error creating user");
+    console.log("Error adding flag");
     console.log(e);
 }
+
 try{
-    flag = await flagData.createFlag(shopFlushing._id.toString(), bot._id.toString(), "wrong hours")
+    flag = await flagData.createFlag(shopBergen._id.toString(), alim._id.toString(), "Jennifer's Body (99% Accurate)")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), alim._id.toString(), "I hate flushing")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+
+// end of alim flag spam
+
+
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), rumy._id.toString(), "wrong hours")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), yap._id.toString(), "wrong hours")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), tiantao._id.toString(), "wrong hours")
+    console.log("flag added");
+    console.log(flag);
+}catch (e) {
+    console.log("Error adding flag");
+    console.log(e);
+}
+
+try{
+    flag = await flagData.createFlag(shopFlushing._id.toString(), realass._id.toString(), "wrong hours")
     console.log("flag added");
     console.log(flag);
 }catch (e) {
@@ -1594,7 +2298,19 @@ try{
 
 try{
     await userData.updatePoints(
-        bot._id.toString(), 
+        realass._id.toString(), 
+        170
+    )
+    await userData.updatePoints(
+        yap._id.toString(), 
+        170
+    )
+    await userData.updatePoints(
+        tiantao._id.toString(), 
+        170
+    )
+    await userData.updatePoints(
+        rumy._id.toString(), 
         170
     )
     await userData.updatePoints(
