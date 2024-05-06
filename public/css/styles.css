@@ -112,6 +112,14 @@ input[type="number"] {
     margin-bottom: 10px;
 }
 
+select {
+    border-radius: 5px;
+    border-radius: 5px;
+    height: 1.3rem;
+    margin-bottom: 10px;
+    font-size: .9rem;
+}
+
 button {
     padding: 5px 10px;
     background-color: transparent;

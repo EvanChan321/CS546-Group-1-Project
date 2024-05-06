@@ -30,7 +30,7 @@ router
       }
       userEmail = valid.emailCheck(xss(req.body.email))
       userAddress = valid.stringValidate(xss(req.body.zipcode), 'Address')
-      // themeType = valid.stringValidate(xss(req.body.themeType), 'Theme')
+      themeType = valid.stringValidate(xss(req.body.themeType), 'Theme')
     }
     catch(e){
       return res.status(400).render("signup", {
@@ -242,6 +242,7 @@ router
     let userId
     let user
     const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+    console.log(req.body);
     try{
       userId = valid.idCheck(xss(req.params.userId))
       user = await userData.getUser(userId);
