@@ -4,11 +4,11 @@
         <h2>Review of <a href="/shop/{{shop._id}}/item/{{item._id}}">{{item.name}}</a> at <a href="/shop/{{shop._id}}">{{shop.name}}</a></h2>
     {{/if}}
     {{#unless item.name}}
-        <h2>Review of  <a href="/shop/{{shop._id}}">{{shop.name}}</a></h2>
+        <h2>Review of <a href="/shop/{{shop._id}}">{{shop.name}}</a></h2>
     {{/unless}}
     <h2>{{review.rating}}/5</h2>
     <p>{{review.review}}</p>
-    <p>Posted by: {{review.user}}</p>
+    <p>Posted by: <a href="/user/{{review.userId}}">{{review.user}}</a></p>
     <p>Posted on: {{review.reviewDate}}</p>
     {{#if review.edited}}
     <p>Edited</p>
