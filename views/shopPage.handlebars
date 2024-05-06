@@ -242,7 +242,7 @@
         {{/if}}
         {{/if}}
         {{/if}}
-        <h2>Menu:</h2>
+        <h2><a href="/shop/{{shop._id}}/itemSearch/">Menu:</a></h2>
         {{#if loggedIn}}
         {{#if noOwner}}
         {{#if Default}}
@@ -263,7 +263,7 @@
             <div id="container3">
                 <label>Search Items:</label>
                 <input class="search-bar" value="" type="text" name="search" id="itemSearch" placeholder="Matcha...">
-                <button type="button" onclick="location.href='/shop/{{shop._id}}/itemSearch/' + encodeURIComponent(document.getElementById('itemSearch').value)">
+                <button type="button" onclick="location.href='/shop/{{shop._id}}/itemSearch/?name=' + encodeURIComponent(document.getElementById('itemSearch').value)">
                 <img class="search-button" alt="search-button" src="/public/img/search-icon.png">
                 </button>
             </div>
@@ -286,7 +286,7 @@
                 {{/each}}
             </table>
         </div>
-        <h2>Reviews:</h2>
+        <h2><a href="/shop/{{shop._id}}/reviewSearch/">Reviews:</a></h2>
         {{#if loggedIn}}
         {{#if Default}}
         {{#if notDouble}}
@@ -322,7 +322,6 @@
         {{/if}}
         <button onclick="toggleContent('toggledReviews')">Display Recent Reviews</button>
         <div id="toggledReviews" style="display: none;">
-            <h2><a href="/shop/{{shop._id}}/reviewSearch/"> See All Reviews</a></h2>
             <div id="container2">
                 <label>Search Reviews:</label>
                 <input class="search-bar" type="text" name="search" id="search" placeholder="Service...">

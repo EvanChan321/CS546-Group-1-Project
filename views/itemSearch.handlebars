@@ -1,8 +1,8 @@
 <main>
     {{#if search}}
-    <h1>Items with name mentioning "{{search}}" at {{shop.name}}</h1>
+    <h1>Items with name mentioning "{{search}}" at <a href="/shop/{{shop._id}}">{{shop.name}}</a></h1>
     {{else}}
-    <h1>Items at {{shop.name}}</h1>
+    <h1>Items at <a href="/shop/{{shop._id}}">{{shop.name}}</a></h1>
     {{/if}}
     <div id="container" data-shop-id="{{shop._id}}">
         <label>Search Items:</label>
