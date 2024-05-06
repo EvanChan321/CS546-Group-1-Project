@@ -53,6 +53,7 @@ const createReview = async (userId, objId, title, rating, review, type) => {
   const newReview = {
     _id: x,
     objId: new ObjectId(objId),
+    userId: userId,
     user: userReview.name,
     title: title,
     rating: rating,
