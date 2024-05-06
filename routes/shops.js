@@ -16,7 +16,7 @@ router.route('/').get(async (req, res) => {
       themeType: themeType
     });
   }catch(e){
-    res.sendStatus(500);
+    res.status(500).send("Internal Server Error");
   }
 });
  
@@ -41,7 +41,6 @@ router.route('/map').get(async (req, res) => {
       loggedIn: req.session.user
     });
   } catch (e) {
-    console.log(e);
     res.status(500).send("Internal Server Error");
   }
 })
@@ -88,7 +87,6 @@ router.route('/map').get(async (req, res) => {
       shops: pins
     });
     } catch (e) {
-        console.log(e);
         res.status(500).send("Internal Server Error");
     }
 });
@@ -301,7 +299,6 @@ router.route('/shops/search').post(async (req, res) => {
     }
     res.render('shopSearchResults', {title:"Search Results", shops: sortShops, loggedIn: req.session.user, search: search, themeType: themeType, currentHour: currentHour, currentMin: currentMin, Distance: Distance});
   }catch(e){
-    console.log(e)
     res.status(500).render('error', {title: "Search Results", error: e, themeType: themeType, loggedIn: req.session.user});
   }
 })
@@ -507,7 +504,6 @@ router
     }
   }
   catch(e){
-    console.log(e)
     return res.status(400).render("shopPage", {
       error: e.toString(),
       title: "Shop Page",
@@ -540,7 +536,6 @@ router
     )
     return res.redirect(`/shop/${shop._id}`)
   } catch (error) {
-    console.log(error)
     return res.status(500).render("shopPage", {
             error: error.toString(),
             title: "Shop Page",
@@ -564,7 +559,6 @@ router.route('/shop/:id/user/claim')
     shopId = valid.idCheck(xss(req.params.id))
   }
   catch(e){
-    console.log(e)
     return res.status(400).render("shopPage", {
       error: e.toString(),
       title: "Shop Page",
@@ -586,7 +580,6 @@ router.route('/shop/:id/user/claim')
     shopData.updateShop(shopId, shop)
     return res.redirect(`/shop/${shop._id}`)
   } catch (error) {
-    console.log(error)
     return res.status(500).render("shopPage", {
             error: error.toString(),
             title: "Shop Page",
@@ -673,7 +666,6 @@ router
         themeType: themeType,
       });
     }catch(e){
-      console.log(e);
       res.status(500).render('error', {title: "Item Form", error: "Internal Server Error", loggedIn: req.session.user, themeType: themeType});
     }
   })
@@ -712,7 +704,6 @@ router
       const updatedUser = await userData.updatePoints(userId, 20)
       return res.redirect(`/shop/${shopId}/item/${item._id.toString()}`)
     } catch (error) {
-      console.log(error);
       return res.status(500).render('error', {error: "Internal Server Error", themeType: themeType, loggedIn: req.session.user});
     }
   })
@@ -735,7 +726,6 @@ router
       review = valid.stringValidate(xss(req.body.review), "review");
     }
     catch(e){
-      console.log(e);
       res.status(504).redirect(`/shop/${xss(req.params.shopId)}`);
     }
     try {
@@ -750,7 +740,6 @@ router
       const updatedUser = await userData.updatePoints(userId, 10)
       return res.redirect(`/review/${rev._id}`)
     } catch(e) {
-      console.log("fsadlfjaoifnoiashpodfi");
       res.status(500).render('error', {title: "Review Form", error: "Internal Server Error", loggedIn: req.session.user, themeType: themeType})
     }
   })
@@ -773,7 +762,6 @@ router
       flagReason = valid.stringValidate(xss(req.body.description))
     }
     catch(e){
-      console.log(e)
       return res.status(400).render("flagForm", {
         error: e.toString(),
         title: "Flag Form",
@@ -790,7 +778,6 @@ router
       )
       return res.redirect(`/shop/${shopId}/flag/${flag._id}`)
     } catch (error) {
-      console.log(error)
       return res.status(500).render("flagForm", {
               error: e.toString(),
               title: "Flag Form",
@@ -911,7 +898,6 @@ router
         notDouble: notDouble
       });
     } catch (e) {
-      console.log(e)
       return res.status(404).json({error: e});
     }
   })
@@ -931,7 +917,6 @@ router
       review = valid.stringValidate(xss(req.body.review), "review");
     }
     catch(e){
-      console.log(e);
       res.status(504).redirect(`/shop/${xss(req.params.shopId)}/item/${xss(req.params.itemId)}`);
     }
     try {
@@ -972,7 +957,6 @@ router
   
 router.route('/shop/:shopId/item/:itemId/edit')
   .post(async (req, res) => {
-    console.log(1)
     let shopId
     let name
     let description
@@ -1014,7 +998,6 @@ router.route('/shop/:shopId/item/:itemId/edit')
       }
     }
     catch(e){
-      console.log(e)
       return res.status(400).render("item", {
         error: e.toString(),
         title: "Item Error",
@@ -1029,7 +1012,6 @@ router.route('/shop/:shopId/item/:itemId/edit')
       )
       return res.redirect(`/shop/${shopId}/item/${itemId}`)
     } catch (error) {
-      console.log(error)
       return res.status(500).render("item", {
                 error: error.toString(),
                 title: "Item Error",

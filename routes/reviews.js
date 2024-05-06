@@ -73,7 +73,6 @@ router
       edited = true
     }
     catch (e) {
-      console.log(e)
       return res.status(400).render("reviewPage", {
         error: e.toString(),
         titlePage: "Review",
@@ -97,7 +96,6 @@ router
       )
       return res.redirect(`/review/${review2._id}`)
     } catch (error) {
-      console.log(error)
       return res.status(500).render("reviewPage", {
         error: error.toString(),
         titlePage: "Review",
@@ -128,7 +126,6 @@ router
       comment = valid.stringValidate(xss(req.body.comment))
     }
     catch (e) {
-      console.log(e)
       return res.status(400).render("reviewPage", {
         error: e.toString(),
         title: "Review",
@@ -143,7 +140,6 @@ router
       return res.redirect(`/review/${reviewId}/comment/${newComment._id.toString()}`)
     }
     catch (e) {
-      console.log(e)
       return res.status(400).render("reviewPage", {
         error: e.toString(),
         title: "Review",
@@ -164,7 +160,6 @@ router
       reviewId = valid.idCheck(xss(req.params.reviewId))
       commentId = valid.idCheck(xss(req.params.commentId))
     } catch (e) {
-      console.log(e)
       return res.status(400).json({ error: e });
     }
     try {
@@ -193,7 +188,6 @@ router
         Admin: Admin
       });
     } catch (e) {
-      console.log(e)
       return res.status(404).json({ error: e });
     }
   });
@@ -207,7 +201,6 @@ router
       reviewId = valid.idCheck(xss(req.params.reviewId))
     }
     catch (e) {
-      console.log(e)
       return res.status(400).render("reviewPage", {
         error: e.toString(),
         title: "Review",
@@ -219,7 +212,6 @@ router
       const user = await reviewData.removeReview(reviewId)
       return res.redirect(`/user/${user._id}`)
     } catch (error) {
-      console.log(error)
       return res.status(500).render("reviewPage", {
         error: error.toString(),
         title: "Review",

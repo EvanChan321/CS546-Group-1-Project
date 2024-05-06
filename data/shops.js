@@ -68,7 +68,6 @@ const createShop = async (name, address, website, phoneNumber, hour1, minute1, a
             throw 'store with that name already exists'
         }
     }
-    console.log(duplicateAdd)
     if(duplicateAdd) {
         throw "Store at this location already exists";
     }
