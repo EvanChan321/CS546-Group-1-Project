@@ -522,7 +522,7 @@ router
   }
   try {
     let updateObject = {
-      shopName: shopName,
+      name: shopName,
       address: address,
       website: website,
       phoneNumber: phoneNumber,
