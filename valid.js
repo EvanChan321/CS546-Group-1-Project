@@ -6,70 +6,70 @@ import NodeGeocoder from "node-geocoder";
 import { shopData } from "./data/index.js";
 import badwords from "bad-words";
 
-export function numCheck (num) {
-    if (typeof(num) !== 'number'){
+export function numCheck(num) {
+    if (typeof (num) !== 'number') {
         throw (`${num} is not a number`);
     }
-    if(isNaN(num)){
+    if (isNaN(num)) {
         throw (`${num} is not a number`);
     }
 };
-export function intCheck (num) {
-    if(!Number.isInteger(num)){
+export function intCheck(num) {
+    if (!Number.isInteger(num)) {
         throw (`${num} is not an integer`);
     }
 };
-export function objectCheck (val) {
-    if (typeof(val) !== 'object'){
+export function objectCheck(val) {
+    if (typeof (val) !== 'object') {
         throw (`${val} is not a object`);
     }
 };
-export function arrayCheck (val) {
-    if(!Array.isArray(val)){
+export function arrayCheck(val) {
+    if (!Array.isArray(val)) {
         throw (`${val} is not an array`);
     }
 };
-export function atLeast (val, checkVal, valName) {
-    if(val.length < checkVal){
+export function atLeast(val, checkVal, valName) {
+    if (val.length < checkVal) {
         throw (`${valName} has less than 2 elements`);
     }
 };
-export function functionCheck (val) {
-    if (typeof(val) !== 'function'){
+export function functionCheck(val) {
+    if (typeof (val) !== 'function') {
         throw (`${val} is not a function`);
     }
 }
-export function stringCheck (val, valName) {
-    if (typeof(val) !== 'string'){
+export function stringCheck(val, valName) {
+    if (typeof (val) !== 'string') {
         throw (`${valName} is not a string`);
     }
 }
-export function keyCheck (val) {
+export function keyCheck(val) {
     if (Object.keys(val).length === 0) {
         throw (`${val} is empty`);
     }
 }
-export function notArrayCheck (val) {
-    if(Array.isArray(val)){
+export function notArrayCheck(val) {
+    if (Array.isArray(val)) {
         throw (`${val} is an array`);
     }
 };
 
-export function customizationCheck (val) {
+export function customizationCheck(val) {
     let customization = ["ice_level", "sugar_level", "size_options", "customization_charge"]
-    if(!customization.includes(val)){
+    if (!customization.includes(val)) {
         throw 'invalid customization'
     }
 };
 
 
-export function booleanCheck (val) {
+export function booleanCheck(val) {
     if (typeof val !== "boolean") {
         throw (`${val} is not an array`);
     }
 };
 
-export function stringValidate (val, valName){
+export function stringValidate(val, valName) {
     stringCheck(val, valName)
     val = val.trim()
     atLeast(val, 1, valName)
@@ -78,7 +78,7 @@ export function stringValidate (val, valName){
     return val
 }
 
-export function idCheck (val) {
+export function idCheck(val) {
     stringCheck(val)
     atLeast(val.trim(), 1, 'id')
     if (!ObjectId.isValid(val)) {
@@ -87,21 +87,21 @@ export function idCheck (val) {
     return val.trim()
 }
 
-export function emailCheck (val) {
-    if(!validator.isEmail(val.trim())){
+export function emailCheck(val) {
+    if (!validator.isEmail(val.trim())) {
         throw "not valid email"
     }
     return val.trim()
 }
 
-export function urlCheck (val) {
-    if(!validator.isURL(val.trim())){
+export function urlCheck(val) {
+    if (!validator.isURL(val.trim())) {
         throw "not valid url"
     }
     return val.trim()
 }
 
-export function phoneNumberCheck (val){
+export function phoneNumberCheck(val) {
     if (!phone(val.trim()).isValid) {
         throw `not a valid phone number`;
     }
@@ -115,34 +115,34 @@ let options = {
     minSymbols: 1
 };
 
-export function passwordCheck (val){
+export function passwordCheck(val) {
     val = stringValidate(val)
     if (/\s/.test(val)) {
         throw "password cannot have spaces"
     }
-    if(!validator.isStrongPassword(val, options)){
+    if (!validator.isStrongPassword(val, options)) {
         throw "Password must be 8 characters long and contain: 1 Uppercase 1 Number 1 Symbol"
     }
     return val
 }
 
-export function checkPrice(price){
+export function checkPrice(price) {
     numCheck(price, 'Price');
-    if(price != price.toFixed(2)) throw "Price cannot be more than 2 decimal places";
-    if(price < 0) throw "Price cannot be negative";
+    if (price != price.toFixed(2)) throw "Price cannot be more than 2 decimal places";
+    if (price < 0) throw "Price cannot be negative";
     return price;
 }
 
-export function arrayOfStrings (val){
+export function arrayOfStrings(val) {
     arrayCheck(val)
-    for(let i = 0; i < val.length; i++){
+    for (let i = 0; i < val.length; i++) {
         val[i] = stringValidate(val[i])
     }
     return val
 }
 
-export function maxDecimal (val, num) {
-    if(!(String(val).split(".")[1]?.length <= num)){
+export function maxDecimal(val, num) {
+    if (!(String(val).split(".")[1]?.length <= num)) {
         throw 'Too many decimal places'
     }
 }
@@ -153,40 +153,42 @@ export async function verifyPassword(password, hash) {
 }
 
 export function sortLev(stores, search) {
-    let levValues = {};
-    function getLevDistance(storeName) {
-        if (!levValues[storeName]) {
-          levValues[storeName] = calculateLevenshtein(storeName, search, storeName.length, search.length);
+    const searchLower = search.toLowerCase();
+    function calculateLevenshtein(store, search, x, y) {
+        store = store.toLowerCase();
+        if (store.includes(search)) return 0;
+        if (x === 0) return y;
+        if (y === 0) return x;
+        const dp = Array(x + 1).fill(null).map(() => Array(y + 1).fill(null));
+        for (let i = 0; i <= x; i++) { dp[i][0] = i }
+        for (let j = 0; j <= y; j++) { dp[0][j] = j; }
+        for (let i = 1; i <= x; i++) {
+            for (let j = 1; j <= y; j++) {
+                const substitutionCost = store[i - 1] === search[j - 1] ? 0 : 1;
+                dp[i][j] = 1 + Math.min(
+                    dp[i - 1][j],
+                    dp[i][j - 1],
+                    dp[i - 1][j - 1] + substitutionCost
+                );
+            }
         }
-        return levValues[storeName];
-      }
-      for (let i = 1; i < stores.length; i++) {
+        return dp[x][y];
+    }
+    for (let i = 1; i < stores.length; i++) {
         let current = stores[i];
-        let currentLev = getLevDistance(current.name);
+        let currentLev = calculateLevenshtein(current.name, searchLower, current.name.length, searchLower.length);
         let j = i - 1;
-        while (j >= 0 && (getLevDistance(stores[j].name) > currentLev || (getLevDistance(stores[j].name) === currentLev && stores[j].likes < current.likes))) {
-          stores[j + 1] = stores[j];
-          j--;
+
+        while (j >= 0 && (
+            calculateLevenshtein(stores[j].name, searchLower, stores[j].name.length, searchLower.length) > currentLev ||
+            (calculateLevenshtein(stores[j].name, searchLower, stores[j].name.length, searchLower.length) === currentLev && stores[j].likes < current.likes)
+        )) {
+            stores[j + 1] = stores[j];
+            j--;
         }
         stores[j + 1] = current;
-      }
-    return stores;
-}
-
-export function calculateLevenshtein(store,search,x,y) {
-    store = store.toLowerCase();
-    search = search.toLowerCase();
-    if (store.includes(search)) return 0;
-    if (x === 0) {return y;}
-    if (y === 0) {return x;}
-    if (store[x-1] === search [y-1]){
-        return calculateLevenshtein(store,search,x-1,y-1);
     }
-    return 1 + Math.min(
-        calculateLevenshtein(store,search,x,y-1),
-        calculateLevenshtein(store,search,x-1,y),
-        calculateLevenshtein(store,search,x-1,y-1),
-    )
+    return stores;
 }
 
 export async function getLatLong(address) {
@@ -205,7 +207,7 @@ export async function getLatLong(address) {
     return returnObj;
 }
 
-export async function getPins(){
+export async function getPins() {
     const shops = await shopData.getAllShops();
     let pins = [];
 
@@ -244,8 +246,8 @@ function toRadians(degrees) {
     return degrees * Math.PI / 180;
 }
 
-export function convertTime(hour1, minute1, ampm1, hour2, minute2, ampm2){
-    try{
+export function convertTime(hour1, minute1, ampm1, hour2, minute2, ampm2) {
+    try {
         hour1 = stringValidate(hour1)
         hour1 = parseInt(hour1)
         minute1 = stringValidate(minute1)
@@ -256,22 +258,22 @@ export function convertTime(hour1, minute1, ampm1, hour2, minute2, ampm2){
         minute1 = stringValidate(minute2)
         minute2 = parseInt(minute2)
         ampm2 = stringValidate(ampm2)
-        if(hour1 < 1 || hour1 > 12){
+        if (hour1 < 1 || hour1 > 12) {
             throw 'hour out of range'
         }
-        if(hour2 < 1 || hour2 > 12){
+        if (hour2 < 1 || hour2 > 12) {
             throw 'hour out of range'
         }
-        if(minute1 < 0 || minute1 > 59){
+        if (minute1 < 0 || minute1 > 59) {
             throw 'minute out of range'
         }
-        if(minute2 < 0 || minute2 > 59){
+        if (minute2 < 0 || minute2 > 59) {
             throw 'minute out of range'
         }
-        if(ampm1 !== "PM" && ampm1 !== "AM"){
+        if (ampm1 !== "PM" && ampm1 !== "AM") {
             throw 'time needs to be in AM or PM'
         }
-        if(ampm2 !== "PM" && ampm2 !== "AM"){
+        if (ampm2 !== "PM" && ampm2 !== "AM") {
             throw 'time needs to be in AM or PM'
         }
         if (ampm1 === "PM" && hour1 !== 12) {
@@ -286,14 +288,14 @@ export function convertTime(hour1, minute1, ampm1, hour2, minute2, ampm2){
         }
         let openTime = new Date(0, 0, 0, hour1, minute1);
         let closeTime = new Date(0, 0, 0, hour2, minute2);
-        return {openTime, closeTime}
+        return { openTime, closeTime }
     }
-    catch(e){
+    catch (e) {
         throw e
     }
 }
 
-export async function getDistances(shops, address){
+export async function getDistances(shops, address) {
     const userAddress = await getLatLong(address);
     for (const shop of shops) {
         const cords = await getLatLong(shop.address);
