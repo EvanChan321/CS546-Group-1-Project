@@ -1,14 +1,14 @@
 
     <main>
         {{#if search}}
-        <h1>Reviews mentioning "{{search}}" at {{shop.name}}</h1>
+        <h1>Reviews mentioning "{{search}}" at <a href="/shop/{{shop._id}}">{{shop.name}}</a></h1>
         {{/if}}
         {{#if user}}
-        <h1>Reviews posted by "{{user}}" at {{shop.name}}</h1>
+        <h1>Reviews posted by "{{user}}" at <a href="/shop/{{shop._id}}">{{shop.name}}</a></h1>
         {{/if}}
         {{#unless search}}
             {{#unless user}}
-            <h1>Reviews at {{shop.name}}</h1>
+            <h1>Reviews at <a href="/shop/{{shop._id}}">{{shop.name}}</a></h1>
             {{/unless}}
         {{/unless}}
         <div id="container">
