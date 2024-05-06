@@ -8,7 +8,6 @@ function getColor(num){
 }
 
 async function initMap(shops) {
-  console.log(shops)
   const { Map, InfoWindow } = await google.maps.importLibrary("maps");
   const { AdvancedMarkerElement, PinElement } = await google.maps.importLibrary(
     "marker",
@@ -71,7 +70,6 @@ async function fetchDataAndRenderMap(address, distance) {
     const { lat, lng, shops } = response;
     $('#latitude').val(lat);
     $('#longitude').val(lng);
-    console.log(shops)
     initMap(shops);
 
   } catch (error) {

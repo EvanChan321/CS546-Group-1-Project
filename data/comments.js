@@ -5,7 +5,6 @@ import userData from './users.js';
 import reviewData from './reviews.js'
 
 const getAllCommentsFromUser = async (userId) => {
-    console.log(userId)
     const user = await userData.getUser(userId);
     let comments = []
     await Promise.all(user.comments.map(async (commentId) => {

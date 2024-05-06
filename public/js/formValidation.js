@@ -69,7 +69,6 @@ function checkAndSubmit(errors, form) {
         errorDiv.hidden = false;
         errorDiv.innerHTML = "<ul class=\"error\">" + errors.map(error => `<li>${error}</li>`).join('') + "</ul>";
     } else {
-        console.log(document.getElementById('pfp').value);
         form.submit();
     }
 }
@@ -189,11 +188,6 @@ if(editUserForm){
             } catch(e){
                 errors.push(e.toString());
             }
-            // try{
-            //     confirmDiff(newPassword, oldPassword);
-            // } catch(e){
-            //     errors.push(e.toString());
-            // }
         }
         if(address){
             try{

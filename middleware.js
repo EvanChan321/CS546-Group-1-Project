@@ -25,15 +25,6 @@ export const userLogin = (routes) => {
             if (!req.session.user) {
                 return res.redirect('/user/login');
             }
-            // else{
-            //     const urlSegments = req.originalUrl.split('/');
-            //     const id = urlSegments[2]; 
-            //     if(req.session.user.id !== id && req.session.user.accountType !== "Admin"){
-            //         return res.status(403).render("error", {
-            //             title: "Error", error: "Not Authorized", themeType: themeType, loggedIn: req.session.user
-            //         })
-            //     } 
-            // }
         }
         next()
     }
@@ -265,7 +256,6 @@ export const editReview = (routes) => {
     return async (req, res, next) => {
         const urlSegments = req.originalUrl.split('/');
         if(req.originalUrl === 3){
-            console.log(1)
             const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
             if(req.method === "POST"){
                 const id = urlSegments[2];
