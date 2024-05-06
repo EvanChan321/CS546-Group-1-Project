@@ -187,6 +187,11 @@ router
   .get(async (req, res) => {
     let userId
     const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
+    const errorParam = xss((xss(req.originalUrl)).split('?error=')[1]);
+    let errors = {}
+    if (errorParam === 'true') {
+        errors.err = 'incorrect old password'
+    }
     try {
         userId = valid.idCheck(xss(req.params.userId))
     } catch (e) {
@@ -232,7 +237,7 @@ router
         }
       return res.status(200).render('user', {user: user, title: "Profile",
       reviews:user.reviews, newestReviews:newestReviews, highestReviews:highestReviews, lowestReviews:lowestReviews, alphaBackward:alphaBackward, alphaForward:alphaForward,
-      loggedIn: req.session.user, themeType: themeType, pfp: req.session.user.pfp, Business: Business, ownAccount: ownAccount, Admin: Admin});
+      loggedIn: req.session.user, themeType: themeType, pfp: req.session.user.pfp, Business: Business, ownAccount: ownAccount, Admin: Admin, errors: errors});
     } catch (e) {
         return res.status(404).json({error: e});
     }
@@ -268,13 +273,7 @@ router
       }
     }
     catch(e){
-      return res.status(400).render("user", {
-        error: e.toString(),
-        title: "Profile",
-        user: user,
-        themeType: themeType,
-        loggedIn: req.session.user
-      });
+      return res.status(400).redirect(`/user/${user._id}?error=true`);
     }
     try {
       const user = await userData.updateUser(

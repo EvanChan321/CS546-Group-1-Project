@@ -15,8 +15,10 @@
     {{/if}}
     <button onclick="location.href='/shops/bookmarks'" type="button" class="bookmarks">Bookmarks</button>
     {{/if}}
-    {{#if error}}
-         <p class="error">{{error}}</p>
+    {{#if ../errors}}
+    <div>
+        <p class="error">{{../errors.err}}</p>
+    </div>
     {{/if}}
     <h2>User Info</h2>
     <div id="userInfo">
