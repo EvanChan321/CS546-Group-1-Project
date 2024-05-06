@@ -211,6 +211,13 @@ const removeUser = async (userId, password) => {
     const deletedReviews = user.reviews.map(async (review) => await reviewData.removeReview(review._id.toString()));
     const deleted = await Promise.all(deletedReviews);
     const userCollection = await users();
+    const shopList = await shopData.getAllShops();
+    for(let shop of shopList){
+        if(shop.ownerId === userId){
+            shop.ownerId = ""
+            await shopData.updateShop(shop._id.toString(),shop)
+        }
+    }
     const deletionInfo = await userCollection.findOneAndDelete({
         _id: new ObjectId(userId)
     });

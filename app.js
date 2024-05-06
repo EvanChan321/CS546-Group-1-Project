@@ -30,10 +30,10 @@ app.set('view engine', 'handlebars');
 app.set('views', './views');
 
 app.use(session({
-  name: 'AuthenticationState',
-  secret: 'some secret string!',
+  name: "Group1WebApp",
+  secret: "This is a secret.. shhh don't tell anyone",
+  saveUninitialized: true,
   resave: false,
-  saveUninitialized: false
 }))
 
 app.use('/user', loginData());

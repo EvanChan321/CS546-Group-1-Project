@@ -84,10 +84,9 @@ const updateShop = async (shopId, updateObject) => {
     shopId = valid.stringValidate(shopId)
     const shop = await getShop(shopId)
     const shopCollection = await shops()
-    console.log(updateObject)
-    if('shopName' in updateObject){
-        updateObject.shopName = valid.stringValidate(updateObject.shopName)
-        shop.shopName = updateObject.shopName
+    if('name' in updateObject){
+        updateObject.name = valid.stringValidate(updateObject.name)
+        shop.name = updateObject.name
     }
     if('website' in updateObject){
         updateObject.website = valid.urlCheck(updateObject.website)
@@ -110,9 +109,7 @@ const updateShop = async (shopId, updateObject) => {
         shop.customization = updateObject.customization
     }
     if('ownerId' in updateObject){
-        if(updateObject.ownerId){
             shop.ownerId = updateObject.ownerId
-        }
     }
     const updatedInfo = await shopCollection.findOneAndUpdate(
       {_id: new ObjectId(shopId)},
