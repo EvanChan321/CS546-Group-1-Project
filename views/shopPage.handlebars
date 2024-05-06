@@ -342,7 +342,7 @@
         </div>
         <footer>
             <hr>
-            <a href="javascript:history.back()" class="static-link">Go Back to Stores</a>
+            <a href="#" onclick="goToStores()" class="static-link">Go Back to Stores</a>
             {{#if noOwner}}
             {{#if Business}}
             <form action="/shop/{{shop._id}}/user/claim" method="POST">

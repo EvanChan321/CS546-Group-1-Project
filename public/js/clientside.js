@@ -198,6 +198,13 @@ function searchItems() {
     window.location.href = searchURL;
 }
 
+function goToStores() {
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.action = '/shops/search/';
+    document.body.appendChild(form);
+    form.submit();
+}
 
 function encodeSearchQuery(query) {
     return encodeURIComponent(query);
