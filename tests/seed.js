@@ -2342,4 +2342,269 @@ try{
     console.log("Error updating points");
     console.log(e);
 }
+try{
+    await userData.likeShop(
+        realass._id.toString(),
+        shop._id.toString()
+    )
+    await userData.likeShop(
+        realass._id.toString(),
+        kft._id.toString()
+    )
+    await userData.likeShop(
+        realass._id.toString(),
+        gongCha._id.toString()
+    )
+    await userData.likeShop(
+        realass._id.toString(),
+        vivi._id.toString()
+    )
+    await userData.likeShop(
+        realass._id.toString(),
+        whaleTea._id.toString()
+    )
+    await userData.likeShop(
+        realass._id.toString(),
+        shopBergen._id.toString()
+    )
+    await userData.likeShop(
+        realass._id.toString(),
+        shopFlushing._id.toString()
+    )
+}catch (e) {
+    console.log("Error updating likes");
+    console.log(e);
+}
+try{
+    await userData.likeShop(
+        tabby._id.toString(),
+        shop._id.toString()
+    )
+    await userData.likeShop(
+        tabby._id.toString(),
+        kft._id.toString()
+    )
+    await userData.likeShop(
+        tabby._id.toString(),
+        gongCha._id.toString()
+    )
+}catch (e) {
+    console.log("Error updating likes");
+    console.log(e);
+}
+try{
+    await userData.likeShop(
+        denks._id.toString(),
+        shop._id.toString()
+    )
+    await userData.likeShop(
+        denks._id.toString(),
+        kft._id.toString()
+    )
+    await userData.likeShop(
+        denks._id.toString(),
+        gongCha._id.toString()
+    )
+    await userData.likeShop(
+        denks._id.toString(),
+        vivi._id.toString()
+    )
+}catch (e) {
+    console.log("Error updating likes");
+    console.log(e);
+}
+try{
+    await userData.likeShop(
+        yap._id.toString(),
+        shop._id.toString()
+    )
+    await userData.likeShop(
+        yap._id.toString(),
+        kft._id.toString()
+    )
+    await userData.likeShop(
+        yap._id.toString(),
+        gongCha._id.toString()
+    )
+    await userData.likeShop(
+        yap._id.toString(),
+        vivi._id.toString()
+    )
+    await userData.likeShop(
+        yap._id.toString(),
+        whaleTea._id.toString()
+    )
+}catch (e) {
+    console.log("Error updating likes");
+    console.log(e);
+}
+try{
+    await userData.likeShop(
+        tiantao._id.toString(),
+        shop._id.toString()
+    )
+    await userData.likeShop(
+        tiantao._id.toString(),
+        kft._id.toString()
+    )
+    await userData.likeShop(
+        tiantao._id.toString(),
+        gongCha._id.toString()
+    )
+    await userData.likeShop(
+        tiantao._id.toString(),
+        vivi._id.toString()
+    )
+    await userData.likeShop(
+        tiantao._id.toString(),
+        whaleTea._id.toString()
+    )
+    await userData.likeShop(
+        tiantao._id.toString(),
+        shopBergen._id.toString()
+    )
+}catch (e) {
+    console.log("Error updating likes");
+    console.log(e);
+}
+try{
+    await userData.likeShop(
+        rumy._id.toString(),
+        shop._id.toString()
+    )
+    await userData.likeShop(
+        rumy._id.toString(),
+        kft._id.toString()
+    )
+}catch (e) {
+    console.log("Error updating likes");
+    console.log(e);
+}
+try{
+    await userData.likeShop(
+        carti._id.toString(),
+        shop._id.toString()
+    )
+}catch (e) {
+    console.log("Error updating likes");
+    console.log(e);
+}
+try{
+    await userData.likeShop(
+        amazin._id.toString(),
+        shop._id.toString()
+    )
+    await userData.likeShop(
+        amazin._id.toString(),
+        kft._id.toString()
+    )
+    await userData.likeShop(
+        amazin._id.toString(),
+        gongCha._id.toString()
+    )
+    await userData.likeShop(
+        amazin._id.toString(),
+        vivi._id.toString()
+    )
+    await userData.likeShop(
+        amazin._id.toString(),
+        whaleTea._id.toString()
+    )
+}catch (e) {
+    console.log("Error updating likes");
+    console.log(e);
+}
+try{
+    await userData.likeShop(
+        CP._id.toString(),
+        shop._id.toString()
+    )
+    await userData.likeShop(
+        CP._id.toString(),
+        kft._id.toString()
+    )
+    await userData.likeShop(
+        CP._id.toString(),
+        gongCha._id.toString()
+    )
+    await userData.likeShop(
+        CP._id.toString(),
+        vivi._id.toString()
+    )
+}catch (e) {
+    console.log("Error updating likes");
+    console.log(e);
+}
+try{
+    await commentData.createComment(
+        alim._id.toString(),
+        tabbyReview1._id.toString(),
+        "LOSER"
+    )
+    console.log("comment created");
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+try{
+    await commentData.createComment(
+        alim._id.toString(),
+        amazinReview1._id.toString(),
+        "LMAO"
+    )
+    console.log("comment created");
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+try{
+    await commentData.createComment(
+        alim._id.toString(),
+        cpReview2._id.toString(),
+        "BOA GOMD"
+    )
+    console.log("comment created");
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+try{
+    await commentData.createComment(
+        alim._id.toString(),
+        amazinReview2._id.toString(),
+        "no one asked"
+    )
+    console.log("comment created");
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+try{
+    await commentData.createComment(
+        alim._id.toString(),
+        tiantaoReview2._id.toString(),
+        "kys"
+    )
+    console.log("comment created");
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+try{
+    await commentData.createComment(
+        alim._id.toString(),
+        realassReview1._id.toString(),
+        "I OWN U"
+    )
+    console.log("comment created");
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
 await closeConnection();

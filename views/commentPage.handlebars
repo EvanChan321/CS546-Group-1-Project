@@ -1,6 +1,6 @@
 
 <div>
-    <p>From: {{user.name}}<p>
+    <p>From: <a href="/user/{{comment.userId}}">{{user.name}}</a></p>
     <p>{{comment.comment}}</p>
     <p>{{comment.reviewDate}}</p>
     {{#if comment.edited}}

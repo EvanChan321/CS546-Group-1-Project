@@ -206,10 +206,10 @@ const removeUser = async (userId, password) => {
     if(!isRightPassword){
         throw "incorrect password"
     }*/
-    const deletedReviews = user.reviews.map(async (review) => await reviewData.removeReview(review._id.toString()));
-    const deleted = await Promise.all(deletedReviews);
     const deletedComments = user.comments.map(async (comment) => await commentData.removeComment(comment.toString()));
     const deleted2 = await Promise.all(deletedComments);
+    const deletedReviews = user.reviews.map(async (review) => await reviewData.removeReview(review._id.toString()));
+    const deleted = await Promise.all(deletedReviews);
     const userCollection = await users();
     const deletionInfo = await userCollection.findOneAndDelete({
         _id: new ObjectId(userId)
@@ -223,6 +223,7 @@ const removeUser = async (userId, password) => {
 const loginUser = async (emailOrUsername, password) => {
     const userCollection = await users();
     emailOrUsername = valid.stringValidate(emailOrUsername)
+    emailOrUsername = emailOrUsername.toLowerCase()
     password = valid.stringValidate(password)
     let user
     if(validator.isEmail(emailOrUsername)) {
