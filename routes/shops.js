@@ -685,10 +685,14 @@ router
       calories = xss(req.body.calories)
       calories = parseInt(calories)
       valid.intCheck(calories)
-      tags = (xss(req.body.tags)).trim()
-      tags = valid.arrayOfStrings(tags.split(","))
-      allergens = (xss(req.body.allergens)).trim()
-      allergens = valid.arrayOfStrings(allergens.split(","))
+      if(xss(req.body.tags)){
+        tags = (xss(req.body.tags)).trim()
+        tags = valid.arrayOfStrings(tags.split(","))
+      }
+      if(xss(req.body.allergens)){
+        allergens = (xss(req.body.allergens)).trim()
+        allergens = valid.arrayOfStrings(allergens.split(","))
+      }
       userId = valid.idCheck(xss(req.session.user.id))
     }
     catch(e){

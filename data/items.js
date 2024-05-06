@@ -43,8 +43,12 @@ const createItem = async (shopId, name, description, price, tags, allergens, cal
   if(decimalRegex.test(numStr)){
     throw 'invalid pricing'
   }
-  tags = valid.arrayOfStrings(tags)
-  allergens = valid.arrayOfStrings(allergens)
+  if(tags){
+    tags = valid.arrayOfStrings(tags)
+  }
+  if(allergens){
+    allergens = valid.arrayOfStrings(allergens)
+  }
   let x = new ObjectId();
   const item = {
     _id: x,
