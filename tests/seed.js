@@ -2535,4 +2535,76 @@ try{
     console.log("Error updating likes");
     console.log(e);
 }
+try{
+    await commentData.createComment(
+        alim._id.toString(),
+        tabbyReview1._id.toString(),
+        "LOSER"
+    )
+    console.log("comment created");
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+try{
+    await commentData.createComment(
+        alim._id.toString(),
+        amazinReview1._id.toString(),
+        "LMAO"
+    )
+    console.log("comment created");
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+try{
+    await commentData.createComment(
+        alim._id.toString(),
+        cpReview2._id.toString(),
+        "BOA GOMD"
+    )
+    console.log("comment created");
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+try{
+    await commentData.createComment(
+        alim._id.toString(),
+        amazinReview2._id.toString(),
+        "no one asked"
+    )
+    console.log("comment created");
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+try{
+    await commentData.createComment(
+        alim._id.toString(),
+        tiantaoReview2._id.toString(),
+        "kys"
+    )
+    console.log("comment created");
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
+try{
+    await commentData.createComment(
+        alim._id.toString(),
+        realassReview1._id.toString(),
+        "I OWN U"
+    )
+    console.log("comment created");
+}
+catch(e){
+    console.log("Error creating comment");
+    console.log(e);
+}
 await closeConnection();
