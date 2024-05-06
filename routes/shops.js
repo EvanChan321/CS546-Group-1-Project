@@ -404,7 +404,7 @@ router.route('/shop/:id').get(async (req, res) => {
       }
     }
     let newestReviews = [];
-    for(let review of storeReviews.slice(0,5)){
+    for(let review of storeReviews){
       newestReviews.push(review);
     }
     newestReviews.reverse();
@@ -426,7 +426,7 @@ router.route('/shop/:id').get(async (req, res) => {
       currDistance = currDistance.toFixed(1);
       searchResult.distance = currDistance
     }
-    res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:newestReviews,
+    res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:newestReviews.slice(0,5),
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
       noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin, customList: cleanedString, flagcount: flagcount, Business: Business, notDouble: notDouble});
   } catch(e){
@@ -522,7 +522,7 @@ router
   }
   try {
     let updateObject = {
-      name: shopName,
+      shopName: shopName,
       address: address,
       website: website,
       phoneNumber: phoneNumber,
