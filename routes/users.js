@@ -242,7 +242,6 @@ router
     let userId
     let user
     const themeType = req.session.user && req.session.user.themeType ? req.session.user.themeType : 'light';
-    console.log(req.body);
     try{
       userId = valid.idCheck(xss(req.params.userId))
       user = await userData.getUser(userId);
