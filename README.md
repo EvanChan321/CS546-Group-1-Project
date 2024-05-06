@@ -1,4 +1,4 @@
-# Boba Fettch: Boba Store Searcher
+# LeBobaHub: Boba Store Searcher
 
 ## CS 546 Project- Group 1
 
