@@ -66,7 +66,7 @@
             {{#each items}}
             <tr>
                 <td>{{this.name}}</td>
-                <td>{{this.price}}</td>
+                <td>${{this.price}}</td>
                 <td><a href="/shop/{{../shop._id}}/item/{{this._id}}">Page</a></td>
             </tr>
             {{/each}}
@@ -84,7 +84,7 @@
             {{#each cheapest}}
             <tr>
                 <td>{{this.name}}</td>
-                <td>{{this.price}}</td>
+                <td>${{this.price}}</td>
                 <td><a href="/shop/{{../shop._id}}/item/{{this._id}}">Page</a></td>
             </tr>
             {{/each}}
@@ -102,7 +102,7 @@
             {{#each expensive}}
             <tr>
                 <td>{{this.name}}</td>
-                <td>{{this.price}}</td>
+                <td>${{this.price}}</td>
                 <td><a href="/shop/{{../shop._id}}/item/{{this._id}}">Page</a></td>
             </tr>
             {{/each}}
@@ -120,7 +120,7 @@
             {{#each highest}}
             <tr>
                 <td>{{this.name}}</td>
-                <td>{{this.price}}</td>
+                <td>${{this.price}}</td>
                 <td><a href="/shop/{{../shop._id}}/item/{{this._id}}">Page</a></td>
             </tr>
             {{/each}}
@@ -138,7 +138,7 @@
             {{#each lowest}}
             <tr>
                 <td>{{this.name}}</td>
-                <td>{{this.price}}</td>
+                <td>${{this.price}}</td>
                 <td><a href="/shop/{{../shop._id}}/item/{{this._id}}">Page</a></td>
             </tr>
             {{/each}}
@@ -156,7 +156,7 @@
             {{#each alphaForward}}
             <tr>
                 <td>{{this.name}}</td>
-                <td>{{this.price}}</td>
+                <td>${{this.price}}</td>
                 <td><a href="/shop/{{../shop._id}}/item/{{this._id}}">Page</a></td>
             </tr>
             {{/each}}
@@ -174,7 +174,7 @@
             {{#each alphaBackward}}
             <tr>
                 <td>{{this.name}}</td>
-                <td>{{this.price}}</td>
+                <td>${{this.price}}</td>
                 <td><a href="/shop/{{../shop._id}}/item/{{this._id}}">Page</a></td>
             </tr>
             {{/each}}
