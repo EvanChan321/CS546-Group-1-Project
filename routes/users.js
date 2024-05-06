@@ -30,7 +30,6 @@ router
       }
       userEmail = valid.emailCheck(xss(req.body.email))
       userAddress = valid.stringValidate(xss(req.body.zipcode), 'Address')
-      themeType = valid.stringValidate(xss(req.body.themeType), 'Theme')
     }
     catch(e){
       return res.status(400).render("signup", {
