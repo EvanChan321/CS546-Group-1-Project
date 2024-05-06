@@ -42,14 +42,15 @@
     background-color: #5310ee;
 }
 
-button.login {
-    background-color: transparent;
-    float: right;
-    transition: all 0.3s ease-in-out;
-}
-
 button.login:hover {
     background-color: #6f35d4;
+}
+
+.dark form.logSign,
+#itemForm,
+#addShop-form {
+    background-color: #2f3136;
+    box-shadow: 0 3px 3px #000000;
 }
 
 .dark button.home {
@@ -63,19 +64,8 @@ button.login:hover {
     background-color: #5310ee;
 }
 
-.dark button.save {
-    margin-top: 4px;
-    transition: all 0.3s ease-in-out;
-}
-
 .dark button.save:hover {
     background-color: #420cc1;
-}
-
-.dark button.book {
-    background-color: transparent; 
-    transition: all 0.3s ease-in-out; 
-    float: right;
 }
 
 .dark button.book:hover {
@@ -99,12 +89,6 @@ button.login:hover {
     background-color: transparent;
 }
 
-.dark button.flag {
-    float: right;
-    margin-right: 5px;
-    transition: all 0.3s ease-in-out;
-}
-
 .dark button.flag:hover {
     background-color: #ff0000;
     color: #ffffff;
@@ -123,10 +107,20 @@ button.login:hover {
     box-shadow: 0 0 10px #000000;
 }
 
-.dark button.addShop {
-    float: center;
-}
-
 .dark button.pfp-option {
     border-color: transparent;
+}
+
+button.delete {
+    background-color: #ff0000;
+    color: #ffffff;
+    margin-top: 10px;
+    display: block;
+    margin: auto;
+    transition: all 0.3s ease-in-out;
+}
+
+button.delete:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #000000;
 }

@@ -25,25 +25,27 @@
                 <br>
                 <input type="tel" name="phoneNumber" id="phoneNumber" value="{{phoneNumber}}"  pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" placeholder="XXX-XXX-XXXX" required><br>
             </label>
-            <dl id="customizationList">
-                <dt>Customization</dt>
-                <dd>
-                    <input id="ice_level" name="ice_level" type="checkbox">
-                    <label for="ice_level">Ice Level</label>
-                </dd>
-                <dd>
-                    <input id="sugar_level" name="sugar_level" type="checkbox">
-                    <label for="sugar_level">Sugar Level</label>
-                </dd>
-                <dd>
-                    <input id="size_options" name="size_options" type="checkbox">
-                    <label for="size_options">Size Options</label>
-                </dd>
-                <dd>
-                    <input id="customization_charge" name="customization_charge" type="checkbox">
-                    <label for="customization_charge">Customization Charge</label>
-                </dd>
-            </dl>
+            <div class="customizationList">
+                <dl id="customizationList">
+                    <dt>Customization</dt>
+                    <dd>
+                        <input id="ice_level" name="ice_level" type="checkbox">
+                        <label for="ice_level">Ice Level</label>
+                    </dd>
+                    <dd>
+                        <input id="sugar_level" name="sugar_level" type="checkbox">
+                        <label for="sugar_level">Sugar Level</label>
+                    </dd>
+                    <dd>
+                        <input id="size_options" name="size_options" type="checkbox">
+                        <label for="size_options">Size Options</label>
+                    </dd>
+                    <dd>
+                        <input id="customization_charge" name="customization_charge" type="checkbox">
+                        <label for="customization_charge">Customization Charge</label>
+                    </dd>
+                </dl>
+            </div>
             <label for="hour1">Opening Time:</label>
             <input type="number" id="hour1" name="hour1" min="1" max="12" placeholder="12" required>
             <label for="minute1">:</label>

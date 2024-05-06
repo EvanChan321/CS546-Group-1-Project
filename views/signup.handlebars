@@ -2,16 +2,16 @@
     <section class="login">
         <form action="/user/signup{{postTo}}" name="signup-form" id="signup-form" method="POST" class="logSign">
         <h2>Create an account for Boba Fettch</h2>
-            <label for="username">Username:</label><br>
-            <input type="text" name="username" id="username" value="{{username}}" required><br>
-            <label for="password">Password:</label><br>
-            <input type="password" name="password" id="password" value="{{password}}" required><br>  <!-- add confirm password-->
-            <label for="password">Confirm Password:</label><br>
-            <input type="password" name="passwordConf" id="passwordConf" value="{{passwordConf}}" required><br>
-            <label for="email">Email:</label><br>
-            <input type="email" name="email" id="email" value="{{email}}" required><br>
-            <label for="zipcode">Address:</label><br>
-            <input type="text" name="zipcode" id="zipcode" value="{{zipcode}}" required><br>
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" value="{{username}}" required>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" value="{{password}}" required>  <!-- add confirm password-->
+            <label for="password">Confirm Password:</label>
+            <input type="password" name="passwordConf" id="passwordConf" value="{{passwordConf}}" required>
+            <label for="email">Email:</label>
+            <input type="email" name="email" id="email" value="{{email}}" required>
+            <label for="zipcode">Address:</label>
+            <input type="text" name="zipcode" id="zipcode" value="{{zipcode}}" required>
             <button type="submit" name="submitButton" id="submitButton" class="save">Signup!</button>
             {{#if error}}
                 <p class="CSerror">{{error}}</p>

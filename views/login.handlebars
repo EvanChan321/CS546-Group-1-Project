@@ -2,16 +2,14 @@
     <section class="login">
         <form action="/user/login" method="POST" class="logSign">
         <h2>Sign in to Boba Fettch</h2>
-            {{#if error}}
-                <p class="error">{{error}}</p>
-            {{/if}}
-            <label for="emailOrUsername">Username or Email:</label><br>
+            <label for="emailOrUsername">Username or Email:</label>
             <input type="text" name="emailOrUsername" id="emailOrUsername" value="{{emailOrUsername}}" autocomplete="on" required>
-            <br>
-            <label for="password">Password:</label><br>
+            <label for="password">Password:</label>
             <input type="password" name="password" id="password" autocomplete="on" required>
-            <br>
             <button type="submit" class="save">Login</button>
+            {{#if error}}
+                <p class="CSerror">{{error}}</p>
+            {{/if}}
         </form>
         <p><a href="/user/signup">Need to signup?</a></p>
         <div id="error" class="CSerror" hidden>Error</div>
