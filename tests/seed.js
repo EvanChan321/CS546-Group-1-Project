@@ -1471,10 +1471,10 @@ try {
         "929-519-6206",
         "11",
         "00",
-        "AM",
+        "PM",
         "10",
         "00",
-        "PM",
+        "AM",
         customization
     );
     console.log("shop created");
