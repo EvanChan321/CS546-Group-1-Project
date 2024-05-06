@@ -189,7 +189,7 @@ router
     const errorParam = xss((xss(req.originalUrl)).split('?error=')[1]);
     let errors = {}
     if (errorParam === 'true') {
-        errors.err = 'incorrect old password'
+        errors.err = 'incorrect current password'
     }
     try {
         userId = valid.idCheck(xss(req.params.userId))
