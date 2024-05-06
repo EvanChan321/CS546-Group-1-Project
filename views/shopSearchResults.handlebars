@@ -26,7 +26,7 @@
                 <input type="text" name="minReviews" id="minReviews" placeholder= "0" value="0">
             </span>
             
-            <h4>Common Allergens Filter</h4>
+            <h4 id="allergenHeader">Common Allergens Filter</h4>
                 <dl id="allergenList">
                     <dt></dt>
                     <dd>
@@ -58,16 +58,16 @@
                         <label for="soy">Soy</label>
                     </dd>
                     <dd>
+                        <input id="wheat" name="wheat" type="checkbox">
+                        <label for="wheat">Wheat</label>
+                    </dd>
+                    <dd>
                         <input id="eggs" name="eggs" type="checkbox">
                         <label for="eggs">Eggs</label>
                     </dd>
                     <dd>
                         <input id="fish" name="fish" type="checkbox">
                         <label for="fish">Fish</label>
-                    </dd>
-                    <dd>
-                        <input id="shellfish" name="shellfish" type="checkbox">
-                        <label for="shellfish">Shellfish</label>
                     </dd>
                 </dl>
             <button type="submit"><img class= "search-button" alt="search-button" src="/public/img/search-icon.png"></button>

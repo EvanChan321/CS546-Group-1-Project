@@ -2,33 +2,33 @@
     <h1>{{title}}</h1>
     <form action="/shops/search/" method="POST">
         <div id="container">
-        <div>
-            <label for="shop">
-            Search By Name:
-            <input class= "search-bar" type="text" name="shop" id="shop" value="{{search}}">
-        </label>
-        </div>
-        <div>
-            <label>
-            Search By Items:
-            <input class= "search-bar" type="text" name="itemKeyWord" id="itemKeyWord">
-        </label>
-        </div>
-        <br>
-        <span class="filter">
-            <label for="minRating">Minimum Rating</label>
-            <input type="range" value="0" min="0" max="5" name="minRating" id="minRating" oninput="this.nextElementSibling.value = this.value">
-            <output>0</output>
-        </span>
-        <span class="filter">
-            <label for="minLikes">Minimum Likes</label>
-            <input type="text" name="minLikes" id="minLikes" placeholder= "0" value="0">
-        </span>
-        <span class="filter">
-            <label for="minReviews">Minimum Reviews</label>
-            <input type="text" name="minReviews" id="minReviews" placeholder= "0" value="0">
-        </span>
-        <h4>Common Allergens Filter</h4>
+            <div>
+                <label for="shop">
+                Search By Name:
+                <input class= "search-bar" type="text" name="shop" id="shop" value="{{search}}">
+            </label>
+            </div>
+            <div>
+                <label>
+                Search By Items:
+                <input class= "search-bar" type="text" name="itemKeyWord" id="itemKeyWord">
+            </label>
+            </div>
+            <br>
+            <span class="filter">
+                <label for="minRating">Minimum Rating</label>
+                <input type="range" value="0" min="0" max="5" name="minRating" id="minRating" oninput="this.nextElementSibling.value = this.value">
+                <output>0</output>
+            </span>
+            <span class="filter">
+                <label for="minLikes">Minimum Likes</label>
+                <input type="text" name="minLikes" id="minLikes" placeholder= "0" value="0">
+            </span>
+            <span class="filter">
+                <label for="minReviews">Minimum Reviews</label>
+                <input type="text" name="minReviews" id="minReviews" placeholder= "0" value="0">
+            </span>
+            <h4 id="AllergenHeader">Common Allergens Filter</h4>
             <dl id="allergenList">
                 <dt></dt>
                 <dd>
@@ -51,6 +51,7 @@
                     <input id="sesame" name="sesame" type="checkbox">
                     <label for="sesame">Sesame</label>
                 </dd>
+                <br>
                 <dd>
                     <input id="mustard" name="mustard" type="checkbox">
                     <label for="mustard">Mustard</label>
@@ -60,16 +61,16 @@
                     <label for="soy">Soy</label>
                 </dd>
                 <dd>
+                    <input id="wheat" name="wheat" type="checkbox">
+                    <label for="wheat">Wheat</label>
+                </dd>
+                <dd>
                     <input id="eggs" name="eggs" type="checkbox">
                     <label for="eggs">Eggs</label>
                 </dd>
                 <dd>
                     <input id="fish" name="fish" type="checkbox">
                     <label for="fish">Fish</label>
-                </dd>
-                <dd>
-                    <input id="shellfish" name="shellfish" type="checkbox">
-                    <label for="shellfish">Shellfish</label>
                 </dd>
             </dl>
             <br><button type="submit"><img class= "search-button" alt="search-button" src="/public/img/search-icon.png"></button>
