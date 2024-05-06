@@ -268,7 +268,6 @@ router
       }
     }
     catch(e){
-      console.log(e)
       return res.status(400).render("user", {
         error: e.toString(),
         title: "Profile",
@@ -304,24 +303,6 @@ router
   })
 
 router
-  .route('/:userId/reviews')
-  .get(async (req, res) => {
-    let userId
-    try {
-        userId = valid.idCheck(xss(req.params.userId))
-    } catch (e) {
-        return res.status(400).json({error: e});
-    }
-    try {
-        const reviews = await reviewData.getAllReviewsFromUser(userId);
-        return res.status(200).json(reviews);
-    } catch (e) {
-        return res.status(404).json({error: e});
-    }
-  });
-
-
-router
   .route('/:userId/delete')
   .post(async (req, res) => {
     let userId
@@ -342,7 +323,6 @@ router
       delete req.session.user;
       return res.redirect(`/`)
     } catch (error) {
-      console.log(error)
       return res.status(500).render("user", {
         error: error.toString(),
         title: "Profile",
