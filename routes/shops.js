@@ -423,7 +423,9 @@ router.route('/shop/:id').get(async (req, res) => {
       currDistance = currDistance.toFixed(1);
       searchResult.distance = currDistance
     }
-    searchResult.averageRating = searchResult.averageRating.toFixed(1);
+    if(typeof averageRating == 'number'){
+      searchResult.averageRating = searchResult.averageRating.toFixed(1);
+    }
     res.render('shopPage', {title: searchResult.name, shop:searchResult, items:storeItems, reviews:newestReviews.slice(0,5),
       loggedIn: req.session.user, inBookmarks: inBookmarks, flagged: flagged, Default: Default, isOwner: isOwner, 
       noOwner: noOwner, themeType: themeType, currentHour: currentHour, currentMin: currentMinute, Admin: Admin, customList: cleanedString, flagcount: flagcount, Business: Business, notDouble: notDouble});
