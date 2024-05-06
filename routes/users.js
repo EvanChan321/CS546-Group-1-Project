@@ -318,7 +318,9 @@ router
     }
     try {
       const user = await userData.removeUser(userId)
-      delete req.session.user;
+      if(userId === req.session.user.id){
+        delete req.session.user;
+      }
       return res.redirect(`/`)
     } catch (error) {
       return res.status(500).render("user", {
