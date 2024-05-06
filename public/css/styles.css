@@ -320,6 +320,7 @@ th, td {
 .testimonial img{
     float: left;
     width: 15%;
+    height: 15%;
     margin-left: 1%;
     margin-right: 1%;
     border-radius: 7%;
@@ -345,6 +346,25 @@ th, td {
 }
 
 #pfp {
-    max-width: 150px;
-    max-height: 150px;
+    width: 175px;
+    height: 175px;
+    border-radius: 50%;
+}
+
+.profile-pictures {
+    text-align: center;
+}
+
+button.pfp-option {
+    padding: 0px 0px;
+    background-color: transparent;
+    cursor: pointer;
+    border-color: transparent;
+    border-radius: 0%;
+    margin-right: 1px;
+}
+
+img.pfp-option {
+    width: 100px;
+    height: 100px;
 }

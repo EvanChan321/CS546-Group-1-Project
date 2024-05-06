@@ -252,19 +252,19 @@ router
         updateObject.oldPassword = valid.passwordCheck(xss(req.body.oldPassword))
       }
       else{
-        throw 'need to input password to make changes'
+        throw 'Input password to make changes'
       }
       if(xss(req.body.password)){
         updateObject.password = valid.passwordCheck(req.body.password)
       }
       if(xss(req.body.address)){
-        updateObject.userAddress = valid.stringValidate(xss(req.body.address))
+        updateObject.address = valid.stringValidate(xss(req.body.address))
       }
       if(xss(req.body.themeType)){
         updateObject.themeType = valid.stringValidate(xss(req.body.themeType))
       }
-      if(xss(req.body.pfp)){
-        updateObject.pfp = valid.stringValidate(xss(req.body.pfp))
+      if(xss(req.body.profile)){
+        updateObject.pfp = valid.stringValidate(xss(req.body.profile))
       }
     }
     catch(e){

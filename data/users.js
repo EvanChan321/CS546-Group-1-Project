@@ -129,7 +129,7 @@ const unlikeShop = async (userId, shopId) => {
 const updateUser = async (userId, updateObject) => {
     const user = await getUser(userId)
     const userCollection = await users()
-    if('name' in updateObject){
+    if(updateObject.name){
         updateObject.name = valid.stringValidate(updateObject.name)
         const duplicateName = await userCollection.findOne({ name: { $regex: new RegExp(`^${updateObject.name}$`, 'i') } });
         if (duplicateName) {
@@ -137,19 +137,19 @@ const updateUser = async (userId, updateObject) => {
         }
         user.name = updateObject.name
     }
-    if('oldPassword' in updateObject){
+    if(updateObject.oldPassword){
         updateObject.oldPassword = valid.passwordCheck(updateObject.oldPassword)
         const isRightPassword = await valid.verifyPassword(updateObject.oldPassword, user.password)
         if(!isRightPassword){
             throw "passwords don't match"
         }
     }
-    if('password' in updateObject){
+    if(updateObject.password){
         updateObject.password = valid.passwordCheck(updateObject.password)
         const hashedPassword = await bcryptjs.hash(updateObject.password, 12);
         user.password = hashedPassword
     }
-    if('email' in updateObject){
+    if(updateObject.email){
         if(updateObject.email !== user.email){
             updateObject.email = valid.emailCheck(updateObject.email)
             const duplicateEmail = await userCollection.findOne({ email: { $regex: new RegExp(`^${updateObject.email}$`, 'i') } });
@@ -159,32 +159,32 @@ const updateUser = async (userId, updateObject) => {
             user.email = updateObject.email
         }
     }
-    if('bio' in updateObject){
+    if(updateObject.bio){
         if(user.bio !== updateObject.bio){
             updateObject.bio = valid.stringValidate(updateObject.bio)
             user.bio = updateObject.bio
         }
     }
-    if('address' in updateObject){
+    if(updateObject.address){
         updateObject.address = valid.stringValidate(updateObject.address)
         user.address = updateObject.address
     }
-    if('accountType' in updateObject){
+    if(updateObject.accountType){
         updateObject.accountType = valid.stringValidate(updateObject.accountType)
         user.accountType = updateObject.accountType
     }
-    if('themeType' in updateObject){
+    if(updateObject.themeType){
         updateObject.themeType = valid.stringValidate(updateObject.themeType)
         user.themeType = updateObject.themeType
     }
-    if('pfp' in updateObject){
+    if(updateObject.pfp){
         updateObject.pfp = valid.stringValidate(updateObject.pfp)
         user.pfp = updateObject.pfp
     }
-    if('comments' in updateObject){
+    if(updateObject.comments){
         user.comments = updateObject.comments
     }
-    if('numOfPoints' in updateObject){
+    if(updateObject.numOfPoints){
         user.numOfPoints = updateObject.numOfPoints
     }
     const updatedInfo = await userCollection.findOneAndUpdate(

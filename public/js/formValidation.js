@@ -64,24 +64,15 @@ function confirmDiff(str1, str2){
     return;
 }
 
-function checkAndSubmit(errors, form, addToForm) {
+function checkAndSubmit(errors, form) {
     if (errors.length > 0) {
         errorDiv.hidden = false;
         errorDiv.innerHTML = "<ul class=\"error\">" + errors.map(error => `<li>${error}</li>`).join('') + "</ul>";
     } else {
-        if(addToForm){
-            for (let [key, value] of addToForm.entries()) {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = value;
-                form.appendChild(input);
-            }
-        }
+        console.log(document.getElementById('pfp').value);
         form.submit();
     }
 }
-
 
 if(signupForm){
     signupForm.addEventListener('submit', (event) => {
@@ -181,7 +172,7 @@ if(editUserForm){
         let oldPassword = document.getElementById('oldPassword').value;
         let address = document.getElementById('address').value;
         let pfp = document.getElementById('pfp').value;
-        console.log(1)
+
         if(bio){
             try{
                 bio = stringValidate(bio, 'Bio');
@@ -190,7 +181,7 @@ if(editUserForm){
             }
         }
         if(!oldPassword){
-            errors.push('need to input password to make changes')
+            errors.push('Input password to make changes')
         }
         if(newPassword){
             try{
@@ -198,11 +189,11 @@ if(editUserForm){
             } catch(e){
                 errors.push(e.toString());
             }
-            try{
-                confirmDiff(newPassword, oldPassword);
-            } catch(e){
-                errors.push(e.toString());
-            }
+            // try{
+            //     confirmDiff(newPassword, oldPassword);
+            // } catch(e){
+            //     errors.push(e.toString());
+            // }
         }
         if(address){
             try{
@@ -213,12 +204,27 @@ if(editUserForm){
         }
         if(pfp){
             try{
-                pfp = stringValidate(pfp, 'pfp');
+                pfp = stringValidate(pfp, 'Profile Picture');
             } catch(e){
                 errors.push(e.toString());
             }
         }
         checkAndSubmit(errors, editUserForm);
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const buttons = document.querySelectorAll('.pfp-option');
+    
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                buttons.forEach(btn => {
+                    btn.style.borderColor = '';
+                });
+                this.style.borderColor = '#1c6ad7cc';
+                const dataValue = this.getAttribute('data-value')
+                document.getElementById('profile').value = dataValue;
+            });
+        });
     });
 }
 
@@ -233,10 +239,8 @@ if(itemForm){
         let description = document.getElementById("description").value;
         let tags = document.querySelectorAll('#tagList input[type="checkbox"]:checked');
         let tagArray = Array.from(tags).map(tags => tags.id);
-        console.log(tagArray);
         let allergens = document.querySelectorAll('#allergenList input[type="checkbox"]:checked');
         let allergenArray = Array.from(allergens).map(tags => tags.id);
-        console.log(allergenArray);
         
         try{
             name = stringValidate(name, 'Item Name');
