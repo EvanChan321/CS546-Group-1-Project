@@ -3,13 +3,17 @@
 ## CS 546 Project- Group 1
 
 ## Usage
-Running the Server
+Install all npm packages
 ```
-npm start
+npm i
 ```
 Seeding the database
 ```
-npm test
+npm userTest
+```
+Running the Server
+```
+npm start
 ```
 
 
