@@ -223,6 +223,7 @@ const removeUser = async (userId, password) => {
 const loginUser = async (emailOrUsername, password) => {
     const userCollection = await users();
     emailOrUsername = valid.stringValidate(emailOrUsername)
+    emailOrUsername = emailOrUsername.toLowerCase()
     password = valid.stringValidate(password)
     let user
     if(validator.isEmail(emailOrUsername)) {

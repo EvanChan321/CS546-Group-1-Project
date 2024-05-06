@@ -1223,14 +1223,6 @@ router.route('/shop/:shopId/item/:itemId/edit')
       let alphaForward = [];
       let alphaBackward = [];
       let filteredItems = [];
-      // for(let item of storeItems){
-      //   cheapest.push(item)
-      //   expensive.push(item)
-      //   highest.push(item)
-      //   lowest.push(item)
-      //   alphaForward.push(item)
-      //   alphaBackward.push(item)
-      // }
       let namePass, descriptionPass, glutenPass, dairyPass, peanutsPass, fishPass, shellPass, mustardPass, sesamePass, treePass, soyPass, eggPass
       for(let item of storeItems){
         namePass = descriptionPass=glutenPass=dairyPass=peanutsPass=fishPass=shellPass=mustardPass=sesamePass=treePass=soyPass=eggPass=true
