@@ -877,14 +877,20 @@ router
       let highestReviews = [];
       let lowestReviews = [];
       let newestReviews = [];
+      let alphaForward = [];
+      let alphaBackward = [];
       for(let review of itemReviews){
         highestReviews.push(review);
         lowestReviews.push(review);
         newestReviews.push(review);
+        alphaBackward.push(review);
+        alphaForward.push(review);
       }
       highestReviews.sort(function(a,b){return  b.rating - a.rating});
       lowestReviews.sort(function(a,b){return  a.rating - b.rating});
       newestReviews.reverse();
+      alphaForward.sort(function(a,b){return a.title.localeCompare(b.title)});
+      alphaBackward.sort(function(a,b){return b.title.localeCompare(a.title)});
       return res.status(200).render("item", {
         title: item.name,
         item: item,
@@ -897,6 +903,8 @@ router
         lowestReviews: lowestReviews,
         highestReviews: highestReviews,
         newestReviews: newestReviews,
+        alphaBackward: alphaBackward,
+        alphaForward: alphaForward,
         isOwner: isOwner,
         notDouble: notDouble
       });
