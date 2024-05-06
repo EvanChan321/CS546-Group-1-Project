@@ -9,7 +9,7 @@ npm i
 ```
 Seeding the database
 ```
-npm userTest
+npm run userTest
 ```
 Running the Server
 ```
