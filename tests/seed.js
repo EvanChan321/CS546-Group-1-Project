@@ -2607,4 +2607,101 @@ catch(e){
     console.log("Error creating comment");
     console.log(e);
 }
+let curr 
+try{
+    curr = await userData.updateUser(tabby._id.toString(), {pfp: "profile1.webp", themeType: "light"})
+    console.log(curr)
+}
+catch(e){
+    console.log("Error updating user");
+    console.log(e);
+}
+try{
+    curr = await userData.updateUser(denks._id.toString(), {pfp: "profile2.webp", themeType: "dark"})
+    console.log(curr)
+}
+catch(e){
+    console.log("Error updating user");
+    console.log(e);
+}
+try{
+    curr = await userData.updateUser(carti._id.toString(), {pfp: "profile3.jpg", themeType: "matcha"})
+    console.log(curr)
+}
+catch(e){
+    console.log("Error updating user");
+    console.log(e);
+}
+try{
+    curr = await userData.updateUser(tabby._id.toString(), {pfp: "profile4.jpg", themeType: "taro"})
+    console.log(curr)
+}
+catch(e){
+    console.log("Error updating user");
+    console.log(e);
+}
+try{
+    curr = await userData.updateUser(amazin._id.toString(), { themeType: "taro"})
+    console.log(curr)
+}
+catch(e){
+    console.log("Error updating user");
+    console.log(e);
+}
+try{
+    curr = await userData.updateUser(hoohn._id.toString(), {pfp: "profile1.webp", themeType: "matcha"})
+    console.log(curr)
+}
+catch(e){
+    console.log("Error updating user");
+    console.log(e);
+}
+try{
+    curr = await userData.updateUser(CP._id.toString(), {pfp: "profile2.webp", themeType: "light"})
+    console.log(curr)
+}
+catch(e){
+    console.log("Error updating user");
+    console.log(e);
+}
+try{
+    curr = await userData.updateUser(rumy._id.toString(), {pfp: "profile3.jpg", themeType: "dark"})
+    console.log(curr)
+}
+catch(e){
+    console.log("Error updating user");
+    console.log(e);
+}
+try{
+    curr = await userData.updateUser(rumy._id.toString(), {pfp: "profile4.jpg", themeType: "dark"})
+    console.log(curr)
+}
+catch(e){
+    console.log("Error updating user");
+    console.log(e);
+}
+try{
+    curr = await userData.updateUser(yap._id.toString(), {pfp: "profile3.jpg", themeType: "taro"})
+    console.log(curr)
+}
+catch(e){
+    console.log("Error updating user");
+    console.log(e);
+}
+try{
+    curr = await userData.updateUser(tiantao._id.toString(), {pfp: "profile2.webp", themeType: "light"})
+    console.log(curr)
+}
+catch(e){
+    console.log("Error updating user");
+    console.log(e);
+}
+try{
+    curr = await userData.updateUser(realass._id.toString(), {pfp: "profile1.webp", themeType: "matcha"})
+    console.log(curr)
+}
+catch(e){
+    console.log("Error updating user");
+    console.log(e);
+}
 await closeConnection();
