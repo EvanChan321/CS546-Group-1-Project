@@ -1,0 +1,123 @@
+.matcha{
+    background-color: #c0cfb2;
+    color: #502C18;
+    border-color: #502C18;
+}
+
+.matcha input.search-bar {
+    border-color: #502C18;
+    color: #502C18; 
+}
+
+.matcha a, 
+.matcha a:visited {
+    color: #8D5F48; 
+}
+
+.matcha a.static-link, 
+.matcha a.static-link:visited {
+    text-decoration: none;
+}
+.matcha button {
+    padding: 5px 10px;
+    background-color: transparent;
+    border: 2px solid #502C18;
+    border-radius: 13px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #502C18;
+}
+
+.matcha button.signup {
+    background-color: #EADAB7;
+    float: right;
+    margin-left: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.matcha button.signup:hover {
+    background-color: #b59755;
+}
+
+button.login:hover {
+    background-color: #F5E8D9;
+}
+
+.matcha form.logSign,
+#itemForm,
+#addShop-form {
+    background-color: #8ba888;
+    box-shadow: 0 3px 3px #000000;
+}
+
+.matcha button.home {
+    background-color: #EADAB7;
+    float: left;
+    margin-right: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.matcha button.home:hover {
+    background-color: #e0b455;
+}
+
+.matcha button.save:hover {
+    background-color: #b59755;
+}
+
+.matcha button.book:hover {
+    background-color: #AFAD55;
+    color: #502C18;
+    border-color: #502C18;
+
+}
+
+.matcha button.unbook {
+    background-color: #AFAD55;
+    color: #502C18;
+    transition: all 0.3s ease-in-out;
+    float: right;
+    border-color: #502C18;
+}
+
+.matcha button.unbook:hover {
+    color: #502C18;
+    border-color: #502C18;
+    background-color: transparent;
+}
+
+.matcha button.flag:hover {
+    background-color: #ff0000;
+    color: #ffffff;
+}
+
+.matcha button.delete {
+    background-color: #ff0000;
+    margin-top: 10px;
+    display: block;
+    margin: auto;
+    transition: all 0.3s ease-in-out;
+}
+
+.matcha button.delete:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #000000;
+}
+
+.matcha button.pfp-option {
+    border-color: transparent;
+}
+
+button.delete {
+    background-color: #ff0000;
+    color: #ffffff;
+    margin-top: 10px;
+    display: block;
+    margin: auto;
+    transition: all 0.3s ease-in-out;
+}
+
+button.delete:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #000000;
+}

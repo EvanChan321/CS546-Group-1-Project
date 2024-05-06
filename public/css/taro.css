@@ -1,0 +1,126 @@
+.taro{
+    background-color: #78587B;
+    color: #d6d6d6;
+    border-color: #d6d6d6;
+}
+
+.taro img.search-button {
+    filter: invert(0.9);
+}
+
+.taro input.search-bar {
+    border-color: #d6d6d6;
+    color: #d6d6d6; 
+}
+
+.taro a, 
+.taro a:visited {
+    color: #7CBFBA; 
+}
+
+.taro a.static-link, 
+.taro a.static-link:visited {
+    text-decoration: none;
+}
+.taro button {
+    padding: 5px 10px;
+    background-color: transparent;
+    border: 2px solid #d6d6d6;
+    border-radius: 13px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #d6d6d6;
+}
+
+.taro button.signup {
+    background-color: #5D4345 ;
+    float: right;
+    margin-left: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.taro button.signup:hover {
+    background-color: #4e3739;
+}
+
+button.login:hover {
+    background-color: #AA8CAD;
+}
+
+.taro form.logSign,
+#itemForm,
+#addShop-form {
+    background-color: #5B435D;
+    box-shadow: 0 3px 3px #000000;
+}
+
+.taro button.home {
+    background-color: #5D4345 ;
+    float: left;
+    margin-right: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.taro button.home:hover {
+    background-color: #4e3739;
+}
+
+.taro button.save:hover {
+    background-color: #AA8CAD;
+}
+
+.taro button.book:hover {
+    background-color: #5D4E43;
+    color: #d6d6d6;
+    border-color: #d6d6d6;
+}
+
+.taro button.unbook {
+    background-color: #5D4E43;
+    color: #d6d6d6;
+    transition: all 0.3s ease-in-out;
+    float: right;
+    border-color: #d6d6d6;
+}
+
+.taro button.unbook:hover {
+    color: #d6d6d6;
+    border-color: #d6d6d6;
+    background-color: transparent;
+}
+
+.taro button.flag:hover {
+    background-color: #ff0000;
+    color: #ffffff;
+}
+
+.taro button.delete {
+    background-color: #ff0000;
+    margin-top: 10px;
+    display: block;
+    margin: auto;
+    transition: all 0.3s ease-in-out;
+}
+
+.taro button.delete:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #000000;
+}
+
+.taro button.pfp-option {
+    border-color: transparent;
+}
+
+button.delete {
+    background-color: #ff0000;
+    color: #ffffff;
+    margin-top: 10px;
+    display: block;
+    margin: auto;
+    transition: all 0.3s ease-in-out;
+}
+
+button.delete:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #000000;
+}
