@@ -1,6 +1,6 @@
-<section>
-  <h4 class="header">Leaderboard</h4>
-  <table class="my_coolratings_table">
+<section id="leaderboard">
+  <h2 class="leaderboard_header">Leaderboard</h2>
+  <table class="my_coolratings_table" id="my_coolratings_table">
       <tr>
           <th>Position</th>
           <th>Username</th>
@@ -8,7 +8,7 @@
           <th>Tier</th>
       </tr>
 {{#each leaderboard}}
-    <tr>
+    <tr class="{{this.tier}}">
         <td>{{this.position}}</td>
         <td>{{this.name}}</td>
         <td>{{this.numOfPoints}}</td>

@@ -1,0 +1,132 @@
+.dark{
+    background-color: #40444b;
+    color: #fbf8f3;
+    border-color: #fbf8f3;
+}
+
+.dark img.search-button {
+    filter: invert(1);
+}
+
+.dark input.search-bar {
+    border-color: #fbf8f3;
+}
+
+.dark a, 
+.dark a:visited {
+    color: #2e86de; 
+}
+
+.dark a.static-link, 
+.dark a.static-link:visited {
+    text-decoration: none;
+}
+.dark button {
+    padding: 5px 10px;
+    background-color: transparent;
+    border: 2px solid #fbf8f3;
+    border-radius: 13px;
+    cursor: pointer;
+    font-size: 1rem;
+    color: #fbf8f3;
+}
+
+.dark button.signup {
+    background-color: #3700B3;
+    float: right;
+    margin-left: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.dark button.signup:hover {
+    background-color: #5310ee;
+}
+
+button.login {
+    background-color: transparent;
+    float: right;
+    transition: all 0.3s ease-in-out;
+}
+
+button.login:hover {
+    background-color: #6f35d4;
+}
+
+.dark button.home {
+    background-color: #3700B3;
+    float: left;
+    margin-right: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+.dark button.home:hover {
+    background-color: #5310ee;
+}
+
+.dark button.save {
+    margin-top: 4px;
+    transition: all 0.3s ease-in-out;
+}
+
+.dark button.save:hover {
+    background-color: #420cc1;
+}
+
+.dark button.book {
+    background-color: transparent; 
+    transition: all 0.3s ease-in-out; 
+    float: right;
+}
+
+.dark button.book:hover {
+    background-color: #f6ff00;
+    color: #000000;
+    border-color: #000000;
+
+}
+
+.dark button.unbook {
+    background-color: #f6ff00;
+    color: #000000;
+    transition: all 0.3s ease-in-out;
+    float: right;
+    border-color: #000000;
+}
+
+.dark button.unbook:hover {
+    color: #fbf8f3;
+    border-color: #fbf8f3;
+    background-color: transparent;
+}
+
+.dark button.flag {
+    float: right;
+    margin-right: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.dark button.flag:hover {
+    background-color: #ff0000;
+    color: #ffffff;
+}
+
+.dark button.delete {
+    background-color: #ff0000;
+    margin-top: 10px;
+    display: block;
+    margin: auto;
+    transition: all 0.3s ease-in-out;
+}
+
+.dark button.delete:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px #000000;
+}
+
+.dark button.addShop {
+    float: center;
+}
+
+.dark button.pfp-option {
+    border-color: transparent;
+}

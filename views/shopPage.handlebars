@@ -13,7 +13,7 @@
         {{/if}}
         {{#if Default}}
         <form action="/shop/{{shop._id}}/flagForm" method="GET" id="flag">
-            <button type="submit" class="flag">Flag Shop</button>
+            <button type="submit" class="flag">Flag</button>
         </form>
         {{/if}}
         {{#if Admin}}
@@ -246,11 +246,15 @@
         {{#if loggedIn}}
         {{#if noOwner}}
         {{#if Default}}
-        <a href="/shop/{{shop._id}}/itemForm">Add an item</a><br>
+        <div class="addItem">
+            <a href="/shop/{{shop._id}}/itemForm" id="static-link">+ Add an item</a>
+        </div>
         {{/if}}
         {{else}}
         {{#if isOwner}}
-        <a href="/shop/{{shop._id}}/itemForm">Add an item</a><br>
+        <div class="addItem">
+            <a href="/shop/{{shop._id}}/itemForm" class="static-link">+ Add an item</a>
+        </div>
         {{/if}}
         {{/if}}
         {{/if}}
@@ -259,21 +263,24 @@
             <div id="container3">
                 <label>Search Items:</label>
                 <input class="search-bar" value="" type="text" name="search" id="itemSearch" placeholder="Matcha...">
-                <br>
                 <button type="button" onclick="location.href='/shop/{{shop._id}}/itemSearch/' + encodeURIComponent(document.getElementById('itemSearch').value)">
                 <img class="search-button" alt="search-button" src="/public/img/search-icon.png">
                 </button>
             </div>
-            <table>
+            <table id="menu">
                 <tr>
                     <th>Item </th>
                     <th>Price </th>
+                    <th>Calories</th>
+                    <th>Rating</th>
                     <th>Page Link</th>
                 </tr>
                 {{#each items}}
                 <tr>
                     <td>{{this.name}}</td>
-                    <td>{{this.price}}</td>
+                    <td>${{this.price}}</td>
+                    <td>{{this.calories}}</td>
+                    <td>{{this.averageRating}}</td>
                     <td><a href="/shop/{{../shop._id}}/item/{{this._id}}">Page</a></td>
                 </tr>
                 {{/each}}
@@ -283,7 +290,7 @@
         {{#if loggedIn}}
         {{#if Default}}
         {{#if notDouble}}
-        <div id="container">
+        <div id="container3">
             <form action="/shop/{{shop._id}}/reviewForm" method="POST" id="reviewForm">
                 <label for="title">
                     Review Title:

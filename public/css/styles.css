@@ -20,6 +20,10 @@ h1 {
     font-family: Helvetica, Arial, sans-serif;
 }
 
+h2, h3, h4 {
+    margin-bottom: 3px;
+}
+
 p.review-body {
     color: gray;
 }
@@ -68,10 +72,22 @@ button {
 button.save {
     margin-top: 4px;
     transition: all 0.3s ease-in-out;
+    margin-bottom: 4px;
 }
 
 button.save:hover {
     background-color: #e0ad9f;
+}
+
+button.signup {
+    background-color: #ef9480;
+    float: right;
+    margin-left: 3px;
+    transition: all 0.3s ease-in-out;
+}
+
+button.signup:hover {
+    background-color: #e76a4e;
 }
 
 button.login {
@@ -132,17 +148,6 @@ button.delete:hover {
     box-shadow: 0 0 10px #000000;
 }
 
-button.signup {
-    background-color: #ef9480;
-    float: right;
-    margin-left: 3px;
-    transition: all 0.3s ease-in-out;
-}
-
-button.signup:hover {
-    background-color: #e76a4e;
-}
-
 button.home {
     background-color: #ef9480;
     float: left;
@@ -157,15 +162,6 @@ button.home:hover {
 
 button.addShop {
     float: center;
-}
-
-button.editInfo{
-    transition: all 0.3s ease-in-out;
-}
-
-button.editInfo:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 10px #000000;
 }
 
 form.signup form.login{
@@ -218,16 +214,6 @@ section.login {
     
 }
 
-#container3 {
-    width: 50%;
-    margin: 20px auto;
-    padding: 20px;
-    border: 2px solid #948887;
-    box-shadow: 0 2px 2px #000000;
-    border-radius: 10px;
-    text-align: center;
-}
-
 #container2 {
     width: 50%;
     margin: 20px auto;
@@ -263,6 +249,7 @@ textarea {
     width: 60%;
     height: 6rem;
     margin-top: 10px;
+    padding: 3px;
 }
 
 table {
@@ -275,7 +262,7 @@ th, td {
 }
 
 
-/*Styling for the search container*/
+/*Styling for homepage search container*/
 #container {
     width: 10   0%;
     margin: 20px auto;
@@ -352,7 +339,10 @@ img.search-button {
 #pfp-container {
     text-align: left;
     margin: 0 auto;
-    margin-bottom: 1%
+    margin-bottom: 1%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #pfp {
@@ -377,4 +367,41 @@ button.pfp-option {
 img.pfp-option {
     width: 100px;
     height: 100px;
+}
+
+/*Styling for store page*/
+.addItem {
+    margin-bottom: 10px;
+}
+
+#menu {
+    margin: 0 auto; /* Center the table horizontally */
+    width: 50%;
+}
+
+#container3 {
+    width: calc(60%);
+    margin: 20px auto;
+    padding: 10px;
+    border: 2px solid #948887;
+    box-shadow: 0 2px 2px #000000;
+    border-radius: 10px;
+    text-align: center;
+}
+#title {
+    margin-bottom: 5px;
+}
+
+/*Styling for the leaderboard*/
+#leaderboard {
+    text-align: center;
+}
+
+.leaderboard_header {
+    margin-bottom: 1%;
+}
+
+#my_coolratings_table {
+    margin: 0 auto;
+    width: 80%;
 }
